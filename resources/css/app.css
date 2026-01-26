@@ -1,0 +1,302 @@
+/* styles.css */
+
+:root {
+
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+
+  --bg-color: #f9f9f9;
+  --bg-accent-color: #c8e6c9;
+  --bg-breadcrumb: #f4f4f4;
+
+  --accent-color: #198754;
+  --dark-accent-color: #23724d;
+
+  --black: #111111;
+  --white: #ffff;
+  
+  --dark: #121212;
+  --gray: #d1d5db;
+
+  --warning-color: #ffe082;
+  --success-color: #a5d6a7;
+  --error-color: #ef9a9a;
+
+  --secondary-links: #131313;
+  --text-color: #1c1c1e;
+}
+
+html, body {
+  margin: 0;
+}
+
+.main-content {
+    flex: 1 1 0%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: transparent; /* Deja transparente aquí */
+}
+
+.container-fluid {
+    flex: 1 1 0%;
+    background-color: var(--bg-breadcrumb); /* Tu gris claro */
+    min-height: 100vh;
+}
+
+/** Utilidades **/
+.text-white {
+  color: var(--white) !important;
+}
+
+.color-primary {
+  color: var(--accent-color) !important;
+}
+
+.color-yellow {
+  color: var(--warning-color) !important
+}
+
+.border-grey {
+  border: 1px solid rgb(196, 196, 196) !important;
+}
+
+.border-accent {
+  border: 2px solid var(--accent-color) !important;
+}
+
+.border-success {
+  border: 2px solid var(--accent-color) !important;
+}
+
+.bg-light-accent {
+  background-color: var(--bg-accent-color) !important;
+}
+
+.bg-grey {
+  background-color: var(--bg-breadcrumb) !important;
+}
+
+.breadcrumbs > ol {
+  background-color: var(--bg-breadcrumb) !important;
+}
+
+.breadcrumbs > ol > li > a {
+  color: rgb(46, 46, 46) !important;
+}
+
+/* Hover utilities site */
+.zoom-hover {
+  transition: transform 0.3s ease;
+}
+
+.zoom-hover:hover {
+  transform: scale(1.03);
+}
+
+.hover-danger:hover {
+  color: #de3543 !important;
+  background-color: #ffd9dc !important;
+}
+
+.hover-success:hover {
+  color: #000000 !important;
+  background-color: #188755 !important;
+}
+
+/** LOGIN **/
+.login-form {
+  width: 450px;
+  max-width: 90%;
+  border: 1px solid hsl(121, 20%, 97%);
+}
+
+/*** HEADER **/
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(233, 233, 233);
+  padding: 1em;
+  height: 70px;
+}
+
+.header_logo {
+  width: 120px;
+  height: 60px;
+}
+
+/* Estilo para el ícono de usuario en el header */
+.user-icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.user-icon-container:hover {
+  background-color: #bce3c9;
+}
+
+
+/** FOOTER **/
+
+
+/** HOME **/
+.home_header_section, .home_contact_section {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid rgb(182, 182, 182);
+}
+
+.home_portal_section {
+  height: auto;
+}
+
+/* Puedes agregar esto a tu CSS */
+.bg-hover-primary:hover {
+    background-color: #e9f5ee !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    color: var(--bg-color) !important;
+}
+
+.icon-quick {
+    color: var(--accent-color) !important; /* Azul Bootstrap */
+}
+
+.icon-quick:hover {
+    color: var(--bg-breadcrumb) !important; /* Verde oscuro al pasar el mouse */
+}
+
+/* Tamaño grande para el switch */
+.form-switch.form-switch-lg .form-check-input {
+    width: 3em !important;
+    height: 1.5em !important;
+    font-size: 1.25em !important;
+}
+ 
+/* Color verde cuando está activado */
+.custom-switch-success:checked {
+    background-color: var(--accent-color) !important;
+    border-color: var(--dark-accent-color) !important;
+}
+
+
+/* Estilo general para los tabs */
+.nav-pills .nav-link {
+    border-radius: 0; /* Sin bordes redondeados */
+    color: #000 !important; 
+    font-weight: bolder !important;
+    background-color: #f8f9fa;
+    margin-right: 5px;
+    transition: all 0.3s ease; 
+}
+
+/* Estilo para el tab activo */
+.nav-pills .nav-link.active {
+    color: #fff !important;
+    font-weight: bolder !important;
+    background-color: var(--accent-color) !important;
+    border-color: var(--dark-accent-color) !important;
+}
+
+/* Línea divisoria debajo de los tabs */
+.nav-pills {
+    border-bottom: 2px solid #e7e7e7;
+}
+
+/* Hover para tabs inactivos */
+.nav-pills .nav-link:hover {
+    background-color: #e9ecef;
+    color: #000;
+}
+
+/* Contenedor del paginador */
+.pagination {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Botones del paginador */
+.pagination .page-item .page-link {
+    color: #000;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+/* Hover en los botones */
+.pagination .page-item .page-link:hover {
+    background-color: #e9ecef;
+    color: #000;
+}
+
+/* Botón activo */
+.pagination .page-item.active .page-link {
+    background-color: var(--accent-color);
+    color: #fff;
+    border-color: var(--dark-accent-color);
+}
+
+/* Botones deshabilitados */
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-color: #ddd;
+}
+
+/* Campo válido */
+.valid-input {
+    border: 2px solid #28a745;
+    background-color: #e9f7ef;
+}
+
+/* Campo inválido */
+.invalid-input {
+    border: 2px solid #dc3545;
+    background-color: #f8d7da;
+}
+
+/* Móviles pequeños (teléfonos en vertical) */
+@media (max-width: 480px) {
+
+}
+
+
+/* Móviles grandes (teléfonos en horizontal) */
+@media (min-width: 481px) and (max-width: 767px) {
+
+}
+
+/* Tabletas (pantallas entre 768px y 1024px) */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Laptops o pantallas medianas */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Pantallas grandes (escritorios grandes, monitores 1080p o más) */
+@media (min-width: 1200px) and (max-width: 2255px) {
+
+  
+}

@@ -1,0 +1,136 @@
+/* Sidebar Styles */
+:root {
+    --sidebar-bg: #f8f9fa;
+    --sidebar-width: 250px;
+    --sidebar-link-color: #121212;
+    --sidebar-link-hover-bg: #c8e6c9;
+    --sidebar-link-active-bg: #198754;
+    --sidebar-link-active-color: #fff;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    color: var(--sidebar-link-color);
+    transition: all 0.3s;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #dee2e6;
+}
+
+.sidebar-logo {
+    width: 45px;
+    height: 45px;
+}
+
+.sidebar-brand {
+    padding: 1.15rem 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-brand i {
+    margin-right: 10px;
+    color: var(--sidebar-link-active-bg);
+}
+
+.sidebar-nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    flex-grow: 1;
+}
+
+.sidebar-item {
+    padding: 0;
+}
+
+.sidebar-link {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: var(--sidebar-link-color);
+    text-decoration: none;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.sidebar-link i {
+    margin-right: 1rem;
+    width: 20px; /* Para alinear el texto */
+    text-align: center;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background-color: var(--bg-accent-color); /* Verde claro */
+    color: var(--black);
+}
+
+.sidebar-bottom {
+    flex-grow: 0;
+    padding-bottom: 1rem;
+}
+
+.main-content {
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.color-primary {
+    color: var(--sidebar-link-active-bg) !important;
+}
+
+
+/* Botón del menú */
+#sidebar-toggle {
+    border: none;
+    font-size: 1.2rem;
+}
+
+.bg-hover-primary:hover, .bg-hover-primary:focus {
+    background-color: #198754 !important; /* Bootstrap success */
+    color: #fff !important;
+    transition: background 0.2s, color 0.2s;
+}
+.bg-hover-primary:hover .text-dark,
+.bg-hover-primary:focus .text-dark {
+    color: #fff !important;
+}
+
+/* Estilos para pantallas pequeñas (móviles y tablets) */
+@media (max-width: 991.98px) {
+    .sidebar {
+        margin-left: calc(var(--sidebar-width) * -1);
+    }
+
+    .main-content {
+        width: 100%;
+    }
+
+    .wrapper.sidebar-toggled .sidebar {
+        margin-left: 0;
+    }
+}
+
+/* Ocultar el botón en pantallas grandes */
+@media (min-width: 992px) {
+    #sidebar-toggle {
+        display: none;
+    }
+}
