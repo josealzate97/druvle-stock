@@ -13,119 +13,134 @@
 
     <div class="container-fluid p-4">
 
-        @include('backend.components.breadcrumb', [
-            'section' => [
-                'route' => 'categories.index',
-                'icon' => 'fas fa-tags',
-                'label' => 'Listado de Categorías'
-            ]
-        ])
+        @push('breadcrumb')
+            @include('backend.components.breadcrumb', [
+                'section' => [
+                    'route' => 'categories.index',
+                    'icon' => 'fas fa-tags',
+                    'label' => 'Listado de Categorías'
+                ]
+            ])
+        @endpush
 
-        <div class="card p-4">
+        <div class="card p-4 section-hero">
 
-            <div class="col-12">
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
-                <div class="row align-items-center">
+                <div class="section-hero-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
 
-                    <div class="col-lg-8 col-md-8 col-sm-12 d-flex flex-column">
-                        <h2 class="fw-bold mb-0">
-                            <i class="fas fa-tags me-2 color-primary"></i>
-                            Categorías
-                        </h2>
-                        <div class="text-muted fw-bold small">Gestiona las categorías de tus productos</div>
-                    </div>
+                <div class="flex-grow-1">
+                    <h2 class="fw-bold mb-0">Gestión de Categorías</h2>
+                    <div class="text-muted small fw-bold">Organiza y administra tus familias de productos eficientemente.</div>
+                </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-12 d-flex justify-content-md-end align-items-center mt-md-0">
-                        <!-- Botón Crear Categoría -->
-                        <button type="button" class="btn btn-success mb-3 mt-3 col-lg-8 col-md-8 col-sm-12" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
-                            <i class="fas fa-plus"></i> Crear Categoría
-                        </button>
-                    </div>
-
+                <div class="d-flex flex-wrap gap-2 section-hero-actions">
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                        <i class="fas fa-plus me-1"></i> Nueva Categoría
+                    </button>
                 </div>
 
             </div>
 
-            <hr>
+        </div>
 
-            <div class="col-12">
+        <div class="card p-0 mt-4 section-card">
 
-                <div class="table-responsive">
+            <div class="section-toolbar">
+                <div class="section-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-control form-control-sm" placeholder="Buscar categoría...">
+                </div>
+                <select class="form-select form-select-sm section-filter">
+                    <option value="">Todos los estados</option>
+                    <option value="active">Activo</option>
+                    <option value="inactive">Inactivo</option>
+                </select>
+            </div>
 
-                    <table class="table table-borderless align-middle table-striped table-hover">
+            <div class="table-responsive">
 
-                        <thead class="table-light">
+                <table class="table table-borderless align-middle section-table">
+
+                    <thead>
+                        <tr>
+                            <th>Categoría</th>
+                            <th>Total Productos</th>
+                            <th>Última Modificación</th>
+                            <th>Estado</th>
+                            <th class="text-end">Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @if ($categories->isEmpty())
+
                             <tr>
-                                <th class="color-primary fw-bold">Nombre</th>
-                                <th class="color-primary fw-bold">Abreviación</th>
-                                <th class="color-primary fw-bold">Estado</th>
-                                <th class="color-primary fw-bold text-center">Acciones</th>
+                                <td colspan="5" class="text-center text-muted fw-bold fs-6 my-3">No hay categorías registradas.</td>
                             </tr>
-                        </thead>
 
-                        <tbody>
+                        @endif
 
-                            @if ($categories->isEmpty())
+                        @foreach($categories as $category)
 
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted fw-bold fs-5 my-3">No hay categorías registradas.</td>
-                                </tr>
-
-                            @endif
-
-                            @foreach($categories as $category)
-
-                                <tr data-id="{{ $category->id }}">
-                                    <td>
-                                        <span class="d-inline-flex align-items-center justify-content-center me-2 rounded-3"
-                                        style="background: {{ $category->color }}; width: 30px; height: 30px;">
+                            <tr data-id="{{ $category->id }}">
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="section-avatar" style="background: {{ $category->color }};">
                                             <i class="fa {{ $category->icon }} text-white"></i>
                                         </span>
-                                        {{ $category->name }}
-                                    </td>
-                                    <td>{{ $category->abbreviation }}</td>
-                                    <td>
-                                        @if($category->status == \App\Models\Category::ACTIVE)
-                                            <span class="badge bg-success">Activo</span>
-                                        @else
-                                            <span class="badge bg-secondary">Inactivo</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
+                                        <div>
+                                            <div class="fw-bold">{{ $category->name }}</div>
+                                            <div class="text-muted small">{{ $category->abbreviation }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-muted">{{ $category->products_count ?? '-' }}</td>
+                                <td class="text-muted">{{ optional($category->updated_at)->format('d M, Y') ?? '-' }}</td>
+                                <td>
+                                    @if($category->status == \App\Models\Category::ACTIVE)
+                                        <span class="status-pill status-pill-success">Activo</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactivo</span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <button onclick="editCategory('{{ $category->id }}')" class="btn btn-icon" data-bs-mode="edit"
+                                    {{ $category->status == \App\Models\Category::INACTIVE ? 'disabled' : '' }}>
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+
+                                    @if($category->status == \App\Models\Category::ACTIVE)
                                         
-                                        <button onclick="editCategory('{{ $category->id }}')" class="btn btn-sm btn-primary" data-bs-mode="edit"
-                                        {{ $category->status == \App\Models\Category::INACTIVE ? 'disabled' : '' }}>
-                                            <i class="fas fa-edit"></i> Editar
+                                        <button class="btn btn-icon text-danger" onclick="deleteCategory('{{ $category->id }}')">
+                                            <i class="fas fa-trash"></i>
                                         </button>
 
-                                         @if($category->status == \App\Models\Category::ACTIVE)
-                                            
-                                            <button class="btn btn-sm btn-danger" onclick="deleteCategory('{{ $category->id }}')">
-                                                <i class="fas fa-trash"></i> Eliminar
-                                            </button>
+                                    @else
+                                        <button class="btn btn-icon text-success" onclick="activateCategory('{{ $category->id }}')">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    @endif
 
-                                        @else
-                                            <button class="btn btn-sm btn-success" onclick="activateCategory('{{ $category->id }}')">
-                                                <i class="fas fa-check"></i> Activar
-                                            </button>
-                                        @endif
+                                </td>
+                            </tr>
 
-                                    </td>
-                                </tr>
+                        @endforeach
 
-                            @endforeach
+                    </tbody>
 
-                        </tbody>
+                </table>
 
-                    </table>
+                <!-- Modal Crear/Editar Categoría -->
+                @include('backend.categories._category_modal')
 
-                    <!-- Modal Crear/Editar Categoría -->
-                    @include('backend.categories._category_modal')
+            </div>
 
-                </div>
-
+            <div class="section-footer">
                 {{ $categories->links('pagination::bootstrap-5') }}
-
             </div>
 
         </div>

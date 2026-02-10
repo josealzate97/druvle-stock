@@ -10,13 +10,15 @@
 
     <div class="container-fluid p-4">
 
-        @include('backend.components.breadcrumb', [
-            'section' => [
-                'route' => 'users.index',
-                'icon' => 'fas fa-users',
-                'label' => 'Gestión de Usuario'
-            ]
-        ])
+        @push('breadcrumb')
+            @include('backend.components.breadcrumb', [
+                'section' => [
+                    'route' => 'users.index',
+                    'icon' => 'fas fa-users',
+                    'label' => 'Gestión de Usuario'
+                ]
+            ])
+        @endpush
 
         <div class="card p-4" x-data="userForm({
             name: '{{ $user->name }}',

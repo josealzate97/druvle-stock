@@ -10,13 +10,15 @@
 
     <div class="container-fluid p-4">
 
-        @include('backend.components.breadcrumb', [
-            'section' => [
-                'route' => 'settings.index',
-                'icon' => 'fas fa-cogs',
-                'label' => 'Configuraciones'
-            ]
-        ])
+        @push('breadcrumb')
+            @include('backend.components.breadcrumb', [
+                'section' => [
+                    'route' => 'settings.index',
+                    'icon' => 'fas fa-cogs',
+                    'label' => 'Configuraciones'
+                ]
+            ])
+        @endpush
 
         <ul class="nav nav-pills rounded p-3 gap-1 bg-white mb-4 border" id="settingsTabs" role="tablist">
             <li class="nav-item" role="presentation">

@@ -10,27 +10,39 @@
 
     <div class="container-fluid p-4" x-data="reportsApp()" x-init="init()">
 
-        @include('backend.components.breadcrumb', [
-            'section' => [
-                'route' => 'reports.index',
-                'icon' => 'fas fa-chart-bar',
-                'label' => 'Reportes & Estadísticas'
-            ]
-        ])
+        @push('breadcrumb')
+            @include('backend.components.breadcrumb', [
+                'section' => [
+                    'route' => 'reports.index',
+                    'icon' => 'fas fa-chart-bar',
+                    'label' => 'Reportes & Estadísticas'
+                ]
+            ])
+        @endpush
 
-        <div class="card p-4 mb-4">
+        <div class="card p-4 section-hero">
 
-            <h3 class="fw-bold mb-0">
-                <i class="fas fa-chart-line me-2 color-primary"></i>
-                Reportes & Estadísticas
-            </h3>
+            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
 
-            <div class="text-muted fw-bold small">
-                Analiza el rendimiento de tu negocio en cualquier momento y toma mejores decisiones con nuestros reportes.
+                <div class="section-hero-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+
+                <div class="flex-grow-1">
+                    <h2 class="fw-bold mb-0">Reportes & Estadísticas</h2>
+                    <div class="text-muted small fw-bold">
+                        Analiza el rendimiento de tu negocio en cualquier momento y toma mejores decisiones con nuestros reportes.
+                    </div>
+                </div>
+
             </div>
 
+        </div>
+
+        <div class="card p-4 mt-4 section-card">
+
             <!-- ...tabs... -->
-            <ul class="nav nav-pills my-5 ..." id="reportTabs" role="tablist">
+            <ul class="nav nav-pills mb-4" id="reportTabs" role="tablist">
                 
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" :class="{'active': activeTab === 'productos'}" @click="setTab('productos')">Productos</button>
@@ -84,7 +96,8 @@
                     </template>
 
                     <!-- Tabla de productos -->
-                    <table class="table table-striped table-hover table-responsive" x-show="!loading">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle section-table" x-show="!loading">
 
                         <thead>
                             <tr>
@@ -134,7 +147,8 @@
 
                         </tbody>
 
-                    </table>
+                        </table>
+                    </div>
 
                 </div>
 
@@ -176,7 +190,8 @@
                         <div class="fs-4">Cargando...</div>
                     </template>
 
-                    <table class="table" x-show="!loading">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle section-table" x-show="!loading">
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -228,7 +243,8 @@
                             </template>
 
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
 
                 </div>
 
@@ -270,7 +286,8 @@
                         <div class="fs-4">Cargando...</div>
                     </template>
 
-                    <table class="table" x-show="!loading">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle section-table" x-show="!loading">
 
                         <thead>
                             <tr>
@@ -308,7 +325,8 @@
                                 </tr>
                             </template>
                         </tbody>
-                    </table>
+                        </table>
+                    </div>
 
                 </div>
 
@@ -319,4 +337,3 @@
     </div>
 
 @endsection
-

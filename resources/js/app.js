@@ -40,6 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // Llamado a la funcion de marcar el nav-link actual
     getActiveNav(currentPath, links);
 
+    // Toggle de tema (modo noche)
+    const themeSwitch = document.getElementById('theme-switch');
+
+    if (themeSwitch) {
+        const savedTheme = localStorage.getItem('theme-mode');
+
+        if (savedTheme === 'dark') {
+            document.body.classList.add('theme-dark');
+            themeSwitch.checked = true;
+        }
+
+        themeSwitch.addEventListener('change', () => {
+            document.body.classList.toggle('theme-dark', themeSwitch.checked);
+            localStorage.setItem('theme-mode', themeSwitch.checked ? 'dark' : 'light');
+        });
+    }
+
 
     // Máscara para teléfono
     const phoneInputs = document.querySelectorAll('.mask-phone');

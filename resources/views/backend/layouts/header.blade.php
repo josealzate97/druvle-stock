@@ -1,26 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-light px-4">
+<nav class="app-header">
 
-    <button class="btn" id="sidebar-toggle">
-        <i class="fas fa-bars"></i>
-    </button>
+    <div class="header-left">
+        <button class="btn header-icon" id="sidebar-toggle" aria-label="Alternar sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
 
-    <ul class="navbar-nav ms-auto">
+        <div class="header-breadcrumb">
+            @stack('breadcrumb')
+        </div>
+    </div>
 
-        <li class="nav-item dropdown">
+    <div class="header-right">
+        <div class="theme-toggle form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="theme-switch" aria-label="Modo noche">
+            <label class="form-check-label" for="theme-switch">Modo noche</label>
+        </div>
 
-            <a class="nav-link dropdown-toggle fw-bold text-dark" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                
-                <span class="user-icon-container">
-                    <i class="fa fa-user color-primary"></i>
+        @if(Auth::check())
+            <div class="session-info">
+                <span class="session-name">{{ Auth::user()->username }}</span>
+                <span class="session-role">
+                    {{
+                        Auth::user()->rol == 1 ? 'Soporte' :
+                        (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
+                    }}
                 </span>
+            </div>
+        @endif
 
-                @if(Auth::check())
-                    <span class="color-primary">{{ Auth::user()->username }}</span>
-                @endif
-
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="user-avatar">
+                    <i class="fa fa-user"></i>
+                </span>
             </a>
             
-            <ul class="dropdown-menu dropdown-menu-end">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                 <li class="text-center">    
                     <p class="fw-bold small badge bg-secondary mb-2">
                         {{ 
@@ -61,9 +76,7 @@
                 </li>
 
             </ul>
-
-        </li>
-
-    </ul>
+        </div>
+    </div>
 
 </nav>

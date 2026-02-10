@@ -11,13 +11,15 @@
 
     <div class="container-fluid p-4"  x-data="salesForm()" x-init="loadProducts()">
 
-        @include('backend.components.breadcrumb', [
-            'section' => [
-                'route' => 'sales.index',
-                'icon' => 'fas fa-shopping-cart',
-                'label' => 'Modulo Ventas'
-            ]
-        ])
+        @push('breadcrumb')
+            @include('backend.components.breadcrumb', [
+                'section' => [
+                    'route' => 'sales.index',
+                    'icon' => 'fas fa-shopping-cart',
+                    'label' => 'Modulo Ventas'
+                ]
+            ])
+        @endpush
         
         <div class="align-items-center border mb-4 bg-white rounded-3 p-4 col-12 d-flex">
 
