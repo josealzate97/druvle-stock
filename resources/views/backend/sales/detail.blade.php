@@ -2,14 +2,18 @@
   
     <div class="modal-dialog modal-xl">
 
-        <div class="modal-content p-4">
+        <div class="modal-content form-modal sale-detail-modal">
 
             <div class="modal-header">
 
-                <h4 class="modal-title" id="saleDetailModalLabel">
-                    <i class="fas fa-receipt color-primary"></i>&nbsp;
-                    Detalle de la Orden &nbsp;&nbsp;<span class="color-primary badge bg-grey" x-text="saleDetail.code"></span>
-                </h4>
+                <div class="modal-title-block">
+                    <h4 class="modal-title" id="saleDetailModalLabel">
+                        <i class="fas fa-receipt me-2 color-primary"></i>
+                        Detalle de la Orden
+                        <span class="badge bg-grey ms-2" x-text="saleDetail.code"></span>
+                    </h4>
+                    <span class="modal-subtitle">Vista general de la venta, cliente y productos.</span>
+                </div>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
 
@@ -20,108 +24,95 @@
                 <!-- Detalles de la orden -->
                 <template x-if="saleDetail">
 
-                    <div class="col-12">
+                    <div class="col-12 sale-detail-body">
 
-                        <div class="row my-3">
-
-                            <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
-                                <label class="fw-bold mb-1">Fecha de venta</label> 
-                                <span x-text="saleDetail.sale_date"></span>
+                        <div class="sale-detail-summary">
+                            <div class="summary-card">
+                                <span>Fecha de venta</span>
+                                <strong x-text="saleDetail.sale_date"></strong>
                             </div>
-                            
-                            <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
-                                <label class="fw-bold mb-1">Tipo de pago</label> 
-                                <span class="fw-bold text-success" x-text="saleDetail.payment_type == 1 ? 'EFECTIVO' : saleDetail.payment_type == 2 ? 'BIZUM' : 'TPV'"></span>
+                            <div class="summary-card">
+                                <span>Tipo de pago</span>
+                                <strong class="text-success" x-text="saleDetail.payment_type == 1 ? 'EFECTIVO' : saleDetail.payment_type == 2 ? 'BIZUM' : 'TPV'"></strong>
                             </div>
-
-                            <div class="col-md-2 col-sm-6 mb-2 d-flex flex-column">
-                                <label class="fw-bold mb-1">Sub total</label> 
-                                <span x-text="saleDetail.subtotal + ' €'"></span> 
+                            <div class="summary-card">
+                                <span>Sub total</span>
+                                <strong x-text="saleDetail.subtotal + ' €'"></strong>
                             </div>
-
-                            <div class="col-md-2 col-sm-6 mb-2 d-flex flex-column">
-                                <label class="fw-bold mb-1">Impuestos</label> 
-                                <span x-text="saleDetail.tax + ' €'"></span>
+                            <div class="summary-card">
+                                <span>Impuestos</span>
+                                <strong x-text="saleDetail.tax + ' €'"></strong>
                             </div>
-
-                            <div class="col-md-2 col-sm-6 mb-2 d-flex flex-column">
-                                <label class="fw-bold mb-1">Total</label> 
-                                <span x-text="saleDetail.total + ' €'"></span> 
+                            <div class="summary-card total-card">
+                                <span>Total</span>
+                                <strong x-text="saleDetail.total + ' €'"></strong>
                             </div>
-
                         </div>
 
-                        <hr>
-
-                        <div class="row my-3">
-                            
-                            <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">  
-                                <label class="fw-bold">Cliente</label>
+                        <div class="sale-detail-client">
+                            <div>
+                                <label>Cliente</label>
                                 <span x-text="saleDetail.client_name ? saleDetail.client_name : 'Anónimo'"></span>
                             </div>
 
                             <template x-if="saleDetail.client_email">
 
-                                <div class="col-md-3 col-sm-6 mb-2 d-flex flex-column">
-                                    <label class="fw-bold">Email</label>
+                                <div>
+                                    <label>Email</label>
                                     <span x-text="saleDetail.client_email"></span>
                                 </div>
                                 
                             </template>
-
                         </div>
 
-                        <hr>
-
-                        <div class="row my-3">
-
-                            <h4 class="fw-bold fs-4 color-primary">
+                        <div class="sale-detail-section">
+                            <h4 class="sale-detail-section-title">
                                 <i class="fas fa-box me-2"></i> Productos vendidos
                             </h4>
 
-                            <table class="table table-striped table-hover">
-                                
-                                <thead>
-
-                                    <tr class="text-success">
-                                        <th>Producto</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
-                                        <th>Impuesto</th>
-                                        <th>Total</th>
-                                    </tr>
-
-                                </thead>
-
-                                <tbody>
-
-                                    <template x-for="(item, index) in saleDetail.items" :key="index">
-
+                            <div class="table-responsive">
+                                <table class="table table-borderless align-middle section-table">
+                                    
+                                    <thead>
                                         <tr>
-                                            <td>
-                                                <span x-text="item.name"></span>
-                                            </td>
-                                            <td>
-                                                <span x-text="item.quantity"></span>
-                                            </td>
-                                            <td>
-                                                <span x-text="item.sale_price + ' €'"></span>
-                                            </td>
-
-                                            <td>
-                                                <span x-text="item.tax + ' % -  ' + item.tax_value + ' €'"></span>
-                                            </td>
-
-                                            <td>
-                                                <span x-text="(Number(item.total) + Number(item.tax_value)).toFixed(2) + ' €'"></span>
-                                            </td>
+                                            <th>Producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Impuesto</th>
+                                            <th>Total</th>
                                         </tr>
+                                    </thead>
 
-                                    </template>
+                                    <tbody>
 
-                                </tbody>
+                                        <template x-for="(item, index) in saleDetail.items" :key="index">
 
-                            </table>
+                                            <tr>
+                                                <td>
+                                                    <span class="fw-bold" x-text="item.name"></span>
+                                                </td>
+                                                <td>
+                                                    <span x-text="item.quantity"></span>
+                                                </td>
+                                                <td>
+                                                    <span x-text="item.sale_price + ' €'"></span>
+                                                </td>
+
+                                                <td>
+                                                    <span x-text="item.tax + ' % -  ' + item.tax_value + ' €'"></span>
+                                                </td>
+
+                                                <td>
+                                                    <span x-text="(Number(item.total) + Number(item.tax_value)).toFixed(2) + ' €'"></span>
+                                                </td>
+                                            </tr>
+
+                                        </template>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
 
                         </div>
 
@@ -129,20 +120,26 @@
 
                 </template>
 
-                <div x-show="!saleDetail">Cargando...</div>
+                <div x-show="!saleDetail" class="text-center my-4">
+                    <div class="reports-loader">
+                        <span class="loader-spinner"></span>
+                        <span class="loader-text">Cargando detalle de venta...</span>
+                    </div>
+                </div>
 
                 <!-- Fin de detalles de la orden -->
 
                 <!-- Devoluciones -->
                  <template x-if="saleDetail.returns && saleDetail.returns.length > 0">
                     
-                    <div class="row my-4">
+                    <div class="sale-detail-section mt-4">
                         
-                        <h4 class="fw-bold fs-4 text-danger">
+                        <h4 class="sale-detail-section-title text-danger">
                             <i class="fas fa-undo me-2"></i>Devoluciones asociadas
                         </h4>
                         
-                        <table class="table table-striped table-hover">
+                        <div class="table-responsive">
+                            <table class="table table-borderless align-middle section-table">
 
                             <thead>
                                 <tr class="text-success">
@@ -176,7 +173,8 @@
 
                             </tbody>
 
-                        </table>
+                            </table>
+                        </div>
 
                     </div>
 
@@ -184,7 +182,7 @@
 
             </div>
 
-            <div class="modal-footer col-12 p-4 d-flex justify-content-center gap-20">
+            <div class="modal-footer d-flex justify-content-end gap-2">
 
                 <button class="btn btn-success" @click="printInvoice(saleId)">
                     <i class="fas fa-print"></i>&nbsp;Imprimir factura

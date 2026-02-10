@@ -1,6 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Sales Js Loaded!");
+
+    const searchInput = document.getElementById('salesHistorySearch');
+    const statusSelect = document.getElementById('salesHistoryStatus');
+    const table = document.getElementById('salesHistoryTable');
+
+    if (searchInput && statusSelect && table) {
+        const rows = Array.from(table.querySelectorAll('tbody tr')).filter(row => !row.classList.contains('sales-history-empty'));
+        const emptyRow = table.querySelector('.sales-history-empty');
+
+        const filterRows = () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const status = statusSelect.value;
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesStatus = !status || row.dataset.status === status;
+
+                const show = matchesQuery && matchesStatus;
+                row.style.display = show ? '' : 'none';
+                if (show) {
+                    visibleCount += 1;
+                }
+            });
+
+            if (emptyRow) {
+                emptyRow.style.display = visibleCount === 0 ? '' : 'none';
+            }
+        };
+
+        searchInput.addEventListener('input', filterRows);
+        statusSelect.addEventListener('change', filterRows);
+    }
     
 });
 
@@ -429,5 +463,4 @@ window.salesForm = function() {
 
     };
 }
-
 

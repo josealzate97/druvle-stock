@@ -6,14 +6,17 @@
 
         <form id="productForm">
 
-            <div class="modal-content p-3">
+            <div class="modal-content form-modal">
 
                 <div class="modal-header">
 
-                    <h4 class="modal-title" id="productModalLabel">
-                        <i class="fas fa-circle-plus me-2 color-primary"></i>
-                        Nuevo Producto
-                    </h4>
+                    <div class="modal-title-block">
+                        <h4 class="modal-title" id="productModalLabel">
+                            <i class="fas fa-circle-plus me-2 color-primary"></i>
+                            Nuevo Producto
+                        </h4>
+                        <span class="modal-subtitle">Completa los datos básicos, precios y stock.</span>
+                    </div>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 
@@ -23,21 +26,21 @@
 
                     <input type="hidden" name="id" id="productId" value="">
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productName" class="form-label fw-bold">
                             Nombre&nbsp;<span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control" id="productName" name="name" maxlength="50" placeholder="Nombre del producto" required>
                     </div>
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productCode" class="form-label fw-bold">
                             Código&nbsp;<span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control" id="productCode" name="code" maxlength="20" placeholder="Código del producto" required>
                     </div>
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productCategory" class="form-label fw-bold">
                             Categoría&nbsp;<span class="text-danger">*</span>
                         </label>
@@ -49,42 +52,42 @@
                         </select>
                     </div>
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productSale" class="form-label fw-bold">
                             Precio Compra&nbsp;<span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control mask-money" id="productPrice" name="purchase_price" placeholder="Precio de compra" required>
                     </div>
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productPrice" class="form-label fw-bold">
                             Precio Venta&nbsp;<span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control mask-money" id="productSale" name="sale_price" placeholder="Precio de venta" required>
                     </div>
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productQuantity" class="form-label fw-bold">
                             Cantidad&nbsp;<span class="text-danger">*</span>
                         </label>
                         <input type="number" class="form-control" id="productQuantity" name="quantity" placeholder="Cantidad" required>
                     </div>
 
-                    <div class="mb-3 col-12">
+                    <div class="col-12">
                         <label for="productNote" class="form-label fw-bold">
                             Notas
                         </label>
                         <textarea class="form-control" id="productNotes" name="notes" rows="2" placeholder="Notas adicionales sobre el producto"></textarea>
                     </div>
 
-                    <div class="mb-3 col-4">
+                    <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productTax" class="form-label fw-bold">Aplica IVA?</label>
                         <div class="form-check form-switch form-switch-lg ms-2">
                             <input class="form-check-input custom-switch-success" type="checkbox" id="productTaxSwitch" name="taxable">
                         </div>
                     </div>
 
-                    <div class="mb-3 col-4" id="taxDropdownContainer" style="display: none;">
+                    <div class="col-lg-4 col-md-6 col-sm-12" id="taxDropdownContainer" style="display: none;">
                         <label for="productTax" class="form-label fw-bold">IVA</label>
                         <select class="form-select" id="productTax" name="tax_id">
                             <option value="" selected disabled>Selecciona un IVA</option>
@@ -96,14 +99,14 @@
 
                 </div>
 
-                <div class="modal-footer col-12 d-flex flex-wrap justify-content-center">
+                <div class="modal-footer">
 
-                    <button type="button" class="btn btn-danger col-5" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>
                         Cancelar
                     </button>
 
-                    <button type="submit" class="btn btn-success col-5">
+                    <button type="submit" class="btn btn-success">
                         <i class="fas fa-save me-2"></i>
                         Guardar
                     </button>

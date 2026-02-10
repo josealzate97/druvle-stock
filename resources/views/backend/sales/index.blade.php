@@ -73,7 +73,7 @@
                                             <i class="fas fa-plus-circle me-2 color-primary"></i>
                                             Crear Nueva Venta
                                         </h4>
-                                        <p class="text-muted fw-bold small mb-0">Agrega tus Productos de manera facil y rapida</p>
+                                        <p class="text-muted fw-bold small mb-0">Agrega tus productos de manera rápida y ordenada.</p>
                                     </div>
 
                                     <div class="sales-switch">
@@ -95,7 +95,8 @@
                                         <label for="productSelect" class="form-label fw-bold">Producto</label>
 
                                         <!-- Campo de búsqueda de producto con sugerencias -->
-                                        <div class="position-relative">
+                                        <div class="position-relative sales-input">
+                                            <i class="fas fa-search"></i>
                                             <input
                                                 type="text"
                                                 id="productSearchInput"
@@ -157,16 +158,16 @@
                                     </div>
 
                                     <div class="sales-action-field action-field">
-                                        <button type="button" class="btn btn-warning fw-bold w-100" @click="addProduct">
+                                        <button type="button" class="btn btn-warning mt-4 fw-bold w-100" @click="addProduct">
                                             <i class="fas fa-plus-circle me-2"></i>
-                                            Añadir al carrito
+                                            Añadir
                                         </button>
                                     </div>
 
                                 </div>
 
                                 <!-- Seccion del cliente -->
-                                <div class="row mt-4 bg-light rounded p-4" 
+                                <div class="row mt-4 sales-client-card" 
                                 id="clientSection" x-show="showClientSection" x-transition x-cloak>
 
                                     <div class="col-lg-6 col-md-6 col-sm-12">

@@ -5,38 +5,41 @@
 
     <form id="categoryForm">
 
-      <div class="modal-content">
+      <div class="modal-content form-modal">
 
         <div class="modal-header">
 
-          <h4 class="modal-title" id="categoryModalLabel">
-              <i class="fas fa-circle-plus me-2 color-primary"></i>
-              Nueva Categoría
-          </h4>
+          <div class="modal-title-block">
+            <h4 class="modal-title" id="categoryModalLabel">
+                <i class="fas fa-circle-plus me-2 color-primary"></i>
+                Nueva Categoría
+            </h4>
+            <span class="modal-subtitle">Define nombre, abreviación y estilo visual.</span>
+          </div>
 
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         
         </div>
 
-        <div class="modal-body col-12 d-flex flex-wrap">
+        <div class="modal-body row g-3">
 
           <input type="hidden" id="categoryId" name="id" value="">
 
-          <div class="mb-3 col-12">
+          <div class="col-12">
             <label for="categoryName" class="form-label fw-bold">
               Nombre Categoría&nbsp;<span class="text-danger">*</span>
             </label>
             <input type="text" class="form-control" id="categoryName" name="name"  maxlength="50" placeholder="Nombre Categoría" required>
           </div>
 
-          <div class="mb-3 col-12">
+          <div class="col-12">
             <label for="categoryAbbr" class="form-label fw-bold">
               Abreviación&nbsp;<span class="text-danger">*</span>
             </label>
             <input type="text" class="form-control" id="categoryAbbr" name="abbreviation" maxlength="4" placeholder="Abreviación" required>
           </div>
 
-          <div class="mb-3 col-lg-6 col-md-6 col-sm-12">
+          <div class="col-lg-6 col-md-6 col-sm-12">
 
             <label for="categoryIcon" class="form-label fw-bold">Icono</label>
             <select class="form-select" id="categoryIcon" name="icon" required>
@@ -57,21 +60,24 @@
           </div>
           
 
-          <div class="mb-3 col-6 d-flex flex-wrap justify-content-center text-center">
+          <div class="col-lg-6 col-md-6 col-sm-12">
             <label for="categoryColor" class="form-label fw-bold col-12">Color</label>
-            <input type="color" class="form-control form-control-color" id="categoryColor" name="color" value="#563d7c" title="Elige un color">
+            <div class="color-picker">
+              <input type="color" class="form-control form-control-color" id="categoryColor" name="color" value="#563d7c" title="Elige un color">
+              <span class="color-hint">Elige un color representativo</span>
+            </div>
           </div>
 
         </div>
 
-        <div class="modal-footer col-12 d-flex flex-wrap justify-content-center">
+        <div class="modal-footer">
 
-          <button type="button" class="btn btn-danger btn-md col-5" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             <i class="fas fa-times me-2"></i>
             Cancelar
           </button>
 
-          <button type="submit" class="btn btn-success btn-md col-5">
+          <button type="submit" class="btn btn-success">
             <i class="fas fa-save me-2"></i>
             Guardar
           </button>
