@@ -65,12 +65,13 @@
         <div class="dashboard-row">
 
             <div class="card dashboard-card">
-                <div class="dashboard-card-header">
-                    <div>
+                <div class="dashboard-card-header dashboard-card-header--accent">
+                    <div class="dashboard-title">
+                        <span class="dashboard-pill">Performance</span>
                         <h5>Tendencia de Ventas</h5>
-                        <p>Visualización de ventas de los últimos 7 meses</p>
+                        <p>Visualización de ventas de los últimos 7 meses con detalle mensual.</p>
                     </div>
-                    <select class="form-select form-select-sm">
+                    <select class="form-select form-select-sm dashboard-select">
                         <option>Este Año</option>
                     </select>
                 </div>
@@ -95,19 +96,20 @@
         </div>
 
         <div class="card dashboard-card">
-            <div class="dashboard-card-header">
-                <div>
+            <div class="dashboard-card-header dashboard-card-header--accent">
+                <div class="dashboard-title">
+                    <span class="dashboard-pill">Últimas ventas</span>
                     <h5>Ventas Recientes</h5>
-                    <p>Últimas transacciones registradas</p>
+                    <p>Últimas transacciones registradas y estado actual.</p>
                 </div>
-                <a href="{{ route('sales.index') }}" class="btn btn-link">Ver todo</a>
+                <a href="{{ route('sales.index') }}" class="btn btn-link dashboard-link">Ver todo</a>
             </div>
 
             <div class="table-responsive">
                 <table class="table table-borderless align-middle section-table mb-0">
                     <thead>
                         <tr>
-                            <th>Producto</th>
+                            <th>Venta</th>
                             <th>Cliente</th>
                             <th>Fecha</th>
                             <th>Monto</th>
@@ -117,7 +119,7 @@
                     <tbody>
                         @forelse ($recentSales as $sale)
                             <tr>
-                                <td>{{ $sale->code }}</td>
+                                <td><span class="badge sale-code-badge">{{ $sale->code }}</span></td>
                                 <td>{{ $sale->client->name ?? 'Anónimo' }}</td>
                                 <td>{{ $sale->created_at?->format('d M, Y') }}</td>
                                 <td>€ {{ number_format($sale->total, 2) }}</td>

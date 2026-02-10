@@ -67,8 +67,7 @@
                     <thead>
                         <tr>
                             <th>Categoría</th>
-                            <th>Total Productos</th>
-                            <th>Última Modificación</th>
+                            <th class="text-center">Total Productos</th>
                             <th>Estado</th>
                             <th class="text-end">Acciones</th>
                         </tr>
@@ -98,8 +97,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="text-muted">{{ $category->products_count ?? '-' }}</td>
-                                <td class="text-muted">{{ optional($category->updated_at)->format('d M, Y') ?? '-' }}</td>
+                                <td class="text-muted text-center">{{ $category->products_count ?? '-' }}</td>
                                 <td>
                                     @if($category->status == \App\Models\Category::ACTIVE)
                                         <span class="status-pill status-pill-success">Activo</span>

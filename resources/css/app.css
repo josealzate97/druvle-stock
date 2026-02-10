@@ -652,6 +652,19 @@ html, body {
   padding: 1rem 1.5rem;
 }
 
+.form-modal .btn-close,
+.modal-header .btn-close {
+  background-color: #eef1f5;
+  border-radius: 10px;
+  padding: 0.5rem;
+}
+
+body.theme-dark .form-modal .btn-close,
+body.theme-dark .modal-header .btn-close {
+  background-color: #1f2430;
+  border-radius: 10px;
+}
+
 .form-modal .modal-title-block {
   display: flex;
   flex-direction: column;
@@ -719,9 +732,33 @@ html, body {
 }
 
 /*** SETTINGS **/
+.settings-tabs {
+  border: 1px solid #dbe7f7;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(27, 119, 211, 0.08);
+}
+
+.settings-tabs .nav-link {
+  border-radius: 999px;
+  font-weight: 700;
+  color: #3b4a6b;
+}
+
+.settings-tabs .nav-link.active {
+  background: var(--accent-color);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(27, 119, 211, 0.2);
+}
+
+.settings-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%);
+  border: 1px solid #dbe7f7;
+}
+
 .settings-hero .section-hero-icon {
-  background: #eef2ff;
-  color: #4f46e5;
+  background: var(--blue-100);
+  color: var(--accent-color);
+  box-shadow: 0 6px 14px rgba(27, 119, 211, 0.18);
 }
 
 .settings-edit-btn {
@@ -740,10 +777,66 @@ html, body {
 
 .settings-form-card .form-control {
   border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  background: #f8fafc;
+  border: 1px solid #dbe7f7;
+  background: #f7faff;
   font-weight: 600;
   color: #334155;
+}
+
+.settings-form-card .form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.2rem rgba(27, 119, 211, 0.15);
+}
+
+/*** TAXES **/
+.taxes-table thead th {
+  border-bottom: 1px solid #e5eef9;
+  color: #5b6b85;
+  letter-spacing: 0.05em;
+}
+
+.taxes-table tbody tr {
+  border-bottom: 1px solid #eef2f7;
+}
+
+.taxes-table tbody tr:hover {
+  background: #f5f9ff;
+}
+
+.taxes-table .badge.bg-light {
+  background: #eef6ff !important;
+  color: var(--accent-color);
+  border-color: #cfe0f6 !important;
+}
+
+.taxes-table .btn-outline-primary {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.taxes-table .btn-outline-primary:hover {
+  background: var(--accent-color);
+  color: #ffffff;
+}
+
+body.theme-dark .settings-tabs {
+  background: #0f141b;
+  border-color: #2b313c;
+  box-shadow: none;
+}
+
+body.theme-dark .settings-tabs .nav-link {
+  color: #cbd5e1;
+}
+
+body.theme-dark .settings-tabs .nav-link.active {
+  background: #1b77d3;
+  color: #ffffff;
+}
+
+body.theme-dark .settings-hero {
+  background: linear-gradient(135deg, #0f141b 0%, #151c26 100%);
+  border-color: #2b313c;
 }
 
 body.theme-dark .settings-hero .section-hero-icon {
@@ -759,6 +852,25 @@ body.theme-dark .settings-form-card .form-control {
   background: #0f141b;
   border-color: #2b313c;
   color: #e5e7eb;
+}
+
+body.theme-dark .taxes-table thead th {
+  border-color: #2b313c;
+  color: #94a3b8;
+}
+
+body.theme-dark .taxes-table tbody tr {
+  border-color: #1f2633;
+}
+
+body.theme-dark .taxes-table tbody tr:hover {
+  background: rgba(27, 119, 211, 0.12);
+}
+
+body.theme-dark .taxes-table .badge.bg-light {
+  background: #13233a !important;
+  color: #93c5fd;
+  border-color: #1f3657 !important;
 }
 
 /*** LOGIN **/
@@ -1146,6 +1258,97 @@ body.theme-dark .settings-form-card .form-control {
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 1rem;
+}
+
+.dashboard-card-header--accent {
+  align-items: flex-start;
+  border-bottom: 1px solid #eef1f5;
+  padding-bottom: 0.75rem;
+}
+
+.dashboard-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dashboard-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #e8f1ff;
+  color: #1b77d3;
+  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.dashboard-select {
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 0.3rem 0.7rem;
+  font-weight: 600;
+  min-width: 140px;
+  max-width: 180px;
+  font-size: 0.85rem;
+}
+
+body.theme-dark .dashboard-card-header--accent {
+  border-bottom-color: #1f2329;
+}
+
+body.theme-dark .dashboard-pill {
+  background: #1a2230;
+  color: #9cc8ff;
+}
+
+body.theme-dark .dashboard-select {
+  background: #0f141b;
+  border-color: #2b313c;
+  color: #e5e7eb;
+}
+
+.sale-code-badge {
+  background: #e8f1ff;
+  color: #1b77d3;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #dbe9ff;
+}
+
+body.theme-dark .sale-code-badge {
+  background: #1a2230;
+  color: #9cc8ff;
+  border-color: #2b313c;
+}
+
+.dashboard-link {
+  color: #1b77d3;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: #e8f1ff;
+}
+
+.dashboard-link:hover {
+  background: #dbe9ff;
+  color: #155fb8;
+}
+
+body.theme-dark .dashboard-link {
+  background: #1a2230;
+  color: #9cc8ff;
+}
+
+body.theme-dark .dashboard-link:hover {
+  background: #222a38;
+  color: #c7deff;
 }
 
 .dashboard-card-header h5 {

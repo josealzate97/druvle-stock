@@ -20,14 +20,20 @@
             ])
         @endpush
 
-        <ul class="nav nav-pills rounded p-3 gap-1 bg-white mb-4 border" id="settingsTabs" role="tablist">
+        <div class="card p-2 mb-4 settings-tabs">
+            <ul class="nav nav-pills gap-1" id="settingsTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">Información Básica</button>
+                <button class="nav-link active px-3" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
+                    <i class="fas fa-building me-1"></i> Información Básica
+                </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="taxes-tab" data-bs-toggle="tab" data-bs-target="#taxes" type="button" role="tab">Impuestos</button>
+                <button class="nav-link px-3" id="taxes-tab" data-bs-toggle="tab" data-bs-target="#taxes" type="button" role="tab">
+                    <i class="fas fa-percent me-1"></i> Impuestos
+                </button>
             </li>
-        </ul>
+            </ul>
+        </div>
 
         <div class="tab-content" id="settingsTabsContent">
 
@@ -38,29 +44,31 @@
                 phone: '{{ $settings->phone }}',
                 address: '{{ $settings->address }}',
             })">
-                <div class="card p-4 section-hero settings-hero">
+                <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
                     <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                         <div class="section-hero-icon">
                             <i class="fas fa-cogs"></i>
                         </div>
                         <div class="flex-grow-1">
                             <h2 class="fw-bold mb-0">Configuración de la Empresa</h2>
-                            <div class="text-muted small fw-bold">Ajustes generales y datos fiscales de tu negocio.</div>
+                            <div class="text-muted small">Ajustes generales y datos fiscales de tu negocio.</div>
                         </div>
-                        <button class="btn btn-warning settings-edit-btn" @click="toggleEdit">
+                        <button class="btn btn-outline-primary settings-edit-btn" @click="toggleEdit">
                             <i class="fas fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                         </button>
                     </div>
                 </div>
 
-                <div class="card p-4 mt-4 section-card settings-form-card">
+                <div class="card p-4 mt-4 section-card settings-form-card shadow-sm">
                     <form @submit.prevent="saveSettings">
 
                         <div class="row g-4">
                             <input type="hidden" name="id" x-model="form.id">
 
                             <div class="col-12">
-                                <div class="settings-section-title">Información general</div>
+                                <div class="settings-section-title">
+                                    <i class="fas fa-info-circle me-1 text-muted"></i> Información general
+                                </div>
                             </div>
 
                             <div class="col-lg-4 col-md-12 col-sm-12">
@@ -79,7 +87,9 @@
                             </div>
 
                             <div class="col-12">
-                                <div class="settings-section-title">Dirección fiscal</div>
+                                <div class="settings-section-title">
+                                    <i class="fas fa-map-marker-alt me-1 text-muted"></i> Dirección fiscal
+                                </div>
                             </div>
 
                             <div class="col-lg-8 col-md-12 col-sm-12">
@@ -89,9 +99,9 @@
 
                         </div>
 
-                        <div class="mt-4 text-end">
-                            <button type="submit" class="btn btn-success btn-lg px-5" :disabled="!editMode">
-                                <i class="fas fa-save"></i> Guardar Cambios
+                        <div class="mt-4 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-success px-4" :disabled="!editMode">
+                                <i class="fas fa-save me-1"></i> Guardar Cambios
                             </button>
                         </div>
 
@@ -102,22 +112,22 @@
 
             <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="taxes-tab">
                 
-                <div class="card p-4 section-hero settings-hero">
+                <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
                     <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                         <div class="section-hero-icon">
                             <i class="fas fa-percent"></i>
                         </div>
                         <div class="flex-grow-1">
                             <h2 class="fw-bold mb-0">Configuración de Impuestos</h2>
-                            <div class="text-muted fw-bold small">Listado de impuestos del sistema.</div>
+                            <div class="text-muted small">Listado de impuestos del sistema.</div>
                         </div>
-                        <button class="btn btn-success" id="btnNewTax" type="button">
+                        <button class="btn btn-primary" id="btnNewTax" type="button">
                             <i class="fas fa-plus me-1"></i> Crear impuesto
                         </button>
                     </div>
                 </div>
 
-                <div class="card p-4 mt-4 section-card">
+                <div class="card p-0 mt-4 section-card shadow-sm">
                     @include('backend.taxes.index', ['taxes' => $taxes])
                 </div>
 

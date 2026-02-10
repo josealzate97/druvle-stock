@@ -18,7 +18,9 @@ class CategoryController extends Controller {
     public function index() {
 
         // Obtiene todas las categorías activas
-        $categories = Category::orderBy('name', 'asc')->paginate(10);
+        $categories = Category::withCount('products')
+            ->orderBy('name', 'asc')
+            ->paginate(10);
 
         // Retorna la vista con las categorías
         return view('backend.categories.index', compact('categories'));

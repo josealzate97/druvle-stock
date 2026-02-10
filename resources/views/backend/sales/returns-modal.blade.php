@@ -1,8 +1,10 @@
 
 <div class="modal-header align-items-start">
-    <div>
+    <div class="modal-title-block">
         <h4 class="modal-title mb-1" id="refundModalLabel">
-            Gestionar Devolución - Factura <span class="color-primary fw-bold">{{ $sale->code ?? '' }}</span>
+            <i class="fas fa-undo me-2 color-primary"></i>
+            Gestionar Devolución
+            <span class="color-primary fw-bold">- Factura {{ $sale->code ?? '' }}</span>
         </h4>
         <div class="text-muted small">Registra la devolución por producto y su motivo.</div>
     </div>

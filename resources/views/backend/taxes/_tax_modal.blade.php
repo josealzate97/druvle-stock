@@ -9,14 +9,17 @@
 
         <div class="modal-dialog">
 
-            <div class="modal-content p-3">
+            <div class="modal-content form-modal">
 
                 <div class="modal-header">
                     
-                    <h4 class="modal-title" id="taxModalLabel">
-                        <i class="fas fa-edit me-2 color-primary"></i>
-                        Editar Impuestos
-                    </h4>
+                    <div class="modal-title-block">
+                        <h4 class="modal-title" id="taxModalLabel">
+                            <i class="fas fa-percent me-2 color-primary"></i>
+                            Impuestos
+                        </h4>
+                        <span class="modal-subtitle">Crea o actualiza los porcentajes del sistema.</span>
+                    </div>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 
@@ -46,14 +49,14 @@
 
                 </div>
 
-                <div class="modal-footer col-12 d-flex flex-wrap justify-content-center">
+                <div class="modal-footer col-12 justify-content-between gap-2 my-3">
 
-                    <button type="button" class="btn btn-danger btn-md col-5" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-danger col-5" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>
                         Cancelar
                     </button>
 
-                    <button type="submit" class="btn btn-success btn-md col-5">
+                    <button type="submit" class="btn btn-outline-success col-5">
                         <i class="fas fa-save me-2"></i>
                         Guardar
                     </button>
