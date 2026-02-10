@@ -214,7 +214,7 @@
                             
                             <template x-for="venta in data.ventas" :key="venta.id">
                                 <tr>
-                                    <td x-text="venta.code"></td>
+                                    <td><span class="badge sale-code-badge" x-text="venta.code"></span></td>
                                     <td x-text="venta.client.name == '' ? 'Anonimo' : venta.client.name"></td>
                                     <td x-text="formatDate(venta.sale_date)"></td>
                                     <td x-text="venta.subtotal + ' €'"></td>

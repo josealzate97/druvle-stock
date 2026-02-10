@@ -15,7 +15,9 @@
                     
                     <div class="modal-title-block">
                         <h4 class="modal-title" id="taxModalLabel">
-                            <i class="fas fa-percent me-2 color-primary"></i>
+                            <span class="modal-icon">
+                                <i class="fas fa-percent"></i>
+                            </span>
                             Impuestos
                         </h4>
                         <span class="modal-subtitle">Crea o actualiza los porcentajes del sistema.</span>

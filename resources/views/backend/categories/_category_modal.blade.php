@@ -11,7 +11,9 @@
 
           <div class="modal-title-block">
             <h4 class="modal-title" id="categoryModalLabel">
-                <i class="fas fa-circle-plus me-2 color-primary"></i>
+                <span class="modal-icon">
+                  <i class="fas fa-circle-plus"></i>
+                </span>
                 Nueva Categoría
             </h4>
             <span class="modal-subtitle">Define nombre, abreviación y estilo visual.</span>

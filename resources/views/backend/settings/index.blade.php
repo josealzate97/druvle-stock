@@ -99,8 +99,8 @@
 
                         </div>
 
-                        <div class="mt-4 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-success px-4" :disabled="!editMode">
+                        <div class="mt-4 d-flex justify-content-center my-4">
+                            <button type="submit" class="btn btn-outline-success btn-lg col-4 px-4" :disabled="!editMode">
                                 <i class="fas fa-save me-1"></i> Guardar Cambios
                             </button>
                         </div>

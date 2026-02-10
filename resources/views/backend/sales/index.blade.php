@@ -24,11 +24,15 @@
         <div class="align-items-center border mb-4 bg-white rounded-3 p-4 col-12 d-flex sales-hero-card">
 
             <div class="col-md-6 col-12">
-                <h3 class="fw-bold mb-0">
-                    <i class="fa fa-shopping-cart me-2 color-primary"></i>
-                    Gestion de ventas
-                </h3>
-                <div class="text-muted fw-bold small">Registra nuevas ventas o consulta el historial.</div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="section-hero-icon">
+                        <i class="fa fa-shopping-cart"></i>
+                    </span>
+                    <div>
+                        <h3 class="fw-bold mb-0">Gestion de ventas</h3>
+                        <div class="text-muted fw-bold small">Registra nuevas ventas o consulta el historial.</div>
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-6 col-12 mt-3 mt-md-0 d-flex justify-content-md-end">

@@ -674,6 +674,21 @@ body.theme-dark .modal-header .btn-close {
 .form-modal .modal-title {
   font-weight: 800;
   color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-modal .modal-title .modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #e8f1ff;
+  color: #1b77d3;
+  margin-right: 0.5rem;
 }
 
 .form-modal .modal-subtitle {
@@ -1528,6 +1543,10 @@ body.theme-dark .page-loader-overlay {
     grid-template-columns: 1fr 1fr;
   }
 
+  .sales-action-field.action-field {
+    grid-column: 1 / -1;
+  }
+
   .payment-card {
     position: static;
   }
@@ -1536,6 +1555,20 @@ body.theme-dark .page-loader-overlay {
 @media (max-width: 575.98px) {
   .sales-action-card {
     grid-template-columns: 1fr;
+  }
+
+  .sales-action-card .btn-warning {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1199.98px) and (min-width: 992px) {
+  .sales-action-card {
+    grid-template-columns: 1.8fr 1fr 1fr;
+  }
+
+  .sales-action-field.action-field {
+    grid-column: 1 / -1;
   }
 }
 
@@ -2093,6 +2126,11 @@ body.theme-dark .sale-detail-section-title {
 
 body.theme-dark .form-modal .modal-title {
   color: #e2e8f0;
+}
+
+body.theme-dark .form-modal .modal-title .modal-icon {
+  background: #1a2230;
+  color: #9cc8ff;
 }
 
 body.theme-dark .form-modal .btn-outline-secondary {

@@ -56,9 +56,9 @@
 
                     <tr data-id="{{ $history->sale->id ?? '-' }}" data-status="{{ $history->status }}">
                         <td>
-                            <a href="#" class="fw-bold text-primary small text-decoration-underline"
+                            <a href="#" class="text-decoration-none"
                                @click="openSaleModal('{{ $history->id }}')">
-                                {{ $history->code }}
+                                <span class="badge sale-code-badge">{{ $history->code }}</span>
                             </a>
                         </td>
                         <td>{{ \Carbon\Carbon::parse($history->sale_date)->format('Y-m-d h:i A') }}</td>
