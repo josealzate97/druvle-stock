@@ -989,6 +989,11 @@ html, body {
   pointer-events: none;
 }
 
+body.theme-dark .page-loader-overlay {
+  background: rgba(12, 16, 22, 0.96);
+  color: #9cc8ff;
+}
+
 .page-loader {
   display: flex;
   flex-direction: column;
@@ -1195,8 +1200,9 @@ body.theme-dark {
 }
 
 body.theme-dark .app-header {
-  background: #14171d;
-  border-bottom-color: #1f2329;
+  background: #11151b;
+  border-bottom-color: #202634;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
 body.theme-dark .header-icon {
@@ -1206,11 +1212,396 @@ body.theme-dark .header-icon {
 
 body.theme-dark .header-breadcrumb .breadcrumb {
   background: #14171d !important;
-  border-color: #1f2329;
+  border-color: #262b35;
 }
 
 body.theme-dark .header-breadcrumb .breadcrumb-item a {
   color: #d6d9df !important;
+}
+
+body.theme-dark .main-content,
+body.theme-dark .container-fluid {
+  background: #101215;
+}
+
+body.theme-dark .card,
+body.theme-dark .section-card,
+body.theme-dark .section-hero,
+body.theme-dark .dashboard-card,
+body.theme-dark .stat-card,
+body.theme-dark .sales-card,
+body.theme-dark .sales-summary,
+body.theme-dark .payment-card,
+body.theme-dark .user-info-card,
+body.theme-dark .form-modal {
+  background: #14171d;
+  border-color: #1f2329;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+body.theme-dark .section-toolbar,
+body.theme-dark .sales-action-card,
+body.theme-dark .user-info-section,
+body.theme-dark .sales-client-card,
+body.theme-dark .sale-detail-client,
+body.theme-dark .summary-card {
+  background: #1a1f27;
+  border-color: #262b35;
+}
+
+body.theme-dark .summary-card.total-card {
+  background: #1b2a40;
+  border-color: #2b3b54;
+}
+
+body.theme-dark .form-control,
+body.theme-dark .form-select,
+body.theme-dark textarea {
+  background: #0f141b;
+  color: #e5e7eb;
+  border-color: #2b313c;
+}
+
+body.theme-dark .form-control::placeholder {
+  color: #6b7280;
+}
+
+body.theme-dark .table,
+body.theme-dark .section-table {
+  color: #e5e7eb;
+}
+
+body.theme-dark .section-table thead th {
+  color: #9aa4b2;
+  border-bottom-color: #262b35;
+}
+
+body.theme-dark .section-table tbody td {
+  border-bottom-color: #1f2329;
+}
+
+body.theme-dark .table thead th {
+  color: #9aa4b2;
+  border-bottom-color: #262b35;
+  background: #14171d;
+}
+
+body.theme-dark .table tbody td {
+  border-bottom-color: #1f2329;
+  color: #ffffff;
+}
+
+body.theme-dark .table tbody tr {
+  background: #14171d;
+}
+
+body.theme-dark .table-striped > tbody > tr:nth-of-type(odd) {
+  --bs-table-accent-bg: #161b22;
+  color: #e5e7eb;
+}
+
+body.theme-dark .table-hover > tbody > tr:hover {
+  --bs-table-accent-bg: #1b212b;
+  color: #e5e7eb;
+}
+
+body.theme-dark .dashboard-card .table,
+body.theme-dark .dashboard-card .section-table {
+  --bs-table-bg: #14171d;
+  --bs-table-striped-bg: #161b22;
+  --bs-table-striped-color: #e5e7eb;
+  --bs-table-hover-bg: #1b212b;
+  --bs-table-hover-color: #e5e7eb;
+  background: #14171d;
+}
+
+body.theme-dark .dashboard-card .table > :not(caption) > * > * {
+  background-color: var(--bs-table-bg);
+}
+
+body.theme-dark .table a,
+body.theme-dark .table .text-primary {
+  color: #9cc8ff !important;
+}
+
+body.theme-dark .table .text-muted {
+  color: #94a3b8 !important;
+}
+
+body.theme-dark .table .badge,
+body.theme-dark .status-pill {
+  border: 1px solid #263041;
+}
+
+body.theme-dark .btn-icon {
+  background: #1a1f27;
+  border-color: #2b313c;
+  color: #cbd5e1;
+}
+
+body.theme-dark .btn-icon:hover {
+  background: #232a35;
+  color: #e2e8f0;
+}
+
+body.theme-dark h1,
+body.theme-dark h2,
+body.theme-dark h3,
+body.theme-dark h4,
+body.theme-dark h5,
+body.theme-dark h6 {
+  color: #e2e8f0;
+}
+
+body.theme-dark .color-primary {
+  color: #9cc8ff !important;
+}
+
+body.theme-dark .modal-header,
+body.theme-dark .modal-footer {
+  border-color: #1f2329;
+}
+
+body.theme-dark .nav-pills {
+  border-bottom-color: #1f2329;
+}
+
+body.theme-dark .nav-pills .nav-link {
+  background: #1a1f27;
+  border-color: #2b313c;
+  color: #cbd5e1 !important;
+  box-shadow: none;
+}
+
+body.theme-dark .nav-pills .nav-link.active {
+  background: #14171d !important;
+  border-color: #2b313c !important;
+  color: #9cc8ff !important;
+}
+
+body.theme-dark .status-pill-success {
+  background: #123524;
+  color: #86efac;
+}
+
+body.theme-dark .status-pill-muted {
+  background: #1f2329;
+  color: #94a3b8;
+}
+
+body.theme-dark .reports-loader {
+  background: #1a1f27;
+  border-color: #2b313c;
+  color: #cbd5e1;
+}
+
+body.theme-dark .dashboard-card-header h5,
+body.theme-dark .stat-label,
+body.theme-dark .stat-value,
+body.theme-dark .dashboard-card-header p,
+body.theme-dark .legend-item,
+body.theme-dark .chart-legend span {
+  color: #e2e8f0;
+}
+
+body.theme-dark .stat-meta {
+  color: #94a3b8;
+}
+
+body.theme-dark .stat-badge {
+  color: #4ade80;
+}
+
+body.theme-dark .section-table {
+  background: #14171d;
+}
+
+body.theme-dark .section-table thead th {
+  background: #14171d;
+}
+
+body.theme-dark .section-table tbody tr {
+  background: transparent;
+}
+
+body.theme-dark .section-card .section-table > :not(caption) > * > * {
+  background-color: #14171d;
+}
+
+body.theme-dark .section-card .section-table tbody tr:nth-of-type(odd) > * {
+  background-color: #161b22;
+}
+
+body.theme-dark .section-card .section-table tbody tr:hover > * {
+  background-color: #1b212b;
+}
+
+body.theme-dark .section-toolbar .form-control,
+body.theme-dark .section-toolbar .form-select {
+  background: #0f141b;
+  border-color: #2b313c;
+  color: #e5e7eb;
+}
+
+body.theme-dark .section-avatar {
+  border: 1px solid #2b313c;
+}
+
+body.theme-dark .sales-action-card {
+  background: #161b22;
+  border-color: #2b313c;
+}
+
+body.theme-dark .sales-action-card .form-label {
+  color: #94a3b8;
+}
+
+body.theme-dark .sales-action-card .form-control,
+body.theme-dark .sales-action-card .form-select {
+  background: #0f141b;
+  border-color: #2b313c;
+  color: #e5e7eb;
+}
+
+body.theme-dark .sales-switch {
+  background: #1a1f27;
+  border-color: #2b313c;
+  color: #e2e8f0;
+}
+
+body.theme-dark .sales-summary-header {
+  color: #e2e8f0;
+}
+
+body.theme-dark .payment-card {
+  background: #14171d;
+}
+
+body.theme-dark .payment-header {
+  color: #9cc8ff;
+}
+
+body.theme-dark .payment-row,
+body.theme-dark .payment-total,
+body.theme-dark .payment-section label {
+  color: #e2e8f0;
+}
+
+body.theme-dark .payment-total strong {
+  color: #9cc8ff;
+}
+
+body.theme-dark .payment-highlight {
+  background: #123524;
+  border-color: #1f5f3a;
+  color: #d1fae5;
+}
+
+body.theme-dark .payment-highlight small {
+  color: #a7f3d0;
+}
+
+body.theme-dark .btn-success {
+  background: #166534;
+  border-color: #166534;
+}
+
+body.theme-dark .btn-outline-secondary {
+  border-color: #3a4250;
+  color: #cbd5e1;
+}
+
+body.theme-dark .btn-outline-secondary:hover {
+  background: #1f2430;
+  color: #e2e8f0;
+}
+
+body.theme-dark .sales-hero-card {
+  background: #14171d;
+  border-color: #1f2329;
+}
+
+body.theme-dark .sales-hero-card .text-muted {
+  color: #94a3b8 !important;
+}
+
+body.theme-dark .sales-hero-card h3,
+body.theme-dark .sales-hero-card h4 {
+  color: #e2e8f0;
+}
+
+body.theme-dark .sales-hero-card.bg-white {
+  background: #14171d !important;
+}
+
+body.theme-dark .sales-hero-card.border {
+  border-color: #1f2329 !important;
+}
+
+body.theme-dark .sales-hero-card.bg-white .text-muted {
+  color: #94a3b8 !important;
+}
+
+body.theme-dark .sales-summary-table > :not(caption) > * > * {
+  background-color: #14171d;
+}
+
+body.theme-dark .sales-summary-table tbody tr:nth-of-type(odd) > * {
+  background-color: #161b22;
+}
+
+body.theme-dark .sales-summary-table tbody tr:hover > * {
+  background-color: #1b212b;
+}
+
+body.theme-dark .sales-summary-table tbody td {
+  color: #ffffff;
+}
+
+body.theme-dark .sale-detail-modal .section-table > :not(caption) > * > * {
+  background-color: #14171d;
+}
+
+body.theme-dark .sale-detail-modal .section-table tbody tr:nth-of-type(odd) > * {
+  background-color: #161b22;
+}
+
+body.theme-dark .sale-detail-modal .section-table tbody tr:hover > * {
+  background-color: #1b212b;
+}
+
+body.theme-dark .sale-detail-modal .section-table tbody td {
+  color: #ffffff;
+}
+
+body.theme-dark .btn-link {
+  color: #9cc8ff;
+}
+
+body.theme-dark .btn-link:hover {
+  color: #c7deff;
+}
+
+body.theme-dark .form-modal .modal-title,
+body.theme-dark .form-modal .modal-subtitle,
+body.theme-dark .form-modal .form-label,
+body.theme-dark .color-hint,
+body.theme-dark .sale-detail-section-title {
+  color: #cbd5e1;
+}
+
+body.theme-dark .form-modal .modal-title {
+  color: #e2e8f0;
+}
+
+body.theme-dark .form-modal .btn-outline-secondary {
+  border-color: #3a4250;
+  color: #cbd5e1;
+}
+
+body.theme-dark .form-modal .btn-outline-secondary:hover {
+  background: #1f2430;
+  color: #e2e8f0;
 }
 
 /* Tamaño grande para el switch */

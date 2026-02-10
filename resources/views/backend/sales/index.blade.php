@@ -21,7 +21,7 @@
             ])
         @endpush
         
-        <div class="align-items-center border mb-4 bg-white rounded-3 p-4 col-12 d-flex">
+        <div class="align-items-center border mb-4 bg-white rounded-3 p-4 col-12 d-flex sales-hero-card">
 
             <div class="col-md-6 col-12">
                 <h3 class="fw-bold mb-0">
@@ -189,7 +189,7 @@
 
                                 <div class="table-responsive">
 
-                                    <table class="table table-borderless align-middle section-table mb-0">
+                                    <table class="table table-borderless align-middle section-table mb-0 sales-summary-table">
 
                                         <thead>
                                             <tr>

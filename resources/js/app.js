@@ -8,13 +8,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Ocultar el overlay con transición
     if (overlay) {
-        requestAnimationFrame(() => {
+        const hideDelay = 1000;
+
+        setTimeout(() => {
             overlay.classList.add('is-hidden');
-        });
+        }, hideDelay);
 
         setTimeout(() => {
             overlay.remove();
-        }, 450);
+        }, hideDelay + 450);
     }
 
     

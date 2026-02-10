@@ -40,6 +40,16 @@
     </head>
 
     <body>
+        <script>
+            (() => {
+                try {
+                    const savedTheme = localStorage.getItem('theme-mode');
+                    if (savedTheme === 'dark') {
+                        document.body.classList.add('theme-dark');
+                    }
+                } catch (e) {}
+            })();
+        </script>
         <div id="loading-overlay" class="page-loader-overlay" aria-live="polite">
             <div class="page-loader">
                 <div class="page-loader__orbit">
