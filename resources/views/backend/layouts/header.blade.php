@@ -11,9 +11,12 @@
     </div>
 
     <div class="header-right">
-        <div class="theme-toggle form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="theme-switch" aria-label="Modo noche">
-            <label class="form-check-label" for="theme-switch">Modo noche</label>
+        <div class="theme-toggle theme-toggle-lg">
+            <i class="fas fa-sun"></i>
+            <label class="form-check form-switch mb-0">
+                <input class="form-check-input" type="checkbox" id="theme-switch" aria-label="Alternar modo">
+            </label>
+            <i class="fas fa-moon"></i>
         </div>
 
         @if(Auth::check())

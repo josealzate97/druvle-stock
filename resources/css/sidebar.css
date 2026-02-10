@@ -84,6 +84,11 @@ body.theme-dark .sidebar-link.active .sidebar-icon {
     color: #ffffff;
 }
 
+body.theme-dark .sidebar-link:hover .sidebar-icon {
+    background: #1f2a3a;
+    color: #c7deff;
+}
+
 .sidebar-nav {
     padding-left: 0;
     margin-bottom: 0;

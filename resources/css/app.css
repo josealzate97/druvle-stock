@@ -207,6 +207,37 @@ html, body {
   cursor: pointer;
 }
 
+.theme-toggle i {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.theme-toggle-lg .form-check-input {
+  width: 3.2rem;
+  height: 1.7rem;
+}
+
+.theme-toggle-lg .form-check-input:checked {
+  background-color: #1b77d3;
+  border-color: #155fb8;
+}
+
+.theme-toggle-lg .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(27, 119, 211, 0.25);
+}
+
+.theme-toggle-lg {
+  gap: 0.4rem;
+}
+
+.theme-toggle-lg .form-check {
+  margin: 0;
+}
+
+.theme-toggle-lg i {
+  line-height: 1;
+}
+
 .session-info {
   display: flex;
   flex-direction: column;
@@ -311,6 +342,7 @@ html, body {
   background: #f8fafc;
   font-weight: 600;
   color: #475569;
+  height: 40px;
 }
 
 .section-filter {
@@ -320,6 +352,7 @@ html, body {
   background: #f8fafc;
   font-weight: 600;
   color: #475569;
+  height: 40px;
 }
 
 .section-table thead th {
@@ -379,6 +412,28 @@ html, body {
 .btn-icon:hover {
   background: #e2e8f0;
   color: #334155;
+}
+
+.btn-icon-edit {
+  background: #e8f1ff;
+  border-color: #dbe9ff;
+  color: #1b77d3;
+}
+
+.btn-icon-edit:hover {
+  background: #dbe9ff;
+  color: #155fb8;
+}
+
+body.theme-dark .btn-icon-edit {
+  background: #1a2230;
+  border-color: #2b313c;
+  color: #9cc8ff;
+}
+
+body.theme-dark .btn-icon-edit:hover {
+  background: #222a38;
+  color: #c7deff;
 }
 
 .section-footer {
@@ -859,6 +914,12 @@ body.theme-dark .settings-hero .section-hero-icon {
   color: #a5b4fc;
 }
 
+body.theme-dark .section-hero .section-hero-icon {
+  background: #1f2430;
+  color: #a78bfa;
+  box-shadow: none;
+}
+
 body.theme-dark .settings-section-title {
   color: #94a3b8;
 }
@@ -1220,14 +1281,14 @@ body.theme-dark .taxes-table .badge.bg-light {
 .bg-soft-success { background: #e8f8f0; color: #10b981; }
 
 .stat-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.9rem;
+  font-weight: 800;
 }
 
 .stat-meta {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   color: #94a3b8;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .stat-pill {
@@ -1676,6 +1737,10 @@ body.theme-dark .page-loader-overlay {
     background: #1a1f27;
     border-color: #2b313c;
   }
+
+  body.theme-dark .theme-toggle i {
+    color: #cbd5e1;
+  }
 }
 
 
@@ -1765,6 +1830,31 @@ body.theme-dark .form-modal {
   background: #14171d;
   border-color: #1f2329;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+body.theme-dark .stat-icon {
+  background: #1f2430;
+  box-shadow: none;
+}
+
+body.theme-dark .bg-soft-primary {
+  background: #1f2430;
+  color: #60a5fa;
+}
+
+body.theme-dark .bg-soft-purple {
+  background: #1f2430;
+  color: #c4b5fd;
+}
+
+body.theme-dark .bg-soft-warning {
+  background: #1f2430;
+  color: #fbbf24;
+}
+
+body.theme-dark .bg-soft-success {
+  background: #1f2430;
+  color: #34d399;
 }
 
 body.theme-dark .section-toolbar,
@@ -2131,6 +2221,13 @@ body.theme-dark .form-modal .modal-title {
 body.theme-dark .form-modal .modal-title .modal-icon {
   background: #1a2230;
   color: #9cc8ff;
+}
+
+body.theme-dark .settings-form-card .form-label,
+body.theme-dark .user-info-form .form-label,
+body.theme-dark .user-info-section-title,
+body.theme-dark .settings-section-title {
+  color: #cbd5e1;
 }
 
 body.theme-dark .form-modal .btn-outline-secondary {
