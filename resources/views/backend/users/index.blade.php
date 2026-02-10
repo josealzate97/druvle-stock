@@ -88,8 +88,8 @@
                                 </td>
                                 <td class="text-end">
 
-                                    <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon">
-                                        <i class="fas fa-edit"></i>
+                                    <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon text-primary" title="Editar">
+                                         <i class="fas fa-edit"></i>
                                     </a>
 
                                     @if($user->status == \App\Models\User::ACTIVE)

@@ -99,14 +99,14 @@
 
                 </div>
 
-                <div class="modal-footer">
+                <div class="modal-footer col-12 d-flex justify-content-between gap-2 my-4">
 
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-outline-danger col-5" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>
                         Cancelar
                     </button>
 
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" class="btn btn-outline-success col-5">
                         <i class="fas fa-save me-2"></i>
                         Guardar
                     </button>

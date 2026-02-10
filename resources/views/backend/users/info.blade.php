@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <button class="btn btn-warning" @click="toggleEdit">
+                <button class="btn btn-outline-primary" @click="toggleEdit">
                     <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                 </button>
             </div>
@@ -115,8 +115,8 @@
 
                 </div>
 
-                <div class="my-4 text-end" x-show="editMode">
-                    <button type="submit" class="btn btn-success btn-lg px-5 fw-bold">
+                <div class="my-4 text-center" x-show="editMode">
+                    <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold">
                         <i class="fa fa-save"></i>&nbsp;
                         Actualizar Informacion
                     </button>

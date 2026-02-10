@@ -10,7 +10,7 @@
                     <h4 class="modal-title" id="saleDetailModalLabel">
                         <i class="fas fa-receipt me-2 color-primary"></i>
                         Detalle de la Orden
-                        <span class="badge bg-grey ms-2" x-text="saleDetail.code"></span>
+                        <span class="badge bg-primary ms-2 small" x-text="saleDetail.code"></span>
                     </h4>
                     <span class="modal-subtitle">Vista general de la venta, cliente y productos.</span>
                 </div>
@@ -182,13 +182,13 @@
 
             </div>
 
-            <div class="modal-footer d-flex justify-content-end gap-2">
+            <div class="modal-footer col-12 d-flex justify-content-between gap-2">
 
-                <button class="btn btn-success" @click="printInvoice(saleId)">
+                <button class="btn btn-outline-success col-5" @click="printInvoice(saleId)">
                     <i class="fas fa-print"></i>&nbsp;Imprimir factura
                 </button>
 
-                <button class="btn btn-warning" @click="returnProducts(saleId)">
+                <button class="btn btn-outline-warning col-5" @click="returnProducts(saleId)">
                     <i class="fas fa-undo"></i>&nbsp;Devolución de productos
                 </button>
 

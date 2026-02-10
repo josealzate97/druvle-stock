@@ -107,8 +107,10 @@
                                         <span class="status-pill status-pill-muted">Inactivo</span>
                                     @endif
                                 </td>
+
                                 <td class="text-end">
-                                    <button onclick="editCategory('{{ $category->id }}')" class="btn btn-icon" data-bs-mode="edit"
+
+                                    <button onclick="editCategory('{{ $category->id }}')" class="btn btn-icon text-primary" data-bs-mode="edit"
                                     {{ $category->status == \App\Models\Category::INACTIVE ? 'disabled' : '' }}>
                                         <i class="fas fa-edit"></i>
                                     </button>

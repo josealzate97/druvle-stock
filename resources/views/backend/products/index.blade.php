@@ -112,7 +112,7 @@
                                 </td>
                                 <td class="text-end">
 
-                                    <button type="button" class="btn btn-icon" onclick="editProduct('{{ $product->id }}')" data-bs-mode="edit" title="Editar" 
+                                    <button type="button" class="btn btn-icon text-primary" onclick="editProduct('{{ $product->id }}')" data-bs-mode="edit" title="Editar" 
                                     {{ $product->status == \App\Models\Product::INACTIVE ? 'disabled' : '' }}>
                                         <i class="fas fa-edit"></i>
                                     </button>
