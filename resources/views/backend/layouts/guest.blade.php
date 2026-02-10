@@ -27,7 +27,7 @@
     
     </head>
 
-    <body>
+    <body style="min-height:100vh; @if(request()->is('login')) background: url('{{ asset('images/login_bg.png') }}') no-repeat center center fixed; background-size: cover; @endif">
         @yield('content')
     </body>
     

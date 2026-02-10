@@ -8,12 +8,12 @@
 
 @section('content')
 
-    <div class="d-flex justify-content-center align-items-center vh-100 bg-body-secondary">
+    <div class="d-flex justify-content-center align-items-center vh-100">
 
         <div class="p-5 rounded shadow login-form bg-white border border-light" style="max-width: 400px; width: 100%;">
 
             <span class="d-flex justify-content-center mb-3">
-                <img src="{{ asset('images/logo.png') }}" class="sidebar-logo me-3">
+                <img src="{{ asset('images/ll.png') }}" class="sidebar-logo me-3">
             </span>
             
             <p class="text-center text-muted my-3 fw-bold">Inicia sesión para continuar</p>
