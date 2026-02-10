@@ -9,12 +9,12 @@
   --breakpoint-xl: 1200px;
   --breakpoint-xxl: 1400px;
 
-  --bg-color: #f9f9f9;
+  --bg-color: #d0cfcf;
   --bg-accent-color: #c8e6c9;
   --bg-breadcrumb: #f4f4f4;
 
-  --accent-color: #198754;
-  --dark-accent-color: #23724d;
+  --accent-color: #1b77d3;
+  --dark-accent-color: #0b4e91;
 
   --black: #111111;
   --white: #ffff;
@@ -105,7 +105,7 @@ html, body {
 
 .hover-success:hover {
   color: #000000 !important;
-  background-color: #188755 !important;
+  background-color: #1b77d3 !important;
 }
 
 /** LOGIN **/
@@ -138,7 +138,7 @@ nav {
   width: 40px;
   height: 40px;
   background-color: #d1e7dd;
-  color: #0f5132;
+  color: #1b77d3;
   border-radius: 50%;
   font-size: 18px;
   transition: background-color 0.3s ease;
@@ -264,7 +264,7 @@ nav {
 
 /* Campo válido */
 .valid-input {
-    border: 2px solid #28a745;
+    border: 2px solid #1b77d3;
     background-color: #e9f7ef;
 }
 

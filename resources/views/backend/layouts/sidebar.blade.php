@@ -5,9 +5,8 @@
 
 <div class="sidebar">
 
-    <a href="{{ route('home') }}" class="sidebar-brand d-flex align-items-center justify-content-center">
-        <span class="me-2"><img src="{{ asset('images/logo.png') }}" class="sidebar-logo"></span>
-        <span class="fs-3 mt-3">Druvle</span>
+    <a href="{{ route('home') }}" class="sidebar-brand d-flex">
+        <span class="fs-1 ml-4 mt-3">Druvle</span>
     </a>
 
     <ul class="sidebar-nav">
