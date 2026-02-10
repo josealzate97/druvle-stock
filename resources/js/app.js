@@ -4,30 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // console.log("App Js loadead!");
 
-    // Crear el overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'loading-overlay';
-    overlay.style.position = 'fixed';
-    overlay.style.top = 0;
-    overlay.style.left = 0;
-    overlay.style.width = '100vw';
-    overlay.style.height = '100vh';
-    overlay.style.background = 'rgba(255, 255, 255, 0.9)';
-    overlay.style.color = 'rgba(29, 129, 59, 1)';
-    overlay.style.display = 'flex';
-    overlay.style.alignItems = 'center';
-    overlay.style.justifyContent = 'center';
-    overlay.style.zIndex = 9999;
-    overlay.innerHTML = '<h2>Cargando...</h2>';
+    const overlay = document.getElementById('loading-overlay');
 
-    document.body.appendChild(overlay);
+    // Ocultar el overlay con transición
+    if (overlay) {
+        requestAnimationFrame(() => {
+            overlay.classList.add('is-hidden');
+        });
 
-    // Ocultar el overlay después de 3 segundos
-    setTimeout(() => {
-
-        overlay.style.display = 'none';
-
-    }, 700);
+        setTimeout(() => {
+            overlay.remove();
+        }, 450);
+    }
 
     
 

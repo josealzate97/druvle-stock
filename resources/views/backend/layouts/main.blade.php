@@ -40,6 +40,17 @@
     </head>
 
     <body>
+        <div id="loading-overlay" class="page-loader-overlay" aria-live="polite">
+            <div class="page-loader">
+                <div class="page-loader__orbit">
+                    <span></span><span></span><span></span>
+                </div>
+                <div class="page-loader__text">
+                    <strong>Preparando tu panel</strong>
+                    <span>Cargando recursos...</span>
+                </div>
+            </div>
+        </div>
 
         <div class="wrapper d-flex">
 

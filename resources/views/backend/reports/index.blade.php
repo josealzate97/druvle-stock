@@ -92,7 +92,10 @@
                     <hr>
 
                     <template x-if="loading" class="col-12 text-center my-3">
-                        <div class="fs-4">Cargando...</div>
+                        <div class="reports-loader">
+                            <span class="loader-spinner"></span>
+                            <span class="loader-text">Cargando reporte de productos...</span>
+                        </div>
                     </template>
 
                     <!-- Tabla de productos -->
@@ -187,7 +190,10 @@
                     <hr>
 
                     <template x-if="loading" class="text-center my-3">
-                        <div class="fs-4">Cargando...</div>
+                        <div class="reports-loader">
+                            <span class="loader-spinner"></span>
+                            <span class="loader-text">Cargando reporte de ventas...</span>
+                        </div>
                     </template>
 
                     <div class="table-responsive">
@@ -283,7 +289,10 @@
                     <hr>
 
                     <template x-if="loading" class="text-center my-3">
-                        <div class="fs-4">Cargando...</div>
+                        <div class="reports-loader">
+                            <span class="loader-spinner"></span>
+                            <span class="loader-text">Cargando reporte de impuestos...</span>
+                        </div>
                     </template>
 
                     <div class="table-responsive">

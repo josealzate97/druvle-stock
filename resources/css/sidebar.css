@@ -42,9 +42,13 @@
     align-items: center;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&display=swap');
+
 .sidebar-title {
-    font-size: 1.65rem;
-    letter-spacing: 0.5px;
+    font-size: 1.7rem;
+    letter-spacing: 0.6px;
+    color: #1b77d3;
+    font-family: 'Manrope', 'Segoe UI', sans-serif;
 }
 
 .sidebar-nav {

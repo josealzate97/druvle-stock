@@ -60,222 +60,236 @@
                 <!-- Contenido de Nueva Venta -->
                 <div class="tab-pane fade show active" id="nueva-venta" role="tabpanel" aria-labelledby="nueva-venta-tab">
 
-                    <div class="card p-4">
+                    <div class="row g-4 sales-grid">
 
-                        <!-- Cabecera -->
-                        <div class="col-lg-12 col-md-12 col-sm-12 d-flex align-items-center justify-content-between">
-                            
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <h4 class="fw-bold">
-                                    <i class="fas fa-plus-circle me-2 color-primary"></i>
-                                    Crear Nueva Venta
-                                </h4>
-                                <p class="text-muted fw-bold small">Agrega tus Productos de manera facil y rapida</p>
-                            </div>
+                        <div class="col-xl-8 col-lg-7">
 
-                            <div class="col-lg-6 col-md-6 col-sm-12 d-flex flex-column align-items-center justify-content-center">
-                                <label for="facturaSwitch" class="form-label mb-0 fw-bold">¿Desea Factura?</label>
-                                <div class="form-check form-switch form-switch-lg">
-                                    <input class="form-check-input custom-switch-success" 
-                                    type="checkbox" id="facturaSwitch" name="factura" 
-                                    x-model="showClientSection">
+                            <div class="card p-4 sales-card">
+
+                                <!-- Cabecera -->
+                                <div class="sales-card-header">
+                                    <div>
+                                        <h4 class="fw-bold mb-1">
+                                            <i class="fas fa-plus-circle me-2 color-primary"></i>
+                                            Crear Nueva Venta
+                                        </h4>
+                                        <p class="text-muted fw-bold small mb-0">Agrega tus Productos de manera facil y rapida</p>
+                                    </div>
+
+                                    <div class="sales-switch">
+                                        <label for="facturaSwitch" class="form-label mb-0 fw-bold">¿Desea Factura?</label>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input custom-switch-success" 
+                                            type="checkbox" id="facturaSwitch" name="factura" 
+                                            x-model="showClientSection">
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                        </div>
+                                <hr class="my-3">
 
-                        <hr>
+                                <!-- Panel de accion para ventas -->
+                                <div class="sales-action-card">
 
-                        <!-- Panel de accion para ventas -->
-                        <div class="col-lg-12 col-md-12 col-sm-12 bg-grey d-flex align-items-center rounded-3 p-3 mb-4 gap-2">
+                                    <div class="sales-action-field">
+                                        <label for="productSelect" class="form-label fw-bold">Producto</label>
 
-                            <div class="col-md-4">
+                                        <!-- Campo de búsqueda de producto con sugerencias -->
+                                        <div class="position-relative">
+                                            <input
+                                                type="text"
+                                                id="productSearchInput"
+                                                class="form-control"
+                                                placeholder="Buscar producto por nombre"
+                                                x-model="productSearch"
+                                                :disabled="isProcessing"
+                                                @focus="showProductDropdown = true"
+                                                @input="showProductDropdown = true"
+                                                @click.away="showProductDropdown = false"
+                                            >
 
-                                <label for="productSelect" class="form-label fw-bold">Producto</label>
+                                            <ul class="list-group position-absolute w-100 shadow-sm" 
+                                                style="z-index: 1050; max-height: 250px; overflow-y: auto;"
+                                                x-show="showProductDropdown && productSearch.length > 0"
+                                                x-transition>
+                                                
+                                                <template x-for="product in products.filter(p => p.name.toLowerCase().includes(productSearch.toLowerCase()))" :key="product.id">
+                                                    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+                                                        style="cursor: pointer;"
+                                                        @mousedown.prevent="
+                                                            selectedProduct = product.id;
+                                                            productSearch = product.name;
+                                                            showProductDropdown = false;
+                                                        ">
+                                                        <span x-text="product.name"></span>
+                                                        <span class="badge bg-secondary" x-text="'Stock: ' + product.quantity"></span>
+                                                    </li>
+                                                </template>
 
-                                <!-- Select original comentado para mantener referencia sin usar -->
-                                <!--
-                                <select id="productSelect" class="form-select" x-model="selectedProduct" :disabled="isProcessing">
-                                    <option value="" disabled selected>Seleccione un producto</option>
-                                    <template x-for="product in products" :key="product.id">
-                                        <option :value="product.id" x-text="product.name + ' - '+' Stock: '+ product.quantity"></option>
-                                    </template>
-                                </select>
-                                -->
+                                                <li class="list-group-item text-muted text-center" 
+                                                    x-show="products.filter(p => p.name.toLowerCase().includes(productSearch.toLowerCase())).length === 0">
+                                                    Sin resultados
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                <!-- Campo de búsqueda de producto con sugerencias -->
-                                <div class="position-relative">
-                                    <input
-                                        type="text"
-                                        id="productSearchInput"
-                                        class="form-control"
-                                        placeholder="Buscar producto..."
-                                        x-model="productSearch"
-                                        :disabled="isProcessing"
-                                        @focus="showProductDropdown = true"
-                                        @input="showProductDropdown = true"
-                                        @click.away="showProductDropdown = false"
-                                    >
+                                    </div>
 
-                                    <ul class="list-group position-absolute w-100 shadow-sm" 
-                                        style="z-index: 1050; max-height: 250px; overflow-y: auto;"
-                                        x-show="showProductDropdown && productSearch.length > 0"
-                                        x-transition>
+                                    <div class="sales-action-field small-field">
+                                        <label for="quantityInput" class="form-label fw-bold">Cantidad</label>
+                                        <input type="number" id="quantityInput" class="form-control" x-model="quantity" min="1" placeholder="Cantidad" :disabled="isProcessing">
+                                    </div>
+
+                                    <div class="sales-action-field small-field">
+                                        <label for="salePriceInput" class="form-label fw-bold">Precio de Venta</label>
+                                        <input type="number" id="salePriceInput" class="form-control" x-model="salePrice" min="0" step="0.01" placeholder="Precio de Venta" disabled>
+                                    </div>
+
+                                    <div class="sales-action-field small-field">
+                                        <label for="taxSelect" class="form-label fw-bold">Impuesto</label>
                                         
-                                        <template x-for="product in products.filter(p => p.name.toLowerCase().includes(productSearch.toLowerCase()))" :key="product.id">
-                                            <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
-                                                style="cursor: pointer;"
-                                                @mousedown.prevent="
-                                                    selectedProduct = product.id;
-                                                    productSearch = product.name;
-                                                    showProductDropdown = false;
-                                                ">
-                                                <span x-text="product.name"></span>
-                                                <span class="badge bg-secondary" x-text="'Stock: ' + product.quantity"></span>
-                                            </li>
-                                        </template>
+                                        <select id="taxSelect" class="form-select" x-model="selectedTax" disabled>
+                                            <option x-show="selectedProductObj && !selectedProductObj.tax" value="">NO</option>
+                                            <template x-if="selectedProductObj && selectedProductObj.tax">
+                                                <option :value="selectedProductObj.tax.id" x-text="selectedProductObj.tax.rate + ' %'"></option>
+                                            </template>
+                                        </select>
+                                    </div>
 
-                                        <li class="list-group-item text-muted text-center" 
-                                            x-show="products.filter(p => p.name.toLowerCase().includes(productSearch.toLowerCase())).length === 0">
-                                            Sin resultados
-                                        </li>
-                                    </ul>
+                                    <div class="sales-action-field action-field">
+                                        <button type="button" class="btn btn-warning fw-bold w-100" @click="addProduct">
+                                            <i class="fas fa-plus-circle me-2"></i>
+                                            Añadir al carrito
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <!-- Seccion del cliente -->
+                                <div class="row mt-4 bg-light rounded p-4" 
+                                id="clientSection" x-show="showClientSection" x-transition x-cloak>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label for="customerName" class="form-label fw-bold">Nombre del Cliente</label>
+                                        <input type="text" id="customerName" class="form-control" x-model="customerName" placeholder="Nombre del Cliente" :disabled="isProcessing">
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label for="customerEmail" class="form-label fw-bold">Email del Cliente</label>
+                                        <input type="email" id="customerEmail" class="form-control" x-model="customerEmail" placeholder="Email del Cliente" :disabled="isProcessing">
+                                    </div>
+                                    
                                 </div>
 
                             </div>
 
-                            <div class="col-md-2">
-                                <label for="quantityInput" class="form-label fw-bold">Cantidad</label>
-                                <input type="number" id="quantityInput" class="form-control" x-model="quantity" min="1" placeholder="Cantidad" :disabled="isProcessing">
-                            </div>
+                            <div class="card p-0 mt-4 sales-summary">
+                                <div class="sales-summary-header">Resumen de Venta</div>
 
-                            <div class="col-md-2">
-                                <label for="salePriceInput" class="form-label fw-bold">Precio de Venta</label>
-                                <input type="number" id="salePriceInput" class="form-control" x-model="salePrice" min="0" step="0.01" placeholder="Precio de Venta" disabled>
-                            </div>
+                                <div class="table-responsive">
 
-                            <div class="col-md-2">
+                                    <table class="table table-borderless align-middle section-table mb-0">
 
-                                <label for="taxSelect" class="form-label fw-bold">Impuesto</label>
-                                
-                                <select id="taxSelect" class="form-select" x-model="selectedTax" disabled>
-                                    
-                                    <option x-show="selectedProductObj && !selectedProductObj.tax" value="">NO</option>
-                                    <template x-if="selectedProductObj && selectedProductObj.tax">
-                                        <option :value="selectedProductObj.tax.id" x-text="selectedProductObj.tax.rate + ' %'"></option>
-                                    </template>
+                                        <thead>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Cant.</th>
+                                                <th>Unitario</th>
+                                                <th>Subtotal</th>
+                                                <th>IVA</th>
+                                                <th>Total</th>
+                                                <th class="text-end">Acciones</th>
+                                            </tr>
+                                        </thead>
 
-                                </select>
+                                        <tbody>
 
-                            </div>
+                                            <!-- Renderiza dinámicamente los productos en saleItems -->
+                                            <template x-for="(item, index) in saleItems" :key="item.id">
 
+                                                <tr>
+                                                    <td x-text="item.name"></td>
+                                                    <td x-text="item.quantity"></td>
+                                                    <td x-text="Number(item.sale_price).toFixed(2) + ' €'"></td>
+                                                    <td x-text="(item.quantity * Number(item.sale_price)).toFixed(2) + ' €'"></td>
+                                                    <td x-text="(item.quantity * Number(item.tax_amount)).toFixed(2) + ' €'"></td>
+                                                    <td x-text="(item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2) + ' €'"></td>
+                                                    <td class="text-end">
+                                                        <button type="button" class="btn btn-icon text-danger" @click="removeProduct(index)">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
 
-                            <div class="col-md-2 mt-3">
-                                <button type="button" class="btn btn-warning fw-bold col-8 mt-3" @click="addProduct">
-                                    <i class="fas fa-plus-circle me-2"></i>
-                                    Añadir
-                                </button>
+                                            </template>
+
+                                            <!-- Mensaje si no hay productos -->
+                                            <tr x-show="saleItems.length === 0">
+                                                <td colspan="7" class="text-center text-muted fw-bold fs-6">Aún no hay productos en la venta.</td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
                             </div>
 
                         </div>
 
-                        
-                        <!-- resumen de venta -->
-                        <div class="mb-2 fw-bold fs-3">Resumen de Venta</div>
+                        <div class="col-xl-4 col-lg-5">
 
-                        <div class="table-responsive mb-4">
+                            <div class="card p-4 payment-card">
 
-                            <table class="table table-borderless align-middle table-striped">
+                                <div class="payment-header">Detalle de Pago</div>
 
-                                <thead>
-                                    <tr class="text-success">
-                                        <th class="fw-bold color-primary">Producto</th>
-                                        <th class="fw-bold color-primary">Cantidad</th>
-                                        <th class="fw-bold color-primary">Precio Unit</th>
-                                        <th class="fw-bold color-primary">Subtotal</th>
-                                        <th class="fw-bold color-primary">IVA</th>
-                                        <th class="fw-bold color-primary">Total</th>
-                                        <th class="fw-bold color-primary text-center">Acciones</th>
-                                    </tr>
-                                </thead>
+                                <div class="payment-row">
+                                    <span>Subtotal</span>
+                                    <strong x-text="salesHeaderData.subtotal > 0 ? salesHeaderData.subtotal + ' €' : '0.00 €'"></strong>
+                                </div>
 
-                                <tbody>
+                                <div class="payment-row">
+                                    <span>Impuestos (IVA)</span>
+                                    <strong x-text="salesHeaderData.tax > 0 ? salesHeaderData.tax + ' €' : '0.00 €'"></strong>
+                                </div>
 
-                                    <!-- Renderiza dinámicamente los productos en saleItems -->
-                                    <template x-for="(item, index) in saleItems" :key="item.id">
+                                <div class="payment-total">
+                                    <span>Total a Pagar</span>
+                                    <strong x-text="salesHeaderData.total > 0 ? salesHeaderData.total + ' €' : '0.00 €'"></strong>
+                                </div>
 
-                                        <tr>
-                                            <td x-text="item.name"></td>
-                                            <td x-text="item.quantity"></td>
-                                            <td x-text="Number(item.sale_price).toFixed(2) + ' €'"></td>
-                                            <td x-text="(item.quantity * Number(item.sale_price)).toFixed(2) + ' €'"></td>
-                                            <td x-text="(item.quantity * Number(item.tax_amount)).toFixed(2) + ' €'"></td>
-                                            <td x-text="(item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2) + ' €'"></td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-danger btn-sm" @click="removeProduct(index)">
-                                                    <i class="fas fa-trash"></i> Eliminar
-                                                </button>
-                                            </td>
-                                        </tr>
+                                <div class="payment-section">
+                                    <label for="paymentType" class="form-label fw-bold mb-1">Método de pago</label>
+                                    <select id="paymentType" class="form-select" x-model="paymentType">
+                                        <option value="1">EFECTIVO</option>
+                                        <option value="2">BIZUM</option>
+                                        <option value="3">TPV</option>
+                                    </select>
+                                </div>
 
-                                    </template>
+                                <div class="payment-highlight">
+                                    <div>
+                                        <small>Cambio sugerido</small>
+                                        <strong>€0.00</strong>
+                                    </div>
+                                    <div>
+                                        <small>Recibido</small>
+                                        <strong>€0.00</strong>
+                                    </div>
+                                </div>
 
-                                    <!-- Mensaje si no hay productos -->
-                                    <tr x-show="saleItems.length === 0">
-                                        <td colspan="7" class="text-center text-muted fw-bold fs-5">Aún no hay productos en la venta.</td>
-                                    </tr>
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
-                        <!-- Seccion del cliente -->
-                        <div class="row my-3 bg-light rounded p-4 mb-4" 
-                        id="clientSection" x-show="showClientSection" x-transition x-cloak>
-
-                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                <label for="customerName" class="form-label fw-bold">Nombre del Cliente</label>
-                                <input type="text" id="customerName" class="form-control" x-model="customerName" placeholder="Nombre del Cliente" :disabled="isProcessing">
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                <label for="customerEmail" class="form-label fw-bold">Email del Cliente</label>
-                                <input type="email" id="customerEmail" class="form-control" x-model="customerEmail" placeholder="Email del Cliente" :disabled="isProcessing">
-                            </div>
-                            
-                        </div>
-
-                        <!-- Footer de la venta -->
-                        <div class="bg-light-accent col-12 rounded-3 p-4 d-flex flex-wrap justify-content-between align-items-center">
-                            
-                            <div class="col-4 text-muted small fw-bold">
-                                Subtotal: <span x-text="salesHeaderData.subtotal > 0 ? salesHeaderData.subtotal + ' €' : '0.00 €'"></span><br>
-                                Impuestos: <span x-text="salesHeaderData.tax > 0 ? salesHeaderData.tax + ' €' : '0.00 €'"></span>
-                            </div>
-
-                            <div class="col-4 text-center fw-bold">
-                                <span class="fw-bold fs-5">
-                                    Total:
-                                    <span x-text="salesHeaderData.total > 0 ? salesHeaderData.total + ' €' : '0.00 €'"></span>
-                                </span>
-                            </div>
-
-                            <div class="col-4 align-items-center text-center">
-
-                                <label for="paymentType" class="form-label fw-bold mb-1">Método de pago</label>
-                                <select id="paymentType" class="form-select mb-2" x-model="paymentType">
-                                    <option value="1">EFECTIVO</option>
-                                    <option value="2">BIZUM</option>
-                                    <option value="3">TPV</option>
-                                </select>
-
-                                <button class="btn btn-success fw-bold btn-lg col-10"
+                                <button class="btn btn-success fw-bold btn-lg w-100"
                                 :disabled="saleItems.length === 0 || isProcessing" @click="registerSale">
                                     <i class="fas fa-file-invoice me-2"></i>
                                     Registrar Venta
                                 </button>
+
+                                <button class="btn btn-outline-secondary fw-bold w-100 mt-2">
+                                    <i class="fas fa-receipt me-2"></i>
+                                    Solo Pre-ticket
+                                </button>
+
+                                <button class="btn btn-link text-danger fw-bold w-100 mt-2">Cancelar Venta Actual</button>
 
                             </div>
 
