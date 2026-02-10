@@ -1,3 +1,4 @@
+import './sidebar-toggle';
 
 // Crear y mostrar overlay de cargando
 document.addEventListener("DOMContentLoaded", () => {

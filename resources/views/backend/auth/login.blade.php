@@ -8,42 +8,42 @@
 
 @section('content')
 
-    <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="login-card__brand">
+                <img src="{{ asset('images/ll.png') }}" alt="Druvle" class="login-logo">
+                <div>
+                    <h1>Druvle</h1>
+                    <p>Accede a tu panel de ventas</p>
+                </div>
+            </div>
 
-        <div class="p-5 rounded shadow login-form bg-white border border-light" style="max-width: 400px; width: 100%;">
-
-            <span class="d-flex justify-content-center mb-3">
-                <img src="{{ asset('images/ll.png') }}" class="sidebar-logo me-3">
-            </span>
-            
-            <p class="text-center text-muted my-3 fw-bold">Inicia sesión para continuar</p>
-
-            <form id="loginForm" method="POST" action="{{ route('login') }}">
+            <form id="loginForm" method="POST" action="{{ route('login') }}" class="login-form">
                 @csrf
 
-                <div class="mb-4">
-                    <label for="username" class="form-label fw-bold">
-                        <i class="fas fa-user fa-lg color-primary"></i>&nbsp;&nbsp;
-                        Usuario
-                    </label>
-                    <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu usuario" required aria-label="Usuario">
+                <div class="login-field">
+                    <label for="username" class="form-label">Usuario</label>
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Ingresa tu usuario" required aria-label="Usuario">
+                    </div>
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="form-label fw-bold">
-                        <i class="fas fa-lock fa-lg color-primary"></i>&nbsp;&nbsp;
-                        Contraseña
-                    </label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required aria-label="Contraseña">
+                <div class="login-field">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <div class="input-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Ingresa tu contraseña" required aria-label="Contraseña">
+                    </div>
                 </div>
 
-                <button type="submit" class="btn btn-success btn-lg w-100 my-3 fw-bold shadow">
+                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">
                     Iniciar sesión
                 </button>
             </form>
 
             @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="alert alert-danger mt-3">
                     <ul class="mb-0">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -51,9 +51,7 @@
                     </ul>
                 </div>
             @endif
-
         </div>
-
     </div>
 
 @endsection

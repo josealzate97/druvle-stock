@@ -31,106 +31,95 @@
 
         <div class="tab-content" id="settingsTabsContent">
 
-            <div class="card p-4 tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab" x-data="settingsForm({
+            <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab" x-data="settingsForm({
                 id: '{{ $settings->id }}',
                 company_name: '{{ $settings->company_name }}',
                 nit: '{{ $settings->nit }}',
                 phone: '{{ $settings->phone }}',
                 address: '{{ $settings->address }}',
             })">
-
-        
-                <div class="col-lg-12 d-flex flex-wrap justify-content-between align-items-center">
-
-                    <div class="col-lg-8 col-md-6 col-sm-12">
-
-                        <h3 class="fw-bold">
-                            <i class="fas fa-cogs me-2 color-primary"></i>
-                            Configuración de la Empresa
-                        </h3>
-                        <span class="text-muted small fw-bold">Ajustes generales de la empresa</span>
-
-                    </div>
-                        
-                    <div class="col-lg-4 col-md-6 col-sm-12 text-end">
-                        <!-- Botón para habilitar/deshabilitar el formulario -->
-                        <button class="btn btn-warning mb-3" @click="toggleEdit">
+                <div class="card p-4 section-hero settings-hero">
+                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                        <div class="section-hero-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h2 class="fw-bold mb-0">Configuración de la Empresa</h2>
+                            <div class="text-muted small fw-bold">Ajustes generales y datos fiscales de tu negocio.</div>
+                        </div>
+                        <button class="btn btn-warning settings-edit-btn" @click="toggleEdit">
                             <i class="fas fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                         </button>
                     </div>
-
                 </div>
 
-                <hr>
+                <div class="card p-4 mt-4 section-card settings-form-card">
+                    <form @submit.prevent="saveSettings">
 
-                <!-- Formulario -->
-                <form @submit.prevent="saveSettings">
+                        <div class="row g-4">
+                            <input type="hidden" name="id" x-model="form.id">
 
-                    <div class="row g-4">
+                            <div class="col-12">
+                                <div class="settings-section-title">Información general</div>
+                            </div>
 
-                        <!-- ID oculto -->
-                        <input type="hidden" name="id" x-model="form.id">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <label for="company_name" class="form-label fw-bold">Razón social</label>
+                                <input type="text" id="company_name" name="company_name" class="form-control" x-model="form.company_name" :disabled="!editMode">
+                            </div>
 
-                        <!-- Nombre de la empresa -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="company_name" class="form-label fw-bold">Razón social</label>
-                            <input type="text" id="company_name" name="company_name" class="form-control" x-model="form.company_name" :disabled="!editMode">
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <label for="nit" class="form-label fw-bold">NIF / CIF</label>
+                                <input type="text" id="nit" name="nit" class="form-control" x-model="form.nit" :disabled="!editMode">
+                            </div>
+
+                            <div class="col-lg-4 col-md-12 col-sm-12">
+                                <label for="phone" class="form-label fw-bold">Teléfono</label>
+                                <input type="text" id="phone" name="phone" class="form-control" x-model="form.phone" :disabled="!editMode">
+                            </div>
+
+                            <div class="col-12">
+                                <div class="settings-section-title">Dirección fiscal</div>
+                            </div>
+
+                            <div class="col-lg-8 col-md-12 col-sm-12">
+                                <label for="address" class="form-label fw-bold">Dirección</label>
+                                <input type="text" id="address" name="address" class="form-control" x-model="form.address" :disabled="!editMode">
+                            </div>
+
                         </div>
 
-                        <!-- NIT -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="nit" class="form-label fw-bold">NIF / CIF</label>
-                            <input type="text" id="nit" name="nit" class="form-control" x-model="form.nit" :disabled="!editMode">
+                        <div class="mt-4 text-end">
+                            <button type="submit" class="btn btn-success btn-lg px-5" :disabled="!editMode">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
                         </div>
 
-                        <!-- Teléfono -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="phone" class="form-label fw-bold">Teléfono</label>
-                            <input type="text" id="phone" name="phone" class="form-control" x-model="form.phone" :disabled="!editMode">
-                        </div>
-
-                        <!-- Dirección -->
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            <label for="address" class="form-label fw-bold">Dirección Fiscal</label>
-                            <input type="text" id="address" name="address" class="form-control" x-model="form.address" :disabled="!editMode">
-                        </div>
-
-                    </div>
-
-                    <!-- Botón para guardar -->
-                    <div class="mt-4 text-center">
-                        <button type="submit" class="btn btn-success col-4 btn-lg" :disabled="!editMode">
-                            <i class="fas fa-save"></i> Guardar Cambios
-                        </button>
-                    </div>
-
-                </form>
+                    </form>
+                </div>
 
             </div>
 
-            <div class="tab-pane fade card p-4" id="taxes" role="tabpanel" aria-labelledby="taxes-tab">
+            <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="taxes-tab">
                 
-                <div class="col-lg-12 col-md-6 col-sm-12 d-flex flex-wrap justify-content-between align-items-center mb-4">
-
-                    <div class="col-6">
-                        <h3 class="fw-bold">
-                            <i class="fas fa-percent me-2 color-primary"></i>
-                            Configuración de impuestos
-                        </h3>
-                        <span class="text-muted fw-bold small">Listado de impuestos del sistema</span>
-                    </div>
-
-                    <div class="col-6">
-                        <button class="btn btn-success float-end" id="btnNewTax" type="button">
+                <div class="card p-4 section-hero settings-hero">
+                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                        <div class="section-hero-icon">
+                            <i class="fas fa-percent"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h2 class="fw-bold mb-0">Configuración de Impuestos</h2>
+                            <div class="text-muted fw-bold small">Listado de impuestos del sistema.</div>
+                        </div>
+                        <button class="btn btn-success" id="btnNewTax" type="button">
                             <i class="fas fa-plus me-1"></i> Crear impuesto
                         </button>
                     </div>
-
                 </div>
 
-                <hr>
-
-                @include('backend.taxes.index', ['taxes' => $taxes])
+                <div class="card p-4 mt-4 section-card">
+                    @include('backend.taxes.index', ['taxes' => $taxes])
+                </div>
 
             </div>
         
