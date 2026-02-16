@@ -65,16 +65,16 @@
                     </button>
                 </form>
 
-                @if ($errors->any())
-                    <div class="alert alert-danger mt-3">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+            @if ($errors->any())
+                <div class="login-alert">
+                    <i class="fas fa-circle-exclamation"></i>
+                    <div>
+                        <strong>Ups, algo salió mal</strong>
+                        <span>Usuario o contraseña incorrectos.</span>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
+        </div>
         </div>
     </div>
 

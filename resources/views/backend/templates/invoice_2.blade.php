@@ -19,76 +19,85 @@
             /* Estilo Ticket Térmico */
             body {
                 margin: 0;
-                padding: 20px;
-                background: #f5f5f5;
+                padding: 32px 16px;
+                background: #f4f6fb;
+                font-family: 'Manrope', 'Segoe UI', sans-serif;
+                color: #0f172a;
             }
             
             .yaslo-invoice-box {
-                max-width: 380px;
+                max-width: 760px;
                 margin: 20px auto;
-                padding: 20px 15px;
+                padding: 28px 32px;
                 background: #fff;
-                font-family: 'Courier New', Courier, monospace;
-                color: #000;
-                font-size: 11px;
-                line-height: 1.3;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                border: 1px solid #e6ebf2;
+                border-radius: 18px;
+                font-size: 13px;
+                line-height: 1.5;
+                box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
             }
             
             .yaslo-invoice-header {
-                text-align: center;
-                border-bottom: 1px dashed #000;
-                padding-bottom: 10px;
-                margin-bottom: 10px;
+                display: flex;
+                justify-content: space-between;
+                gap: 2rem;
+                border-bottom: 1px solid #e5e7eb;
+                padding-bottom: 16px;
+                margin-bottom: 16px;
             }
             
             .yaslo-invoice-title {
-                font-size: 18px;
-                font-weight: bold;
-                margin-bottom: 5px;
+                font-size: 22px;
+                font-weight: 800;
+                color: #1b77d3;
+                margin-bottom: 6px;
             }
             
             .company-info {
-                font-size: 10px;
-                line-height: 1.4;
-                margin: 5px 0;
+                font-size: 12px;
+                line-height: 1.5;
+                color: #475569;
             }
             
             .yaslo-invoice-info {
-                margin: 10px 0;
-                font-size: 10px;
+                margin: 14px 0;
+                font-size: 12px;
+                color: #475569;
+                display: grid;
+                gap: 6px;
             }
             
             .yaslo-invoice-client {
-                margin: 10px 0 15px 0;
-                font-size: 10px;
-                border-top: 1px dashed #000;
-                border-bottom: 1px dashed #000;
-                padding: 8px 0;
+                margin: 16px 0 20px 0;
+                font-size: 12px;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 12px 14px;
+                background: #f8fafc;
             }
             
             .yaslo-invoice-table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-bottom: 10px;
-                font-size: 10px;
+                margin-bottom: 12px;
+                font-size: 12px;
             }
             
             .yaslo-invoice-table th {
-                background: none;
-                color: #000;
-                font-weight: bold;
-                padding: 5px 2px;
-                border-bottom: 1px solid #000;
-                border-top: 1px solid #000;
-                text-align: left;
-                font-size: 9px;
+                background: #f1f5f9;
+                color: #475569;
+                font-weight: 700;
+                padding: 10px 8px;
+                border-bottom: 1px solid #e5e7eb;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                font-size: 10px;
             }
             
             .yaslo-invoice-table td {
-                padding: 4px 2px;
-                border-bottom: none;
-                font-size: 10px;
+                padding: 10px 8px;
+                border-bottom: 1px solid #eef2f7;
+                font-size: 12px;
             }
             
             .yaslo-invoice-table .text-right {
@@ -96,33 +105,38 @@
             }
             
             .yaslo-invoice-summary {
-                border-top: 1px dashed #000;
-                padding-top: 10px;
-                margin-top: 10px;
-                font-size: 10px;
+                border-top: 1px solid #e5e7eb;
+                padding-top: 12px;
+                margin-top: 12px;
+                font-size: 12px;
+                display: grid;
+                gap: 6px;
             }
             
             .summary-row {
                 display: flex;
                 justify-content: space-between;
-                margin: 3px 0;
+                color: #475569;
+                font-weight: 600;
             }
             
             .summary-row.total {
-                font-weight: bold;
-                font-size: 12px;
-                margin-top: 8px;
+                font-weight: 800;
+                font-size: 14px;
+                margin-top: 6px;
                 padding-top: 8px;
-                border-top: 1px solid #000;
+                border-top: 1px dashed #e2e8f0;
+                color: #1b77d3;
             }
             
             .yaslo-invoice-footer {
-                margin-top: 15px;
+                margin-top: 18px;
                 text-align: center;
-                font-size: 9px;
-                border-top: 1px dashed #000;
-                padding-top: 10px;
+                font-size: 10px;
+                border-top: 1px solid #eef2f7;
+                padding-top: 12px;
                 line-height: 1.4;
+                color: #64748b;
             }
 
             .mb-1 {
@@ -182,29 +196,29 @@
 
             /* Botones personalizados */
             .yaslo-btn {
-                padding: 8px 15px;
-                border: 1px solid #000;
-                background: #fff;
-                font-size: 11px;
-                font-weight: bold;
+                padding: 10px 18px;
+                border: 1px solid #e2e8f0;
+                background: #f8fafc;
+                font-size: 12px;
+                font-weight: 700;
                 cursor: pointer;
-                font-family: 'Courier New', Courier, monospace;
+                border-radius: 10px;
                 margin: 5px;
+                color: #0f172a;
             }
             .yaslo-btn-print {
-                background: #f5f5f5;
-                color: #000;
+                background: #eef2f7;
             }
             .yaslo-btn-print:hover {
-                background: #e0e0e0;
+                background: #e2e8f0;
             }
             .yaslo-btn-email {
-                background: #000;
+                background: #1b77d3;
                 color: #fff;
-                border-color: #000;
+                border-color: #1b77d3;
             }
             .yaslo-btn-email:hover {
-                background: #333;
+                background: #155fb8;
             }
 
             /* Centrado de botones */
@@ -223,6 +237,8 @@
                 .yaslo-invoice-box {
                     box-shadow: none;
                     margin: 0;
+                    border: none;
+                    border-radius: 0;
                 }
                 .yaslo-btn-group {
                     display: none !important;
