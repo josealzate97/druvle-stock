@@ -1,5 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Users Js Loaded!");
+
+    const searchInput = document.getElementById('usersSearch');
+    const roleSelect = document.getElementById('usersRoleFilter');
+    const table = document.querySelector('.section-table');
+
+    if (searchInput && roleSelect && table) {
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+        const filterRows = () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const role = roleSelect.value;
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesRole = !role || row.dataset.role === role;
+                row.style.display = matchesQuery && matchesRole ? '' : 'none';
+            });
+        };
+
+        searchInput.addEventListener('input', filterRows);
+        roleSelect.addEventListener('change', filterRows);
+    }
 });
 
 const notyf = new Notyf();
@@ -177,4 +200,3 @@ async function activateUser(userId) {
 
     }
 }
-

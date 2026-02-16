@@ -51,9 +51,9 @@
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
-                    <input type="text" class="form-control form-control-sm" placeholder="Buscar categoría...">
+                    <input type="text" class="form-control form-control-sm" id="categoriesSearch" placeholder="Buscar categoría...">
                 </div>
-                <select class="form-select form-select-sm section-filter">
+                <select class="form-select form-select-sm section-filter" id="categoriesStatusFilter">
                     <option value="">Todos los estados</option>
                     <option value="active">Activo</option>
                     <option value="inactive">Inactivo</option>
@@ -85,7 +85,7 @@
 
                         @foreach($categories as $category)
 
-                            <tr data-id="{{ $category->id }}">
+                            <tr data-id="{{ $category->id }}" data-status="{{ $category->status == \App\Models\Category::ACTIVE ? 'active' : 'inactive' }}">
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         <span class="section-avatar" style="background: {{ $category->color }};">

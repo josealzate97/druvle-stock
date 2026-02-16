@@ -2,6 +2,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Products Js Loaded!");
 
+    const searchInput = document.getElementById('productsSearch');
+    const categorySelect = document.getElementById('productsCategoryFilter');
+    const table = document.querySelector('.section-table');
+
+    if (searchInput && categorySelect && table) {
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+        const filterRows = () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const category = categorySelect.value;
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesCategory = !category || row.dataset.category === category;
+                row.style.display = matchesQuery && matchesCategory ? '' : 'none';
+            });
+        };
+
+        searchInput.addEventListener('input', filterRows);
+        categorySelect.addEventListener('change', filterRows);
+    }
+
     const productForm = document.getElementById('productForm');
     const productModalElement = document.getElementById('productModal');
     const productModal = new bootstrap.Modal(productModalElement);

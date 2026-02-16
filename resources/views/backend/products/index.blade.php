@@ -48,10 +48,13 @@
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
-                    <input type="text" class="form-control form-control-sm" placeholder="Buscar producto...">
+                    <input type="text" class="form-control form-control-sm" id="productsSearch" placeholder="Buscar producto...">
                 </div>
-                <select class="form-select form-select-sm section-filter">
+                <select class="form-select form-select-sm section-filter" id="productsCategoryFilter">
                     <option value="">Todas las categorías</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -85,7 +88,7 @@
 
                         @foreach($products as $product)
 
-                            <tr data-id="{{ $product->id }}">
+                            <tr data-id="{{ $product->id }}" data-category="{{ $product->category_id }}">
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         <span class="section-avatar" style="background: {{ $product->category->color }};">

@@ -42,10 +42,13 @@
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
-                    <input type="text" class="form-control form-control-sm" placeholder="Buscar usuario...">
+                    <input type="text" class="form-control form-control-sm" id="usersSearch" placeholder="Buscar usuario...">
                 </div>
-                <select class="form-select form-select-sm section-filter">
+                <select class="form-select form-select-sm section-filter" id="usersRoleFilter">
                     <option value="">Todos los roles</option>
+                    <option value="1">Super Admin</option>
+                    <option value="2">Admin</option>
+                    <option value="3">Cajero</option>
                 </select>
             </div>
             
@@ -69,7 +72,7 @@
 
                         @foreach($users as $user)
 
-                            <tr data-id="{{ $user->id }}">
+                            <tr data-id="{{ $user->id }}" data-role="{{ $user->rol }}">
                                 <td>
                                     <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
                                     <div class="text-muted small">{{ $user->username }}</div>

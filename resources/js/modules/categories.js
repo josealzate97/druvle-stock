@@ -2,6 +2,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Categories JS Loaded!");
 
+    const searchInput = document.getElementById('categoriesSearch');
+    const statusSelect = document.getElementById('categoriesStatusFilter');
+    const table = document.querySelector('.section-table');
+
+    if (searchInput && statusSelect && table) {
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+        const filterRows = () => {
+            const query = searchInput.value.trim().toLowerCase();
+            const status = statusSelect.value;
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesStatus = !status || row.dataset.status === status;
+                row.style.display = matchesQuery && matchesStatus ? '' : 'none';
+            });
+        };
+
+        searchInput.addEventListener('input', filterRows);
+        statusSelect.addEventListener('change', filterRows);
+    }
+
     const categoryForm = document.getElementById('categoryForm');
     const modalTitle = document.getElementById('categoryModalLabel');
     const categoryModalElement = document.getElementById('categoryModal');
