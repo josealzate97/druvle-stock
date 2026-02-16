@@ -1,7 +1,8 @@
 {{-- Puedes guardar esto como un partial: resources/views/components/breadcrumb.blade.php --}}
+
 <nav aria-label="breadcrumb" class="app-breadcrumb">
     
-    <ol class="breadcrumb bg-white px-3 py-2 rounded-3 shadow-sm align-items-center col-12">
+    <ol class="breadcrumb bg-white px-3 py-2 rounded-3 align-items-center col-12">
         
         <li class="breadcrumb-item">
             <a href="{{ route('home') }}" class="breadcrumb-link">

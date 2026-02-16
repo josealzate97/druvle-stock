@@ -35,6 +35,16 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.addEventListener('input', filterRows);
         statusSelect.addEventListener('change', filterRows);
     }
+
+    const url = new URL(window.location.href);
+    const tab = url.searchParams.get('tab');
+    if (tab === 'historial') {
+        const historyTab = document.getElementById('historial-tab');
+        if (historyTab && window.bootstrap?.Tab) {
+            const tabInstance = new window.bootstrap.Tab(historyTab);
+            tabInstance.show();
+        }
+    }
     
 });
 
@@ -463,4 +473,3 @@ window.salesForm = function() {
 
     };
 }
-

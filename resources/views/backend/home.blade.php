@@ -102,7 +102,7 @@
                     <h5>Ventas Recientes</h5>
                     <p>Últimas transacciones registradas y estado actual.</p>
                 </div>
-                <a href="{{ route('sales.index') }}" class="btn btn-link dashboard-link">Ver todo</a>
+                <a href="{{ route('sales.index', ['tab' => 'historial']) }}" class="btn btn-link dashboard-link">Ver todo</a>
             </div>
 
             <div class="table-responsive">
