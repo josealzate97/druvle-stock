@@ -73,7 +73,8 @@
                         <h5>Tendencia de Ventas</h5>
                         <p>Visualización de ventas de los últimos 7 meses con detalle mensual.</p>
                     </div>
-                    <select class="form-select form-select-sm dashboard-select">
+                    <label class="visually-hidden" for="dashboardPeriod">Periodo</label>
+                    <select class="form-select form-select-sm dashboard-select" id="dashboardPeriod" name="dashboardPeriod">
                         <option>Este Año</option>
                     </select>
                 </div>

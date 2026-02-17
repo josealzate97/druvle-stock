@@ -32,7 +32,7 @@
         @endif
 
         <div class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir menú de usuario">
                 <span class="user-avatar">
                     <i class="fa fa-user"></i>
                 </span>
