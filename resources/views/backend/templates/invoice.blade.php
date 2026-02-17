@@ -10,7 +10,7 @@
         <title>Factura #{{ $sale->code ?? '' }}</title>
 
         <!-- Vite Assets -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/vendor.css', 'resources/css/app.css', 'resources/js/app.js'])
 
         <style>
             /* Puedes mover esto a templates.css */

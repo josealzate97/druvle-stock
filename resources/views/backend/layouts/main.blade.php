@@ -14,7 +14,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
 
         <!-- Vite Assets -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/css/sidebar.css'])
+        @vite(['resources/css/vendor.css', 'resources/css/app.css', 'resources/js/app.js', 'resources/css/sidebar.css'])
         @stack('scripts')
 
     </head>

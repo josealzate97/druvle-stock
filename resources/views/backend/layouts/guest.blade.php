@@ -13,7 +13,7 @@
         <title>@yield('title', 'Druvle')</title>
 
         <!-- Vite Assets -->
-        @vite(['resources/css/app.css', 'resources/css/auth.css', 'resources/js/app.js'])
+        @vite(['resources/css/guest.css', 'resources/css/auth.css'])
 
         @stack('scripts')
     

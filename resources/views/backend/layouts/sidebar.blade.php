@@ -1,8 +1,4 @@
 
-@push('scripts')
-    @vite(['resources/css/app.css'])
-@endpush
-
 <div class="sidebar">
 
     <a href="{{ route('home') }}" class="sidebar-brand d-flex">
