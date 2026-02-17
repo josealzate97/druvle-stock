@@ -3,6 +3,7 @@
 @section('title', 'Inicio')
 
 @push('scripts')
+
     <script>
         window.dashboardData = {
             salesTrendLabels: @json($salesTrendLabels ?? []),
@@ -10,7 +11,9 @@
             topCategories: @json($topCategories ?? []),
         };
     </script>
+
     @vite(['resources/js/modules/dashboard.js'])
+    
 @endpush
 
 @section('content')
