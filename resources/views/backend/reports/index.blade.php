@@ -2,6 +2,10 @@
 
 @section('title', 'Reportes & Estadísticas')
 
+@push('styles')
+    @vite(['resources/css/modules/reports.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/reports.js'])
 @endpush

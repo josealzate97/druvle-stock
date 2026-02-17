@@ -1,0 +1,90 @@
+/*** TAXES **/
+.taxes-table thead th {
+  border-bottom: 1px solid #e5eef9;
+  color: #5b6b85;
+  letter-spacing: 0.05em;
+}
+
+.taxes-table tbody tr {
+  border-bottom: 1px solid #eef2f7;
+}
+
+.taxes-table tbody tr:hover {
+  background: #f5f9ff;
+}
+
+.taxes-table .badge.bg-light {
+  background: #eef6ff !important;
+  color: var(--accent-color);
+  border-color: #cfe0f6 !important;
+}
+
+.taxes-table .btn-outline-primary {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+}
+
+.taxes-table .btn-outline-primary:hover {
+  background: var(--accent-color);
+  color: #ffffff;
+}
+
+body.theme-dark .settings-tabs {
+  background: #0f141b;
+  border-color: #2b313c;
+  box-shadow: none;
+}
+
+body.theme-dark .settings-tabs .nav-link {
+  color: #cbd5e1;
+}
+
+body.theme-dark .settings-tabs .nav-link.active {
+  background: #1b77d3;
+  color: #ffffff;
+}
+
+body.theme-dark .settings-hero {
+  background: linear-gradient(135deg, #0f141b 0%, #151c26 100%);
+  border-color: #2b313c;
+}
+
+body.theme-dark .settings-hero .section-hero-icon {
+  background: #1f2430;
+  color: #a5b4fc;
+}
+
+body.theme-dark .section-hero .section-hero-icon {
+  background: #1f2430;
+  color: #a78bfa;
+  box-shadow: none;
+}
+
+body.theme-dark .settings-section-title {
+  color: #94a3b8;
+}
+
+body.theme-dark .settings-form-card .form-control {
+  background: #0f141b;
+  border-color: #2b313c;
+  color: #e5e7eb;
+}
+
+body.theme-dark .taxes-table thead th {
+  border-color: #2b313c;
+  color: #94a3b8;
+}
+
+body.theme-dark .taxes-table tbody tr {
+  border-color: #1f2633;
+}
+
+body.theme-dark .taxes-table tbody tr:hover {
+  background: rgba(27, 119, 211, 0.12);
+}
+
+body.theme-dark .taxes-table .badge.bg-light {
+  background: #13233a !important;
+  color: #93c5fd;
+  border-color: #1f3657 !important;
+}

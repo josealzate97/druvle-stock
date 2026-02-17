@@ -1,4 +1,8 @@
 
+@push('styles')
+    @vite(['resources/css/modules/modals.css'])
+@endpush
+
 <div class="modal-header align-items-start">
     <div class="modal-title-block">
         <h4 class="modal-title mb-1" id="refundModalLabel">

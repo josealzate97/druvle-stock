@@ -2,6 +2,10 @@
 
 @section('title', 'Configuración')
 
+@push('styles')
+    @vite(['resources/css/modules/settings.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/settings.js'])
 @endpush

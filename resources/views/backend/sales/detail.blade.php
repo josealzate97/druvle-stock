@@ -1,3 +1,7 @@
+@push('styles')
+    @vite(['resources/css/modules/modals.css', 'resources/css/modules/sale-detail.css'])
+@endpush
+
 <div class="modal fade" id="saleDetailModal" tabindex="-1" aria-labelledby="saleDetailModalLabel" aria-hidden="true">
   
     <div class="modal-dialog modal-xl">

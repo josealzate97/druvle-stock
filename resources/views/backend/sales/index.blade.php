@@ -2,6 +2,10 @@
 
 @section('title', 'Ventas')
 
+@push('styles')
+    @vite(['resources/css/modules/sales.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/sales.js'])
 @endpush

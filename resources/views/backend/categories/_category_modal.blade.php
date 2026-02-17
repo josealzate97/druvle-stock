@@ -1,3 +1,7 @@
+@push('styles')
+  @vite(['resources/css/modules/modals.css'])
+@endpush
+
 <!-- Modal Crear/Editar Categoría -->
 <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
   

@@ -1,4 +1,8 @@
 
+@push('styles')
+    @vite(['resources/css/modules/modals.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/taxes.js'])
 @endpush

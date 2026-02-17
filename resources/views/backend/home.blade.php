@@ -2,6 +2,10 @@
 
 @section('title', 'Inicio')
 
+@push('styles')
+    @vite(['resources/css/modules/dashboard.css'])
+@endpush
+
 @push('scripts')
 
     <script>

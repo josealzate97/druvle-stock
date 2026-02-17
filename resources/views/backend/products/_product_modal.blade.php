@@ -1,4 +1,8 @@
 
+@push('styles')
+  @vite(['resources/css/modules/modals.css'])
+@endpush
+
 <!-- Modal Crear/Editar Producto -->
 <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
   

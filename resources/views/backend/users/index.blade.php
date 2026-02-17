@@ -2,6 +2,10 @@
 
 @section('title', 'Gestión de Usuario')
 
+@push('styles')
+    @vite(['resources/css/modules/users.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/users.js'])
 @endpush

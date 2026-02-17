@@ -1,0 +1,56 @@
+/*** SETTINGS **/
+.settings-tabs {
+  border: 1px solid #dbe7f7;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(27, 119, 211, 0.08);
+}
+
+.settings-tabs .nav-link {
+  border-radius: 999px;
+  font-weight: 700;
+  color: #3b4a6b;
+}
+
+.settings-tabs .nav-link.active {
+  background: var(--accent-color);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(27, 119, 211, 0.2);
+}
+
+.settings-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%);
+  border: 1px solid #dbe7f7;
+}
+
+.settings-hero .section-hero-icon {
+  background: var(--blue-100);
+  color: var(--accent-color);
+  box-shadow: 0 6px 14px rgba(27, 119, 211, 0.18);
+}
+
+.settings-edit-btn {
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.settings-section-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: 0.25rem;
+}
+
+.settings-form-card .form-control {
+  border-radius: 10px;
+  border: 1px solid #dbe7f7;
+  background: #f7faff;
+  font-weight: 600;
+  color: #334155;
+}
+
+.settings-form-card .form-control:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.2rem rgba(27, 119, 211, 0.15);
+}

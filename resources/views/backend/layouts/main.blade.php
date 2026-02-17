@@ -15,6 +15,7 @@
 
         <!-- Vite Assets -->
         @vite(['resources/css/vendor.css', 'resources/css/app.css', 'resources/js/app.js', 'resources/css/sidebar.css'])
+        @stack('styles')
         @stack('scripts')
 
     </head>

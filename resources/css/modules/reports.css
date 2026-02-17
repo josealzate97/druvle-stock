@@ -1,0 +1,33 @@
+/*** REPORTS LOADER **/
+.reports-loader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  color: #475569;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.loader-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #cbd5f5;
+  border-top-color: #1b77d3;
+  animation: spin 0.8s linear infinite;
+}
+
+.loader-text {
+  font-size: 0.85rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
