@@ -3,7 +3,6 @@
 @section('title', 'Inicio')
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="" crossorigin="anonymous"></script>
     <script>
         window.dashboardData = {
             salesTrendLabels: @json($salesTrendLabels ?? []),

@@ -2,8 +2,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = window.dashboardData || {};
     let trendChart = null;
     let donutChart = null;
+    let ChartLib = null;
 
-    const renderCharts = () => {
+    const loadChartLib = async () => {
+        if (!ChartLib) {
+            const mod = await import('chart.js/auto');
+            ChartLib = mod.default;
+        }
+        return ChartLib;
+    };
+
+    const renderCharts = async () => {
+        const Chart = await loadChartLib();
         const isDark = document.body.classList.contains('theme-dark');
         const axisColor = isDark ? '#94a3b8' : '#94a3b8';
         const gridColor = isDark ? '#2b313c' : '#eef2f7';
@@ -12,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const donutBorder = isDark ? '#14171d' : '#ffffff';
 
         const trendCtx = document.getElementById('salesTrendChart');
-        if (trendCtx && window.Chart) {
+        if (trendCtx) {
             if (trendChart) {
                 trendChart.destroy();
             }
@@ -61,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const donutCtx = document.getElementById('topCategoriesChart');
-        if (donutCtx && window.Chart) {
+        if (donutCtx) {
             if (donutChart) {
                 donutChart.destroy();
             }

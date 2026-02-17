@@ -9,11 +9,8 @@
         
         <title>Factura #{{ $sale->code ?? '' }}</title>
 
-        <!-- Notyf CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-        
-        <!-- Notyf JS -->
-        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+        <!-- Vite Assets -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <style>
             /* Estilo Ticket Térmico */
