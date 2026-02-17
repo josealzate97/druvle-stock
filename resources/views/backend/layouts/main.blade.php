@@ -10,7 +10,7 @@
         <title>@yield('title', 'Druvle')</title>
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
 
         <!-- CSS - Font Awesome 6.5.2 -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="" crossorigin="anonymous" referrerpolicy="no-referrer" />

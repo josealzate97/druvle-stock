@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Todos los campos son obligatorios");
             }
 
-            // Podrías agregar más validaciones aquí
         });
 
     }

@@ -373,6 +373,89 @@ html, body {
   background: #dedfe0;
 }
 
+/** SETTINGS **/
+.settings-tabs {
+  border-radius: 14px 14px 0 0;
+  border: 1px solid #e6ebf2;
+  border-bottom: 0;
+  background: #ffffff;
+  margin-bottom: 0 !important;
+  padding: 0.5rem;
+}
+
+.settings-tabs .nav-link {
+  border-radius: 10px;
+  font-weight: 700;
+  color: #6b7280;
+  background: #f3f5f8;
+  border: 1px solid #e6ebf2;
+  padding: 0.55rem 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.settings-tabs .nav-link i {
+  color: inherit;
+}
+
+.settings-tabs .nav-link:hover {
+  color: #1b77d3;
+  background: #edf3ff;
+  border-color: #d6e5fb;
+}
+
+.settings-tabs .nav-link.active {
+  color: #0b4e91;
+  background: #ffffff;
+  border-color: #d6e5fb;
+  box-shadow: 0 6px 12px rgba(27, 119, 211, 0.12);
+  transform: translateY(1px);
+  position: relative;
+  z-index: 2;
+}
+
+.settings-tabs .nav-link.active::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: -6px;
+  height: 6px;
+  background: #ffffff;
+}
+
+.settings-content {
+  border: 1px solid #e6ebf2;
+  border-radius: 0 0 14px 14px;
+  background: #ffffff;
+  padding: 1.5rem;
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+}
+
+.settings-content .settings-hero,
+.settings-content .settings-form-card,
+.settings-content .section-card {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.settings-content .settings-hero {
+  padding-top: 0;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eef1f5;
+  margin-bottom: 1.25rem;
+}
+
+.settings-content .settings-form-card {
+  margin-top: 0;
+}
+
+.settings-content #taxes .section-card {
+  margin-top: 0;
+}
+
 .section-search {
   position: relative;
   width: 320px;

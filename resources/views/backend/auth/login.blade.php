@@ -9,13 +9,18 @@
 @section('content')
 
     <div class="login-split">
+
         <div class="login-panel login-panel--brand">
+
             <div class="brand-content">
+
                 <div class="login-hero-icon">
                     <i class="fas fa-right-to-bracket"></i>
                 </div>
+
                 <h1>Druvle</h1>
                 <p>Gestiona inventario, ventas y reportes con claridad.</p>
+
                 <div class="brand-stats">
                     <div>
                         <span>Panel</span>
@@ -26,11 +31,15 @@
                         <strong>En tiempo real</strong>
                     </div>
                 </div>
+
             </div>
+
         </div>
 
         <div class="login-panel login-panel--form">
+
             <div class="login-card">
+
                 <div class="login-card__brand">
                     <div class="login-hero-icon login-hero-icon--sm">
                         <i class="fas fa-right-to-bracket"></i>
@@ -42,6 +51,7 @@
                 </div>
 
                 <form id="loginForm" method="POST" action="{{ route('login') }}" class="login-form">
+                    
                     @csrf
 
                     <div class="login-field">
@@ -66,6 +76,7 @@
                 </form>
 
             @if ($errors->any())
+
                 <div class="login-alert">
                     <i class="fas fa-circle-exclamation"></i>
                     <div>
@@ -73,9 +84,10 @@
                         <span>Usuario o contraseña incorrectos.</span>
                     </div>
                 </div>
+
             @endif
         </div>
-        </div>
+
     </div>
 
 @endsection

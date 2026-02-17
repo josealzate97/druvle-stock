@@ -35,7 +35,7 @@
             </ul>
         </div>
 
-        <div class="tab-content" id="settingsTabsContent">
+        <div class="tab-content settings-content" id="settingsTabsContent">
 
             <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab" x-data="settingsForm({
                 id: '{{ $settings->id }}',
