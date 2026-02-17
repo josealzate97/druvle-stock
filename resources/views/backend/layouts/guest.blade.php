@@ -6,6 +6,7 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="@yield('meta_description', 'Druvle: acceso seguro al panel de inventario, ventas y reportes.')">
 
         <link rel="icon" type="image/x-icon" href="{{ asset('images/icon.png') }}">
 
@@ -27,7 +28,7 @@
     
     </head>
 
-    <body style="min-height:100vh; @if(request()->is('login')) background: url('{{ asset('images/login_bg.png') }}') no-repeat center center fixed; background-size: cover; @endif">
+    <body>
         <main role="main">
             @yield('content')
         </main>

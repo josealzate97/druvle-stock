@@ -5,6 +5,7 @@
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="@yield('meta_description', 'Druvle: panel de gestión de inventario, ventas y reportes en tiempo real.')">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>@yield('title', 'Druvle')</title>
@@ -40,7 +41,9 @@
     </head>
 
     <body>
+
         <script>
+
             (() => {
                 try {
                     const savedTheme = localStorage.getItem('theme-mode');
@@ -49,8 +52,11 @@
                     }
                 } catch (e) {}
             })();
+
         </script>
+
         <div id="loading-overlay" class="page-loader-overlay" aria-live="polite">
+
             <div class="page-loader">
                 <div class="page-loader__orbit">
                     <span></span><span></span><span></span>
@@ -60,6 +66,7 @@
                     <span>Cargando recursos...</span>
                 </div>
             </div>
+            
         </div>
 
         <div class="wrapper d-flex">

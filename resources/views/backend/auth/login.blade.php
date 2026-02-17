@@ -1,6 +1,7 @@
 @extends('backend.layouts.guest')
 
 @section('title', 'Login')
+@section('meta_description', 'Inicia sesión en Druvle para gestionar inventario, ventas y reportes.')
 
 @push('scripts')
     @vite(['resources/js/modules/auth.js'])
