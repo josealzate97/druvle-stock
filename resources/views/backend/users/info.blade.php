@@ -45,7 +45,7 @@
                     </div>
                     <div>
                         <h3 class="fw-bold mb-1">Información del Usuario</h3>
-                        <div class="text-muted fw-bold small">{{ $user->name }} {{ $user->lastname }}</div>
+                        <div class="text-muted fw-bold small user-info-subtitle">{{ $user->name }} {{ $user->lastname }}</div>
                     </div>
                 </div>
 

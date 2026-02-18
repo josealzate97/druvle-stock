@@ -1161,6 +1161,10 @@ body.theme-dark .sales-action-card .form-select {
   color: #e5e7eb;
 }
 
+body.theme-dark .sales-client-card .form-label {
+  color: #94a3b8;
+}
+
 body.theme-dark .sales-switch {
   background: #1a1f27;
   border-color: #2b313c;

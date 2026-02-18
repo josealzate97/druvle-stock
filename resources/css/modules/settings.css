@@ -17,6 +17,12 @@
   box-shadow: 0 8px 18px rgba(27, 119, 211, 0.2);
 }
 
+.settings-content {
+  border: 1px solid #dbe7f7;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.06);
+}
+
 .settings-hero {
   background: linear-gradient(135deg, #ffffff 0%, #f5f9ff 100%);
   border: 1px solid #dbe7f7;
@@ -53,4 +59,10 @@
 .settings-form-card .form-control:focus {
   border-color: var(--accent-color);
   box-shadow: 0 0 0 0.2rem rgba(27, 119, 211, 0.15);
+}
+
+body.theme-dark .settings-content {
+  background: #14171d;
+  border-color: #1f2329;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }

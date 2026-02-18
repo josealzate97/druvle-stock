@@ -51,6 +51,14 @@
   color: #64748b;
 }
 
+body.theme-dark .user-info-subtitle {
+  color: #94a3b8;
+}
+
+body.theme-dark .user-info-section-title {
+  color: #94a3b8;
+}
+
 .user-info-form .form-control,
 .user-info-form select {
   border-radius: 10px;

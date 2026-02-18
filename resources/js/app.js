@@ -102,7 +102,7 @@ function getActiveNav(currentPath, links) {
 
         let linkPath = link.getAttribute('url'); // ya no necesitas replace
         
-        if (linkPath === currentPath) {
+        if (linkPath === currentPath || currentPath.startsWith(`${linkPath}/`)) {
             link.classList.add('active');
             localStorage.setItem('sidebar-active', linkPath);
         }

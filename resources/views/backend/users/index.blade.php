@@ -46,8 +46,10 @@
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
+                    <label class="visually-hidden" for="usersSearch">Buscar usuario</label>
                     <input type="text" class="form-control form-control-sm" id="usersSearch" placeholder="Buscar usuario...">
                 </div>
+                <label class="visually-hidden" for="usersRoleFilter">Filtrar por rol</label>
                 <select class="form-select form-select-sm section-filter" id="usersRoleFilter">
                     <option value="">Todos los roles</option>
                     <option value="1">Super Admin</option>
@@ -95,19 +97,24 @@
                                 </td>
                                 <td class="text-end">
 
-                                    <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit" title="Editar">
+                                    <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit"
+                                       aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
                                          <i class="fas fa-edit mt-1"></i>
                                     </a>
 
                                     @if($user->status == \App\Models\User::ACTIVE)
                                         
-                                        <button class="btn btn-icon text-danger" data-id="{{ $user->id }}" onclick="deleteUser(this.getAttribute('data-id'))">
+                                        <button class="btn btn-icon text-danger" data-id="{{ $user->id }}"
+                                            aria-label="Desactivar usuario {{ $user->name }} {{ $user->lastname }}" title="Desactivar usuario {{ $user->name }} {{ $user->lastname }}"
+                                            onclick="deleteUser(this.getAttribute('data-id'))">
                                             <i class="fas fa-trash"></i>
                                         </button>
 
                                     @else
 
-                                        <button class="btn btn-icon text-success" data-id="{{ $user->id }}" onclick="activateUser(this.getAttribute('data-id'))">
+                                        <button class="btn btn-icon text-success" data-id="{{ $user->id }}"
+                                            aria-label="Activar usuario {{ $user->name }} {{ $user->lastname }}" title="Activar usuario {{ $user->name }} {{ $user->lastname }}"
+                                            onclick="activateUser(this.getAttribute('data-id'))">
                                             <i class="fas fa-check"></i>
                                         </button>
 
