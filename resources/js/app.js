@@ -1,5 +1,5 @@
 import './sidebar-toggle';
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
 import { Notyf } from 'notyf';
 import Alpine from 'alpinejs';
 import IMask from 'imask';
@@ -7,10 +7,11 @@ import IMask from 'imask';
 window.Notyf = Notyf;
 window.IMask = IMask;
 window.Alpine = Alpine;
-Alpine.start();
+window.bootstrap = bootstrap;
 
 // Crear y mostrar overlay de cargando
 document.addEventListener("DOMContentLoaded", () => {
+    Alpine.start();
 
     // console.log("App Js loadead!");
 

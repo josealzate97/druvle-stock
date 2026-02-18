@@ -51,8 +51,10 @@
             <div class="section-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
+                    <label class="visually-hidden" for="categoriesSearch">Buscar categoría</label>
                     <input type="text" class="form-control form-control-sm" id="categoriesSearch" placeholder="Buscar categoría...">
                 </div>
+                <label class="visually-hidden" for="categoriesStatusFilter">Filtrar por estado</label>
                 <select class="form-select form-select-sm section-filter" id="categoriesStatusFilter">
                     <option value="">Todos los estados</option>
                     <option value="active">Activo</option>
@@ -109,18 +111,21 @@
                                 <td class="text-end">
 
                                     <button onclick="editCategory('{{ $category->id }}')" class="btn btn-icon text-primary" data-bs-mode="edit"
+                                    aria-label="Editar categoría {{ $category->name }}" title="Editar categoría {{ $category->name }}"
                                     {{ $category->status == \App\Models\Category::INACTIVE ? 'disabled' : '' }}>
                                         <i class="fas fa-edit"></i>
                                     </button>
 
                                     @if($category->status == \App\Models\Category::ACTIVE)
                                         
-                                        <button class="btn btn-icon text-danger" onclick="deleteCategory('{{ $category->id }}')">
+                                        <button class="btn btn-icon text-danger" onclick="deleteCategory('{{ $category->id }}')"
+                                        aria-label="Desactivar categoría {{ $category->name }}" title="Desactivar categoría {{ $category->name }}">
                                             <i class="fas fa-trash"></i>
                                         </button>
 
                                     @else
-                                        <button class="btn btn-icon text-success" onclick="activateCategory('{{ $category->id }}')">
+                                        <button class="btn btn-icon text-success" onclick="activateCategory('{{ $category->id }}')"
+                                        aria-label="Activar categoría {{ $category->name }}" title="Activar categoría {{ $category->name }}">
                                             <i class="fas fa-check"></i>
                                         </button>
                                     @endif
