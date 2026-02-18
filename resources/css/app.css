@@ -346,6 +346,13 @@ html, body {
   font-size: 18px;
 }
 
+body.theme-dark .section-hero-icon {
+  background: linear-gradient(135deg, #1a2230 0%, #202a3a 100%);
+  color: #a78bfa;
+  border: 1px solid #2b313c;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
 .section-hero-actions .btn {
   border-radius: 10px;
   padding: 0.45rem 0.9rem;
@@ -363,7 +370,7 @@ html, body {
   gap: 1rem;
   padding: 1rem 1.25rem;
   border-bottom: 1px solid #eef1f5;
-  background: #dedfe0;
+  background: #d8ebff;
 }
 
 /** SETTINGS **/
@@ -506,6 +513,15 @@ html, body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.sale-code-badge {
+  background: #e8f1ff;
+  color: #1b77d3;
+  font-weight: 700;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #dbe9ff;
 }
 
 .status-pill {

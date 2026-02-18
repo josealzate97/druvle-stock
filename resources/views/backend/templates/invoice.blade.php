@@ -25,12 +25,12 @@
                 font-size: 16px;
             }
             .druvle-invoice-header {
-                border-bottom: 2px solid #1eae6b;
+                border-bottom: 2px solid #1b77d3;
                 padding-bottom: 12px;
                 margin-bottom: 24px;
             }
             .druvle-invoice-title {
-                color: #1eae6b;
+                color: #1b77d3;
                 font-size: 2rem;
                 font-weight: bold;
             }
@@ -44,7 +44,7 @@
             }
             .druvle-invoice-table th {
                 background: #f5f5f5;
-                color: #1eae6b;
+                color: #1b77d3;
                 font-weight: bold;
                 padding: 8px;
                 border-bottom: 1px solid #e0e0e0;
@@ -129,7 +129,7 @@
                 cursor: pointer;
                 transition: background 0.2s, box-shadow 0.2s;
                 margin: 0 0.5rem;
-                box-shadow: 0 2px 8px rgba(30,174,107,0.07);
+                box-shadow: 0 2px 8px rgba(27,119,211,0.07);
             }
             .druvle-btn-print {
                 background: #e0e0e0;
@@ -139,11 +139,11 @@
                 background: #bdbdbd;
             }
             .druvle-btn-email {
-                background: #1eae6b;
+                background: #1b77d3;
                 color: #fff;
             }
             .druvle-btn-email:hover {
-                background: #159c5c;
+                background: #155fb8;
             }
 
             /* Centrado de botones */
@@ -160,7 +160,7 @@
                 position: fixed;
                 top: 0; left: 0;
                 width: 100vw; height: 100vh;
-                background: rgba(30,174,107,0.12);
+                background: rgba(27,119,211,0.12);
                 justify-content: center;
                 align-items: center;
                 z-index: 9999;
@@ -201,16 +201,16 @@
                 font-size: 1rem;
                 color: #222;
                 background-color: #f8f9fa;
-                border: 1px solid #d1e7dd;
+                border: 1px solid #dbe9ff;
                 border-radius: 6px;
                 transition: border-color 0.2s, box-shadow 0.2s;
                 box-sizing: border-box;
             }
 
             .form-control:focus {
-                border-color: #1eae6b;
+                border-color: #1b77d3;
                 outline: none;
-                box-shadow: 0 0 0 2px rgba(30,174,107,0.15);
+                box-shadow: 0 0 0 2px rgba(27,119,211,0.15);
             }
 
         </style>
@@ -288,7 +288,7 @@
             <div class="druvle-invoice-summary mt-2">
                 <div class="mt-2"><strong>Subtotal:</strong> {{ number_format($sale->subtotal, 2) }} €</div>
                 <div class="mb-3"><strong>Impuestos:</strong> {{ number_format($sale->tax, 2) }} €</div>
-                <div style="font-weight:bold; color:#1eae6b;"><span>Total:</span> {{ number_format($sale->total, 2) }} €</div>
+                <div style="font-weight:bold; color:#1b77d3;"><span>Total:</span> {{ number_format($sale->total, 2) }} €</div>
             </div>
 
             <div class="druvle-invoice-footer">
@@ -310,7 +310,7 @@
             <div class="druvle-modal-content">
                 
                 <button class="druvle-modal-close" onclick="closeEmailModal()">&times;</button>
-                <h3 class="mb-3" style="color:#1eae6b;">Enviar factura por email</h3>
+                <h3 class="mb-3" style="color:#1b77d3;">Enviar factura por email</h3>
                 
                 <label class="fw-bold mb-2">Email destino</label><br>
                 <input type="email" id="emailDestino" class="form-control mb-3" value="{{ $sale->client->email ?? '' }}">

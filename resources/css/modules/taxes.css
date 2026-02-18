@@ -50,14 +50,17 @@ body.theme-dark .settings-hero {
 }
 
 body.theme-dark .settings-hero .section-hero-icon {
-  background: #1f2430;
+  background: linear-gradient(135deg, #1a2230 0%, #202a3a 100%);
   color: #a5b4fc;
+  border: 1px solid #2b313c;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 body.theme-dark .section-hero .section-hero-icon {
-  background: #1f2430;
+  background: linear-gradient(135deg, #1a2230 0%, #202a3a 100%);
   color: #a78bfa;
-  box-shadow: none;
+  border: 1px solid #2b313c;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
 }
 
 body.theme-dark .settings-section-title {
