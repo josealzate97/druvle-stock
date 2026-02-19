@@ -22,7 +22,7 @@
 
   --black: #111111;
   --white: #ffff;
-  
+
   --dark: #121212;
   --gray: #d1d5db;
 
@@ -39,17 +39,17 @@ html, body {
 }
 
 .main-content {
-    flex: 1 1 0%;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: transparent; /* Deja transparente aquí */
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: transparent; /* Deja transparente aquí */
 }
 
 .container-fluid {
-    flex: 1 1 0%;
-    background-color: var(--bg-breadcrumb); /* Tu gris claro */
-    min-height: 100vh;
+  flex: 1 1 0%;
+  background-color: var(--bg-breadcrumb); /* Tu gris claro */
+  min-height: 100vh;
 }
 
 /** Utilidades **/
@@ -1342,98 +1342,98 @@ body.theme-dark .form-modal .btn-outline-secondary:hover {
 
 /* Tamaño grande para el switch */
 .form-switch.form-switch-lg .form-check-input {
-    width: 3em !important;
-    height: 1.5em !important;
-    font-size: 1.25em !important;
+  width: 3em !important;
+  height: 1.5em !important;
+  font-size: 1.25em !important;
 }
  
 /* Color verde cuando está activado */
 .custom-switch-success:checked {
-    background-color: var(--accent-color) !important;
-    border-color: var(--dark-accent-color) !important;
+  background-color: var(--accent-color) !important;
+  border-color: var(--dark-accent-color) !important;
 }
 
 
 /* Estilo general para los tabs (pestañas reales) */
 .nav-pills {
-    border-bottom: 1px solid #e2e8f0;
-    gap: 0.5rem;
-    padding: 0 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 .nav-pills .nav-link {
-    border-radius: 10px 10px 0 0;
-    color: #475569 !important;
-    font-weight: 700 !important;
-    background-color: #f1f5f9;
-    border: 1px solid #e2e8f0;
-    border-bottom-color: transparent;
-    padding: 0.55rem 1rem;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+  border-radius: 10px 10px 0 0;
+  color: #475569 !important;
+  font-weight: 700 !important;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-bottom-color: transparent;
+  padding: 0.55rem 1rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
 }
 
 .nav-pills .nav-link.active {
-    color: #1b77d3 !important;
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    border-bottom-color: #ffffff !important;
-    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.12);
-    position: relative;
-    top: 1px;
+  color: #1b77d3 !important;
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  border-bottom-color: #ffffff !important;
+  box-shadow: 0 6px 12px rgba(15, 23, 42, 0.12);
+  position: relative;
+  top: 1px;
 }
 
 .nav-pills .nav-link:hover {
-    background-color: #e9eff8;
-    color: #1b77d3;
+  background-color: #e9eff8;
+  color: #1b77d3;
 }
 
 /* Contenedor del paginador */
 .pagination {
-    justify-content: center;
-    margin-top: 20px;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 /* Botones del paginador */
 .pagination .page-item .page-link {
-    color: #000;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin: 0 5px;
-    transition: all 0.3s ease;
+  color: #000;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 0 5px;
+  transition: all 0.3s ease;
 }
 
 /* Hover en los botones */
 .pagination .page-item .page-link:hover {
-    background-color: #e9ecef;
-    color: #000;
+  background-color: #e9ecef;
+  color: #000;
 }
 
 /* Botón activo */
 .pagination .page-item.active .page-link {
-    background-color: var(--accent-color);
-    color: #fff;
-    border-color: var(--dark-accent-color);
+  background-color: var(--accent-color);
+  color: #fff;
+  border-color: var(--dark-accent-color);
 }
 
 /* Botones deshabilitados */
 .pagination .page-item.disabled .page-link {
-    color: #6c757d;
-    background-color: #f8f9fa;
-    border-color: #ddd;
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-color: #ddd;
 }
 
 /* Campo válido */
 .valid-input {
-    border: 2px solid #1b77d3;
-    background-color: #e9f7ef;
+  border: 2px solid #1b77d3;
+  background-color: #e9f7ef;
 }
 
 /* Campo inválido */
 .invalid-input {
-    border: 2px solid #dc3545;
-    background-color: #f8d7da;
+  border: 2px solid #dc3545;
+  background-color: #f8d7da;
 }
 
 /* Móviles pequeños (teléfonos en vertical) */
