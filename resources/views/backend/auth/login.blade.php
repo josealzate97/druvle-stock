@@ -15,11 +15,13 @@
 
             <div class="brand-content">
 
-                <div class="login-hero-icon">
-                    <i class="fas fa-right-to-bracket"></i>
+                <div class="brand-title">
+                    <div class="login-hero-icon">
+                        <i class="fas fa-right-to-bracket"></i>
+                    </div>
+                    <h1>Druvle</h1>
                 </div>
 
-                <h1>Druvle</h1>
                 <p>Gestiona inventario, ventas y reportes con claridad.</p>
 
                 <div class="brand-stats">
@@ -78,12 +80,15 @@
 
             @if ($errors->any())
 
-                <div class="login-alert">
+                <div class="login-alert" id="loginErrorAlert" role="alert" aria-live="assertive">
                     <i class="fas fa-circle-exclamation"></i>
                     <div>
                         <strong>Ups, algo salió mal</strong>
                         <span>Usuario o contraseña incorrectos.</span>
                     </div>
+                    <button type="button" class="login-alert__close" aria-label="Cerrar mensaje de error">
+                        <i class="fas fa-xmark"></i>
+                    </button>
                 </div>
 
             @endif
