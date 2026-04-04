@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const data = window.dashboardData || {};
+    const periodSelect = document.getElementById('dashboardPeriod');
+    const trendDescription = document.getElementById('dashboardTrendDescription');
     let trendChart = null;
     let donutChart = null;
     let ChartLib = null;
@@ -20,6 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const lineColor = isDark ? '#9cc8ff' : '#1b77d3';
         const lineFill = isDark ? 'rgba(156, 200, 255, 0.18)' : 'rgba(27, 119, 211, 0.12)';
         const donutBorder = isDark ? '#14171d' : '#ffffff';
+        const periodMap = data.salesTrendByPeriod || {};
+        const fallbackPeriod = data.defaultSalesPeriod || 'monthly';
+        const selectedPeriod = periodSelect?.value || fallbackPeriod;
+        const periodData = periodMap[selectedPeriod] || periodMap[fallbackPeriod] || { labels: [], values: [], description: '' };
 
         const trendCtx = document.getElementById('salesTrendChart');
         if (trendCtx) {
@@ -30,11 +36,11 @@ document.addEventListener('DOMContentLoaded', () => {
             trendChart = new Chart(trendCtx, {
                 type: 'line',
                 data: {
-                    labels: data.salesTrendLabels || [],
+                    labels: periodData.labels || [],
                     datasets: [
                         {
                             label: 'Ventas',
-                            data: data.salesTrend || [],
+                            data: periodData.values || [],
                             borderColor: lineColor,
                             backgroundColor: lineFill,
                             fill: true,
@@ -68,6 +74,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                 },
             });
+        }
+
+        if (trendDescription) {
+            trendDescription.textContent = periodData.description || '';
         }
 
         const donutCtx = document.getElementById('topCategoriesChart');
@@ -123,6 +133,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     };
+
+    if (periodSelect) {
+        const initialPeriod = data.defaultSalesPeriod || 'monthly';
+        if ([...periodSelect.options].some((option) => option.value === initialPeriod)) {
+            periodSelect.value = initialPeriod;
+        }
+
+        periodSelect.addEventListener('change', () => {
+            renderCharts();
+        });
+    }
 
     renderCharts();
 

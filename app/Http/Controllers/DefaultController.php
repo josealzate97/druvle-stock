@@ -37,15 +37,65 @@ class DefaultController {
                 ->limit(5)
                 ->get();
 
-            $salesTrend = [];
-            $labels = [];
+            $salesTrendByPeriod = [
+                'weekly' => [
+                    'labels' => [],
+                    'values' => [],
+                    'description' => 'Visualización semanal de ventas de las últimas 8 semanas.',
+                ],
+                'monthly' => [
+                    'labels' => [],
+                    'values' => [],
+                    'description' => 'Visualización de ventas de los últimos 7 meses con detalle mensual.',
+                ],
+                'quarterly' => [
+                    'labels' => [],
+                    'values' => [],
+                    'description' => 'Visualización de ventas de los últimos 4 trimestres.',
+                ],
+                'semiannual' => [
+                    'labels' => [],
+                    'values' => [],
+                    'description' => 'Visualización de ventas de los últimos 4 semestres.',
+                ],
+            ];
+
+            for ($i = 7; $i >= 0; $i--) {
+                $weekStart = Carbon::now()->subWeeks($i)->startOfWeek();
+                $weekEnd = $weekStart->copy()->endOfWeek();
+
+                $salesTrendByPeriod['weekly']['labels'][] = 'Sem ' . $weekStart->format('W');
+                $salesTrendByPeriod['weekly']['values'][] = Sale::whereBetween('created_at', [$weekStart, $weekEnd])->sum('total');
+            }
 
             for ($i = 6; $i >= 0; $i--) {
                 $date = Carbon::now()->subMonths($i);
-                $labels[] = $date->translatedFormat('M');
-                $salesTrend[] = Sale::whereYear('created_at', $date->year)
-                    ->whereMonth('created_at', $date->month)
-                    ->sum('total');
+                $monthStart = $date->copy()->startOfMonth();
+                $monthEnd = $date->copy()->endOfMonth();
+
+                $salesTrendByPeriod['monthly']['labels'][] = $date->translatedFormat('M');
+                $salesTrendByPeriod['monthly']['values'][] = Sale::whereBetween('created_at', [$monthStart, $monthEnd])->sum('total');
+            }
+
+            for ($i = 3; $i >= 0; $i--) {
+                $quarterStart = Carbon::now()->subQuarters($i)->startOfQuarter();
+                $quarterEnd = $quarterStart->copy()->endOfQuarter();
+
+                $salesTrendByPeriod['quarterly']['labels'][] = 'T' . $quarterStart->quarter . ' ' . $quarterStart->year;
+                $salesTrendByPeriod['quarterly']['values'][] = Sale::whereBetween('created_at', [$quarterStart, $quarterEnd])->sum('total');
+            }
+
+            for ($i = 3; $i >= 0; $i--) {
+                $baseDate = Carbon::now()->subMonths($i * 6);
+                $month = (int) $baseDate->format('n');
+                $semesterNumber = $month <= 6 ? 1 : 2;
+                $semesterStartMonth = $semesterNumber === 1 ? 1 : 7;
+
+                $semesterStart = Carbon::create($baseDate->year, $semesterStartMonth, 1)->startOfDay();
+                $semesterEnd = $semesterStart->copy()->addMonths(6)->subDay()->endOfDay();
+
+                $salesTrendByPeriod['semiannual']['labels'][] = 'S' . $semesterNumber . ' ' . $baseDate->year;
+                $salesTrendByPeriod['semiannual']['values'][] = Sale::whereBetween('created_at', [$semesterStart, $semesterEnd])->sum('total');
             }
 
             $topCategories = DB::table('sale_details')
@@ -65,8 +115,8 @@ class DefaultController {
                 'totalSales' => $totalSales,
                 'lowStockCount' => $lowStockCount,
                 'recentSales' => $recentSales,
-                'salesTrend' => $salesTrend,
-                'salesTrendLabels' => $labels,
+                'salesTrendByPeriod' => $salesTrendByPeriod,
+                'defaultSalesPeriod' => 'monthly',
                 'topCategories' => $topCategories,
             ]);
         }

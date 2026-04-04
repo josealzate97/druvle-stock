@@ -10,8 +10,8 @@
 
     <script>
         window.dashboardData = {
-            salesTrendLabels: @json($salesTrendLabels ?? []),
-            salesTrend: @json($salesTrend ?? []),
+            salesTrendByPeriod: @json($salesTrendByPeriod ?? []),
+            defaultSalesPeriod: @json($defaultSalesPeriod ?? 'monthly'),
             topCategories: @json($topCategories ?? []),
         };
     </script>
@@ -75,11 +75,14 @@
                     <div class="dashboard-title">
                         <span class="dashboard-pill">Performance</span>
                         <h5>Tendencia de Ventas</h5>
-                        <p>Visualización de ventas de los últimos 7 meses con detalle mensual.</p>
+                        <p id="dashboardTrendDescription">Visualización de ventas de los últimos 7 meses con detalle mensual.</p>
                     </div>
                     <label class="visually-hidden" for="dashboardPeriod">Periodo</label>
                     <select class="form-select form-select-sm dashboard-select" id="dashboardPeriod" name="dashboardPeriod">
-                        <option>Este Año</option>
+                        <option value="weekly">Semanal</option>
+                        <option value="monthly" selected>Mensual</option>
+                        <option value="quarterly">Trimestral</option>
+                        <option value="semiannual">Semestral</option>
                     </select>
                 </div>
                 <div class="chart-wrapper">
