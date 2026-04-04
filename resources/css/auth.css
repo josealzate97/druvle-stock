@@ -105,7 +105,12 @@
 }
 
 .login-panel--brand {
-  background: linear-gradient(135deg, #1b77d3 0%, #3b82f6 45%, #60a5fa 100%);
+  background:
+    linear-gradient(135deg, rgba(27, 119, 211, 0.58) 0%, rgba(59, 130, 246, 0.48) 45%, rgba(37, 99, 235, 0.42) 100%),
+    var(--login-brand-bg, url('/images/backgrounds/bg_store_1.jpg'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #e2e8f0;
   position: relative;
   overflow: hidden;

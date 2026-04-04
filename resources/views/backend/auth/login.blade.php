@@ -11,7 +11,7 @@
 
     <div class="login-split">
 
-        <div class="login-panel login-panel--brand">
+        <div class="login-panel login-panel--brand" style="--login-brand-bg: url('{{ asset('images/backgrounds/bg_store_1.jpg') }}');">
 
             <div class="brand-content">
 
