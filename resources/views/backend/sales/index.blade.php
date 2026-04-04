@@ -43,13 +43,13 @@
             <ul class="nav nav-pills module-tabs" id="salesTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active fw-bold" id="nueva-venta-tab" data-bs-toggle="pill" data-bs-target="#nueva-venta" type="button" role="tab" aria-controls="nueva-venta" aria-selected="true">
-                        Nueva Venta
+                        <i class="fas fa-plus-circle me-1"></i>Nueva Venta
                     </button>
                 </li>
 
                 <li class="nav-item" role="presentation">
                     <button class="nav-link fw-bold" id="historial-tab" data-bs-toggle="pill" data-bs-target="#historial" type="button" role="tab" aria-controls="historial" aria-selected="false" @click="showModal = false">
-                        Historial de Ventas
+                        <i class="fas fa-list me-1"></i>Historial de Ventas
                     </button>
                 </li>
             </ul>

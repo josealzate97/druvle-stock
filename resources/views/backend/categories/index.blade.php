@@ -95,7 +95,9 @@
                                         </span>
                                         <div>
                                             <div class="fw-bold">{{ $category->name }}</div>
-                                            <div class="text-muted small">{{ $category->abbreviation }}</div>
+                                            <div class="mt-1">
+                                                <span class="table-chip table-chip-abbr">{{ $category->abbreviation }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>

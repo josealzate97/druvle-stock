@@ -87,7 +87,9 @@
                             <tr data-id="{{ $user->id }}" data-role="{{ $user->rol }}">
                                 <td>
                                     <div class="fw-bold">{{ $user->name }} {{ $user->lastname }}</div>
-                                    <div class="text-muted small">{{ $user->username }}</div>
+                                    <div class="mt-1">
+                                        <span class="table-chip table-chip-user">{{ $user->username }}</span>
+                                    </div>
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>

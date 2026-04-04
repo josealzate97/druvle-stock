@@ -3,14 +3,16 @@
     @vite(['resources/css/modules/modals.css'])
 @endpush
 
-<div class="modal-header align-items-start">
+<div class="modal-header align-items-start refund-modal-header">
     <div class="modal-title-block">
         <h4 class="modal-title mb-1" id="refundModalLabel">
-            <i class="fas fa-undo me-2 color-primary"></i>
+            <span class="modal-icon">
+                <i class="fas fa-rotate-left"></i>
+            </span>
             Gestionar Devolución
             <span class="color-primary fw-bold">- Factura {{ $sale->code ?? '' }}</span>
         </h4>
-        <div class="text-muted small">Registra la devolución por producto y su motivo.</div>
+        <div class="modal-subtitle">Registra la devolución por producto y su motivo.</div>
     </div>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
 </div>
@@ -21,9 +23,9 @@
         <div class="text-muted small">Selecciona los productos y cantidades a devolver.</div>
     </div>
 
-    <form id="returnForm">
+    <form id="returnForm" class="refund-form">
 
-        <table class="table table-sm align-middle table-hover">
+        <table class="table table-sm align-middle table-hover refund-table">
 
             <thead>
                 <tr>
@@ -56,7 +58,7 @@
 
                             <input type="number" name="return_quantity[{{ $item->id }}]"
                             min="0" max="{{ $item->quantity }}"
-                            value="0" class="form-control form-control-sm text-center d-inline-block"
+                            value="0" class="form-control form-control-sm text-center d-inline-block refund-qty-input"
                             style="max-width: 90px;"
                             data-price="{{ $item->producto->sale_price }}"
                             data-sale-id="{{ $sale->id }}"
@@ -66,7 +68,7 @@
                         </td>
 
                         <td>
-                            <select name="return_reason[{{ $item->id }}]" class="form-select form-select-sm" required>
+                            <select name="return_reason[{{ $item->id }}]" class="form-select form-select-sm refund-select" required>
                                 <option value="" selected disabled>Acción tomada</option>
                                 <option value="1">Reposición Producto</option>
                                 <option value="2">Producto Dañado</option>
@@ -74,7 +76,7 @@
                         </td>
 
                         <td>
-                            <textarea name="return_note[{{ $item->id }}]" class="form-control form-control-sm" rows="1" placeholder="Opcional"></textarea>
+                            <textarea name="return_note[{{ $item->id }}]" class="form-control form-control-sm refund-note-input" rows="1" placeholder="Opcional"></textarea>
                         </td>
 
                     </tr>
@@ -86,8 +88,9 @@
         </table>
 
         <div class="mt-3 d-flex justify-content-end">
-            <div class="px-3 py-2 border rounded bg-light fw-semibold">
-                Total a Devolver: <span id="totalRefund">0,00 €</span>
+            <div class="refund-total-badge">
+                <span>Total a Devolver:</span>
+                <strong id="totalRefund">0,00 €</strong>
             </div>
         </div>
 

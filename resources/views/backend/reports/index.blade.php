@@ -46,15 +46,21 @@
         <div class="card p-2 mt-4 module-tabs-bar module-tabs-connected">
             <ul class="nav nav-pills module-tabs" id="reportTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" :class="{'active': activeTab === 'productos'}" @click="setTab('productos')">Productos</button>
+                    <button class="nav-link" :class="{'active': activeTab === 'productos'}" @click="setTab('productos')">
+                        <i class="fas fa-boxes-stacked me-1"></i>Productos
+                    </button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" :class="{'active': activeTab === 'ventas'}" @click="setTab('ventas')">Ventas</button>
+                    <button class="nav-link" :class="{'active': activeTab === 'ventas'}" @click="setTab('ventas')">
+                        <i class="fas fa-receipt me-1"></i>Ventas
+                    </button>
                 </li>
 
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" :class="{'active': activeTab === 'impuestos'}" @click="setTab('impuestos')">Impuestos</button>
+                    <button class="nav-link" :class="{'active': activeTab === 'impuestos'}" @click="setTab('impuestos')">
+                        <i class="fas fa-percent me-1"></i>Impuestos
+                    </button>
                 </li>
             </ul>
         </div>
@@ -67,7 +73,7 @@
                 <div x-show="activeTab === 'productos'">
 
                     <!-- Filtro de productos -->
-                    <div class="row mb-3">
+                    <div class="row mb-3 reports-filters">
 
                         <div class="col-3">
                             <input class="form-control" type="date" x-model="filters.productos.from" placeholder="Desde">
@@ -78,16 +84,15 @@
                         </div>
                         
                         <div class="col-3 d-flex gap-2">
-                            <button class="btn btn-outline-success w-100" @click="exportProductos('excel')">
-                                <i class="fas fa-file-excel me-2"></i>Excel
-                            </button>
-                            <button class="btn btn-outline-danger w-100" @click="exportProductos('pdf')">
-                                <i class="fas fa-file-pdf me-2"></i>PDF
+                            <button class="btn reports-export-btn btn-sm w-100" @click="openExportModal('productos')">
+                                <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
                         </div>
 
                         <div class="col-3">
-                            <button class="btn btn-primary w-100" @click="fetchProductos()">Buscar</button>
+                            <button class="btn btn-primary btn-sm w-100" @click="fetchProductos()">
+                                <i class="fas fa-search me-1"></i>Buscar
+                            </button>
                         </div>
 
                     </div>
@@ -130,11 +135,11 @@
                             <!-- Totalizador de productos como badges y responsivo -->
                             <div class="row my-5" x-show="!loading && data.productos.length > 0">
                                 <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-                                    <span class="badge bg-primary fs-6">
+                                    <span class="report-summary-badge report-summary-badge--primary">
                                         <i class="fas fa-cubes me-1"></i>
                                         Total productos: <span x-text="data.productos.length"></span>
                                     </span>
-                                    <span class="badge bg-success fs-6">
+                                    <span class="report-summary-badge report-summary-badge--success">
                                         <i class="fas fa-euro-sign me-1"></i>
                                         Valor total en stock: 
                                         <span x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + (prod.quantity * parseFloat(prod.sale_price || 0)), 0))"></span>
@@ -162,7 +167,7 @@
                 <div x-show="activeTab === 'ventas'">
 
                     <!-- Filtros y tabla de ventas similar -->
-                    <div class="row mb-3">
+                    <div class="row mb-3 reports-filters">
 
                         <div class="col-3">
                             <input class="form-control" type="date" x-model="filters.ventas.from" placeholder="Desde">
@@ -173,19 +178,15 @@
                         </div>
                         
                         <div class="col-3 d-flex gap-2">
-
-                            <button class="btn btn-outline-success w-100" @click="exportVentas('excel')">
-                                <i class="fas fa-file-excel me-2"></i>Excel
+                            <button class="btn reports-export-btn btn-sm w-100" @click="openExportModal('ventas')">
+                                <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
-
-                            <button class="btn btn-outline-danger w-100" @click="exportVentas('pdf')">
-                                <i class="fas fa-file-pdf me-2"></i>PDF
-                            </button>
-
                         </div>
 
                         <div class="col-3">
-                            <button class="btn btn-primary w-100" @click="fetchVentas()">Buscar</button>
+                            <button class="btn btn-primary btn-sm w-100" @click="fetchVentas()">
+                                <i class="fas fa-search me-1"></i>Buscar
+                            </button>
                         </div>
 
                     </div>
@@ -230,11 +231,11 @@
                             <!-- Totalizador de ventas -->
                             <div class="row my-5" x-show="!loading && data.ventas.length > 0">
                                 <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-                                    <span class="badge bg-primary fs-6">
+                                    <span class="report-summary-badge report-summary-badge--primary">
                                         <i class="fas fa-receipt me-1"></i>
                                         Total ventas: <span x-text="data.ventas.length"></span>
                                     </span>
-                                    <span class="badge bg-success fs-6">
+                                    <span class="report-summary-badge report-summary-badge--success">
                                         <i class="fas fa-euro-sign me-1"></i>
                                         Total facturado: 
                                         <span x-text="formatCurrency(data.ventas.reduce((sum, venta) => sum + parseFloat(venta.subtotal || 0), 0))"></span>
@@ -261,7 +262,7 @@
                 <div x-show="activeTab === 'impuestos'">
                     
                     <!-- Filtros y tabla de impuestos similar -->
-                    <div class="row mb-3">
+                    <div class="row mb-3 reports-filters">
 
                         <div class="col-3">
                             <input class="form-control" type="date" x-model="filters.impuestos.from" placeholder="Desde">
@@ -272,19 +273,15 @@
                         </div>
                         
                         <div class="col-3 d-flex gap-2">
-
-                            <button class="btn btn-outline-success w-100" @click="exportImpuestos('excel')">
-                                <i class="fas fa-file-excel me-2"></i>Excel
+                            <button class="btn reports-export-btn btn-sm w-100" @click="openExportModal('impuestos')">
+                                <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
-
-                            <button class="btn btn-outline-danger w-100" @click="exportImpuestos('pdf')">
-                                <i class="fas fa-file-pdf me-2"></i>PDF
-                            </button>
-
                         </div>
 
                         <div class="col-3">
-                            <button class="btn btn-primary w-100" @click="fetchImpuestos()">Buscar</button>
+                            <button class="btn btn-primary btn-sm w-100" @click="fetchImpuestos()">
+                                <i class="fas fa-search me-1"></i>Buscar
+                            </button>
                         </div>
 
                     </div>
@@ -320,7 +317,7 @@
                             <!-- Totalizador de impuestos -->
                             <div class="row my-5" x-show="!loading && data.impuestos.length > 0">
                                 <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-                                    <span class="badge bg-warning text-dark fs-6">
+                                    <span class="report-summary-badge report-summary-badge--warning">
                                         <i class="fas fa-percent me-1"></i>
                                         Total impuestos recaudados: 
                                         <span x-text="formatCurrency(data.impuestos.reduce((sum, imp) => sum + parseFloat(imp.total_tax), 0))"></span>
@@ -344,6 +341,36 @@
 
             </div>
 
+        </div>
+
+        <div class="modal fade" id="reportsExportModal" tabindex="-1" aria-labelledby="reportsExportModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content form-modal">
+                    <div class="modal-header">
+                        <div class="modal-title-block">
+                            <h5 class="modal-title" id="reportsExportModalLabel">
+                                <span class="modal-icon">
+                                    <i class="fas fa-file-export"></i>
+                                </span>
+                                Exportar Reporte
+                            </h5>
+                            <span class="modal-subtitle">Elige el formato de exportación.</span>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="d-flex flex-column flex-sm-row gap-2">
+                            <button type="button" class="btn btn-outline-success w-100" @click="exportCurrent('excel')">
+                                <i class="fas fa-file-excel me-2"></i>Excel
+                            </button>
+                            <button type="button" class="btn btn-outline-danger w-100" @click="exportCurrent('pdf')">
+                                <i class="fas fa-file-pdf me-2"></i>PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

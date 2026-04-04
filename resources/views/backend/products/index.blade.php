@@ -96,11 +96,13 @@
                                         </span>
                                         <div>
                                             <div class="fw-bold">{{ $product->name }}</div>
-                                            <div class="text-muted small">{{ $product->category->name }}</div>
+                                            <div class="mt-1">
+                                                <span class="table-chip table-chip-code">{{ $product->code }}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $product->category->name }}</td>
+                                <td><span class="table-chip table-chip-category">{{ $product->category->name }}</span></td>
                                 <td>€ {{ number_format($product->sale_price, 2) }}</td>
                                 <td class="text-center">
                                     {{ $product->tax?->rate ? $product->tax->rate . ' %' : '-' }}

@@ -10,6 +10,7 @@ document.addEventListener('alpine:init', () => {
 
     Alpine.data('reportsApp', () => ({
         activeTab: 'productos',
+        selectedExportTab: 'productos',
         filters: {
             productos: { from: '', to: '' },
             ventas: { from: '', to: '' },
@@ -145,6 +146,31 @@ document.addEventListener('alpine:init', () => {
             const params = new URLSearchParams(this.filters.impuestos).toString();
             window.open(`/reports/taxes/export/${format}?${params}`, '_blank');
             
+        },
+
+        openExportModal(tab) {
+            this.selectedExportTab = tab;
+            const modalElement = document.getElementById('reportsExportModal');
+            if (modalElement && window.bootstrap?.Modal) {
+                window.bootstrap.Modal.getOrCreateInstance(modalElement).show();
+            }
+        },
+
+        exportCurrent(format) {
+            if (this.selectedExportTab === 'productos') {
+                this.exportProductos(format);
+            }
+            if (this.selectedExportTab === 'ventas') {
+                this.exportVentas(format);
+            }
+            if (this.selectedExportTab === 'impuestos') {
+                this.exportImpuestos(format);
+            }
+
+            const modalElement = document.getElementById('reportsExportModal');
+            if (modalElement && window.bootstrap?.Modal) {
+                window.bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+            }
         },
 
 

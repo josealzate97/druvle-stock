@@ -556,6 +556,36 @@ body.theme-dark .section-hero-icon {
   border: 1px solid #dbe9ff;
 }
 
+.table-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.18rem 0.52rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.table-chip-user {
+  background: #e8f1ff;
+  color: #155fb8;
+  border-color: #cfe0f7;
+}
+
+.table-chip-category {
+  background: #ecfdf3;
+  color: #157347;
+  border-color: #bfe6cc;
+}
+
+.table-chip-abbr,
+.table-chip-code {
+  background: #f3e8ff;
+  color: #6d28d9;
+  border-color: #e2ccff;
+}
+
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -611,6 +641,25 @@ body.theme-dark .btn-icon-edit {
 body.theme-dark .btn-icon-edit:hover {
   background: #222a38;
   color: #c7deff;
+}
+
+body.theme-dark .table-chip-user {
+  background: #1f2d44;
+  border-color: #30445f;
+  color: #9cc8ff;
+}
+
+body.theme-dark .table-chip-category {
+  background: #1f362d;
+  border-color: #2d4a3f;
+  color: #9de0b5;
+}
+
+body.theme-dark .table-chip-abbr,
+body.theme-dark .table-chip-code {
+  background: #2a1b47;
+  border-color: #4c2f7d;
+  color: #d8b4fe;
 }
 
 .section-footer {

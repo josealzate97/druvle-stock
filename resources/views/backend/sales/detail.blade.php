@@ -206,6 +206,6 @@
 
 <div class="modal fade" id="refundModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
-        <div class="modal-content p-4" id="refundModalContent"></div>
+        <div class="modal-content form-modal refund-modal-content" id="refundModalContent"></div>
     </div>
 </div>
