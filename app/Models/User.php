@@ -75,6 +75,16 @@ class User extends Authenticatable {
         ];
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(UserNotification::class, 'user_id', 'id');
+    }
+
+    public function notificationPreferences()
+    {
+        return $this->hasMany(NotificationPreference::class, 'user_id', 'id');
+    }
+
     public function getAuthIdentifierName() {
         return 'id';
     }

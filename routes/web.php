@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SaleController;
 use App\Http\Controllers\Backend\TaxController;
 use App\Http\Controllers\Backend\ReportController;
+use App\Http\Controllers\Backend\NotificationController;
 
 /*
  * ✅ Rutas para landing publica
@@ -100,6 +101,16 @@ Route::middleware('auth')->group(function () {
 
 
     /*
+     * ✅ Rutas para notificaciones
+    */
+    Route::get('notifications', [NotificationController::class, 'list'])->name('notifications.list');
+    Route::post('notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read_all');
+    Route::get('notifications/preferences', [NotificationController::class, 'preferences'])->name('notifications.preferences');
+    Route::put('notifications/preferences', [NotificationController::class, 'updatePreferences'])->name('notifications.preferences.update');
+
+
+    /*
      * ✅ Rutas para configuraciones
     */
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
@@ -115,5 +126,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/taxes/create', [TaxController::class, 'create'])->name('taxes.create');
     
 });
-
 
