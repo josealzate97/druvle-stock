@@ -1,4 +1,23 @@
 /*** SALES **/
+.sales-tabs-content {
+  border: 1px solid #dbe7f7;
+  border-top: 0;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  background: #f8fbff;
+  padding: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.sales-tabs-content .tab-pane {
+  padding: 0.35rem;
+}
+
+body.theme-dark .sales-tabs-content {
+  border-color: #252c36;
+  background: #14171d;
+}
+
 .sales-grid {
   align-items: flex-start;
 }

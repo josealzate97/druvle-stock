@@ -24,22 +24,22 @@
             ])
         @endpush
 
-        <div class="card p-2 mb-4 settings-tabs">
-            <ul class="nav nav-pills gap-1" id="settingsTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active px-3" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
-                    <i class="fas fa-building me-1"></i> Información Básica
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link px-3" id="taxes-tab" data-bs-toggle="tab" data-bs-target="#taxes" type="button" role="tab">
-                    <i class="fas fa-percent me-1"></i> Impuestos
-                </button>
-            </li>
+        <div class="card p-2 mb-0 module-tabs-bar module-tabs-connected">
+            <ul class="nav nav-pills module-tabs" id="settingsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active px-3" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
+                        <i class="fas fa-building me-1"></i> Información Básica
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link px-3" id="taxes-tab" data-bs-toggle="tab" data-bs-target="#taxes" type="button" role="tab">
+                        <i class="fas fa-percent me-1"></i> Impuestos
+                    </button>
+                </li>
             </ul>
         </div>
 
-        <div class="tab-content settings-content" id="settingsTabsContent">
+        <div class="tab-content settings-content module-tabs-content" id="settingsTabsContent">
 
             <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab" x-data="settingsForm({
                 id: '{{ $settings->id }}',
@@ -57,7 +57,7 @@
                             <h2 class="fw-bold mb-0">Configuración de la Empresa</h2>
                             <div class="text-muted small">Ajustes generales y datos fiscales de tu negocio.</div>
                         </div>
-                        <button class="btn btn-outline-primary settings-edit-btn" @click="toggleEdit">
+                        <button class="btn settings-edit-btn edit-solid-btn" @click="toggleEdit">
                             <i class="fas fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                         </button>
                     </div>

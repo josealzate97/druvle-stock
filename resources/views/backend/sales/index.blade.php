@@ -26,8 +26,7 @@
         @endpush
         
         <div class="align-items-center border mb-4 bg-white rounded-3 p-4 col-12 d-flex sales-hero-card">
-
-            <div class="col-md-6 col-12">
+            <div class="col-12">
                 <div class="d-flex align-items-center gap-3">
                     <span class="section-hero-icon">
                         <i class="fa fa-shopping-cart"></i>
@@ -38,35 +37,27 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-md-6 col-12 mt-3 mt-md-0 d-flex justify-content-md-end">
-                
-                <ul class="nav nav-pills bg-grey rounded p-2 gap-1" id="salesTabs" role="tablist">
-                        
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active fw-bold" id="nueva-venta-tab" data-bs-toggle="pill" data-bs-target="#nueva-venta" type="button" role="tab" aria-controls="nueva-venta" aria-selected="true">
-                            Nueva Venta
-                        </button>
-                    </li>
-
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link fw-bold" id="historial-tab" data-bs-toggle="pill" data-bs-target="#historial" type="button" role="tab" aria-controls="historial" aria-selected="false" @click="showModal = false">
-                            Historial de Ventas
-                        </button>
-                    </li>
-                        
-                </ul>
-
-            </div>
-
         </div>
 
-        <div class="tab-content mt-4" id="salesTabsContent">
+        <div class="card p-2 mb-0 module-tabs-bar module-tabs-connected">
+            <ul class="nav nav-pills module-tabs" id="salesTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active fw-bold" id="nueva-venta-tab" data-bs-toggle="pill" data-bs-target="#nueva-venta" type="button" role="tab" aria-controls="nueva-venta" aria-selected="true">
+                        Nueva Venta
+                    </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold" id="historial-tab" data-bs-toggle="pill" data-bs-target="#historial" type="button" role="tab" aria-controls="historial" aria-selected="false" @click="showModal = false">
+                        Historial de Ventas
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content mt-0 module-tabs-content sales-tabs-content" id="salesTabsContent">
 
             <div class="tab-pane fade show active" id="nueva-venta" role="tabpanel" aria-labelledby="nueva-venta-tab">
-                
-                <!-- Contenido de Nueva Venta -->
-                <div class="tab-pane fade show active" id="nueva-venta" role="tabpanel" aria-labelledby="nueva-venta-tab">
 
                     <div class="row g-4 sales-grid">
 
@@ -305,8 +296,6 @@
                         </div>
 
                     </div>
-
-                </div>
 
             </div>
 

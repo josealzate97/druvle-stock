@@ -51,8 +51,12 @@
                     </div>
                 </div>
 
-                @if(!$isCreateMode)
-                    <button class="btn btn-outline-primary" @click="toggleEdit">
+                @if($isCreateMode)
+                    <a href="{{ route('users.index') }}" class="btn user-back-btn">
+                        <i class="fas fa-arrow-left"></i> Volver al listado
+                    </a>
+                @else
+                    <button class="btn edit-solid-btn" @click="toggleEdit">
                         <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                     </button>
                 @endif

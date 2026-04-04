@@ -22,6 +22,25 @@
   gap: 1rem;
 }
 
+.user-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid #1b77d3;
+  background: #1b77d3;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 0.5rem 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.user-back-btn:hover {
+  background: #155fb8;
+  border-color: #155fb8;
+  color: #ffffff;
+}
+
 .user-avatar-lg {
   width: 56px;
   height: 56px;
@@ -73,6 +92,18 @@ body.theme-dark .user-avatar-lg {
   background: linear-gradient(160deg, #1f2937 0%, #1b2432 100%);
   color: #9cc8ff;
   box-shadow: inset 0 0 0 1px #2b313c, 0 8px 16px rgba(0, 0, 0, 0.32);
+}
+
+body.theme-dark .user-back-btn {
+  background: #2f81df;
+  border-color: #2f81df;
+  color: #ffffff;
+}
+
+body.theme-dark .user-back-btn:hover {
+  background: #216ec7;
+  border-color: #216ec7;
+  color: #ffffff;
 }
 
 .user-info-form .form-control,

@@ -43,15 +43,12 @@
 
         </div>
 
-        <div class="card p-4 mt-4 section-card">
-
-            <!-- ...tabs... -->
-            <ul class="nav nav-pills mb-4" id="reportTabs" role="tablist">
-                
+        <div class="card p-2 mt-4 module-tabs-bar module-tabs-connected">
+            <ul class="nav nav-pills module-tabs" id="reportTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" :class="{'active': activeTab === 'productos'}" @click="setTab('productos')">Productos</button>
                 </li>
-            
+
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" :class="{'active': activeTab === 'ventas'}" @click="setTab('ventas')">Ventas</button>
                 </li>
@@ -59,8 +56,10 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" :class="{'active': activeTab === 'impuestos'}" @click="setTab('impuestos')">Impuestos</button>
                 </li>
-
             </ul>
+        </div>
+
+        <div class="card p-4 mt-0 section-card module-tabs-content">
 
             <div class="tab-content p-4" id="reportTabsContent">
 
