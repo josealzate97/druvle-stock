@@ -28,12 +28,17 @@
             <ul class="nav nav-pills module-tabs" id="settingsTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active px-3" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
-                        <i class="fas fa-building me-1"></i> Información Básica
+                        <i class="fas fa-building me-1"></i> Información General
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link px-3" id="taxes-tab" data-bs-toggle="tab" data-bs-target="#taxes" type="button" role="tab">
                         <i class="fas fa-percent me-1"></i> Impuestos
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link px-3" id="notifications-tab" data-bs-toggle="tab" data-bs-target="#notifications" type="button" role="tab">
+                        <i class="fas fa-bell me-1"></i> Notificaciones
                     </button>
                 </li>
             </ul>
@@ -133,6 +138,58 @@
 
                 <div class="card p-0 mt-4 section-card shadow-sm">
                     @include('backend.taxes.index', ['taxes' => $taxes])
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
+
+                <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
+                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                        <div class="section-hero-icon">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h2 class="fw-bold mb-0">Configuración de Notificaciones</h2>
+                            <div class="text-muted small">Define qué alertas deseas recibir en el panel.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 mt-4 section-card settings-form-card shadow-sm">
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
+                                Stock bajo
+                                <input class="form-check-input custom-switch-success" type="checkbox" checked>
+                            </label>
+                            <div class="text-muted small">Recibir alerta cuando un producto esté por debajo del mínimo.</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
+                                Ventas del día
+                                <input class="form-check-input custom-switch-success" type="checkbox" checked>
+                            </label>
+                            <div class="text-muted small">Mostrar resumen diario de ventas y ticket promedio.</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
+                                Devoluciones
+                                <input class="form-check-input custom-switch-success" type="checkbox">
+                            </label>
+                            <div class="text-muted small">Notificar cada nueva devolución registrada.</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
+                                Impuestos
+                                <input class="form-check-input custom-switch-success" type="checkbox">
+                            </label>
+                            <div class="text-muted small">Alertas cuando falte configuración fiscal clave.</div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

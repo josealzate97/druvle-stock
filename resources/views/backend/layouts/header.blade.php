@@ -19,6 +19,11 @@
             <i class="fas fa-moon"></i>
         </div>
 
+        <button class="btn header-notification-btn" type="button" aria-label="Notificaciones">
+            <i class="fas fa-bell"></i>
+            <span class="header-notification-dot"></span>
+        </button>
+
         <div class="nav-item dropdown header-user-menu">
             <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir menú de usuario">
                 @if(Auth::check())
