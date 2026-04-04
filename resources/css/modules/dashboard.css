@@ -145,42 +145,52 @@ body.theme-dark .dashboard-select {
 }
 
 .sale-code-badge {
-  background: #e8f1ff;
-  color: #1b77d3;
+  background: #f3e8ff;
+  color: #6d28d9;
   font-weight: 700;
   padding: 0.35rem 0.6rem;
   border-radius: 999px;
-  border: 1px solid #dbe9ff;
+  border: 1px solid #e9d5ff;
 }
 
 body.theme-dark .sale-code-badge {
-  background: #1a2230;
-  color: #9cc8ff;
-  border-color: #2b313c;
+  background: #2a1b47;
+  color: #d8b4fe;
+  border-color: #4c2f7d;
 }
 
 .dashboard-link {
-  color: #1e3a8a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #312e81;
   font-weight: 700;
   text-decoration: none;
-  padding: 0.35rem 0.75rem;
+  padding: 0.45rem 0.95rem;
   border-radius: 999px;
-  background: #dbeafe;
+  background: linear-gradient(180deg, #e9ddff 0%, #ddc9ff 100%);
+  border: 1px solid #c4b5fd;
+  box-shadow: 0 6px 14px rgba(109, 40, 217, 0.16);
 }
 
 .dashboard-link:hover {
-  background: #dbe9ff;
-  color: #155fb8;
+  background: linear-gradient(180deg, #ddc9ff 0%, #cfb2ff 100%);
+  color: #4c1d95;
+  border-color: #a78bfa;
+  transform: translateY(-1px);
 }
 
 body.theme-dark .dashboard-link {
-  background: #1a2230;
-  color: #9cc8ff;
+  background: linear-gradient(180deg, #3d2469 0%, #2f1b52 100%);
+  color: #e9d5ff;
+  border-color: #5b3b8c;
+  box-shadow: 0 8px 18px rgba(8, 10, 16, 0.45);
 }
 
 body.theme-dark .dashboard-link:hover {
-  background: #222a38;
-  color: #c7deff;
+  background: linear-gradient(180deg, #4a2d7d 0%, #3b2365 100%);
+  color: #f3e8ff;
+  border-color: #7c59b4;
 }
 
 .dashboard-card-header h5 {
@@ -215,12 +225,12 @@ body.theme-dark .dashboard-link:hover {
   font-size: 0.85rem;
   color: #334155;
   font-weight: 600;
+  gap: 0.6rem;
 }
 
-.legend-item span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+.legend-label {
+  flex: 1;
+  text-align: left;
 }
 
 .legend-dot {

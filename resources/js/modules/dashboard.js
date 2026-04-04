@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         return `
                             <div class="legend-item">
                                 <span class="legend-dot" style="background:${colors[index % colors.length]}"></span>
-                                <span>${label}</span>
+                                <span class="legend-label">${label}</span>
                                 <strong>${percent}%</strong>
                             </div>
                         `;
