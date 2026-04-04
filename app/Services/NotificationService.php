@@ -10,6 +10,54 @@ use Illuminate\Support\Carbon;
 
 class NotificationService
 {
+    public function createNotification(array $data, ?string $createdBy = null): Notification
+    {
+        return Notification::query()->create([
+            'type' => $data['type'],
+            'title' => $data['title'],
+            'message' => $data['message'],
+            'payload' => $data['payload'] ?? null,
+            'priority' => (int) ($data['priority'] ?? 1),
+            'scheduled_at' => $data['scheduled_at'] ?? null,
+            'expires_at' => $data['expires_at'] ?? null,
+            'created_by' => $createdBy,
+        ]);
+    }
+
+    public function updateNotification(string $id, array $data): ?Notification
+    {
+        $notification = Notification::query()->find($id);
+
+        if (!$notification) {
+            return null;
+        }
+
+        $notification->update([
+            'type' => $data['type'],
+            'title' => $data['title'],
+            'message' => $data['message'],
+            'payload' => $data['payload'] ?? null,
+            'priority' => (int) ($data['priority'] ?? 1),
+            'scheduled_at' => $data['scheduled_at'] ?? null,
+            'expires_at' => $data['expires_at'] ?? null,
+        ]);
+
+        return $notification->fresh();
+    }
+
+    public function deleteNotification(string $id): bool
+    {
+        $notification = Notification::query()->find($id);
+
+        if (!$notification) {
+            return false;
+        }
+
+        $notification->delete();
+
+        return true;
+    }
+
     public function listForUser(string $userId, array $filters = []): LengthAwarePaginator
     {
         $perPage = (int) ($filters['per_page'] ?? 20);
@@ -143,4 +191,3 @@ class NotificationService
         return $notification;
     }
 }
-

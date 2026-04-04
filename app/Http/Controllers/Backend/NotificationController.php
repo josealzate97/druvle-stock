@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class NotificationController extends Controller
 {
@@ -85,5 +86,98 @@ class NotificationController extends Controller
             'data' => $preferences,
         ]);
     }
-}
 
+    public function create(Request $request)
+    {
+        $validated = $this->validateNotificationData($request);
+
+        $notification = $this->notificationService->createNotification($validated, $request->user()->id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notificación creada correctamente.',
+            'data' => $notification,
+        ]);
+    }
+
+    public function update(Request $request, string $id)
+    {
+        $validated = $this->validateNotificationData($request);
+
+        $notification = $this->notificationService->updateNotification($id, $validated);
+
+        if (!$notification) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notificación no encontrada.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notificación actualizada correctamente.',
+            'data' => $notification,
+        ]);
+    }
+
+    public function delete(string $id)
+    {
+        $deleted = $this->notificationService->deleteNotification($id);
+
+        if (!$deleted) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notificación no encontrada.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notificación eliminada correctamente.',
+        ]);
+    }
+
+    private function normalizePayload($payload): ?array
+    {
+        if ($payload === null || $payload === '') {
+            return null;
+        }
+
+        if (is_array($payload)) {
+            return $payload;
+        }
+
+        if (is_string($payload)) {
+            $decoded = json_decode($payload, true);
+            return json_last_error() === JSON_ERROR_NONE ? $decoded : null;
+        }
+
+        return null;
+    }
+
+    private function validateNotificationData(Request $request): array
+    {
+        $validated = $request->validate([
+            'type' => 'required|string|max:80',
+            'title' => 'required|string|max:150',
+            'message' => 'required|string|max:1000',
+            'priority' => 'nullable|integer|min:1|max:5',
+            'payload' => 'nullable',
+            'scheduled_at' => 'nullable|date',
+            'expires_at' => 'nullable|date|after_or_equal:scheduled_at',
+        ]);
+
+        if (is_string($validated['payload'] ?? null) && trim($validated['payload']) !== '') {
+            json_decode($validated['payload'], true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw ValidationException::withMessages([
+                    'payload' => 'El payload debe ser un JSON válido.',
+                ]);
+            }
+        }
+
+        $validated['payload'] = $this->normalizePayload($validated['payload'] ?? null);
+
+        return $validated;
+    }
+}

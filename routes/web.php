@@ -104,6 +104,9 @@ Route::middleware('auth')->group(function () {
      * ✅ Rutas para notificaciones
     */
     Route::get('notifications', [NotificationController::class, 'list'])->name('notifications.list');
+    Route::post('notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('notifications/update/{id}', [NotificationController::class, 'update'])->name('notifications.update');
+    Route::post('notifications/delete/{id}', [NotificationController::class, 'delete'])->name('notifications.delete');
     Route::post('notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.read');
     Route::post('notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.read_all');
     Route::get('notifications/preferences', [NotificationController::class, 'preferences'])->name('notifications.preferences');
@@ -126,4 +129,3 @@ Route::middleware('auth')->group(function () {
     Route::post('/taxes/create', [TaxController::class, 'create'])->name('taxes.create');
     
 });
-

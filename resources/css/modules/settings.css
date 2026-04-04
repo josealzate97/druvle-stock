@@ -66,3 +66,29 @@ body.theme-dark .settings-content {
   border-color: #1f2329;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
+
+.notification-table .table-chip-type {
+  background: linear-gradient(160deg, #ede9fe 0%, #ddd6fe 100%);
+  color: #5b21b6;
+  border: 1px solid #c4b5fd;
+}
+
+.notification-table .status-pill-priority {
+  background: #e0ecff;
+  color: #1d4ed8;
+}
+
+.notification-message-preview {
+  max-width: 360px;
+}
+
+body.theme-dark .notification-table .table-chip-type {
+  background: linear-gradient(160deg, #312e81 0%, #3730a3 100%);
+  color: #e0e7ff;
+  border-color: #4f46e5;
+}
+
+body.theme-dark .notification-table .status-pill-priority {
+  background: #1e3a8a;
+  color: #bfdbfe;
+}

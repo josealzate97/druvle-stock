@@ -3,7 +3,7 @@
 @section('title', 'Configuración')
 
 @push('styles')
-    @vite(['resources/css/modules/settings.css'])
+    @vite(['resources/css/modules/settings.css', 'resources/css/modules/modals.css'])
 @endpush
 
 @push('scripts')
@@ -151,44 +151,64 @@
                         </div>
                         <div class="flex-grow-1">
                             <h2 class="fw-bold mb-0">Configuración de Notificaciones</h2>
-                            <div class="text-muted small">Define qué alertas deseas recibir en el panel.</div>
+                            <div class="text-muted small">Administra notificaciones internas del sistema.</div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 section-hero-actions">
+                            <button class="btn btn-success btn-sm" id="btnNewNotification" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" data-bs-mode="new">
+                                <i class="fas fa-plus me-1"></i> Crear notificación
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="card p-4 mt-4 section-card settings-form-card shadow-sm">
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
-                                Stock bajo
-                                <input class="form-check-input custom-switch-success" type="checkbox" checked>
-                            </label>
-                            <div class="text-muted small">Recibir alerta cuando un producto esté por debajo del mínimo.</div>
-                        </div>
+                <div class="card p-0 mt-4 section-card shadow-sm">
+                    <div class="table-responsive">
+                        <table class="table table-borderless align-middle section-table notification-table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Título</th>
+                                    <th>Prioridad</th>
+                                    <th>Programada</th>
+                                    <th>Expira</th>
+                                    <th>Creada</th>
+                                    <th class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($notifications->isEmpty())
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted fw-bold fs-6 my-3">No hay notificaciones registradas.</td>
+                                    </tr>
+                                @endif
 
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
-                                Ventas del día
-                                <input class="form-check-input custom-switch-success" type="checkbox" checked>
-                            </label>
-                            <div class="text-muted small">Mostrar resumen diario de ventas y ticket promedio.</div>
-                        </div>
+                                @foreach ($notifications as $notification)
+                                    <tr>
+                                        <td><span class="table-chip table-chip-type">{{ $notification->type }}</span></td>
+                                        <td>
+                                            <div class="fw-bold">{{ $notification->title }}</div>
+                                            <div class="small text-muted text-truncate notification-message-preview">{{ $notification->message }}</div>
+                                        </td>
+                                        <td><span class="status-pill status-pill-priority">P{{ $notification->priority }}</span></td>
+                                        <td>{{ optional($notification->scheduled_at)->format('d/m/Y H:i') ?? '-' }}</td>
+                                        <td>{{ optional($notification->expires_at)->format('d/m/Y H:i') ?? '-' }}</td>
+                                        <td>{{ optional($notification->created_at)->format('d/m/Y H:i') ?? '-' }}</td>
+                                        <td class="text-end">
+                                            <button type="button" class="btn btn-icon text-primary" title="Editar" onclick='editNotification(@json($notification))'>
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-icon text-danger" title="Eliminar" onclick="deleteNotification('{{ $notification->id }}')">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
-                                Devoluciones
-                                <input class="form-check-input custom-switch-success" type="checkbox">
-                            </label>
-                            <div class="text-muted small">Notificar cada nueva devolución registrada.</div>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <label class="form-label fw-bold d-flex justify-content-between align-items-center">
-                                Impuestos
-                                <input class="form-check-input custom-switch-success" type="checkbox">
-                            </label>
-                            <div class="text-muted small">Alertas cuando falte configuración fiscal clave.</div>
-                        </div>
+                    <div class="section-footer">
+                        {{ $notifications->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
 
@@ -196,6 +216,75 @@
         
         </div>
 
+    </div>
+
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+        <form id="notificationForm">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content form-modal">
+                    <div class="modal-header">
+                        <div class="modal-title-block">
+                            <h4 class="modal-title" id="notificationModalLabel">
+                                <span class="modal-icon">
+                                    <i class="fas fa-bell"></i>
+                                </span>
+                                Crear notificación
+                            </h4>
+                            <span class="modal-subtitle">Configura título, mensaje y programación.</span>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+
+                    <div class="modal-body row g-3">
+                        <input type="hidden" id="notificationId" name="id">
+
+                        <div class="col-md-6">
+                            <label for="notificationType" class="form-label fw-bold">Tipo *</label>
+                            <input type="text" class="form-control" id="notificationType" name="type" placeholder="stock_low" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="notificationPriority" class="form-label fw-bold">Prioridad (1-5)</label>
+                            <input type="number" min="1" max="5" class="form-control" id="notificationPriority" name="priority" value="1">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="notificationTitle" class="form-label fw-bold">Título *</label>
+                            <input type="text" class="form-control" id="notificationTitle" name="title" maxlength="150" required>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="notificationMessage" class="form-label fw-bold">Mensaje *</label>
+                            <textarea class="form-control" id="notificationMessage" name="message" rows="3" maxlength="1000" required></textarea>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="notificationScheduledAt" class="form-label fw-bold">Programada</label>
+                            <input type="datetime-local" class="form-control" id="notificationScheduledAt" name="scheduled_at">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="notificationExpiresAt" class="form-label fw-bold">Expira</label>
+                            <input type="datetime-local" class="form-control" id="notificationExpiresAt" name="expires_at">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="notificationPayload" class="form-label fw-bold">Payload (JSON)</label>
+                            <textarea class="form-control font-monospace" id="notificationPayload" name="payload" rows="3" placeholder='{"entity":"sale","id":"123"}'></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer col-12 d-flex justify-content-between gap-2 my-3">
+                        <button type="button" class="btn btn-outline-danger col-5" data-bs-dismiss="modal">
+                            <i class="fas fa-times me-2"></i> Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-success col-5" id="saveNotificationBtn">
+                            <i class="fas fa-save me-2"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
 @endsection
