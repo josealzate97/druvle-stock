@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#productModal" data-bs-mode="new">
+                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#productModal" data-bs-mode="new">
                         <i class="fas fa-plus me-1"></i> Nuevo Producto
                     </button>
                 </div>

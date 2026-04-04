@@ -37,7 +37,7 @@
                 </div>
 
                 <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                    <button type="button" class="btn btn-success btn-sm" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
                         <i class="fas fa-plus me-1"></i> Nueva Categoría
                     </button>
                 </div>

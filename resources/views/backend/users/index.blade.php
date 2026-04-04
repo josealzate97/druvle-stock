@@ -37,6 +37,12 @@
                     <div class="text-muted small fw-bold">Administra la información y roles de tu equipo.</div>
                 </div>
 
+                <div class="d-flex flex-wrap gap-2 section-hero-actions">
+                    <a href="{{ route('users.info') }}" class="btn btn-success btn-sm">
+                        <i class="fas fa-plus me-1"></i> Nuevo Usuario
+                    </a>
+                </div>
+
             </div>
 
         </div>

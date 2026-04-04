@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Categories JS Loaded!");
+    const categoryTitleIcon = '<span class="modal-icon"><i class="fas fa-tags"></i></span>';
 
     const searchInput = document.getElementById('categoriesSearch');
     const statusSelect = document.getElementById('categoriesStatusFilter');
@@ -121,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (data.success) {
 
-                modalTitle.textContent = 'Editar Categoría';
+                modalTitle.innerHTML = `${categoryTitleIcon} Editar Categoría`;
                 categoryIdInput.value = data.category.id;
 
                 document.getElementById('categoryName').value = data.category.name;
@@ -236,7 +237,7 @@ function clearCategoryModal() {
     const modalTitle = document.getElementById('categoryModalLabel');
     
     if (modalTitle) {
-        modalTitle.textContent = 'Crear Categoría';
+        modalTitle.innerHTML = '<span class="modal-icon"><i class="fas fa-tags"></i></span> Crear Categoría';
     }
 
     document.getElementById('categoryId').value = '';

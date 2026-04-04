@@ -39,10 +39,18 @@ class UserController extends Controller {
      * @return \Illuminate\View\View
      * Retorna la vista `backend.users.info` con los datos del usuario y los roles disponibles.
     */
-    public function info($id) {   
+    public function info($id = null) {   
 
-        // Informacion del usuario
-        $user = User::findOrFail($id);
+        $isCreateMode = empty($id);
+        $user = $isCreateMode ? new User([
+            'name' => '',
+            'lastname' => '',
+            'username' => '',
+            'phone' => '',
+            'email' => '',
+            'rol' => User::ROLE_SALES,
+            'status' => User::ACTIVE,
+        ]) : User::findOrFail($id);
 
         // Roles
         $roles = [
@@ -51,8 +59,39 @@ class UserController extends Controller {
             User::ROLE_SALES => 'Cajero',
         ];
         
-        return view('backend.users.info', compact('user', 'roles'));
+        return view('backend.users.info', compact('user', 'roles', 'isCreateMode'));
 
+    }
+
+    public function create(Request $request) {
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username',
+            'phone' => 'nullable|string|max:255',
+            'rol' => 'required|integer',
+            'status' => 'required|integer',
+            'email' => 'required|email|max:255|unique:users,email',
+            'new_password' => 'required|string|min:8',
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'lastname' => $validated['lastname'],
+            'username' => $validated['username'],
+            'phone' => $validated['phone'],
+            'rol' => $validated['rol'],
+            'status' => $validated['status'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['new_password']),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Usuario creado correctamente',
+            'id' => $user->id,
+        ]);
     }
 
     /**

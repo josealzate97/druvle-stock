@@ -16,7 +16,7 @@
           <div class="modal-title-block">
             <h4 class="modal-title" id="categoryModalLabel">
                 <span class="modal-icon">
-                  <i class="fas fa-circle-plus"></i>
+                  <i class="fas fa-tags"></i>
                 </span>
                 Nueva Categoría
             </h4>

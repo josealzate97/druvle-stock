@@ -39,10 +39,14 @@ window.activateUser = activateUser;
 window.userForm = function (userData) {
     
     return {
-        editMode: false,
+        isCreateMode: userData.mode === 'create',
+        editMode: userData.mode === 'create',
         isPasswordValid: true, // Estado inicial de la validación de la contraseña
         form: { ...userData, new_password: '' },
         toggleEdit() {
+            if (this.isCreateMode) {
+                return;
+            }
             this.editMode = !this.editMode;
         },
         async saveUser() {
@@ -54,7 +58,7 @@ window.userForm = function (userData) {
                 return false;
             }*/
 
-            if (this.form.new_password.length > 0 && !this.isPasswordValid) {
+            if ((this.isCreateMode && this.form.new_password.length === 0) || (this.form.new_password.length > 0 && !this.isPasswordValid)) {
                 notyf.error('La contraseña no es válida.');
                 return;
             }
@@ -63,7 +67,8 @@ window.userForm = function (userData) {
 
                 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                 
-                const response = await fetch(`/users/update/${this.form.id}`, {
+                const endpoint = this.isCreateMode ? '/users/create' : `/users/update/${this.form.id}`;
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -76,9 +81,15 @@ window.userForm = function (userData) {
                 // y mostramos un mensaje de éxito
                 if (response.ok == true) {
 
-                    this.editMode = false;
-
-                    notyf.success('Usuario actualizado correctamente');
+                    if (this.isCreateMode) {
+                        notyf.success('Usuario creado correctamente');
+                        window.setTimeout(() => {
+                            window.location.href = '/users';
+                        }, 1200);
+                    } else {
+                        this.editMode = false;
+                        notyf.success('Usuario actualizado correctamente');
+                    }
 
                 } else {
 

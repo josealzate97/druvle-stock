@@ -16,7 +16,9 @@
 
                     <div class="modal-title-block">
                         <h4 class="modal-title" id="productModalLabel">
-                            <i class="fas fa-circle-plus me-2 color-primary"></i>
+                            <span class="modal-icon">
+                                <i class="fas fa-circle-plus"></i>
+                            </span>
                             Nuevo Producto
                         </h4>
                         <span class="modal-subtitle">Completa los datos básicos, precios y stock.</span>

@@ -72,7 +72,8 @@ Route::middleware('auth')->group(function () {
      * ✅ Rutas para usuarios
     */
     Route::get('users', [UserController::class, 'index'])->name('users.index');
-    Route::get('users/info/{id}', [UserController::class, 'info'])->name('users.info');
+    Route::get('users/info/{id?}', [UserController::class, 'info'])->name('users.info');
+    Route::post('users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('users/update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::post('users/delete/{id}', [UserController::class, 'delete'])->name('users.delete');
     Route::post('users/activate/{id}', [UserController::class, 'activate'])->name('users.activate');
@@ -114,6 +115,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/taxes/create', [TaxController::class, 'create'])->name('taxes.create');
     
 });
-
 
 

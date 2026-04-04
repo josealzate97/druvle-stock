@@ -1,6 +1,6 @@
 @extends('backend.layouts.main')
 
-@section('title', 'Info Usuario')
+@section('title', $isCreateMode ? 'Nuevo Usuario' : 'Info Usuario')
 
 @push('styles')
     @vite(['resources/css/modules/users.css'])
@@ -30,11 +30,11 @@
             username: '{{ $user->username }}',
             phone: '{{ $user->phone }}',
             rol: '{{ $user->rol }}',
-            password: '{{ $user->password }}',
             showPassword: false,
             email: '{{ $user->email }}',
-            id: '{{ $user->id }}',
+            id: '{{ $user->id ?? '' }}',
             status: '{{ $user->status }}',
+            mode: '{{ $isCreateMode ? 'create' : 'edit' }}',
         })">
 
 
@@ -44,14 +44,18 @@
                         <i class="fa fa-user"></i>
                     </div>
                     <div>
-                        <h3 class="fw-bold mb-1">Información del Usuario</h3>
-                        <div class="text-muted fw-bold small user-info-subtitle">{{ $user->name }} {{ $user->lastname }}</div>
+                        <h3 class="fw-bold mb-1">{{ $isCreateMode ? 'Crear Usuario' : 'Información del Usuario' }}</h3>
+                        <div class="text-muted fw-bold small user-info-subtitle">
+                            {{ $isCreateMode ? 'Completa los datos para registrar un nuevo usuario.' : $user->name . ' ' . $user->lastname }}
+                        </div>
                     </div>
                 </div>
 
-                <button class="btn btn-outline-primary" @click="toggleEdit">
-                    <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
-                </button>
+                @if(!$isCreateMode)
+                    <button class="btn btn-outline-primary" @click="toggleEdit">
+                        <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
+                    </button>
+                @endif
             </div>
 
             <div class="user-info-divider"></div>
@@ -110,7 +114,7 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
-                                    <label class="form-label fw-bold">Nueva Contraseña</label>
+                                    <label class="form-label fw-bold" x-text="isCreateMode ? 'Contraseña' : 'Nueva Contraseña'"></label>
                                     <input type="password" class="form-control" x-model="form.new_password" @change="validatePassword" :disabled="!editMode">
                                 </div>
                             </div>
@@ -122,7 +126,7 @@
                 <div class="my-4 text-center" x-show="editMode">
                     <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold">
                         <i class="fa fa-save"></i>&nbsp;
-                        Actualizar Informacion
+                        <span x-text="isCreateMode ? 'Crear Usuario' : 'Actualizar Informacion'"></span>
                     </button>
                 </div>
 
