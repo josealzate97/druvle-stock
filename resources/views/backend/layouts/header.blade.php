@@ -19,22 +19,24 @@
             <i class="fas fa-moon"></i>
         </div>
 
-        @if(Auth::check())
-            <div class="session-info">
-                <span class="session-name">{{ Auth::user()->username }}</span>
-                <span class="session-role">
-                    {{
-                        Auth::user()->rol == 1 ? 'Soporte' :
-                        (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
-                    }}
-                </span>
-            </div>
-        @endif
-
-        <div class="nav-item dropdown">
+        <div class="nav-item dropdown header-user-menu">
             <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir menú de usuario">
+                @if(Auth::check())
+                    <span class="session-info">
+                        <span class="session-name">{{ Auth::user()->username }}</span>
+                        <span class="session-role">
+                            {{
+                                Auth::user()->rol == 1 ? 'Soporte' :
+                                (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
+                            }}
+                        </span>
+                    </span>
+                @endif
                 <span class="user-avatar">
                     <i class="fa fa-user"></i>
+                </span>
+                <span class="user-menu-caret">
+                    <i class="fa-solid fa-chevron-down"></i>
                 </span>
             </a>
             
