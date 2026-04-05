@@ -184,7 +184,7 @@
 
                                 @foreach ($notifications as $notification)
                                     <tr>
-                                        <td><span class="table-chip table-chip-type">{{ $notification->type }}</span></td>
+                                        <td><span class="table-chip table-chip-type">{{ \App\Models\Notification::labelForType($notification->type) }}</span></td>
                                         <td>
                                             <div class="fw-bold">{{ $notification->title }}</div>
                                             <div class="small text-muted text-truncate notification-message-preview">{{ $notification->message }}</div>
@@ -240,7 +240,10 @@
 
                         <div class="col-md-6">
                             <label for="notificationType" class="form-label fw-bold">Tipo *</label>
-                            <input type="text" class="form-control" id="notificationType" name="type" placeholder="stock_low" required>
+                            <select class="form-select" id="notificationType" name="type" required>
+                                <option value="{{ \App\Models\Notification::TYPE_STOCK_LOW }}">Stock Bajo</option>
+                                <option value="{{ \App\Models\Notification::TYPE_REFUND }}">Devoluciones</option>
+                            </select>
                         </div>
 
                         <div class="col-md-6">

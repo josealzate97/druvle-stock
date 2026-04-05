@@ -10,6 +10,14 @@ class Notification extends Model
 {
     use HasFactory;
 
+    public const TYPE_STOCK_LOW = 'stock_low';
+    public const TYPE_REFUND = 'refund_created';
+
+    public const TYPES = [
+        self::TYPE_STOCK_LOW => 'Stock Bajo',
+        self::TYPE_REFUND => 'Devoluciones',
+    ];
+
     public $incrementing = false;
     protected $keyType = 'string';
 
@@ -50,5 +58,19 @@ class Notification extends Model
     public function userNotifications()
     {
         return $this->hasMany(UserNotification::class, 'notification_id', 'id');
+    }
+
+    public static function allowedTypes(): array
+    {
+        return array_keys(self::TYPES);
+    }
+
+    public static function labelForType(?string $type): string
+    {
+        if (!$type) {
+            return '-';
+        }
+
+        return self::TYPES[$type] ?? $type;
     }
 }

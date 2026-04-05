@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class NotificationController extends Controller
@@ -17,7 +19,7 @@ class NotificationController extends Controller
     {
         $validated = $request->validate([
             'unread' => 'nullable|boolean',
-            'type' => 'nullable|string|max:80',
+            'type' => ['nullable', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
             'priority' => 'nullable|integer|min:1|max:5',
             'per_page' => 'nullable|integer|min:1|max:100',
         ]);
@@ -69,7 +71,7 @@ class NotificationController extends Controller
     {
         $validated = $request->validate([
             'preferences' => 'required|array|min:1',
-            'preferences.*.notification_type' => 'required|string|max:80',
+            'preferences.*.notification_type' => ['required', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
             'preferences.*.in_app' => 'nullable|boolean',
             'preferences.*.email' => 'nullable|boolean',
             'preferences.*.push' => 'nullable|boolean',
@@ -158,7 +160,7 @@ class NotificationController extends Controller
     private function validateNotificationData(Request $request): array
     {
         $validated = $request->validate([
-            'type' => 'required|string|max:80',
+            'type' => ['required', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
             'title' => 'required|string|max:150',
             'message' => 'required|string|max:1000',
             'priority' => 'nullable|integer|min:1|max:5',
