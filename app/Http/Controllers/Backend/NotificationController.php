@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -92,13 +93,43 @@ class NotificationController extends Controller
     public function create(Request $request)
     {
         $validated = $this->validateNotificationData($request);
+        $recipientConfig = $request->validate([
+            'target_type' => ['required', Rule::in(['all_active', 'role', 'users'])],
+            'target_role' => ['nullable', 'integer', Rule::in([User::ROLE_ROOT, User::ROLE_ADMIN, User::ROLE_SALES])],
+            'user_ids' => ['nullable', 'array', 'min:1'],
+            'user_ids.*' => ['required', 'string', 'exists:users,id'],
+        ]);
 
-        $notification = $this->notificationService->createNotification($validated, $request->user()->id);
+        if ($recipientConfig['target_type'] === 'role' && empty($recipientConfig['target_role'])) {
+            throw ValidationException::withMessages([
+                'target_role' => 'Debes seleccionar un rol para enviar la notificación.',
+            ]);
+        }
+
+        if ($recipientConfig['target_type'] === 'users' && empty($recipientConfig['user_ids'])) {
+            throw ValidationException::withMessages([
+                'user_ids' => 'Debes seleccionar al menos un usuario.',
+            ]);
+        }
+
+        $recipientUserIds = $this->resolveRecipientUserIds($recipientConfig);
+
+        if (empty($recipientUserIds)) {
+            throw ValidationException::withMessages([
+                'target_type' => 'No se encontraron usuarios activos para el destino seleccionado.',
+            ]);
+        }
+
+        $notification = $this->notificationService->createForUsers($recipientUserIds, [
+            ...$validated,
+            'created_by' => $request->user()->id,
+        ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Notificación creada correctamente.',
             'data' => $notification,
+            'delivered_to' => count($recipientUserIds),
         ]);
     }
 
@@ -181,5 +212,22 @@ class NotificationController extends Controller
         $validated['payload'] = $this->normalizePayload($validated['payload'] ?? null);
 
         return $validated;
+    }
+
+    private function resolveRecipientUserIds(array $recipientConfig): array
+    {
+        $targetType = $recipientConfig['target_type'];
+
+        $query = User::query()->where('status', User::ACTIVE);
+
+        if ($targetType === 'role') {
+            $query->where('rol', (int) $recipientConfig['target_role']);
+        }
+
+        if ($targetType === 'users') {
+            $query->whereIn('id', $recipientConfig['user_ids']);
+        }
+
+        return $query->pluck('id')->unique()->values()->all();
     }
 }

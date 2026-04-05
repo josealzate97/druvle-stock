@@ -57,6 +57,11 @@ window.settingsForm = function(settingsData) {
 function setupNotificationsCrud() {
     const notificationForm = document.getElementById('notificationForm');
     const notificationModalElement = document.getElementById('notificationModal');
+    const targetTypeSelect = document.getElementById('notificationTargetType');
+    const targetRoleWrapper = document.getElementById('notificationTargetRoleWrapper');
+    const targetUsersWrapper = document.getElementById('notificationTargetUsersWrapper');
+    const targetRoleSelect = document.getElementById('notificationTargetRole');
+    const targetUsersSelect = document.getElementById('notificationTargetUsers');
 
     if (!notificationForm || !notificationModalElement) {
         return;
@@ -76,6 +81,10 @@ function setupNotificationsCrud() {
         }
     });
 
+    if (targetTypeSelect) {
+        targetTypeSelect.addEventListener('change', toggleNotificationTargetFields);
+    }
+
     notificationForm.addEventListener('submit', async function (event) {
         event.preventDefault();
 
@@ -86,6 +95,25 @@ function setupNotificationsCrud() {
 
         if (!data.priority) {
             data.priority = 1;
+        }
+
+        if (!isEdit) {
+            const targetType = targetTypeSelect ? targetTypeSelect.value : 'all_active';
+            data.target_type = targetType;
+
+            if (targetType === 'role') {
+                data.target_role = targetRoleSelect ? targetRoleSelect.value : '';
+            } else {
+                delete data.target_role;
+            }
+
+            if (targetType === 'users') {
+                data.user_ids = targetUsersSelect
+                    ? Array.from(targetUsersSelect.selectedOptions).map((option) => option.value)
+                    : [];
+            } else {
+                delete data.user_ids;
+            }
         }
 
         try {
@@ -126,6 +154,18 @@ function setupNotificationsCrud() {
         document.getElementById('notificationScheduledAt').value = toLocalDateTimeInput(notification.scheduled_at);
         document.getElementById('notificationExpiresAt').value = toLocalDateTimeInput(notification.expires_at);
         document.getElementById('notificationPayload').value = notification.payload ? JSON.stringify(notification.payload, null, 2) : '';
+        if (targetTypeSelect) {
+            targetTypeSelect.value = 'all_active';
+        }
+        if (targetRoleSelect) {
+            targetRoleSelect.value = '';
+        }
+        if (targetUsersSelect) {
+            Array.from(targetUsersSelect.options).forEach((option) => {
+                option.selected = false;
+            });
+        }
+        toggleNotificationTargetFields();
 
         notificationModal.show();
     };
@@ -157,6 +197,22 @@ function setupNotificationsCrud() {
             notyf.error(error.message || 'Error al eliminar la notificación');
         }
     };
+
+    function toggleNotificationTargetFields() {
+        const targetType = targetTypeSelect ? targetTypeSelect.value : 'all_active';
+        const isRole = targetType === 'role';
+        const isUsers = targetType === 'users';
+
+        if (targetRoleWrapper) {
+            targetRoleWrapper.classList.toggle('d-none', !isRole);
+        }
+
+        if (targetUsersWrapper) {
+            targetUsersWrapper.classList.toggle('d-none', !isUsers);
+        }
+    }
+
+    toggleNotificationTargetFields();
 }
 
 function resetNotificationForm() {
@@ -168,6 +224,24 @@ function resetNotificationForm() {
     form.reset();
     document.getElementById('notificationId').value = '';
     document.getElementById('notificationPriority').value = 1;
+    const targetTypeSelect = document.getElementById('notificationTargetType');
+    const targetRoleSelect = document.getElementById('notificationTargetRole');
+    const targetUsersSelect = document.getElementById('notificationTargetUsers');
+
+    if (targetTypeSelect) {
+        targetTypeSelect.value = 'all_active';
+        targetTypeSelect.dispatchEvent(new Event('change'));
+    }
+
+    if (targetRoleSelect) {
+        targetRoleSelect.value = '';
+    }
+
+    if (targetUsersSelect) {
+        Array.from(targetUsersSelect.options).forEach((option) => {
+            option.selected = false;
+        });
+    }
 }
 
 function toLocalDateTimeInput(value) {

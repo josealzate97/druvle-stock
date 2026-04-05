@@ -252,6 +252,46 @@
                         </div>
 
                         <div class="col-12">
+                            <div class="notification-target-box">
+                                <div class="notification-target-title">
+                                    <i class="fas fa-users me-1"></i> Destino de la notificación
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-md-4">
+                                        <label for="notificationTargetType" class="form-label fw-bold">Enviar a</label>
+                                        <select class="form-select" id="notificationTargetType" name="target_type">
+                                            <option value="all_active">Todos los usuarios activos</option>
+                                            <option value="role">Usuarios por rol</option>
+                                            <option value="users">Usuarios específicos</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-4 d-none" id="notificationTargetRoleWrapper">
+                                        <label for="notificationTargetRole" class="form-label fw-bold">Rol</label>
+                                        <select class="form-select" id="notificationTargetRole" name="target_role">
+                                            <option value="">Selecciona rol</option>
+                                            <option value="{{ \App\Models\User::ROLE_ROOT }}">Super Admin</option>
+                                            <option value="{{ \App\Models\User::ROLE_ADMIN }}">Admin</option>
+                                            <option value="{{ \App\Models\User::ROLE_SALES }}">Cajero</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-8 d-none" id="notificationTargetUsersWrapper">
+                                        <label for="notificationTargetUsers" class="form-label fw-bold">Usuarios</label>
+                                        <select class="form-select" id="notificationTargetUsers" name="user_ids[]" multiple size="5">
+                                            @foreach ($activeUsers as $activeUser)
+                                                <option value="{{ $activeUser->id }}">
+                                                    {{ $activeUser->name }} {{ $activeUser->lastname }} ({{ $activeUser->username }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="form-text">Mantén presionado Ctrl o Cmd para seleccionar varios.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
                             <label for="notificationTitle" class="form-label fw-bold">Título *</label>
                             <input type="text" class="form-control" id="notificationTitle" name="title" maxlength="150" required>
                         </div>

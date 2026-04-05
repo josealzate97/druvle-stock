@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Settings as Setting;
 use App\Models\Tax as Tax;
 use App\Models\Notification;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,13 @@ class SettingController extends Controller {
         $settings = Setting::first(); // Obtiene la configuración actual
         $taxes = Tax::all();
         $notifications = Notification::orderBy('created_at', 'desc')->paginate(10, ['*'], 'notifications_page');
+        $activeUsers = User::query()
+            ->where('status', User::ACTIVE)
+            ->orderBy('name')
+            ->orderBy('lastname')
+            ->get(['id', 'name', 'lastname', 'username', 'rol']);
 
-        return view('backend.settings.index', compact('settings', 'taxes', 'notifications'));
+        return view('backend.settings.index', compact('settings', 'taxes', 'notifications', 'activeUsers'));
 
     }
 
