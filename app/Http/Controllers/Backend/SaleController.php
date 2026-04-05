@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Events\RefundProcessed;
+use App\Events\SaleCompleted;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\Sale;
-use App\Models\SaleDetail;
 use App\Models\Client;
 use App\Models\Product;
 use App\Models\ReturnItems;
+use App\Models\Sale;
+use App\Models\SaleDetail;
 use App\Models\Settings;
 use App\Models\Tax;
-use Illuminate\Support\Facades\Mail;
 use App\Repositories\SalesRepository;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class SaleController extends Controller {
-
-    protected $salesRepository;
 
     public function __construct(SalesRepository $salesRepository){
         $this->salesRepository = $salesRepository;
@@ -93,6 +93,8 @@ class SaleController extends Controller {
             'notes' => null
         ]);
 
+        $soldProductsSnapshot = [];
+
         // Crear los detalles de la venta (SalesDetail)
         foreach ($validated['saleItems'] as $item) {
             
@@ -120,7 +122,19 @@ class SaleController extends Controller {
             $product->quantity -= $item['quantity'];
             $product->save();
 
+            $soldProductsSnapshot[] = [
+                'id' => $product->id,
+                'name' => $product->name,
+                'current_stock' => (int) $product->quantity,
+            ];
+
         }
+
+        event(new SaleCompleted(
+            sale: $sale,
+            soldProducts: $soldProductsSnapshot,
+            actorUserId: auth()->id()
+        ));
 
         // Enviar correo si se proporcionó un email del cliente
         if (isset($client) && $client->email) {
@@ -258,6 +272,8 @@ class SaleController extends Controller {
 
         
         // Procesar cada producto a devolver
+        $refundSummary = [];
+
         foreach ($validated['items'] as $item) {
 
             $saleDetail = SaleDetail::findOrFail($item['sale_detail_id']);
@@ -295,8 +311,20 @@ class SaleController extends Controller {
             $saleDetail->quantity -= $item['quantity'];
             $saleDetail->save();
 
+            $refundSummary[] = [
+                'product_id' => $saleDetail->product_id,
+                'product_name' => $saleDetail->producto->name ?? 'Producto',
+                'quantity' => (int) $item['quantity'],
+                'reason' => (int) ($item['reason'] ?? 0),
+            ];
             
         }
+
+        event(new RefundProcessed(
+            sale: $sale,
+            refundSummary: $refundSummary,
+            actorUserId: auth()->id()
+        ));
 
         return response()->json([
             'success' => true,
