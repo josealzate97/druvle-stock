@@ -209,6 +209,10 @@ html, body {
   padding: 0;
 }
 
+.header-notification-btn.dropdown-toggle::after {
+  display: none;
+}
+
 .header-notification-btn:hover {
   background: #edf4ff;
   border-color: #c2d5ee;
@@ -223,6 +227,140 @@ html, body {
   position: absolute;
   right: 7px;
   top: 7px;
+}
+
+.header-notification-count {
+  min-width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: #ef4444;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: -3px;
+  top: -4px;
+  padding: 0 0.2rem;
+}
+
+.notification-menu {
+  width: min(400px, calc(100vw - 1.75rem));
+  border-radius: 14px;
+  border: 1px solid #dce6f5;
+  padding: 0;
+  overflow: hidden;
+}
+
+.notification-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  border-bottom: 1px solid #ebf1fa;
+  background: linear-gradient(180deg, #f8fbff 0%, #f1f7ff 100%);
+}
+
+.notification-menu-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #1e293b;
+  line-height: 1.1;
+}
+
+.notification-menu-subtitle {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 0.15rem;
+}
+
+.notification-mark-all {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--blue-500);
+  padding: 0.1rem 0;
+}
+
+.notification-mark-all:hover {
+  color: #1259a4;
+}
+
+.notification-menu-list {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 0.72rem 0.9rem;
+  border-bottom: 1px solid #edf2f9;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background: #f8fbff;
+}
+
+.notification-item.is-unread {
+  background: #f2f8ff;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.notification-item-type {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 800;
+  color: #1d4ed8;
+}
+
+.notification-item-time {
+  font-size: 0.68rem;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.notification-item-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 0.18rem;
+  line-height: 1.2;
+}
+
+.notification-item-message {
+  font-size: 0.74rem;
+  color: #475569;
+  margin-top: 0.18rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notification-empty-state {
+  padding: 1rem 0.9rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
 }
 
 .theme-toggle .form-check-input {
@@ -1023,6 +1161,68 @@ body.theme-dark .header-notification-btn:hover {
 
 body.theme-dark .header-notification-dot {
   border-color: #1a1f27;
+}
+
+body.theme-dark .header-notification-count {
+  border-color: #1a1f27;
+}
+
+body.theme-dark .notification-menu {
+  border-color: #2a3140;
+  background: #131923;
+}
+
+body.theme-dark .notification-menu-header {
+  border-bottom-color: #252d3b;
+  background: linear-gradient(180deg, #172130 0%, #131b28 100%);
+}
+
+body.theme-dark .notification-menu-title {
+  color: #e2e8f0;
+}
+
+body.theme-dark .notification-menu-subtitle {
+  color: #9fb0c8;
+}
+
+body.theme-dark .notification-mark-all {
+  color: #9cc8ff;
+}
+
+body.theme-dark .notification-mark-all:hover {
+  color: #c3defe;
+}
+
+body.theme-dark .notification-item {
+  border-bottom-color: #232b39;
+}
+
+body.theme-dark .notification-item:hover {
+  background: #1a2332;
+}
+
+body.theme-dark .notification-item.is-unread {
+  background: #18273a;
+}
+
+body.theme-dark .notification-item-type {
+  color: #8bbdff;
+}
+
+body.theme-dark .notification-item-time {
+  color: #97a7bd;
+}
+
+body.theme-dark .notification-item-title {
+  color: #e5e7eb;
+}
+
+body.theme-dark .notification-item-message {
+  color: #bac5d6;
+}
+
+body.theme-dark .notification-empty-state {
+  color: #9fb0c8;
 }
 
 body.theme-dark .user-menu-toggle {

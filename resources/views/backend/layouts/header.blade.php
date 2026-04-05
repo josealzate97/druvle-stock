@@ -19,10 +19,32 @@
             <i class="fas fa-moon"></i>
         </div>
 
-        <button class="btn header-notification-btn" type="button" aria-label="Notificaciones">
-            <i class="fas fa-bell"></i>
-            <span class="header-notification-dot"></span>
-        </button>
+        <div class="nav-item dropdown notification-dropdown">
+            <button class="btn header-notification-btn dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Notificaciones">
+                <i class="fas fa-bell"></i>
+                <span class="header-notification-dot d-none" id="headerNotificationDot"></span>
+                <span class="header-notification-count d-none" id="headerNotificationCount">0</span>
+            </button>
+
+            <div class="dropdown-menu dropdown-menu-end shadow-sm notification-menu" aria-labelledby="notificationDropdown">
+                <div class="notification-menu-header">
+                    <div>
+                        <div class="notification-menu-title">Notificaciones</div>
+                        <div class="notification-menu-subtitle" id="headerNotificationSubtitle">Sin notificaciones nuevas</div>
+                    </div>
+                    <button class="btn btn-sm btn-link notification-mark-all" type="button" id="markAllNotificationsBtn">
+                        Marcar todas
+                    </button>
+                </div>
+
+                <div class="notification-menu-list" id="headerNotificationList">
+                    <div class="notification-empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <span>No hay notificaciones por ahora.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="nav-item dropdown header-user-menu">
             <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir menú de usuario">

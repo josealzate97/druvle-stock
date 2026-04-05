@@ -12,6 +12,10 @@ window.bootstrap = bootstrap;
 // Crear y mostrar overlay de cargando
 document.addEventListener("DOMContentLoaded", () => {
     Alpine.start();
+    const notyf = new Notyf({
+        duration: 2600,
+        position: { x: 'right', y: 'top' }
+    });
 
     // console.log("App Js loadead!");
 
@@ -87,6 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    setupHeaderNotifications(notyf);
+
 });
 
 /**
@@ -109,6 +115,183 @@ function getActiveNav(currentPath, links) {
 
     });
 
+}
+
+function setupHeaderNotifications(notyf) {
+    const dropdownButton = document.getElementById('notificationDropdown');
+    const dropdownContainer = dropdownButton ? dropdownButton.closest('.dropdown') : null;
+    const notificationsList = document.getElementById('headerNotificationList');
+    const notificationsCount = document.getElementById('headerNotificationCount');
+    const notificationsDot = document.getElementById('headerNotificationDot');
+    const notificationsSubtitle = document.getElementById('headerNotificationSubtitle');
+    const markAllButton = document.getElementById('markAllNotificationsBtn');
+
+    if (!dropdownButton || !dropdownContainer || !notificationsList || !notificationsCount || !notificationsDot || !notificationsSubtitle || !markAllButton) {
+        return;
+    }
+
+    const typeLabels = {
+        stock_low: 'Stock Bajo',
+        refund_created: 'Devoluciones',
+    };
+
+    const getTypeLabel = (type) => typeLabels[type] || type || 'General';
+
+    const formatRelativeTime = (dateString) => {
+        if (!dateString) {
+            return 'Ahora';
+        }
+
+        const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) {
+            return 'Ahora';
+        }
+
+        const diffMs = Date.now() - date.getTime();
+        const diffMinutes = Math.max(1, Math.floor(diffMs / 60000));
+
+        if (diffMinutes < 60) {
+            return `hace ${diffMinutes} min`;
+        }
+
+        const diffHours = Math.floor(diffMinutes / 60);
+        if (diffHours < 24) {
+            return `hace ${diffHours} h`;
+        }
+
+        const diffDays = Math.floor(diffHours / 24);
+        return `hace ${diffDays} d`;
+    };
+
+    const renderNotifications = (items) => {
+        if (!items.length) {
+            notificationsList.innerHTML = `
+                <div class="notification-empty-state">
+                    <i class="fas fa-bell-slash"></i>
+                    <span>No hay notificaciones por ahora.</span>
+                </div>
+            `;
+            return;
+        }
+
+        notificationsList.innerHTML = items.map((item) => {
+            const notification = item.notification || {};
+            const unreadClass = item.read_at ? '' : 'is-unread';
+
+            return `
+                <div class="notification-item ${unreadClass}" data-user-notification-id="${item.id}" data-read="${item.read_at ? '1' : '0'}">
+                    <div class="notification-item-top">
+                        <span class="notification-item-type">${getTypeLabel(notification.type)}</span>
+                        <span class="notification-item-time">${formatRelativeTime(item.created_at || item.delivered_at || notification.created_at)}</span>
+                    </div>
+                    <div class="notification-item-title">${notification.title || 'Notificación'}</div>
+                    <div class="notification-item-message">${notification.message || ''}</div>
+                </div>
+            `;
+        }).join('');
+    };
+
+    const updateHeaderCounters = (items) => {
+        const unreadCount = items.filter((item) => !item.read_at).length;
+        const hasUnread = unreadCount > 0;
+
+        notificationsDot.classList.toggle('d-none', !hasUnread);
+        notificationsCount.classList.toggle('d-none', !hasUnread);
+        notificationsCount.textContent = unreadCount > 99 ? '99+' : String(unreadCount);
+
+        notificationsSubtitle.textContent = hasUnread
+            ? `${unreadCount} sin leer`
+            : 'Sin notificaciones nuevas';
+
+        markAllButton.disabled = !hasUnread;
+        markAllButton.classList.toggle('disabled', !hasUnread);
+    };
+
+    const loadNotifications = async () => {
+        try {
+            const response = await fetch('/notifications?per_page=8');
+            if (!response.ok) {
+                throw new Error('No se pudieron cargar notificaciones');
+            }
+
+            const payload = await response.json();
+            const items = Array.isArray(payload.data) ? payload.data : [];
+            renderNotifications(items);
+            updateHeaderCounters(items);
+        } catch (error) {
+            notificationsList.innerHTML = `
+                <div class="notification-empty-state">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <span>Error al cargar notificaciones.</span>
+                </div>
+            `;
+        }
+    };
+
+    const markOneAsRead = async (userNotificationId) => {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const response = await fetch(`/notifications/${userNotificationId}/read`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('No se pudo marcar la notificación');
+        }
+    };
+
+    const markAllAsRead = async () => {
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const response = await fetch('/notifications/read-all', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': token,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('No se pudieron marcar todas');
+        }
+    };
+
+    notificationsList.addEventListener('click', async (event) => {
+        const item = event.target.closest('.notification-item');
+        if (!item) {
+            return;
+        }
+
+        if (item.dataset.read === '1') {
+            return;
+        }
+
+        try {
+            await markOneAsRead(item.dataset.userNotificationId);
+            await loadNotifications();
+        } catch (error) {
+            notyf.error('No fue posible marcar la notificación');
+        }
+    });
+
+    markAllButton.addEventListener('click', async () => {
+        if (markAllButton.disabled) {
+            return;
+        }
+
+        try {
+            await markAllAsRead();
+            await loadNotifications();
+            notyf.success('Notificaciones marcadas como leídas');
+        } catch (error) {
+            notyf.error('No fue posible marcar todas');
+        }
+    });
+
+    dropdownContainer.addEventListener('show.bs.dropdown', loadNotifications);
+    loadNotifications();
 }
 
 
