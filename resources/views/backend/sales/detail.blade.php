@@ -37,7 +37,7 @@
                             </div>
                             <div class="summary-card">
                                 <span>Tipo de pago</span>
-                                <strong class="text-success" x-text="saleDetail.payment_type == 1 ? 'EFECTIVO' : saleDetail.payment_type == 2 ? 'BIZUM' : 'TPV'"></strong>
+                                <strong class="text-success" x-text="saleDetail.payment_type == 1 ? 'EFECTIVO' : saleDetail.payment_type == 2 ? 'BIZUM' : saleDetail.payment_type == 3 ? 'TPV' : '-'"></strong>
                             </div>
                             <div class="summary-card">
                                 <span>Sub total</span>

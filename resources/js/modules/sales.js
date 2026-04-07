@@ -313,6 +313,7 @@ window.salesForm = function() {
             }).catch(() => {
 
                 this.saleDetail = { code: 'Error', items: [] };
+                notyf.error('No se pudo cargar el detalle de la venta.');
 
             });
 

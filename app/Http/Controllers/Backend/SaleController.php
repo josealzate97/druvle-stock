@@ -160,12 +160,13 @@ class SaleController extends Controller {
 
         // Validar que la venta exista
         $sale = Sale::with(['items', 'client', 'returnItems'])->findOrFail($id);
+        $saleDate = $sale->sale_date ?? $sale->created_at;
 
         // Retornar una respuesta JSON con los detalles de la venta
         return response()->json([
             'id' => $sale->id,
             'code' => $sale->code,
-            'sale_date' => \Carbon\Carbon::parse($sale->sale_date)->format('Y-m-d h:i A'),
+            'sale_date' => $saleDate ? \Carbon\Carbon::parse($saleDate)->format('Y-m-d h:i A') : null,
             'payment_type' => $sale->type_payment,
             'total' => number_format($sale->total, 2),
             'subtotal' => number_format($sale->subtotal, 2),
@@ -173,14 +174,21 @@ class SaleController extends Controller {
             'client_name' => $sale->client->name ?? null,
             'client_email' => $sale->client->email ?? null,
             'items' => $sale->items->map(function($item) {
+                $product = $item->producto;
+                $quantity = (float) $item->quantity;
+                $unitPrice = (float) ($item->unitary_price ?? $product?->sale_price ?? 0);
+                $lineSubtotal = (float) ($item->subtotal ?? ($quantity * $unitPrice));
+                $taxRate = ($product && $product->taxable && $product->tax) ? (float) $product->tax->rate : 0.0;
+                $taxValue = $lineSubtotal * $taxRate / 100;
+
                 return [
                     'id' => $item->id,
-                    'name' => $item->producto->name,
+                    'name' => $product?->name ?? 'Producto',
                     'quantity' => $item->quantity,
-                    'sale_price' => number_format($item->producto->sale_price, 2),
-                    'tax' => $item->producto->taxable ? number_format($item->producto->tax->rate, 2) : '0.00',
-                    'tax_value' => number_format(($item->quantity * $item->producto->sale_price) * $item->producto->tax->rate / 100, 2),
-                    'total' => number_format($item->quantity * $item->producto->sale_price, 2)
+                    'sale_price' => number_format($unitPrice, 2),
+                    'tax' => number_format($taxRate, 2),
+                    'tax_value' => number_format($taxValue, 2),
+                    'total' => number_format($lineSubtotal, 2)
                 ];
             }),
             'returns' => $sale->returnItems->map(function($return) {
