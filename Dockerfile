@@ -31,7 +31,7 @@ RUN mkdir -p /var/www/storage/app/public /var/www/storage/framework/cache /var/w
 
 # Copiar solo imágenes estáticas a public (favicon, logo, etc.)
 RUN mkdir -p /var/www/public/images \
-    && if [ -d /var/www/resources/images ]; then cp -r /var/www/resources/images/* /var/www/public/images/; fi
+    && if [ -d /var/www/resources/images ] && [ -n "$(ls -A /var/www/resources/images 2>/dev/null)" ]; then cp -r /var/www/resources/images/. /var/www/public/images/; fi
 
 # Asignar permisos correctos
 RUN chown -R www-data:www-data /var/www
