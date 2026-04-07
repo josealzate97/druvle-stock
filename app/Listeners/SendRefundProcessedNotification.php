@@ -6,9 +6,16 @@ use App\Events\RefundProcessed;
 use App\Models\Notification;
 use App\Models\User;
 use App\Services\NotificationService;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
-class SendRefundProcessedNotification
+class SendRefundProcessedNotification implements ShouldQueue
 {
+    use InteractsWithQueue;
+
+    public int $tries = 3;
+    public int $timeout = 30;
+
     public function __construct(private NotificationService $notificationService)
     {
     }
@@ -48,4 +55,3 @@ class SendRefundProcessedNotification
         ]);
     }
 }
-

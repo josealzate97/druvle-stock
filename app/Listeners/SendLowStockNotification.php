@@ -6,10 +6,16 @@ use App\Events\LowStockDetected;
 use App\Models\Notification;
 use App\Models\User;
 use App\Services\NotificationService;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 
-class SendLowStockNotification
+class SendLowStockNotification implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     private const LOW_STOCK_NOTIFICATION_COOLDOWN_MINUTES = 120;
+    public int $tries = 3;
+    public int $timeout = 30;
 
     public function __construct(private NotificationService $notificationService)
     {
@@ -58,4 +64,3 @@ class SendLowStockNotification
             ->exists();
     }
 }
-
