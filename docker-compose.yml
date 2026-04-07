@@ -14,6 +14,24 @@ services:
     environment:
       PROJECT_NAME: ${PROJECT_NAME}
 
+  druvle-queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}-queue
+    user: "${UID:-1000}:${GID:-1000}"
+    working_dir: /var/www
+    command: php artisan queue:work --queue=default --tries=3 --sleep=1 --timeout=60
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+    depends_on:
+      - druvle-db
+    networks:
+      - druvle
+    environment:
+      PROJECT_NAME: ${PROJECT_NAME}
+
   druvle-nginx:
     image: nginx:alpine
     container_name: ${PROJECT_NAME}-nginx

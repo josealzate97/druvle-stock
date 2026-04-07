@@ -66,6 +66,12 @@ class NotificationService
         return UserNotification::query()
             ->with('notification')
             ->where('user_id', $userId)
+            ->when(($filters['archived'] ?? 'active') === 'active', function ($query) {
+                $query->whereNull('archived_at');
+            })
+            ->when(($filters['archived'] ?? 'active') === 'only', function ($query) {
+                $query->whereNotNull('archived_at');
+            })
             ->when(array_key_exists('unread', $filters), function ($query) use ($filters) {
                 if ((bool) $filters['unread'] === true) {
                     $query->whereNull('read_at');
@@ -108,8 +114,30 @@ class NotificationService
     {
         return UserNotification::query()
             ->where('user_id', $userId)
+            ->whereNull('archived_at')
             ->whereNull('read_at')
             ->update(['read_at' => Carbon::now()]);
+    }
+
+    public function archive(string $userId, string $userNotificationId): bool
+    {
+        $record = UserNotification::query()
+            ->where('id', $userNotificationId)
+            ->where('user_id', $userId)
+            ->first();
+
+        if (!$record) {
+            return false;
+        }
+
+        if (!$record->archived_at) {
+            $now = Carbon::now();
+            $record->archived_at = $now;
+            $record->read_at = $record->read_at ?? $now;
+            $record->save();
+        }
+
+        return true;
     }
 
     public function getPreferences(string $userId)

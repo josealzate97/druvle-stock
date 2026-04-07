@@ -7,6 +7,8 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserNotification;
 use App\Services\NotificationService;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -23,6 +25,7 @@ class NotificationController extends Controller
             'unread' => 'nullable|boolean',
             'type' => ['nullable', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
             'priority' => 'nullable|integer|min:1|max:5',
+            'archived' => ['nullable', 'string', Rule::in(['active', 'only', 'all'])],
             'per_page' => 'nullable|integer|min:1|max:100',
         ]);
 
@@ -37,14 +40,22 @@ class NotificationController extends Controller
             'unread' => 'nullable|boolean',
             'type' => ['nullable', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
             'priority' => 'nullable|integer|min:1|max:5',
+            'archived' => ['nullable', 'string', Rule::in(['active', 'only', 'all'])],
             'per_page' => 'nullable|integer|min:5|max:100',
         ]);
 
         $perPage = (int) ($validated['per_page'] ?? 15);
+        $archivedFilter = $validated['archived'] ?? 'active';
 
         $notifications = UserNotification::query()
             ->with('notification')
             ->where('user_id', $request->user()->id)
+            ->when($archivedFilter === 'active', function ($query) {
+                $query->whereNull('archived_at');
+            })
+            ->when($archivedFilter === 'only', function ($query) {
+                $query->whereNotNull('archived_at');
+            })
             ->when(array_key_exists('unread', $validated), function ($query) use ($validated) {
                 if ((bool) $validated['unread'] === true) {
                     $query->whereNull('read_at');
@@ -66,16 +77,23 @@ class NotificationController extends Controller
 
         $unreadCount = UserNotification::query()
             ->where('user_id', $request->user()->id)
+            ->whereNull('archived_at')
             ->whereNull('read_at')
             ->count();
+
+        $failedJobsCount = (clone $this->failedNotificationJobsQuery())->count();
+        $lastFailedAt = (clone $this->failedNotificationJobsQuery())->max('failed_at');
 
         return view('backend.notifications.index', [
             'notifications' => $notifications,
             'unreadCount' => $unreadCount,
+            'failedJobsCount' => $failedJobsCount,
+            'lastFailedAt' => $lastFailedAt,
             'filters' => [
                 'unread' => $validated['unread'] ?? null,
                 'type' => $validated['type'] ?? '',
                 'priority' => $validated['priority'] ?? '',
+                'archived' => $archivedFilter,
                 'per_page' => $perPage,
             ],
             'types' => Notification::TYPES,
@@ -107,6 +125,66 @@ class NotificationController extends Controller
             'success' => true,
             'message' => 'Notificaciones actualizadas.',
             'updated' => $updated,
+        ]);
+    }
+
+    public function archive(Request $request, string $id)
+    {
+        $archived = $this->notificationService->archive($request->user()->id, $id);
+
+        if (!$archived) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Notificación no encontrada.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Notificación archivada correctamente.',
+        ]);
+    }
+
+    public function failedJobsSummary()
+    {
+        $failedJobsCount = (clone $this->failedNotificationJobsQuery())->count();
+        $lastFailedAt = (clone $this->failedNotificationJobsQuery())->max('failed_at');
+
+        return response()->json([
+            'success' => true,
+            'failed_jobs_count' => $failedJobsCount,
+            'last_failed_at' => $lastFailedAt,
+        ]);
+    }
+
+    public function retryFailedJobs(Request $request)
+    {
+        $validated = $request->validate([
+            'limit' => 'nullable|integer|min:1|max:100',
+        ]);
+
+        $limit = (int) ($validated['limit'] ?? 20);
+
+        $failedJobIds = (clone $this->failedNotificationJobsQuery())
+            ->orderByDesc('failed_at')
+            ->limit($limit)
+            ->pluck('id')
+            ->all();
+
+        if (empty($failedJobIds)) {
+            return response()->json([
+                'success' => true,
+                'message' => 'No hay jobs fallidos de notificaciones para reintentar.',
+                'retried' => 0,
+            ]);
+        }
+
+        Artisan::call('queue:retry', ['id' => $failedJobIds]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Reintento enviado a la cola.',
+            'retried' => count($failedJobIds),
         ]);
     }
 
@@ -281,5 +359,16 @@ class NotificationController extends Controller
         }
 
         return $query->pluck('id')->unique()->values()->all();
+    }
+
+    private function failedNotificationJobsQuery()
+    {
+        return DB::table('failed_jobs')
+            ->where(function ($query) {
+                $query
+                    ->orWhere('payload', 'like', '%NotificationDispatcher%')
+                    ->orWhere('payload', 'like', '%SendLowStockNotification%')
+                    ->orWhere('payload', 'like', '%SendRefundProcessedNotification%');
+            });
     }
 }
