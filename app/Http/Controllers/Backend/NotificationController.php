@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserNotification;
 use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -28,6 +29,57 @@ class NotificationController extends Controller
         $notifications = $this->notificationService->listForUser($request->user()->id, $validated);
 
         return response()->json($notifications);
+    }
+
+    public function inbox(Request $request)
+    {
+        $validated = $request->validate([
+            'unread' => 'nullable|boolean',
+            'type' => ['nullable', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
+            'priority' => 'nullable|integer|min:1|max:5',
+            'per_page' => 'nullable|integer|min:5|max:100',
+        ]);
+
+        $perPage = (int) ($validated['per_page'] ?? 15);
+
+        $notifications = UserNotification::query()
+            ->with('notification')
+            ->where('user_id', $request->user()->id)
+            ->when(array_key_exists('unread', $validated), function ($query) use ($validated) {
+                if ((bool) $validated['unread'] === true) {
+                    $query->whereNull('read_at');
+                }
+            })
+            ->when(!empty($validated['type']), function ($query) use ($validated) {
+                $query->whereHas('notification', function ($notificationQuery) use ($validated) {
+                    $notificationQuery->where('type', $validated['type']);
+                });
+            })
+            ->when(isset($validated['priority']), function ($query) use ($validated) {
+                $query->whereHas('notification', function ($notificationQuery) use ($validated) {
+                    $notificationQuery->where('priority', (int) $validated['priority']);
+                });
+            })
+            ->orderByDesc('created_at')
+            ->paginate($perPage)
+            ->appends($request->query());
+
+        $unreadCount = UserNotification::query()
+            ->where('user_id', $request->user()->id)
+            ->whereNull('read_at')
+            ->count();
+
+        return view('backend.notifications.index', [
+            'notifications' => $notifications,
+            'unreadCount' => $unreadCount,
+            'filters' => [
+                'unread' => $validated['unread'] ?? null,
+                'type' => $validated['type'] ?? '',
+                'priority' => $validated['priority'] ?? '',
+                'per_page' => $perPage,
+            ],
+            'types' => Notification::TYPES,
+        ]);
     }
 
     public function markAsRead(Request $request, string $id)

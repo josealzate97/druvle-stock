@@ -43,6 +43,12 @@
                         <span>No hay notificaciones por ahora.</span>
                     </div>
                 </div>
+
+                <div class="notification-menu-footer">
+                    <a href="{{ route('notifications.inbox') }}" class="notification-view-all-link">
+                        Ver todas
+                    </a>
+                </div>
             </div>
         </div>
 
@@ -67,9 +73,9 @@
                 </span>
             </a>
             
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                <li class="text-center">    
-                    <p class="fw-bold small badge bg-secondary mb-2">
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm user-menu-dropdown">
+                <li class="user-menu-dropdown-header text-center">    
+                    <p class="fw-bold small badge user-role-badge mb-2">
                         {{ 
                             Auth::user()->rol == 1 ? 'Soporte' :
                             (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero') 
@@ -78,26 +84,41 @@
                 </li>
 
                 <li>
-                    <a class="dropdown-item text-dark" href="{{ route('users.info', ['id' => Auth::user()->id]) }}">
-                        <i class="fa-solid fa-user color-primary"></i>&nbsp;&nbsp;
+                    <a class="dropdown-item user-menu-item" href="{{ route('users.info', ['id' => Auth::user()->id]) }}">
+                        <span class="user-menu-item-icon">
+                            <i class="fa-solid fa-user color-primary"></i>
+                        </span>
                         Mi Perfil
                     </a>
                 </li>
 
                 <li>
-                    <a class="dropdown-item text-dark" href="{{ route('settings.index') }}">
-                        <i class="fa-solid fa-gear color-primary"></i>&nbsp;&nbsp;
+                    <a class="dropdown-item user-menu-item" href="{{ route('settings.index') }}">
+                        <span class="user-menu-item-icon">
+                            <i class="fa-solid fa-gear color-primary"></i>
+                        </span>
                         Configuración
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item user-menu-item" href="{{ route('notifications.inbox') }}">
+                        <span class="user-menu-item-icon">
+                            <i class="fa-solid fa-bell color-primary"></i>
+                        </span>
+                        Mis Notificaciones
                     </a>
                 </li>
 
                 <li><hr class="dropdown-divider"></li>
 
                 <li>
-                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                    <a class="dropdown-item user-menu-item user-menu-item-danger" href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
-                        <i class="fa-solid fa-sign-out-alt"></i>&nbsp;&nbsp;
+                        <span class="user-menu-item-icon">
+                            <i class="fa-solid fa-sign-out-alt"></i>
+                        </span>
                         Cerrar sesión
                     </a>
 

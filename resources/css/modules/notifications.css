@@ -1,0 +1,58 @@
+.notifications-hero {
+  border: 1px solid #e6ebf2;
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.notifications-toolbar {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.notifications-unread-pill {
+  background: linear-gradient(160deg, #ede9fe 0%, #ddd6fe 100%);
+  color: #5b21b6;
+  border: 1px solid #c4b5fd;
+}
+
+.notifications-table .table-chip-type {
+  background: linear-gradient(160deg, #eaf2ff 0%, #dbeafe 100%);
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.notifications-table .status-pill-priority {
+  background: #e0ecff;
+  color: #1e3a8a;
+}
+
+.notification-row-unread {
+  background: #f8fbff;
+}
+
+body.theme-dark .notifications-hero {
+  border-color: #1f2329;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+body.theme-dark .notifications-unread-pill {
+  background: linear-gradient(160deg, #312e81 0%, #3730a3 100%);
+  color: #e0e7ff;
+  border-color: #4f46e5;
+}
+
+body.theme-dark .notifications-table .table-chip-type {
+  background: linear-gradient(160deg, #1e3a8a 0%, #1d4ed8 100%);
+  color: #dbeafe;
+  border-color: #2563eb;
+}
+
+body.theme-dark .notifications-table .status-pill-priority {
+  background: #1e293b;
+  color: #bfdbfe;
+}
+
+body.theme-dark .notification-row-unread {
+  background: #15202f;
+}
+

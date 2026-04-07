@@ -1,6 +1,6 @@
 # druvle-stock
 
-Sistema de gestión de inventario y ventas desarrollado en Laravel 12, con frontend moderno usando Vite, TailwindCSS y Vue.js.
+Sistema de gestión de inventario y ventas desarrollado en Laravel 12, con frontend moderno usando Vite, Blade, Bootstrap y Alpine Js.
 
 ## Características principales
 
@@ -19,8 +19,9 @@ Sistema de gestión de inventario y ventas desarrollado en Laravel 12, con front
 - PHP 8.2+
 - Laravel 12
 - Vite
-- TailwindCSS
-- Vue.js
+- Bootstrap
+- Alpine Js
+- Blade
 - Docker
 - Nginx
 

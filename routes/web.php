@@ -103,6 +103,7 @@ Route::middleware('auth')->group(function () {
     /*
      * ✅ Rutas para notificaciones
     */
+    Route::get('notifications/inbox', [NotificationController::class, 'inbox'])->name('notifications.inbox');
     Route::get('notifications', [NotificationController::class, 'list'])->name('notifications.list');
     Route::post('notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
     Route::post('notifications/update/{id}', [NotificationController::class, 'update'])->name('notifications.update');
