@@ -311,10 +311,6 @@
                             <input type="datetime-local" class="form-control" id="notificationExpiresAt" name="expires_at">
                         </div>
 
-                        <div class="col-12">
-                            <label for="notificationPayload" class="form-label fw-bold">Payload (JSON)</label>
-                            <textarea class="form-control font-monospace" id="notificationPayload" name="payload" rows="3" placeholder='{"entity":"sale","id":"123"}'></textarea>
-                        </div>
                     </div>
 
                     <div class="modal-footer col-12 d-flex justify-content-between gap-2 my-3">

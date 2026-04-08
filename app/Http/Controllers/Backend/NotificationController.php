@@ -320,6 +320,8 @@ class NotificationController extends Controller
 
     private function validateNotificationData(Request $request): array
     {
+        $hasPayloadInput = $request->exists('payload');
+
         $validated = $request->validate([
             'type' => ['required', 'string', 'max:80', Rule::in(Notification::allowedTypes())],
             'title' => 'required|string|max:150',
@@ -330,7 +332,7 @@ class NotificationController extends Controller
             'expires_at' => 'nullable|date|after_or_equal:scheduled_at',
         ]);
 
-        if (is_string($validated['payload'] ?? null) && trim($validated['payload']) !== '') {
+        if ($hasPayloadInput && is_string($validated['payload'] ?? null) && trim($validated['payload']) !== '') {
             json_decode($validated['payload'], true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw ValidationException::withMessages([
@@ -339,7 +341,11 @@ class NotificationController extends Controller
             }
         }
 
-        $validated['payload'] = $this->normalizePayload($validated['payload'] ?? null);
+        if ($hasPayloadInput) {
+            $validated['payload'] = $this->normalizePayload($validated['payload'] ?? null);
+        } else {
+            unset($validated['payload']);
+        }
 
         return $validated;
     }

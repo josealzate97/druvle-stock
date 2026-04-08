@@ -32,15 +32,20 @@ class NotificationService
             return null;
         }
 
-        $notification->update([
+        $updateData = [
             'type' => $data['type'],
             'title' => $data['title'],
             'message' => $data['message'],
-            'payload' => $data['payload'] ?? null,
             'priority' => (int) ($data['priority'] ?? 1),
             'scheduled_at' => $data['scheduled_at'] ?? null,
             'expires_at' => $data['expires_at'] ?? null,
-        ]);
+        ];
+
+        if (array_key_exists('payload', $data)) {
+            $updateData['payload'] = $data['payload'];
+        }
+
+        $notification->update($updateData);
 
         return $notification->fresh();
     }

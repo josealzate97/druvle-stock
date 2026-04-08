@@ -39,7 +39,7 @@
                     <span class="status-pill notifications-unread-pill">
                         Sin leer: {{ $unreadCount }}
                     </span>
-                    <button type="button" class="btn btn-sm btn-primary" id="markAllInboxNotificationsBtn" {{ $unreadCount === 0 ? 'disabled' : '' }}>
+                    <button type="button" class="btn btn-sm btn-success notifications-mark-all-btn" id="markAllInboxNotificationsBtn" {{ $unreadCount === 0 ? 'disabled' : '' }}>
                         <i class="fas fa-check-double me-1"></i> Marcar todas
                     </button>
                 </div>
@@ -169,7 +169,7 @@
                                             </button>
                                         @endif
                                         @if(!$isArchived)
-                                            <button type="button" class="btn btn-icon text-muted archive-one-btn" title="Archivar notificación">
+                                            <button type="button" class="btn btn-icon archive-one-btn notification-archive-btn" title="Archivar notificación">
                                                 <i class="fas fa-box-archive"></i>
                                             </button>
                                         @endif
@@ -185,12 +185,6 @@
                                             <div><strong>Entrega:</strong> {{ optional($userNotification->delivered_at)->format('d/m/Y H:i:s') ?? '-' }}</div>
                                             <div><strong>Lectura:</strong> {{ optional($userNotification->read_at)->format('d/m/Y H:i:s') ?? 'Pendiente' }}</div>
                                         </div>
-                                        @if(!empty($notification?->payload))
-                                            <div class="notification-detail-payload mt-2">
-                                                <div class="small text-muted fw-bold mb-1">Payload</div>
-                                                <pre>{{ json_encode($notification?->payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) }}</pre>
-                                            </div>
-                                        @endif
                                     </div>
                                 </td>
                             </tr>

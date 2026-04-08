@@ -13,6 +13,21 @@
   background: linear-gradient(160deg, #ede9fe 0%, #ddd6fe 100%);
   color: #5b21b6;
   border: 1px solid #c4b5fd;
+  margin-right: 0.6rem;
+}
+
+.notifications-mark-all-btn {
+  min-width: 148px;
+}
+
+.notification-archive-btn {
+  color: #7c3aed;
+}
+
+.notification-archive-btn:hover,
+.notification-archive-btn:focus {
+  color: #6d28d9;
+  background: #ede9fe;
 }
 
 .notifications-table .table-chip-type {
@@ -83,6 +98,16 @@ body.theme-dark .notifications-unread-pill {
   background: linear-gradient(160deg, #312e81 0%, #3730a3 100%);
   color: #e0e7ff;
   border-color: #4f46e5;
+}
+
+body.theme-dark .notification-archive-btn {
+  color: #c4b5fd;
+}
+
+body.theme-dark .notification-archive-btn:hover,
+body.theme-dark .notification-archive-btn:focus {
+  color: #ddd6fe;
+  background: #312e81;
 }
 
 body.theme-dark .notifications-table .table-chip-type {

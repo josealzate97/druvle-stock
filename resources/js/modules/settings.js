@@ -153,7 +153,6 @@ function setupNotificationsCrud() {
         document.getElementById('notificationPriority').value = notification.priority ?? 1;
         document.getElementById('notificationScheduledAt').value = toLocalDateTimeInput(notification.scheduled_at);
         document.getElementById('notificationExpiresAt').value = toLocalDateTimeInput(notification.expires_at);
-        document.getElementById('notificationPayload').value = notification.payload ? JSON.stringify(notification.payload, null, 2) : '';
         if (targetTypeSelect) {
             targetTypeSelect.value = 'all_active';
         }
