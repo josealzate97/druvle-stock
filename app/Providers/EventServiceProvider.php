@@ -28,5 +28,9 @@ class EventServiceProvider extends ServiceProvider
             SendRefundProcessedNotification::class,
         ],
     ];
-}
 
+    public function shouldDiscoverEvents(): bool
+    {
+        return false;
+    }
+}

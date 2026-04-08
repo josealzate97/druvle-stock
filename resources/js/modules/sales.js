@@ -373,6 +373,9 @@ window.salesForm = function() {
                     if (processBtn) {
 
                         processBtn.onclick = () => {
+                            if (processBtn.disabled) {
+                                return;
+                            }
 
                             // Aquí va la lógica para recolectar los datos y enviarlos
                             const form = document.getElementById('returnForm');
@@ -403,6 +406,14 @@ window.salesForm = function() {
 
                             });
 
+                            if (items.length === 0) {
+                                notyf.error('Selecciona al menos un producto para devolver.');
+                                return;
+                            }
+
+                            processBtn.disabled = true;
+                            processBtn.classList.add('disabled');
+
                             fetch(`/sales/refund/${saleId}`, {
                                 method: 'POST',
                                 headers: {
@@ -418,9 +429,15 @@ window.salesForm = function() {
                                     location.reload();
 
                                 } else {
+                                    processBtn.disabled = false;
+                                    processBtn.classList.remove('disabled');
                                     notyf.error('Error al procesar devolución');
                                 }
 
+                            }).catch(() => {
+                                processBtn.disabled = false;
+                                processBtn.classList.remove('disabled');
+                                notyf.error('Error de red al procesar devolución');
                             });
 
                         };
