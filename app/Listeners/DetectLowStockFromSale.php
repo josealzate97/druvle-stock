@@ -12,6 +12,7 @@ class DetectLowStockFromSale
     public function handle(SaleCompleted $event): void
     {
         foreach ($event->soldProducts as $productData) {
+            
             $currentStock = (int) ($productData['current_stock'] ?? 0);
 
             if ($currentStock > self::LOW_STOCK_THRESHOLD) {

@@ -32,6 +32,7 @@ class SendRefundProcessedNotification implements ShouldQueue
         }
 
         try {
+
             if ($this->hasRecentRefundNotification($event->sale->id)) {
                 return;
             }
@@ -46,11 +47,11 @@ class SendRefundProcessedNotification implements ShouldQueue
             }
 
             $productsText = collect($event->refundSummary)
-                ->map(fn ($item) => ($item['product_name'] ?? 'Producto') . ' (x' . ((int) ($item['quantity'] ?? 0)) . ')')
-                ->take(3)
-                ->implode(', ');
+            ->map(fn ($item) => ($item['product_name'] ?? 'Producto') . ' (x' . ((int) ($item['quantity'] ?? 0)) . ')')
+            ->take(3)->implode(', ');
 
             $message = 'Se procesó una devolución para la venta ' . $event->sale->code . '.';
+            
             if ($productsText !== '') {
                 $message .= ' Productos: ' . $productsText . '.';
             }
@@ -67,6 +68,7 @@ class SendRefundProcessedNotification implements ShouldQueue
                 ],
                 'created_by' => $event->actorUserId,
             ]);
+
         } finally {
             optional($lock)->release();
         }
@@ -77,9 +79,10 @@ class SendRefundProcessedNotification implements ShouldQueue
         $cooldownStart = now()->subMinutes(self::REFUND_NOTIFICATION_COOLDOWN_MINUTES);
 
         return Notification::query()
-            ->where('type', Notification::TYPE_REFUND)
-            ->where('payload->sale_id', $saleId)
-            ->where('created_at', '>=', $cooldownStart)
-            ->exists();
+        ->where('type', Notification::TYPE_REFUND)
+        ->where('payload->sale_id', $saleId)
+        ->where('created_at', '>=', $cooldownStart)
+        ->exists();
+        
     }
 }
