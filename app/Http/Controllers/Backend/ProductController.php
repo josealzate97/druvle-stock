@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Models\ProductSize;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller {
 
@@ -51,7 +53,12 @@ class ProductController extends Controller {
             'sale_price' => 'required|numeric|min:0',
             'purchase_price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
-            'taxable' => 'required|boolean'
+            'taxable' => 'required|boolean',
+            'sizes' => 'nullable|array',
+            'sizes.*.name' => 'required_with:sizes|string|max:20',
+            'sizes.*.price' => 'required_with:sizes|numeric|min:0',
+            'sizes.*.quantity' => 'required_with:sizes|integer|min:0',
+            'sizes.*.status' => 'nullable|boolean',
         ])->validate();
         
 
@@ -60,19 +67,36 @@ class ProductController extends Controller {
 
         $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
 
-        $product = Product::create([
-            'id' => Str::uuid()->toString(),
-            'name' => $validated['name'],
-            'code' => $validated['code'],
-            'category_id' => $validated['category_id'],
-            'sale_price' => $validated['sale_price'],
-            'purchase_price' => $validated['purchase_price'],
-            'quantity' => $validated['quantity'],
-            'taxable' => $validated['taxable'],
-            'tax_id' => $validated['tax_id'],
-            'status' => $validated['status'],
-            'notes' => $validated['notes']
-        ]);
+        $product = DB::transaction(function () use ($validated) {
+            $product = Product::create([
+                'id' => Str::uuid()->toString(),
+                'name' => $validated['name'],
+                'code' => $validated['code'],
+                'category_id' => $validated['category_id'],
+                'sale_price' => $validated['sale_price'],
+                'purchase_price' => $validated['purchase_price'],
+                'quantity' => $validated['quantity'],
+                'taxable' => $validated['taxable'],
+                'tax_id' => $validated['tax_id'],
+                'status' => $validated['status'],
+                'notes' => $validated['notes']
+            ]);
+
+            $sizeRows = collect($validated['sizes'] ?? [])->map(function ($size) {
+                return [
+                    'name' => $size['name'],
+                    'price' => floatval(str_replace(',', '.', $size['price'])),
+                    'quantity' => (int) $size['quantity'],
+                    'status' => isset($size['status']) ? (bool) $size['status'] : ProductSize::ACTIVE,
+                ];
+            })->toArray();
+
+            if (!empty($sizeRows)) {
+                $product->sizes()->createMany($sizeRows);
+            }
+
+            return $product;
+        });
 
         return response()->json([
             'success' => true, 
@@ -91,7 +115,7 @@ class ProductController extends Controller {
     */
     public function getProduct($id) {
 
-        $product = Product::findOrFail($id);
+        $product = Product::with('sizes')->findOrFail($id);
 
         return response()->json([
             'success' => true, 
@@ -109,7 +133,7 @@ class ProductController extends Controller {
 
         // Trae los productos activos con la relación tax
         $products = Product::where('status', Product::ACTIVE)
-        ->with(['tax:id,name,rate'])
+        ->with(['tax:id,name,rate', 'sizes'])
         ->get();
 
         
@@ -143,12 +167,19 @@ class ProductController extends Controller {
             'sale_price' => 'required|numeric|min:0',
             'purchase_price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
-            'taxable' => 'required|boolean'
+            'taxable' => 'required|boolean',
+            'sizes' => 'nullable|array',
+            'sizes.*.name' => 'required_with:sizes|string|max:20',
+            'sizes.*.price' => 'required_with:sizes|numeric|min:0',
+            'sizes.*.quantity' => 'required_with:sizes|integer|min:0',
+            'sizes.*.status' => 'nullable|boolean',
         ])->validate();
 
         $validated['tax_id'] = isset($data['tax_id']) ? $data['tax_id'] : null; // Asignar tax_id si existe
         $validated['status'] = Product::ACTIVE;
         $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
+        $sizes = $validated['sizes'] ?? [];
+        unset($validated['sizes']);
 
         $product = Product::find($id);
 
@@ -161,7 +192,24 @@ class ProductController extends Controller {
 
         }
 
-        $product->update($validated);
+        DB::transaction(function () use ($product, $validated, $sizes) {
+            $product->update($validated);
+
+            $product->sizes()->delete();
+
+            $sizeRows = collect($sizes)->map(function ($size) {
+                return [
+                    'name' => $size['name'],
+                    'price' => floatval(str_replace(',', '.', $size['price'])),
+                    'quantity' => (int) $size['quantity'],
+                    'status' => isset($size['status']) ? (bool) $size['status'] : ProductSize::ACTIVE,
+                ];
+            })->toArray();
+
+            if (!empty($sizeRows)) {
+                $product->sizes()->createMany($sizeRows);
+            }
+        });
 
         return response()->json([
             'success' => true,

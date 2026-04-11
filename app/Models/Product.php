@@ -64,4 +64,9 @@ class Product extends Model
     {
         return $this->belongsTo(Tax::class, 'tax_id');
     }
+
+    public function sizes()
+    {
+        return $this->hasMany(ProductSize::class, 'product_id');
+    }
 }

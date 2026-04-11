@@ -80,6 +80,17 @@
                     </div>
 
                     <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label fw-bold mb-0">Tallas del producto</label>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="addSizeRowBtn">
+                                <i class="fas fa-plus me-1"></i>Agregar talla
+                            </button>
+                        </div>
+                        <div id="sizeRowsContainer" class="d-flex flex-column gap-2"></div>
+                        <small class="text-muted">Cada talla tiene su propio precio y cantidad.</small>
+                    </div>
+
+                    <div class="col-12">
                         <label for="productNote" class="form-label fw-bold">
                             Notas
                         </label>
