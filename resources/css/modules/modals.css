@@ -102,6 +102,34 @@ body.theme-dark .modal-header .btn-close {
   border-color: #16a34a;
 }
 
+.size-panel {
+  border: 1px solid #dbe5f0;
+  border-radius: 12px;
+  padding: 0.85rem;
+  background: #f8fbff;
+}
+
+.size-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+}
+
+.size-add-btn {
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+}
+
+.size-row {
+  border: 1px solid #dce6f1;
+  border-radius: 10px;
+  padding: 0.65rem;
+  background: #ffffff;
+}
+
 .color-picker {
   display: flex;
   align-items: center;

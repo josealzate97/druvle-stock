@@ -34,6 +34,7 @@ class Product extends Model
         'purchase_price',
         'sale_price',
         'quantity',
+        'has_sizes',
         'taxable',
         'tax_id',
         'notes',

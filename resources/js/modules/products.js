@@ -37,6 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const codeInput = document.getElementById('productCode');
 
     const addSizeRowBtn = document.getElementById('addSizeRowBtn');
+    const hasSizesSwitch = document.getElementById('productHasSizesSwitch');
+    const sizesSection = document.getElementById('sizesSection');
 
     taxSwitch.addEventListener('change', function() {
         if (this.checked) {
@@ -49,6 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (addSizeRowBtn) {
         addSizeRowBtn.addEventListener('click', () => addSizeRow());
+    }
+
+    if (hasSizesSwitch) {
+        hasSizesSwitch.addEventListener('change', function () {
+            toggleSizesSection(this.checked);
+        });
     }
 
     productModalElement.addEventListener('show.bs.modal', function (event) {
@@ -68,15 +76,27 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const sizesPayload = collectSizesPayload();
-        if (sizesPayload.error) {
-            notyf.error(sizesPayload.error);
-            return;
-        }
-
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
-        data.sizes = sizesPayload.sizes;
+        const hasSizes = hasSizesSwitch ? hasSizesSwitch.checked : false;
+        data.has_sizes = hasSizes;
+
+        if (hasSizes) {
+            const sizesPayload = collectSizesPayload();
+            if (sizesPayload.error) {
+                notyf.error(sizesPayload.error);
+                return;
+            }
+
+            if (sizesPayload.sizes.length === 0) {
+                notyf.error('Debes agregar al menos una talla.');
+                return;
+            }
+
+            data.sizes = sizesPayload.sizes;
+        } else {
+            data.sizes = [];
+        }
 
         const url = data.id ? `/products/update/${data.id}` : '/products/create';
 
@@ -137,12 +157,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('productPrice').value = data.product.purchase_price;
                 document.getElementById('productSale').value = data.product.sale_price;
                 document.getElementById('productQuantity').value = data.product.quantity;
+                document.getElementById('productHasSizesSwitch').checked = Boolean(Number(data.product.has_sizes));
                 document.getElementById('productTaxSwitch').checked = data.product.taxable;
                 document.getElementById('productNotes').value = data.product.notes || '';
 
                 taxDropdownContainer.style.display = data.product.taxable ? 'block' : 'none';
                 taxDropdown.value = data.product.tax_id || '';
-
+                toggleSizesSection(Boolean(Number(data.product.has_sizes)));
                 renderSizeRows(Array.isArray(data.product.sizes) ? data.product.sizes : []);
 
                 productModal.show();
@@ -211,6 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    toggleSizesSection(false);
     renderSizeRows([]);
 });
 
@@ -225,11 +247,13 @@ function clearProductModal() {
     document.getElementById('productPrice').value = '';
     document.getElementById('productSale').value = '';
     document.getElementById('productQuantity').value = '';
+    document.getElementById('productHasSizesSwitch').checked = false;
     document.getElementById('productTaxSwitch').checked = false;
     document.getElementById('taxDropdownContainer').style.display = 'none';
     document.getElementById('productTax').value = '';
     document.getElementById('productNotes').value = '';
 
+    toggleSizesSection(false);
     renderSizeRows([]);
 }
 
@@ -298,6 +322,13 @@ function addSizeRow(size = {}) {
     });
 
     container.appendChild(row);
+}
+
+function toggleSizesSection(show) {
+    const sizesSection = document.getElementById('sizesSection');
+    if (!sizesSection) return;
+
+    sizesSection.style.display = show ? 'block' : 'none';
 }
 
 function collectSizesPayload() {

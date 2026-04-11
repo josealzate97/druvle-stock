@@ -43,6 +43,7 @@ class ProductController extends Controller {
         $data = $request->all();
         
         $data['taxable'] = $request->has('taxable') ? Product::IS_TAXABLE : Product::IS_NOT_TAXABLE;
+        $data['has_sizes'] = filter_var($data['has_sizes'] ?? false, FILTER_VALIDATE_BOOLEAN);
         $data['purchase_price'] = floatval(str_replace(',', '.', $data['purchase_price']));
         $data['sale_price'] = floatval(str_replace(',', '.', $data['sale_price']));
 
@@ -53,6 +54,7 @@ class ProductController extends Controller {
             'sale_price' => 'required|numeric|min:0',
             'purchase_price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
+            'has_sizes' => 'required|boolean',
             'taxable' => 'required|boolean',
             'sizes' => 'nullable|array',
             'sizes.*.name' => 'required_with:sizes|string|max:20',
@@ -66,6 +68,14 @@ class ProductController extends Controller {
         $validated['tax_id'] = isset($data['tax_id']) ? $data['tax_id'] : null; // Asignar tax_id si existe
 
         $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
+        $validated['sizes'] = $validated['has_sizes'] ? ($validated['sizes'] ?? []) : [];
+
+        if ($validated['has_sizes'] && empty($validated['sizes'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Debes agregar al menos una talla.'
+            ], 422);
+        }
 
         $product = DB::transaction(function () use ($validated) {
             $product = Product::create([
@@ -76,6 +86,7 @@ class ProductController extends Controller {
                 'sale_price' => $validated['sale_price'],
                 'purchase_price' => $validated['purchase_price'],
                 'quantity' => $validated['quantity'],
+                'has_sizes' => $validated['has_sizes'],
                 'taxable' => $validated['taxable'],
                 'tax_id' => $validated['tax_id'],
                 'status' => $validated['status'],
@@ -154,6 +165,7 @@ class ProductController extends Controller {
         $data = $request->all();
 
         $data['taxable'] = $request->has('taxable') ? Product::IS_TAXABLE : Product::IS_NOT_TAXABLE;
+        $data['has_sizes'] = filter_var($data['has_sizes'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
         // Convertir los precios a formato numérico
         // Reemplazar comas por puntos para asegurar el formato correcto
@@ -167,6 +179,7 @@ class ProductController extends Controller {
             'sale_price' => 'required|numeric|min:0',
             'purchase_price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
+            'has_sizes' => 'required|boolean',
             'taxable' => 'required|boolean',
             'sizes' => 'nullable|array',
             'sizes.*.name' => 'required_with:sizes|string|max:20',
@@ -178,8 +191,15 @@ class ProductController extends Controller {
         $validated['tax_id'] = isset($data['tax_id']) ? $data['tax_id'] : null; // Asignar tax_id si existe
         $validated['status'] = Product::ACTIVE;
         $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
-        $sizes = $validated['sizes'] ?? [];
+        $sizes = $validated['has_sizes'] ? ($validated['sizes'] ?? []) : [];
         unset($validated['sizes']);
+
+        if ($validated['has_sizes'] && empty($sizes)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Debes agregar al menos una talla.'
+            ], 422);
+        }
 
         $product = Product::find($id);
 

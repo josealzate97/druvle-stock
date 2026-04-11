@@ -80,9 +80,16 @@
                     </div>
 
                     <div class="col-12">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label for="productHasSizesSwitch" class="form-label fw-bold">Tallas</label>
+                        <div class="form-check form-switch form-switch-lg ms-2">
+                            <input class="form-check-input custom-switch-success" type="checkbox" id="productHasSizesSwitch" name="has_sizes">
+                        </div>
+                    </div>
+
+                    <div class="col-12 size-panel" id="sizesSection" style="display: none;">
+                        <div class="size-panel-header">
                             <label class="form-label fw-bold mb-0">Tallas del producto</label>
-                            <button type="button" class="btn btn-sm btn-outline-primary" id="addSizeRowBtn">
+                            <button type="button" class="btn btn-sm btn-success size-add-btn" id="addSizeRowBtn">
                                 <i class="fas fa-plus me-1"></i>Agregar talla
                             </button>
                         </div>
