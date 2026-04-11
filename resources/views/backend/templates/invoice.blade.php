@@ -265,16 +265,21 @@
                         @php
 
                             $taxValue = ($item->producto && $item->producto->taxable && isset($item->producto->tax->rate))
-                                ? ($item->producto->sale_price * $item->quantity * $item->producto->tax->rate / 100)
+                                ? ($item->unitary_price * $item->quantity * $item->producto->tax->rate / 100)
                                 : 0;
-                            $itemTotal = ($item->quantity * $item->producto->sale_price) + $taxValue;
+                            $itemTotal = ($item->quantity * $item->unitary_price) + $taxValue;
 
                         @endphp
 
                         <tr>
-                            <td>{{ $item->producto->name ?? '' }}</td>
+                            <td>
+                                {{ $item->producto->name ?? '' }}
+                                @if(!empty($item->size_name))
+                                    - {{ $item->size_name }}
+                                @endif
+                            </td>
                             <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-center">{{ number_format($item->producto->sale_price, 2) }} €</td>
+                            <td class="text-center">{{ number_format($item->unitary_price, 2) }} €</td>
                             <td class="text-center">{{ number_format($taxValue, 2) }} €</td>
                             <td class="text-center">{{ number_format($itemTotal, 2) }} €</td>
                         </tr>

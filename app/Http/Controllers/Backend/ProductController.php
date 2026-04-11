@@ -41,22 +41,23 @@ class ProductController extends Controller {
     public function create(Request $request) {
 
         $data = $request->all();
-        
+
         $data['taxable'] = $request->has('taxable') ? Product::IS_TAXABLE : Product::IS_NOT_TAXABLE;
         $data['has_sizes'] = filter_var($data['has_sizes'] ?? false, FILTER_VALIDATE_BOOLEAN);
-        $data['purchase_price'] = floatval(str_replace(',', '.', $data['purchase_price']));
-        $data['sale_price'] = floatval(str_replace(',', '.', $data['sale_price']));
+        $data['purchase_price'] = $this->parseNullableDecimal($data['purchase_price'] ?? null);
+        $data['sale_price'] = $this->parseNullableDecimal($data['sale_price'] ?? null);
+        $data['quantity'] = isset($data['quantity']) && $data['quantity'] !== '' ? (int) $data['quantity'] : null;
 
         $validated = validator($data, [
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'sale_price' => 'required|numeric|min:0',
-            'purchase_price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
+            'sale_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
+            'purchase_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
+            'quantity' => 'nullable|required_if:has_sizes,false|integer|min:1',
             'has_sizes' => 'required|boolean',
             'taxable' => 'required|boolean',
-            'sizes' => 'nullable|array',
+            'sizes' => 'nullable|required_if:has_sizes,true|array|min:1',
             'sizes.*.name' => 'required_with:sizes|string|max:20',
             'sizes.*.price' => 'required_with:sizes|numeric|min:0',
             'sizes.*.quantity' => 'required_with:sizes|integer|min:0',
@@ -83,9 +84,9 @@ class ProductController extends Controller {
                 'name' => $validated['name'],
                 'code' => $validated['code'],
                 'category_id' => $validated['category_id'],
-                'sale_price' => $validated['sale_price'],
-                'purchase_price' => $validated['purchase_price'],
-                'quantity' => $validated['quantity'],
+                'sale_price' => $validated['sale_price'] ?? null,
+                'purchase_price' => $validated['purchase_price'] ?? null,
+                'quantity' => $validated['quantity'] ?? null,
                 'has_sizes' => $validated['has_sizes'],
                 'taxable' => $validated['taxable'],
                 'tax_id' => $validated['tax_id'],
@@ -169,19 +170,20 @@ class ProductController extends Controller {
 
         // Convertir los precios a formato numérico
         // Reemplazar comas por puntos para asegurar el formato correcto
-        $data['purchase_price'] = floatval(str_replace(',', '.', $data['purchase_price']));
-        $data['sale_price'] = floatval(str_replace(',', '.', $data['sale_price']));
+        $data['purchase_price'] = $this->parseNullableDecimal($data['purchase_price'] ?? null);
+        $data['sale_price'] = $this->parseNullableDecimal($data['sale_price'] ?? null);
+        $data['quantity'] = isset($data['quantity']) && $data['quantity'] !== '' ? (int) $data['quantity'] : null;
 
         $validated = validator($data, [
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'sale_price' => 'required|numeric|min:0',
-            'purchase_price' => 'required|numeric|min:0',
-            'quantity' => 'required|integer|min:1',
+            'sale_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
+            'purchase_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
+            'quantity' => 'nullable|required_if:has_sizes,false|integer|min:1',
             'has_sizes' => 'required|boolean',
             'taxable' => 'required|boolean',
-            'sizes' => 'nullable|array',
+            'sizes' => 'nullable|required_if:has_sizes,true|array|min:1',
             'sizes.*.name' => 'required_with:sizes|string|max:20',
             'sizes.*.price' => 'required_with:sizes|numeric|min:0',
             'sizes.*.quantity' => 'required_with:sizes|integer|min:0',
@@ -191,6 +193,9 @@ class ProductController extends Controller {
         $validated['tax_id'] = isset($data['tax_id']) ? $data['tax_id'] : null; // Asignar tax_id si existe
         $validated['status'] = Product::ACTIVE;
         $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
+        $validated['sale_price'] = $validated['sale_price'] ?? null;
+        $validated['purchase_price'] = $validated['purchase_price'] ?? null;
+        $validated['quantity'] = $validated['quantity'] ?? null;
         $sizes = $validated['has_sizes'] ? ($validated['sizes'] ?? []) : [];
         unset($validated['sizes']);
 
@@ -290,8 +295,17 @@ class ProductController extends Controller {
         $product->save();
 
         return response()->json([
-            'success' => true, 
+            'success' => true,
             'message' => 'Producto activado correctamente'
         ]);
+    }
+
+    private function parseNullableDecimal($value): ?float
+    {
+        if ($value === null || $value === '') {
+            return null;
+        }
+
+        return floatval(str_replace(',', '.', (string) $value));
     }
 }

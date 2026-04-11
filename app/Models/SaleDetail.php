@@ -18,6 +18,8 @@ class SaleDetail extends Model {
         'id',
         'sale_id',
         'product_id',
+        'product_size_id',
+        'size_name',
         'quantity',
         'unitary_price',
         'subtotal',
@@ -36,5 +38,10 @@ class SaleDetail extends Model {
     public function producto()
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function productSize()
+    {
+        return $this->belongsTo(ProductSize::class, 'product_size_id');
     }
 }

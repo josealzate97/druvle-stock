@@ -44,7 +44,12 @@
                     <tr>
 
                         <td>
-                            <div class="fw-semibold">{{ $item->producto->name ?? '' }}</div>
+                            <div class="fw-semibold">
+                                {{ $item->producto->name ?? '' }}
+                                @if(!empty($item->size_name))
+                                    <span class="text-muted">- {{ $item->size_name }}</span>
+                                @endif
+                            </div>
                         </td>
 
                         <td class="text-center">
@@ -60,7 +65,7 @@
                             min="0" max="{{ $item->quantity }}"
                             value="0" class="form-control form-control-sm text-center d-inline-block refund-qty-input"
                             style="max-width: 90px;"
-                            data-price="{{ $item->producto->sale_price }}"
+                            data-price="{{ $item->unitary_price }}"
                             data-sale-id="{{ $sale->id }}"
                             data-sale-detail-id="{{ $item->id }}"
                             data-product-id="{{ $item->product_id }}" required>

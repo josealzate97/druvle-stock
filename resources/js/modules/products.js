@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (hasSizesSwitch) {
         hasSizesSwitch.addEventListener('change', function () {
             toggleSizesSection(this.checked);
+            toggleBaseStockFields(this.checked);
         });
     }
 
@@ -163,7 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 taxDropdownContainer.style.display = data.product.taxable ? 'block' : 'none';
                 taxDropdown.value = data.product.tax_id || '';
-                toggleSizesSection(Boolean(Number(data.product.has_sizes)));
+                const hasSizes = Boolean(data.product.has_sizes);
+                toggleSizesSection(hasSizes);
+                toggleBaseStockFields(hasSizes);
                 renderSizeRows(Array.isArray(data.product.sizes) ? data.product.sizes : []);
 
                 productModal.show();
@@ -233,6 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     toggleSizesSection(false);
+    toggleBaseStockFields(false);
     renderSizeRows([]);
 });
 
@@ -254,6 +258,7 @@ function clearProductModal() {
     document.getElementById('productNotes').value = '';
 
     toggleSizesSection(false);
+    toggleBaseStockFields(false);
     renderSizeRows([]);
 }
 
@@ -329,6 +334,20 @@ function toggleSizesSection(show) {
     if (!sizesSection) return;
 
     sizesSection.style.display = show ? 'block' : 'none';
+}
+
+function toggleBaseStockFields(hasSizes) {
+    const purchasePriceInput = document.getElementById('productPrice');
+    const salePriceInput = document.getElementById('productSale');
+    const quantityInput = document.getElementById('productQuantity');
+
+    const required = !hasSizes;
+
+    [purchasePriceInput, salePriceInput, quantityInput].forEach(input => {
+        if (!input) return;
+        input.required = required;
+        input.disabled = hasSizes;
+    });
 }
 
 function collectSizesPayload() {

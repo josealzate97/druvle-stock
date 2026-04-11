@@ -62,21 +62,21 @@
                         <label for="productSale" class="form-label fw-bold">
                             Precio Compra&nbsp;<span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control mask-money" id="productPrice" name="purchase_price" placeholder="Precio de compra" required>
+                        <input type="text" class="form-control mask-money" id="productPrice" name="purchase_price" placeholder="Precio de compra">
                     </div>
 
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productPrice" class="form-label fw-bold">
                             Precio Venta&nbsp;<span class="text-danger">*</span>
                         </label>
-                        <input type="text" class="form-control mask-money" id="productSale" name="sale_price" placeholder="Precio de venta" required>
+                        <input type="text" class="form-control mask-money" id="productSale" name="sale_price" placeholder="Precio de venta">
                     </div>
 
                     <div class="col-lg-4 col-md-6 col-sm-12">
                         <label for="productQuantity" class="form-label fw-bold">
                             Cantidad&nbsp;<span class="text-danger">*</span>
                         </label>
-                        <input type="number" class="form-control" id="productQuantity" name="quantity" placeholder="Cantidad" required>
+                        <input type="number" class="form-control" id="productQuantity" name="quantity" placeholder="Cantidad">
                     </div>
 
                     <div class="col-12">

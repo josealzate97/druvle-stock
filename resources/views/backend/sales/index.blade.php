@@ -122,7 +122,7 @@
                                                             showProductDropdown = false;
                                                         ">
                                                         <span x-text="product.name"></span>
-                                                        <span class="badge bg-secondary" x-text="'Stock: ' + product.quantity"></span>
+                                                        <span class="badge bg-secondary" x-text="getProductStockLabel(product)"></span>
                                                     </li>
                                                 </template>
 
@@ -133,6 +133,16 @@
                                             </ul>
                                         </div>
 
+                                    </div>
+
+                                    <div class="sales-action-field small-field" x-show="selectedProductObj && selectedProductObj.has_sizes" x-cloak>
+                                        <label for="sizeSelect" class="form-label fw-bold">Talla</label>
+                                        <select id="sizeSelect" class="form-select" x-model="selectedSizeId" :disabled="isProcessing || !selectedProductObj">
+                                            <option value="">Selecciona talla</option>
+                                            <template x-for="size in selectedProductSizes" :key="size.id">
+                                                <option :value="size.id" x-text="size.name + ' (Stock: ' + size.quantity + ')'"></option>
+                                            </template>
+                                        </select>
                                     </div>
 
                                     <div class="sales-action-field small-field">
@@ -208,7 +218,12 @@
                                             <template x-for="(item, index) in saleItems" :key="item.id">
 
                                                 <tr>
-                                                    <td x-text="item.name"></td>
+                                                    <td>
+                                                        <span x-text="item.name"></span>
+                                                        <template x-if="item.size_name">
+                                                            <div class="small text-muted" x-text="'Talla: ' + item.size_name"></div>
+                                                        </template>
+                                                    </td>
                                                     <td x-text="item.quantity"></td>
                                                     <td x-text="Number(item.sale_price).toFixed(2) + ' €'"></td>
                                                     <td x-text="(item.quantity * Number(item.sale_price)).toFixed(2) + ' €'"></td>

@@ -7,6 +7,7 @@ use App\Events\SaleCompleted;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Product;
+use App\Models\ProductSize;
 use App\Models\ReturnItems;
 use App\Models\Sale;
 use App\Models\SaleDetail;
@@ -15,7 +16,9 @@ use App\Models\Tax;
 use App\Repositories\SalesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class SaleController extends Controller {
 
@@ -57,77 +60,131 @@ class SaleController extends Controller {
             'salesHeaderData.total' => 'required|numeric|min:0',
             'saleItems' => 'required|array|min:1',
             'saleItems.*.id' => 'required|exists:products,id',
+            'saleItems.*.product_size_id' => 'nullable|exists:product_sizes,id',
             'saleItems.*.quantity' => 'required|integer|min:1',
             'saleItems.*.sale_price' => 'required|numeric|min:0',
             'salesHeaderData.payment_type' => 'required|in:1,2,3',
         ]);
-        
-        $consecutive = Sale::count() + 1;
-        $code = 'VENTA-' . str_pad($consecutive, 6, '0', STR_PAD_LEFT);
-
-        // Verificar si se ha proporcionado un cliente
-        if (isset($data['salesHeaderData']['client_name']) && $data['salesHeaderData']['client_name'] != null) {
-            
-            $client = Client::create([
-                'id' => Str::uuid()->toString(),
-                'name' => $data['salesHeaderData']['client_name'],
-                'email' => $data['salesHeaderData']['client_email'] ?? null,
-                'phone' => $data['salesHeaderData']['client_phone'] ?? null,
-                'address' => $data['salesHeaderData']['client_address'] ?? null
-            ]);
-
-        }
-
-        // Crear la venta (Sales)
-        $sale = Sale::create([
-            'id' => Str::uuid()->toString(),
-            'client_id' => $client->id ?? null,
-            'consecutive' => $consecutive,
-            'code' => $code,
-            'subtotal' => $validated['salesHeaderData']['subtotal'],
-            'tax' => $validated['salesHeaderData']['tax'],
-            'total' => $validated['salesHeaderData']['total'],
-            'currency' => 'EUR',
-            'status' => Sale::ACTIVE,
-            'type_payment' => $validated['salesHeaderData']['payment_type'],
-            'notes' => null
-        ]);
-
+        $sale = null;
+        $client = null;
         $soldProductsSnapshot = [];
 
-        // Crear los detalles de la venta (SalesDetail)
-        foreach ($validated['saleItems'] as $item) {
-            
-            SaleDetail::create([
-                'id' => Str::uuid()->toString(),
-                'sale_id' => $sale->id,
-                'product_id' => $item['id'],
-                'quantity' => $item['quantity'],
-                'unitary_price' => $item['sale_price'],
-                'subtotal' => $item['quantity'] * $item['sale_price']
-            ]);
+        try {
+            DB::transaction(function () use ($data, $validated, &$sale, &$client, &$soldProductsSnapshot) {
+                $consecutive = Sale::count() + 1;
+                $code = 'VENTA-' . str_pad($consecutive, 6, '0', STR_PAD_LEFT);
 
-            // Restamos la cantidad del producto vendido
-            $product = Product::findOrFail($item['id']);
+                if (isset($data['salesHeaderData']['client_name']) && $data['salesHeaderData']['client_name'] != null) {
+                    $client = Client::create([
+                        'id' => Str::uuid()->toString(),
+                        'name' => $data['salesHeaderData']['client_name'],
+                        'email' => $data['salesHeaderData']['client_email'] ?? null,
+                        'phone' => $data['salesHeaderData']['client_phone'] ?? null,
+                        'address' => $data['salesHeaderData']['client_address'] ?? null
+                    ]);
+                }
 
-            if ($product->quantity < $item['quantity']) {
+                $sale = Sale::create([
+                    'id' => Str::uuid()->toString(),
+                    'client_id' => $client->id ?? null,
+                    'consecutive' => $consecutive,
+                    'code' => $code,
+                    'subtotal' => $validated['salesHeaderData']['subtotal'],
+                    'tax' => $validated['salesHeaderData']['tax'],
+                    'total' => $validated['salesHeaderData']['total'],
+                    'currency' => 'EUR',
+                    'status' => Sale::ACTIVE,
+                    'type_payment' => $validated['salesHeaderData']['payment_type'],
+                    'notes' => null
+                ]);
 
-                return response()->json([
-                    'success' => false,
-                    'message' => 'No hay suficiente stock para el producto: ' . $product->name,
-                ], 400);
+                foreach ($validated['saleItems'] as $item) {
+                    $product = Product::findOrFail($item['id']);
+                    $quantity = (int) $item['quantity'];
+                    $productSizeId = $item['product_size_id'] ?? null;
 
-            }
+                    if ($product->has_sizes) {
+                        if (!$productSizeId) {
+                            throw ValidationException::withMessages([
+                                'saleItems' => 'El producto ' . $product->name . ' requiere talla seleccionada.'
+                            ]);
+                        }
 
-            $product->quantity -= $item['quantity'];
-            $product->save();
+                        $productSize = ProductSize::where('id', $productSizeId)
+                            ->where('product_id', $product->id)
+                            ->first();
 
-            $soldProductsSnapshot[] = [
-                'id' => $product->id,
-                'name' => $product->name,
-                'current_stock' => (int) $product->quantity,
-            ];
+                        if (!$productSize) {
+                            throw ValidationException::withMessages([
+                                'saleItems' => 'La talla seleccionada no pertenece al producto ' . $product->name . '.'
+                            ]);
+                        }
 
+                        if ($productSize->quantity < $quantity) {
+                            throw ValidationException::withMessages([
+                                'saleItems' => 'No hay suficiente stock para ' . $product->name . ' - talla ' . $productSize->name . '.'
+                            ]);
+                        }
+
+                        $unitaryPrice = (float) $productSize->price;
+                        $lineSubtotal = $quantity * $unitaryPrice;
+
+                        SaleDetail::create([
+                            'id' => Str::uuid()->toString(),
+                            'sale_id' => $sale->id,
+                            'product_id' => $product->id,
+                            'product_size_id' => $productSize->id,
+                            'size_name' => $productSize->name,
+                            'quantity' => $quantity,
+                            'unitary_price' => $unitaryPrice,
+                            'subtotal' => $lineSubtotal
+                        ]);
+
+                        $productSize->quantity -= $quantity;
+                        $productSize->save();
+
+                        $soldProductsSnapshot[] = [
+                            'id' => $product->id,
+                            'name' => $product->name . ' - ' . $productSize->name,
+                            'current_stock' => (int) $productSize->quantity,
+                        ];
+                    } else {
+                        if ($product->quantity === null || $product->quantity < $quantity) {
+                            throw ValidationException::withMessages([
+                                'saleItems' => 'No hay suficiente stock para el producto: ' . $product->name
+                            ]);
+                        }
+
+                        $unitaryPrice = (float) ($product->sale_price ?? $item['sale_price']);
+                        $lineSubtotal = $quantity * $unitaryPrice;
+
+                        SaleDetail::create([
+                            'id' => Str::uuid()->toString(),
+                            'sale_id' => $sale->id,
+                            'product_id' => $product->id,
+                            'product_size_id' => null,
+                            'size_name' => null,
+                            'quantity' => $quantity,
+                            'unitary_price' => $unitaryPrice,
+                            'subtotal' => $lineSubtotal
+                        ]);
+
+                        $product->quantity -= $quantity;
+                        $product->save();
+
+                        $soldProductsSnapshot[] = [
+                            'id' => $product->id,
+                            'name' => $product->name,
+                            'current_stock' => (int) $product->quantity,
+                        ];
+                    }
+                }
+            });
+        } catch (ValidationException $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => collect($exception->errors())->flatten()->first() ?? 'Error de validación.',
+            ], 422);
         }
 
         event(new SaleCompleted(
@@ -183,7 +240,9 @@ class SaleController extends Controller {
 
                 return [
                     'id' => $item->id,
-                    'name' => $product?->name ?? 'Producto',
+                    'name' => $item->size_name
+                        ? (($product?->name ?? 'Producto') . ' - ' . $item->size_name)
+                        : ($product?->name ?? 'Producto'),
                     'quantity' => $item->quantity,
                     'sale_price' => number_format($unitPrice, 2),
                     'tax' => number_format($taxRate, 2),
@@ -289,7 +348,7 @@ class SaleController extends Controller {
             if ($saleDetail->quantity < $item['quantity']) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'No hay suficiente cantidad para devolver del producto: ' . $saleDetail->product->name,
+                    'message' => 'No hay suficiente cantidad para devolver del producto: ' . ($saleDetail->producto->name ?? 'Producto'),
                 ], 400);
             }
 
@@ -309,10 +368,19 @@ class SaleController extends Controller {
             // Actualizar la cantidad del producto vendido
             if ($item['reason'] == ReturnItems::RESTOCK) {
 
-                // Aumentar la cantidad del producto en inventario
-                $product = Product::findOrFail($saleDetail->product_id);
-                $product->quantity += $item['quantity'];
-                $product->save();
+                if ($saleDetail->product_size_id) {
+                    $productSize = ProductSize::find($saleDetail->product_size_id);
+
+                    if ($productSize) {
+                        $productSize->quantity += $item['quantity'];
+                        $productSize->save();
+                    }
+                } else {
+                    // Aumentar la cantidad del producto en inventario
+                    $product = Product::findOrFail($saleDetail->product_id);
+                    $product->quantity = ((int) $product->quantity) + $item['quantity'];
+                    $product->save();
+                }
 
             }
 

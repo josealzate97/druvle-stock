@@ -72,6 +72,8 @@ window.salesForm = function() {
         showProductDropdown: false,
         selectedProduct: '',
         selectedProductObj: null,
+        selectedSizeId: '',
+        selectedSizeObj: null,
         salePrice: '',
         selectedTax: '',
         quantity: 1,
@@ -128,8 +130,35 @@ window.salesForm = function() {
             return item ? item.name : 'Producto eliminado';
         },
 
+        get selectedProductSizes() {
+            if (!this.selectedProductObj || !Array.isArray(this.selectedProductObj.sizes)) {
+                return [];
+            }
+
+            return this.selectedProductObj.sizes.filter(size => Number(size.status) === 1);
+        },
+
+        getProductStockLabel(product) {
+            if (product?.has_sizes) {
+                const available = Array.isArray(product.sizes)
+                    ? product.sizes
+                        .filter(size => Number(size.status) === 1)
+                        .reduce((sum, size) => sum + Number(size.quantity || 0), 0)
+                    : 0;
+
+                return `Tallas: ${available}`;
+            }
+
+            return `Stock: ${Number(product?.quantity || 0)}`;
+        },
+
         // Método para agregar un producto al carrito de ventas
         addProduct() {
+
+            if (!this.selectedProductObj) {
+                notyf.error('Selecciona un producto.');
+                return;
+            }
 
             const product = this.products.find(p => p.id === this.selectedProductObj.id);
 
@@ -138,20 +167,45 @@ window.salesForm = function() {
                 alert('Seleccione un producto válido y una cantidad mayor a 0.');
                 return;
 
-            } else if (this.quantity > product.quantity) {
-
-                notyf.error(`Cantidad no disponible. Stock actual: ${product.quantity}`);
-                return;
-
             }
 
-            // Verificar si el producto ya existe en saleItems
-            const existingItem = this.saleItems.find(item => item.id === product.id);
+            const quantity = parseInt(this.quantity);
+            const isSizeBased = Boolean(product.has_sizes);
+            let maxAvailable = Number(product.quantity || 0);
+            let existingItem;
+            let salePrice = Number(product.sale_price || 0);
+            let sizeName = null;
+            let productSizeId = null;
+
+            if (isSizeBased) {
+                const selectedSize = this.selectedProductSizes.find(size => size.id === this.selectedSizeId);
+
+                if (!selectedSize) {
+                    notyf.error('Debes seleccionar una talla para este producto.');
+                    return;
+                }
+
+                maxAvailable = Number(selectedSize.quantity || 0);
+                salePrice = Number(selectedSize.price || 0);
+                sizeName = selectedSize.name;
+                productSizeId = selectedSize.id;
+
+                existingItem = this.saleItems.find(item => item.id === product.id && item.product_size_id === selectedSize.id);
+            } else {
+                existingItem = this.saleItems.find(item => item.id === product.id && !item.product_size_id);
+            }
+
+            const requestedTotal = existingItem ? existingItem.quantity + quantity : quantity;
+
+            if (requestedTotal > maxAvailable) {
+                notyf.error(`Cantidad no disponible. Stock actual: ${maxAvailable}`);
+                return;
+            }
 
             if (existingItem) {
 
                 // Si el producto ya existe, sumar la cantidad
-                existingItem.quantity += parseInt(this.quantity);
+                existingItem.quantity += quantity;
                 notyf.success('Cantidad actualizada correctamente');
 
             } else {
@@ -160,13 +214,15 @@ window.salesForm = function() {
                 this.saleItems.push({
                     id: product.id,
                     name: product.name,
-                    quantity: parseInt(this.quantity),
-                    sale_price: Number(product.sale_price),
-                    purchase_price: Number(product.purchase_price),
+                    product_size_id: productSizeId,
+                    size_name: sizeName,
+                    quantity,
+                    sale_price: salePrice,
+                    purchase_price: Number(product.purchase_price || 0),
                     tax: product.tax ? product.tax.id : null,
                     tax_rate: product.tax ? product.tax.rate : null,
                     tax_name: product.tax ? product.tax.name : null,
-                    tax_amount: product.tax ? (Number(product.sale_price) * product.tax.rate / 100) : 0,
+                    tax_amount: product.tax ? (salePrice * product.tax.rate / 100) : 0,
                 });
 
                 notyf.success('Producto agregado correctamente');
@@ -177,7 +233,12 @@ window.salesForm = function() {
 
             // Limpiar los campos después de agregar el producto
             this.selectedProduct = '';
+            this.selectedSizeId = '';
+            this.selectedSizeObj = null;
+            this.productSearch = '';
             this.quantity = 1;
+            this.salePrice = '';
+            this.selectedTax = '';
 
         },
 
@@ -481,10 +542,37 @@ window.salesForm = function() {
             this.$watch('selectedProduct', value => {
 
                 this.selectedProductObj = this.products.find(p => p.id === value) || null;
-                this.salePrice = this.selectedProductObj ? this.selectedProductObj.sale_price : '';
+                this.selectedSizeId = '';
+                this.selectedSizeObj = null;
+
+                if (!this.selectedProductObj) {
+                    this.salePrice = '';
+                    this.selectedTax = '';
+                    return;
+                }
+
+                if (this.selectedProductObj.has_sizes) {
+                    const firstSize = this.selectedProductSizes[0] || null;
+                    this.selectedSizeId = firstSize ? firstSize.id : '';
+                    this.selectedSizeObj = firstSize;
+                    this.salePrice = firstSize ? firstSize.price : '';
+                } else {
+                    this.salePrice = this.selectedProductObj.sale_price;
+                }
 
                 this.selectedTax = this.selectedProductObj && this.selectedProductObj.tax ? this.selectedProductObj.tax.id : '';
 
+            });
+
+            this.$watch('selectedSizeId', value => {
+                if (!this.selectedProductObj || !this.selectedProductObj.has_sizes) {
+                    this.selectedSizeObj = null;
+                    return;
+                }
+
+                const selectedSize = this.selectedProductSizes.find(size => size.id === value) || null;
+                this.selectedSizeObj = selectedSize;
+                this.salePrice = selectedSize ? selectedSize.price : '';
             });
 
         },

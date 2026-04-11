@@ -41,6 +41,11 @@ class Product extends Model
         'status'
     ];
 
+    protected $casts = [
+        'has_sizes' => 'boolean',
+        'taxable' => 'boolean',
+    ];
+
     protected static function boot()
     {
         parent::boot();
