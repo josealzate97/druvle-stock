@@ -114,7 +114,7 @@ body.theme-dark .modal-header .btn-close {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  margin-bottom: 0.6rem;
+  margin-bottom: 1rem;
 }
 
 .size-add-btn {
@@ -128,6 +128,11 @@ body.theme-dark .modal-header .btn-close {
   border-radius: 10px;
   padding: 0.65rem;
   background: #ffffff;
+}
+
+.product-notes-textarea {
+  min-height: 110px;
+  resize: vertical;
 }
 
 .color-picker {

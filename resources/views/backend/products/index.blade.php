@@ -67,6 +67,7 @@
                         <tr>
                             <th>Producto</th>
                             <th>Categoría</th>
+                            <th class="text-center">Tallas</th>
                             <th>Precio</th>
                             <th class="text-center">Impuesto</th>
                             <th class="text-center">Cantidad</th>
@@ -81,7 +82,7 @@
                         @if ($products->isEmpty())
 
                             <tr>
-                                <td colspan="7" class="text-center text-muted fw-bold fs-6 my-3">No hay productos registrados.</td>
+                                <td colspan="8" class="text-center text-muted fw-bold fs-6 my-3">No hay productos registrados.</td>
                             </tr>
 
                         @endif
@@ -103,11 +104,30 @@
                                     </div>
                                 </td>
                                 <td><span class="table-chip table-chip-category">{{ $product->category->name }}</span></td>
-                                <td>€ {{ number_format($product->sale_price, 2) }}</td>
+                                <td class="text-center">
+                                    @if ($product->has_sizes)
+                                        <span class="status-pill status-pill-success">Con tallas</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Sin tallas</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($product->has_sizes)
+                                        <span class="text-muted">-</span>
+                                    @else
+                                        € {{ number_format($product->sale_price, 2) }}
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     {{ $product->tax?->rate ? $product->tax->rate . ' %' : '-' }}
                                 </td>
-                                <td class="text-center">{{ $product->quantity }}</td>
+                                <td class="text-center">
+                                    @if ($product->has_sizes)
+                                        <span class="text-muted">-</span>
+                                    @else
+                                        {{ $product->quantity }}
+                                    @endif
+                                </td>
                                 <td>
                                     @if ($product->status == \App\Models\Product::ACTIVE)
                                         <span class="status-pill status-pill-success">Activo</span>

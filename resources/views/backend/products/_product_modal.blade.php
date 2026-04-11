@@ -101,7 +101,7 @@
                         <label for="productNote" class="form-label fw-bold">
                             Notas
                         </label>
-                        <textarea class="form-control" id="productNotes" name="notes" rows="2" placeholder="Notas adicionales sobre el producto"></textarea>
+                        <textarea class="form-control product-notes-textarea" id="productNotes" name="notes" rows="3" placeholder="Notas adicionales sobre el producto"></textarea>
                     </div>
 
                     <div class="col-lg-4 col-md-6 col-sm-12">
