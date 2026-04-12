@@ -178,7 +178,7 @@ window.salesForm = function() {
             let productSizeId = null;
 
             if (isSizeBased) {
-                const selectedSize = this.selectedProductSizes.find(size => size.id === this.selectedSizeId);
+                const selectedSize = this.selectedProductSizes.find(size => String(size.id) === String(this.selectedSizeId));
 
                 if (!selectedSize) {
                     notyf.error('Debes seleccionar una talla para este producto.');
@@ -190,9 +190,12 @@ window.salesForm = function() {
                 sizeName = selectedSize.name;
                 productSizeId = selectedSize.id;
 
-                existingItem = this.saleItems.find(item => item.id === product.id && item.product_size_id === selectedSize.id);
+                existingItem = this.saleItems.find(item =>
+                    String(item.id) === String(product.id) &&
+                    String(item.product_size_id) === String(selectedSize.id)
+                );
             } else {
-                existingItem = this.saleItems.find(item => item.id === product.id && !item.product_size_id);
+                existingItem = this.saleItems.find(item => String(item.id) === String(product.id) && !item.product_size_id);
             }
 
             const requestedTotal = existingItem ? existingItem.quantity + quantity : quantity;

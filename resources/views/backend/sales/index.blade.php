@@ -215,7 +215,7 @@
                                         <tbody>
 
                                             <!-- Renderiza dinámicamente los productos en saleItems -->
-                                            <template x-for="(item, index) in saleItems" :key="item.id">
+                                            <template x-for="(item, index) in saleItems" :key="item.id + '-' + (item.product_size_id || 'base') + '-' + index">
 
                                                 <tr>
                                                     <td>
