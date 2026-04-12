@@ -85,15 +85,29 @@ class ReportsRepository {
 
     public function getTaxesReport($filters = [])
     {
+        $query = DB::table('sales')
+            ->join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
+            ->join('products', 'sale_details.product_id', '=', 'products.id')
+            ->join('taxes', 'products.tax_id', '=', 'taxes.id')
+            ->whereNotNull('products.tax_id')
+            ->select(
+                'taxes.id',
+                'taxes.name',
+                DB::raw('COALESCE(SUM((sale_details.subtotal * taxes.rate) / 100), 0) as total_tax')
+            );
 
-        // Ejemplo de consulta SQL compleja
-        return DB::table('sales')
-        ->join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
-        ->join('products', 'sale_details.product_id', '=', 'products.id')
-        ->join('taxes', 'products.tax_id', '=', 'taxes.id')
-        ->select('taxes.name', DB::raw('SUM(sale_details.quantity * products.sale_price * taxes.rate / 100) as total_tax'))
-        ->groupBy('taxes.name')
-        ->get();
+        if (!empty($filters['from'])) {
+            $query->whereDate('sales.sale_date', '>=', $filters['from']);
+        }
+
+        if (!empty($filters['to'])) {
+            $query->whereDate('sales.sale_date', '<=', $filters['to']);
+        }
+
+        return $query
+            ->groupBy('taxes.id', 'taxes.name')
+            ->orderBy('taxes.name', 'asc')
+            ->get();
 
     }
 }

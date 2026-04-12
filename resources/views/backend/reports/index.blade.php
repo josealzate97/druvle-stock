@@ -142,7 +142,7 @@
                                     <span class="report-summary-badge report-summary-badge--success">
                                         <i class="fas fa-euro-sign me-1"></i>
                                         Valor total en stock: 
-                                        <span x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + Number(prod.stock_value || 0), 0))"></span>
+                                        <span x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + toNumber(prod.stock_value), 0))"></span>
                                     </span>
                                 </div>
                             </div>
@@ -240,7 +240,7 @@
                                     <span class="report-summary-badge report-summary-badge--success">
                                         <i class="fas fa-euro-sign me-1"></i>
                                         Total facturado: 
-                                        <span x-text="formatCurrency(data.ventas.reduce((sum, venta) => sum + parseFloat(venta.subtotal || 0), 0))"></span>
+                                        <span x-text="formatCurrency(data.ventas.reduce((sum, venta) => sum + toNumber(venta.subtotal), 0))"></span>
                                     </span>
                                 </div>
                             </div>
@@ -312,7 +312,7 @@
                             <template x-for="imp in data.impuestos" :key="imp.id ?? imp.name">
                                 <tr>
                                     <td x-text="imp.name"></td>
-                                    <td x-text="imp.total_tax"></td>
+                                    <td x-text="formatCurrency(toNumber(imp.total_tax))"></td>
                                 </tr>
                             </template>
 
@@ -322,7 +322,7 @@
                                     <span class="report-summary-badge report-summary-badge--warning">
                                         <i class="fas fa-percent me-1"></i>
                                         Total impuestos recaudados: 
-                                        <span x-text="formatCurrency(data.impuestos.reduce((sum, imp) => sum + parseFloat(imp.total_tax), 0))"></span>
+                                        <span x-text="formatCurrency(data.impuestos.reduce((sum, imp) => sum + toNumber(imp.total_tax), 0))"></span>
                                     </span>
                                 </div>
                             </div>

@@ -19,6 +19,15 @@ document.addEventListener('alpine:init', () => {
         formatCurrency(value) {
             return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(value);
         },
+        toNumber(value) {
+            if (value === null || value === undefined || value === '') return 0;
+            if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+
+            const normalized = String(value).replace(',', '.').replace(/[^\d.-]/g, '');
+            const parsed = Number.parseFloat(normalized);
+
+            return Number.isFinite(parsed) ? parsed : 0;
+        },
         data: {
             productos: [],
             ventas: [],
