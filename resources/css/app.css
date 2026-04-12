@@ -1849,10 +1849,10 @@ body.theme-dark .form-modal .btn-outline-secondary:hover {
 
 /* Tabs compartidos para módulos */
 .module-tabs-bar {
-  border: 1px solid #dbe7f7;
-  background: #ffffff;
+  border: 1px solid #d5dce6;
+  background: #e9edf2;
   border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(27, 119, 211, 0.1);
+  box-shadow: none;
 }
 
 .module-tabs-connected {
@@ -1870,38 +1870,47 @@ body.theme-dark .form-modal .btn-outline-secondary:hover {
   border-bottom: 0;
 }
 
+.module-tabs.nav-pills .nav-item {
+  flex: 1 1 0;
+}
+
 .module-tabs.nav-pills .nav-link {
   border-radius: 11px;
-  color: #3f4f69 !important;
+  color: #4b607d !important;
   font-weight: 800 !important;
-  background: linear-gradient(180deg, #f8fbff 0%, #eef4fd 100%);
-  border: 1px solid #d6e3f5;
+  background: transparent;
+  border: 1px solid transparent;
   padding: 0.55rem 1rem;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
   transition: all 0.2s ease;
 }
 
 .module-tabs.nav-pills .nav-link.active {
-  color: #ffffff !important;
-  background: linear-gradient(180deg, #2f81df 0%, #1b77d3 100%) !important;
-  border-color: #1b77d3 !important;
-  box-shadow: 0 8px 18px rgba(27, 119, 211, 0.25);
+  color: #2e4c74 !important;
+  background: #c7dcf6 !important;
+  border-color: #a9c6ec !important;
+  box-shadow: 0 4px 10px rgba(73, 114, 170, 0.14);
 }
 
 .module-tabs.nav-pills .nav-link:hover {
-  color: #1b77d3 !important;
-  border-color: #b8cbe7;
-  background: #f0f6ff;
+  color: #3e5f86 !important;
+  border-color: #ccd5e2;
+  background: #dde3eb;
 }
 
 .module-tabs.nav-pills .nav-link.active:hover {
-  color: #ffffff !important;
-  background: linear-gradient(180deg, #2b7bd6 0%, #176bc2 100%) !important;
+  color: #29466d !important;
+  background: #bed6f4 !important;
 }
 
 body.theme-dark .module-tabs-bar {
-  background: #14171d;
-  border-color: #252c36;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  background: #1a212c;
+  border-color: #303a48;
+  box-shadow: none;
 }
 
 body.theme-dark .module-tabs-connected {
@@ -1909,21 +1918,22 @@ body.theme-dark .module-tabs-connected {
 }
 
 body.theme-dark .module-tabs.nav-pills .nav-link {
-  color: #c4cfdd !important;
-  background: #1d2430;
-  border-color: #2e3746;
+  color: #bdcadd !important;
+  background: transparent;
+  border-color: transparent;
 }
 
 body.theme-dark .module-tabs.nav-pills .nav-link:hover {
-  color: #e2ecfb !important;
-  background: #253043;
-  border-color: #3d4c61;
+  color: #d5e1f2 !important;
+  background: #263140;
+  border-color: #3a4b60;
 }
 
 body.theme-dark .module-tabs.nav-pills .nav-link.active {
-  color: #ffffff !important;
-  background: linear-gradient(180deg, #2f81df 0%, #1b77d3 100%) !important;
-  border-color: #2f81df !important;
+  color: #dbeafe !important;
+  background: #31517c !important;
+  border-color: #456a9c !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 767.98px) {

@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\Product;
+use App\Models\ProductSize;
 use App\Models\Sale;
 use App\Models\Tax;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +11,12 @@ class ReportsRepository {
     
     public function getProductsReport($filters = [])
     {
-        $query = Product::query();
+        $query = Product::query()->with([
+            'sizes' => function ($q) {
+                $q->where('status', ProductSize::ACTIVE)
+                    ->select('id', 'product_id', 'price', 'quantity');
+            }
+        ]);
 
         if (!empty($filters['from'])) {
             $query->whereDate('creation_date', '>=', $filters['from']);
@@ -22,7 +28,44 @@ class ReportsRepository {
 
         $query->orderBy('creation_date', 'desc')->orderBy('name', 'asc');
 
-        return $query->get();
+        return $query->get()->map(function (Product $product) {
+            $sizes = $product->sizes ?? collect();
+
+            $sizeQuantity = (int) $sizes->sum('quantity');
+            $sizeStockValue = (float) $sizes->sum(function ($size) {
+                return (float) $size->price * (int) $size->quantity;
+            });
+            $sizeAverageSalePrice = $sizeQuantity > 0
+                ? $sizeStockValue / $sizeQuantity
+                : (float) ($sizes->avg('price') ?? 0);
+
+            $quantity = $product->has_sizes
+                ? $sizeQuantity
+                : (int) ($product->quantity ?? 0);
+
+            $purchasePrice = $product->has_sizes
+                ? null
+                : ($product->purchase_price !== null ? (float) $product->purchase_price : null);
+
+            $salePrice = $product->has_sizes
+                ? ($sizeAverageSalePrice > 0 ? $sizeAverageSalePrice : null)
+                : ($product->sale_price !== null ? (float) $product->sale_price : null);
+
+            $stockValue = $product->has_sizes
+                ? $sizeStockValue
+                : ((float) ($product->sale_price ?? 0) * $quantity);
+
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'creation_date' => $product->creation_date,
+                'quantity' => $quantity,
+                'purchase_price' => $purchasePrice,
+                'sale_price' => $salePrice,
+                'stock_value' => $stockValue,
+                'has_sizes' => (bool) $product->has_sizes,
+            ];
+        })->values();
     }
 
     public function getSalesReport($filters = [])

@@ -130,7 +130,7 @@
                             <h2 class="fw-bold mb-0">Configuración de Impuestos</h2>
                             <div class="text-muted small">Listado de impuestos del sistema.</div>
                         </div>
-                        <button class="btn btn-primary" id="btnNewTax" type="button">
+                        <button class="btn btn-success" id="btnNewTax" type="button">
                             <i class="fas fa-plus me-1"></i> Crear impuesto
                         </button>
                     </div>

@@ -127,8 +127,8 @@
                                     <td x-text="prod.name"></td>
                                     <td x-text="formatDate(prod.creation_date)"></td>
                                     <td x-text="prod.quantity"></td>
-                                    <td x-text="prod.purchase_price + ' €'"></td>
-                                    <td x-text="prod.sale_price + ' €'"></td>
+                                    <td x-text="prod.purchase_price !== null ? Number(prod.purchase_price).toFixed(2) + ' €' : '-'"></td>
+                                    <td x-text="prod.sale_price !== null ? Number(prod.sale_price).toFixed(2) + ' €' : '-'"></td>
                                 </tr>
                             </template>
 
@@ -142,7 +142,7 @@
                                     <span class="report-summary-badge report-summary-badge--success">
                                         <i class="fas fa-euro-sign me-1"></i>
                                         Valor total en stock: 
-                                        <span x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + (prod.quantity * parseFloat(prod.sale_price || 0)), 0))"></span>
+                                        <span x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + Number(prod.stock_value || 0), 0))"></span>
                                     </span>
                                 </div>
                             </div>
