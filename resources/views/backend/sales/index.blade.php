@@ -299,12 +299,14 @@
                                     Registrar Venta
                                 </button>
 
-                                <button class="btn btn-outline-secondary fw-bold w-100 mt-2">
-                                    <i class="fas fa-receipt me-2"></i>
-                                    Solo Pre-ticket
-                                </button>
+                                <div class="payment-secondary-actions mt-2">
+                                    <button class="btn btn-primary fw-bold w-100">
+                                        <i class="fas fa-receipt me-2"></i>
+                                        Solo Pre-ticket
+                                    </button>
 
-                                <button class="btn btn-link text-danger fw-bold w-100 mt-2">Cancelar Venta Actual</button>
+                                    <button class="btn btn-danger fw-bold w-100">Cancelar Venta Actual</button>
+                                </div>
 
                             </div>
 

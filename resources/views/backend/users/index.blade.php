@@ -94,7 +94,9 @@
                                 <td>{{ $user->email }}</td>
                                 <td>{{ $user->phone }}</td>
                                 <td class="text-center">
-                                    {{ $user->rol == 1 ? 'Super Admin' : ($user->rol == 2 ? 'Admin' : 'Cajero') }}
+                                    <span class="role-badge role-badge-purple">
+                                        {{ $user->rol == 1 ? 'Super Admin' : ($user->rol == 2 ? 'Admin' : 'Cajero') }}
+                                    </span>
                                 </td>
                                 <td>
                                     @if($user->status == \App\Models\User::ACTIVE)

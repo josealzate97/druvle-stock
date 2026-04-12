@@ -68,6 +68,57 @@
   color: #ffffff;
 }
 
+.reports-search-btn {
+  background: linear-gradient(180deg, #34c759 0%, #16a34a 100%);
+  border: 1px solid #16a34a;
+  color: #ffffff;
+}
+
+.reports-search-btn:hover,
+.reports-search-btn:focus {
+  background: linear-gradient(180deg, #22b44c 0%, #15803d 100%);
+  border-color: #15803d;
+  color: #ffffff;
+}
+
+.report-payment-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.22rem 0.62rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  background: #f3e8ff;
+  border: 1px solid #dcc2ff;
+  color: #6d28d9;
+}
+
+.reports-export-modal-dialog {
+  max-width: 620px;
+}
+
+.reports-export-modal-header {
+  padding: 1.45rem 1.6rem 1.25rem;
+  background: linear-gradient(135deg, #eef6ff 0%, #e4f0ff 55%, #d8eaff 100%);
+}
+
+.reports-export-modal-header .modal-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+}
+
+.reports-export-modal-header .modal-title .modal-icon {
+  width: 44px;
+  height: 44px;
+  font-size: 1rem;
+}
+
+.reports-export-modal-header .modal-subtitle {
+  font-size: 0.92rem;
+}
+
 body.theme-dark .reports-filters {
   background: #1f2935;
   border-color: #2a3240;
@@ -77,6 +128,29 @@ body.theme-dark .reports-filters .form-control,
 body.theme-dark .reports-filters .form-select {
   background: #0f141b;
   border-color: #2b313c;
+}
+
+body.theme-dark .reports-search-btn {
+  background: linear-gradient(180deg, #22a546 0%, #15803d 100%);
+  border-color: #1b8e45;
+  color: #ffffff;
+}
+
+body.theme-dark .reports-search-btn:hover,
+body.theme-dark .reports-search-btn:focus {
+  background: linear-gradient(180deg, #1f8e3d 0%, #166534 100%);
+  border-color: #166534;
+  color: #ffffff;
+}
+
+body.theme-dark .report-payment-badge {
+  background: #2e1b47;
+  border-color: #5d3b8c;
+  color: #dec7ff;
+}
+
+body.theme-dark .reports-export-modal-header {
+  background: linear-gradient(135deg, #1a2432 0%, #1d2a3b 55%, #223145 100%);
 }
 
 @media (max-width: 991.98px) {

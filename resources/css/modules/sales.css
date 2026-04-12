@@ -113,8 +113,8 @@ body.theme-dark .sales-tabs-content {
 }
 
 .payment-card {
-  border: 1px solid #e6ebf2;
-  background: #f1f7ff;
+  border: 1px solid #cdebd8;
+  background: linear-gradient(180deg, #eefbf3 0%, #e6f7ee 100%);
   box-shadow: 0 10px 26px rgba(16, 24, 40, 0.08);
   position: sticky;
   top: 96px;
@@ -124,7 +124,7 @@ body.theme-dark .sales-tabs-content {
   text-transform: uppercase;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #1d4ed8;
+  color: #15803d;
   margin-bottom: 1rem;
   letter-spacing: 0.08em;
 }
@@ -142,15 +142,15 @@ body.theme-dark .sales-tabs-content {
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 0;
-  border-top: 1px solid #dbeafe;
-  border-bottom: 1px solid #dbeafe;
+  border-top: 1px solid #cae9d7;
+  border-bottom: 1px solid #cae9d7;
   margin-bottom: 1rem;
   font-size: 1rem;
 }
 
 .payment-total strong {
   font-size: 1.35rem;
-  color: #1d4ed8;
+  color: #15803d;
 }
 
 .payment-section {
@@ -158,14 +158,14 @@ body.theme-dark .sales-tabs-content {
 }
 
 .payment-highlight {
-  background: #e7f8ee;
-  border: 1px solid #c6f6d5;
+  background: #fff8dc;
+  border: 1px solid #f5e29d;
   border-radius: 10px;
   padding: 0.75rem 1rem;
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  color: #0f5132;
+  color: #8a6400;
   font-weight: 700;
   margin-bottom: 1rem;
 }
@@ -173,5 +173,45 @@ body.theme-dark .sales-tabs-content {
 .payment-highlight small {
   display: block;
   font-weight: 600;
-  color: #0f5132;
+  color: #8a6400;
+}
+
+.payment-secondary-actions {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.payment-secondary-actions .btn {
+  min-height: 42px;
+}
+
+body.theme-dark .payment-card {
+  border-color: #2f4a3a;
+  background: linear-gradient(180deg, #14241c 0%, #172b22 100%);
+}
+
+body.theme-dark .payment-header,
+body.theme-dark .payment-total strong {
+  color: #8fe2ad;
+}
+
+body.theme-dark .payment-total {
+  border-top-color: #2f4a3a;
+  border-bottom-color: #2f4a3a;
+}
+
+body.theme-dark .payment-highlight {
+  background: #3a321a;
+  border-color: #5e4f24;
+  color: #f3d98d;
+}
+
+body.theme-dark .payment-highlight small {
+  color: #f3d98d;
+}
+
+@media (max-width: 575.98px) {
+  .payment-secondary-actions {
+    flex-direction: column;
+  }
 }

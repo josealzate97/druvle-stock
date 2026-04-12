@@ -90,7 +90,7 @@
                         </div>
 
                         <div class="col-3">
-                            <button class="btn btn-primary btn-sm w-100" @click="fetchProductos()">
+                            <button class="btn reports-search-btn btn-sm w-100" @click="fetchProductos()">
                                 <i class="fas fa-search me-1"></i>Buscar
                             </button>
                         </div>
@@ -184,7 +184,7 @@
                         </div>
 
                         <div class="col-3">
-                            <button class="btn btn-primary btn-sm w-100" @click="fetchVentas()">
+                            <button class="btn reports-search-btn btn-sm w-100" @click="fetchVentas()">
                                 <i class="fas fa-search me-1"></i>Buscar
                             </button>
                         </div>
@@ -224,7 +224,9 @@
                                     <td x-text="venta.subtotal + ' €'"></td>
                                     <td x-text="venta.tax + ' €'"></td>
                                     <td x-text="venta.total + ' €'"></td>
-                                    <td x-text="venta.type_payment == 1 ? 'EFECTIVO' : (venta.type_payment == 2 ? 'BIZUM' : 'TVP')"></td>
+                                    <td>
+                                        <span class="report-payment-badge" x-text="venta.type_payment == 1 ? 'EFECTIVO' : (venta.type_payment == 2 ? 'BIZUM' : 'TPV')"></span>
+                                    </td>
                                 </tr>
                             </template>
 
@@ -279,7 +281,7 @@
                         </div>
 
                         <div class="col-3">
-                            <button class="btn btn-primary btn-sm w-100" @click="fetchImpuestos()">
+                            <button class="btn reports-search-btn btn-sm w-100" @click="fetchImpuestos()">
                                 <i class="fas fa-search me-1"></i>Buscar
                             </button>
                         </div>
@@ -344,9 +346,9 @@
         </div>
 
         <div class="modal fade" id="reportsExportModal" tabindex="-1" aria-labelledby="reportsExportModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered reports-export-modal-dialog">
                 <div class="modal-content form-modal">
-                    <div class="modal-header">
+                    <div class="modal-header reports-export-modal-header">
                         <div class="modal-title-block">
                             <h5 class="modal-title" id="reportsExportModalLabel">
                                 <span class="modal-icon">

@@ -113,3 +113,27 @@ body.theme-dark .user-back-btn:hover {
   font-weight: 600;
   color: #334155;
 }
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.24rem 0.65rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+}
+
+.role-badge-purple {
+  background: #f3e8ff;
+  border-color: #dcc2ff;
+  color: #6d28d9;
+}
+
+body.theme-dark .role-badge-purple {
+  background: #2e1b47;
+  border-color: #5d3b8c;
+  color: #dec7ff;
+}
