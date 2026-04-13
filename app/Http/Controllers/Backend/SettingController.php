@@ -43,6 +43,8 @@ class SettingController extends Controller {
             'nit' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'city' => 'nullable|string|max:100',
+            'logo' => 'nullable|string|max:150',
         ]);
 
         $settings = Setting::first();
@@ -53,6 +55,8 @@ class SettingController extends Controller {
             'nit',
             'phone',
             'address',
+            'city',
+            'logo',
         ]));
 
         // Retorna un objeto de respuesta con un mensaje de éxito sin ruta

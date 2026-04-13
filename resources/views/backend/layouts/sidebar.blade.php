@@ -76,7 +76,7 @@
 
         <li class="sidebar-item">
 
-            <a href="{{ route('logout') }}" class="sidebar-link text-danger"
+            <a href="{{ route('logout') }}" class="sidebar-link sidebar-link--logout"
                 onclick="event.preventDefault();
                 document.getElementById('logout-form-sidebar').submit();">
                 <span class="sidebar-icon">

@@ -52,6 +52,8 @@
                 nit: '{{ $settings->nit }}',
                 phone: '{{ $settings->phone }}',
                 address: '{{ $settings->address }}',
+                city: '{{ $settings->city ?? '' }}',
+                logo: '{{ $settings->logo ?? '' }}',
             })">
                 <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
                     <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
@@ -71,39 +73,80 @@
                 <div class="card p-4 mt-4 section-card settings-form-card shadow-sm">
                     <form @submit.prevent="saveSettings">
 
-                        <div class="row g-4">
-                            <input type="hidden" name="id" x-model="form.id">
+                        <input type="hidden" name="id" x-model="form.id">
 
-                            <div class="col-12">
-                                <div class="settings-section-title">
-                                    <i class="fas fa-info-circle me-1 text-muted"></i> Información general
+                        <div class="d-flex gap-4 settings-main-layout">
+
+                            <!-- Columna izquierda: datos de empresa + dirección -->
+                            <div class="flex-grow-1">
+
+                                <div class="row g-4">
+
+                                    <div class="col-12">
+                                        <div class="settings-section-title">
+                                            <i class="fas fa-info-circle me-1"></i> Información general
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <label for="company_name" class="form-label fw-bold">Razón social</label>
+                                        <input type="text" id="company_name" name="company_name" class="form-control" x-model="form.company_name" :disabled="!editMode">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <label for="nit" class="form-label fw-bold">NIF / CIF</label>
+                                        <input type="text" id="nit" name="nit" class="form-control" x-model="form.nit" :disabled="!editMode">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <label for="phone" class="form-label fw-bold">Teléfono</label>
+                                        <input type="text" id="phone" name="phone" class="form-control" x-model="form.phone" :disabled="!editMode">
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="settings-section-title">
+                                            <i class="fas fa-map-marker-alt me-1"></i> Dirección fiscal
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-8 col-md-12 col-sm-12">
+                                        <label for="address" class="form-label fw-bold">Dirección</label>
+                                        <input type="text" id="address" name="address" class="form-control" x-model="form.address" :disabled="!editMode">
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        <label for="city" class="form-label fw-bold">Ciudad</label>
+                                        <input type="text" id="city" name="city" class="form-control" x-model="form.city" :disabled="!editMode" placeholder="Ej. Madrid">
+                                    </div>
+
                                 </div>
+
                             </div>
 
-                            <div class="col-lg-4 col-md-12 col-sm-12">
-                                <label for="company_name" class="form-label fw-bold">Razón social</label>
-                                <input type="text" id="company_name" name="company_name" class="form-control" x-model="form.company_name" :disabled="!editMode">
-                            </div>
+                            <!-- Columna derecha: logo -->
+                            <div class="settings-logo-col">
 
-                            <div class="col-lg-4 col-md-12 col-sm-12">
-                                <label for="nit" class="form-label fw-bold">NIF / CIF</label>
-                                <input type="text" id="nit" name="nit" class="form-control" x-model="form.nit" :disabled="!editMode">
-                            </div>
-
-                            <div class="col-lg-4 col-md-12 col-sm-12">
-                                <label for="phone" class="form-label fw-bold">Teléfono</label>
-                                <input type="text" id="phone" name="phone" class="form-control" x-model="form.phone" :disabled="!editMode">
-                            </div>
-
-                            <div class="col-12">
-                                <div class="settings-section-title">
-                                    <i class="fas fa-map-marker-alt me-1 text-muted"></i> Dirección fiscal
+                                <div class="settings-section-title mb-3">
+                                    <i class="fas fa-image me-1"></i> Logo de la empresa
                                 </div>
-                            </div>
 
-                            <div class="col-lg-8 col-md-12 col-sm-12">
-                                <label for="address" class="form-label fw-bold">Dirección</label>
-                                <input type="text" id="address" name="address" class="form-control" x-model="form.address" :disabled="!editMode">
+                                <div class="settings-logo-preview">
+                                    <template x-if="form.logo">
+                                        <img :src="form.logo" alt="Logo empresa" class="settings-logo-img">
+                                    </template>
+                                    <template x-if="!form.logo">
+                                        <span class="settings-logo-placeholder">
+                                            <i class="fas fa-image"></i>
+                                        </span>
+                                    </template>
+                                </div>
+
+                                <div class="mt-3">
+                                    <label for="logo" class="form-label fw-bold">URL del logo</label>
+                                    <input type="text" id="logo" name="logo" class="form-control" x-model="form.logo" :disabled="!editMode" placeholder="https://...">
+                                    <div class="form-text">Introduce la URL pública de la imagen.</div>
+                                </div>
+
                             </div>
 
                         </div>

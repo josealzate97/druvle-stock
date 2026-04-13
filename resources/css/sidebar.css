@@ -151,6 +151,40 @@ body.theme-dark .sidebar-link:hover .sidebar-icon {
     color: #ffffff;
 }
 
+/* Cerrar sesión */
+.sidebar-link--logout {
+    color: #dc2626 !important;
+}
+
+.sidebar-link--logout .sidebar-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.sidebar-link--logout:hover {
+    background-color: #fff0f0 !important;
+    color: #b91c1c !important;
+}
+
+.sidebar-link--logout:hover .sidebar-icon {
+    background: #fecaca;
+    color: #b91c1c;
+}
+
+body.theme-dark .sidebar-link--logout {
+    color: #f87171 !important;
+}
+
+body.theme-dark .sidebar-link--logout .sidebar-icon {
+    background: #3b1a1a;
+    color: #f87171;
+}
+
+body.theme-dark .sidebar-link--logout:hover {
+    background-color: #2d1515 !important;
+    color: #fca5a5 !important;
+}
+
 .sidebar-bottom {
     flex-grow: 0;
     padding-bottom: 1.5rem;

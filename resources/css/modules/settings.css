@@ -43,8 +43,8 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-weight: 700;
-  color: #64748b;
+  font-weight: 800;
+  color: #1b77d3;
   margin-top: 0.25rem;
 }
 
@@ -65,6 +65,73 @@ body.theme-dark .settings-content {
   background: #14171d;
   border-color: #1f2329;
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Layout de dos columnas: datos + logo */
+.settings-main-layout {
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.settings-logo-col {
+  width: 300px;
+  min-width: 260px;
+  flex-shrink: 0;
+  padding-left: 1.5rem;
+  border-left: 1px solid #e6ebf2;
+}
+
+.settings-logo-preview {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  border: 2px dashed #c5dcfb;
+  background: linear-gradient(135deg, #f0f7ff 0%, #e8f3ff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.settings-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.5rem;
+}
+
+.settings-logo-placeholder {
+  font-size: 2.5rem;
+  color: #b8d4f5;
+}
+
+body.theme-dark .settings-logo-col {
+  border-left-color: #1f2329;
+}
+
+body.theme-dark .settings-logo-preview {
+  border-color: #2a3f5e;
+  background: linear-gradient(135deg, #182233 0%, #1a2840 100%);
+}
+
+body.theme-dark .settings-logo-placeholder {
+  color: #2d4a6a;
+}
+
+@media (max-width: 991.98px) {
+  .settings-main-layout {
+    flex-direction: column;
+  }
+
+  .settings-logo-col {
+    width: 100%;
+    min-width: 0;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid #e6ebf2;
+    padding-top: 1.5rem;
+    margin-top: 0.5rem;
+  }
 }
 
 .notification-table .table-chip-type {

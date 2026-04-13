@@ -18,6 +18,8 @@ class Settings extends Model {
         'nit',
         'phone',
         'address',
+        'city',
+        'logo',
     ];
 
     protected static function boot() {
