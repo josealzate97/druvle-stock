@@ -199,9 +199,9 @@ html, body {
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  border: 1px solid #d8e2f0;
-  background: #f8fbff;
-  color: #1b77d3;
+  border: 1px solid #e0d4f7;
+  background: #f8f4ff;
+  color: #7c3aed;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -214,8 +214,8 @@ html, body {
 }
 
 .header-notification-btn:hover {
-  background: #edf4ff;
-  border-color: #c2d5ee;
+  background: #f0e8ff;
+  border-color: #c9adff;
 }
 
 .header-notification-dot {

@@ -74,8 +74,9 @@
                             @endif
                         </td>
                         <td class="text-end">
-                            <button class="btn btn-icon text-primary" @click="openSaleModal('{{ $history->id }}')">
+                            <button class="btn btn-sm sales-view-btn" @click="openSaleModal('{{ $history->id }}')">
                                 <i class="fas fa-eye"></i>
+                                <span>Ver detalle</span>
                             </button>
                         </td>
                     </tr>

@@ -167,7 +167,7 @@
                                     </div>
 
                                     <div class="sales-action-field action-field">
-                                        <button type="button" class="btn btn-warning mt-4 fw-bold w-100" @click="addProduct">
+                                        <button type="button" class="btn btn-success mt-4 fw-bold w-100" @click="addProduct">
                                             <i class="fas fa-plus-circle me-2"></i>
                                             Añadir
                                         </button>

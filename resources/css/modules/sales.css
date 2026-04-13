@@ -39,12 +39,28 @@ body.theme-dark .sales-tabs-content {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  padding: 0.4rem 0.8rem;
+  background: #f3e8ff;
+  border: 1px solid #dcc2ff;
+  padding: 0.5rem 1rem;
   border-radius: 999px;
   font-weight: 700;
-  color: #475569;
+  color: #6d28d9;
+}
+
+.sales-switch .form-check-input {
+  width: 3rem;
+  height: 1.5rem;
+  cursor: pointer;
+}
+
+.sales-switch .form-check-input:checked {
+  background-color: #7c3aed;
+  border-color: #7c3aed;
+}
+
+.sales-switch .form-check-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(124, 58, 237, 0.25);
+  border-color: #7c3aed;
 }
 
 .sales-action-card {
@@ -93,12 +109,19 @@ body.theme-dark .sales-tabs-content {
   padding-left: 2.1rem;
 }
 
-.sales-action-card .btn-warning {
-  background: #f4b400;
-  border-color: #f4b400;
-  color: #111827;
+.sales-action-card .btn-success {
+  background: linear-gradient(180deg, #22c55e 0%, #16a34a 100%);
+  border-color: #16a34a;
+  color: #ffffff;
   border-radius: 12px;
   padding: 0.7rem 0.9rem;
+}
+
+.sales-action-card .btn-success:hover,
+.sales-action-card .btn-success:focus {
+  background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
+  border-color: #15803d;
+  color: #ffffff;
 }
 
 .sales-summary {
@@ -238,6 +261,37 @@ body.theme-dark .sales-client-card .form-control {
   background: #101a27;
   border-color: #2f4159;
   color: #e2ecfb;
+}
+
+.sales-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(180deg, #e8f2ff 0%, #dceaff 100%);
+  border: 1px solid #c5dcfb;
+  color: #155fb8;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  transition: all 0.2s;
+}
+
+.sales-view-btn:hover {
+  background: linear-gradient(180deg, #dceaff 0%, #c9deff 100%);
+  border-color: #a8c8f5;
+  color: #0b4e91;
+}
+
+body.theme-dark .sales-view-btn {
+  background: linear-gradient(180deg, #1e3048 0%, #192840 100%);
+  border-color: #2d4a6a;
+  color: #9cc8ff;
+}
+
+body.theme-dark .sales-view-btn:hover {
+  background: linear-gradient(180deg, #24384f 0%, #1e2f42 100%);
+  color: #c7deff;
 }
 
 @media (max-width: 575.98px) {

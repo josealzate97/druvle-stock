@@ -54,6 +54,9 @@
 
         <div class="nav-item dropdown header-user-menu">
             <a class="nav-link dropdown-toggle user-menu-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Abrir menú de usuario">
+                <span class="user-avatar">
+                    <i class="fa fa-user"></i>
+                </span>
                 @if(Auth::check())
                     <span class="session-info">
                         <span class="session-name">{{ Auth::user()->username }}</span>
@@ -65,9 +68,6 @@
                         </span>
                     </span>
                 @endif
-                <span class="user-avatar">
-                    <i class="fa fa-user"></i>
-                </span>
                 <span class="user-menu-caret">
                     <i class="fa-solid fa-chevron-down"></i>
                 </span>

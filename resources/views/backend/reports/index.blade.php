@@ -97,6 +97,26 @@
 
                     </div>
 
+                    <!-- Totalizador de productos como stat-cards -->
+                    <div class="reports-stat-grid mt-3 mb-1" x-show="!loading && data.productos.length > 0">
+                        <div class="stat-card reports-stat-card reports-stat-card--primary">
+                            <div class="stat-top">
+                                <span class="stat-label">Total Productos</span>
+                                <span class="stat-icon bg-soft-primary"><i class="fas fa-cubes"></i></span>
+                            </div>
+                            <div class="stat-value" x-text="data.productos.length"></div>
+                            <div class="stat-meta">productos en stock</div>
+                        </div>
+                        <div class="stat-card reports-stat-card reports-stat-card--success">
+                            <div class="stat-top">
+                                <span class="stat-label">Valor Total en Stock</span>
+                                <span class="stat-icon bg-soft-success"><i class="fas fa-euro-sign"></i></span>
+                            </div>
+                            <div class="stat-value" x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + toNumber(prod.stock_value), 0))"></div>
+                            <div class="stat-meta">valor de inventario</div>
+                        </div>
+                    </div>
+
                     <hr>
 
                     <template x-if="loading" class="col-12 text-center my-3">
@@ -131,21 +151,6 @@
                                     <td x-text="prod.sale_price !== null ? Number(prod.sale_price).toFixed(2) + ' €' : '-'"></td>
                                 </tr>
                             </template>
-
-                            <!-- Totalizador de productos como badges y responsivo -->
-                            <div class="row my-5" x-show="!loading && data.productos.length > 0">
-                                <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-                                    <span class="report-summary-badge report-summary-badge--primary">
-                                        <i class="fas fa-cubes me-1"></i>
-                                        Total productos: <span x-text="data.productos.length"></span>
-                                    </span>
-                                    <span class="report-summary-badge report-summary-badge--success">
-                                        <i class="fas fa-euro-sign me-1"></i>
-                                        Valor total en stock: 
-                                        <span x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + toNumber(prod.stock_value), 0))"></span>
-                                    </span>
-                                </div>
-                            </div>
 
                             <template x-if="!loading && data.productos.length === 0">
                                 <tr>
@@ -191,6 +196,26 @@
 
                     </div>
 
+                    <!-- Totalizador de ventas como stat-cards -->
+                    <div class="reports-stat-grid mt-3 mb-1" x-show="!loading && data.ventas.length > 0">
+                        <div class="stat-card reports-stat-card reports-stat-card--primary">
+                            <div class="stat-top">
+                                <span class="stat-label">Total Ventas</span>
+                                <span class="stat-icon bg-soft-primary"><i class="fas fa-receipt"></i></span>
+                            </div>
+                            <div class="stat-value" x-text="data.ventas.length"></div>
+                            <div class="stat-meta">ventas registradas</div>
+                        </div>
+                        <div class="stat-card reports-stat-card reports-stat-card--success">
+                            <div class="stat-top">
+                                <span class="stat-label">Total Facturado</span>
+                                <span class="stat-icon bg-soft-success"><i class="fas fa-euro-sign"></i></span>
+                            </div>
+                            <div class="stat-value" x-text="formatCurrency(data.ventas.reduce((sum, venta) => sum + toNumber(venta.subtotal), 0))"></div>
+                            <div class="stat-meta">en ventas netas</div>
+                        </div>
+                    </div>
+
                     <hr>
 
                     <template x-if="loading" class="text-center my-3">
@@ -229,21 +254,6 @@
                                     </td>
                                 </tr>
                             </template>
-
-                            <!-- Totalizador de ventas -->
-                            <div class="row my-5" x-show="!loading && data.ventas.length > 0">
-                                <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-                                    <span class="report-summary-badge report-summary-badge--primary">
-                                        <i class="fas fa-receipt me-1"></i>
-                                        Total ventas: <span x-text="data.ventas.length"></span>
-                                    </span>
-                                    <span class="report-summary-badge report-summary-badge--success">
-                                        <i class="fas fa-euro-sign me-1"></i>
-                                        Total facturado: 
-                                        <span x-text="formatCurrency(data.ventas.reduce((sum, venta) => sum + toNumber(venta.subtotal), 0))"></span>
-                                    </span>
-                                </div>
-                            </div>
 
                             <template x-if="!loading && data.ventas.length === 0">
                                 <tr>
@@ -288,6 +298,18 @@
 
                     </div>
 
+                    <!-- Totalizador de impuestos como stat-card -->
+                    <div class="reports-stat-grid mt-3 mb-1" x-show="!loading && data.impuestos.length > 0">
+                        <div class="stat-card reports-stat-card reports-stat-card--warning">
+                            <div class="stat-top">
+                                <span class="stat-label">Total Impuestos Recaudados</span>
+                                <span class="stat-icon bg-soft-warning"><i class="fas fa-percent"></i></span>
+                            </div>
+                            <div class="stat-value" x-text="formatCurrency(data.impuestos.reduce((sum, imp) => sum + toNumber(imp.total_tax), 0))"></div>
+                            <div class="stat-meta">total de IVA recaudado</div>
+                        </div>
+                    </div>
+
                     <hr>
 
                     <template x-if="loading" class="text-center my-3">
@@ -315,17 +337,6 @@
                                     <td x-text="formatCurrency(toNumber(imp.total_tax))"></td>
                                 </tr>
                             </template>
-
-                            <!-- Totalizador de impuestos -->
-                            <div class="row my-5" x-show="!loading && data.impuestos.length > 0">
-                                <div class="col-12 d-flex flex-wrap align-items-center gap-2">
-                                    <span class="report-summary-badge report-summary-badge--warning">
-                                        <i class="fas fa-percent me-1"></i>
-                                        Total impuestos recaudados: 
-                                        <span x-text="formatCurrency(data.impuestos.reduce((sum, imp) => sum + toNumber(imp.total_tax), 0))"></span>
-                                    </span>
-                                </div>
-                            </div>
 
                             <template x-if="!loading && data.impuestos.length === 0">
                                 <tr>
