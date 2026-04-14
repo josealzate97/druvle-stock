@@ -51,16 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Generar slug automático a partir del nombre
+    // Vista previa del slug (solo visual, el slug real lo genera el servidor)
     document.getElementById('tenantName').addEventListener('input', function () {
-        const slugInput = document.getElementById('tenantSlug');
-        if (!tenantIdInput.value) {
-            slugInput.value = this.value
-                .toLowerCase()
-                .trim()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-');
+        const display = document.getElementById('tenantSlugDisplay');
+        if (!tenantIdInput.value && display) {
+            const norm = this.value.toLowerCase().trim()
+                .replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+            display.value = norm ? `negocio_${norm}_???` : '';
         }
     });
 
@@ -89,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.getElementById('tenantForm').closest('form').classList.add('d-none');
                     const credBlock = document.getElementById('tenantCredentialsBlock');
                     credBlock.classList.remove('d-none');
+                    document.getElementById('credSlug').value = result.admin.slug;
                     document.getElementById('credUsername').value = result.admin.username;
                     document.getElementById('credPassword').value = result.admin.password;
                     // Recargar al cerrar el modal
@@ -125,7 +123,8 @@ window.editTenant = async function (id) {
             const t = result.tenant;
             document.getElementById('tenantId').value = t.id;
             document.getElementById('tenantName').value = t.name;
-            document.getElementById('tenantSlug').value = t.slug;
+            const display = document.getElementById('tenantSlugDisplay');
+            if (display) display.value = t.slug;
             document.getElementById('tenantPlan').value = t.plan;
             document.getElementById('tenantTrialEndsAt').value = t.trial_ends_at
                 ? t.trial_ends_at.substring(0, 10)

@@ -27,35 +27,39 @@ class TenantController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:150',
-            'slug' => 'required|string|max:100|unique:tenants,slug|regex:/^[a-z0-9\-]+$/',
-            'plan' => 'required|integer|in:1,2,3',
+            'name'          => 'required|string|max:150',
+            'plan'          => 'required|integer|in:1,2,3',
             'trial_ends_at' => 'nullable|date',
         ]);
+
+        // Calcular consecutivo y generar slug automático
+        $consecutivo = (Tenant::max('consecutivo') ?? 0) + 1;
+        $nameNorm    = preg_replace('/[^a-z0-9]+/', '_', mb_strtolower(trim($validated['name'])));
+        $nameNorm    = trim($nameNorm, '_');
+        $slug        = 'negocio_' . $nameNorm . '_' . str_pad($consecutivo, 3, '0', STR_PAD_LEFT);
 
         $tenant = Tenant::create([
             'id'            => (string) Str::uuid(),
             'name'          => $validated['name'],
-            'slug'          => $validated['slug'],
+            'slug'          => $slug,
+            'consecutivo'   => $consecutivo,
             'plan'          => $validated['plan'],
             'trial_ends_at' => $validated['trial_ends_at'] ?? null,
             'status'        => true,
         ]);
 
-        // Crear automáticamente un usuario admin asociado al tenant
-        $adminPassword = Str::random(12);
-        $adminUsername = $validated['slug'] . '_admin';
-        $adminEmail    = 'admin@' . $validated['slug'] . '.local';
-        $adminPhone    = 'T-' . strtoupper(Str::random(10));
+        // Crear automáticamente un usuario admin con credenciales fijas
+        $adminEmail = 'admin@' . $slug . '.local';
+        $adminPhone = 'T-' . strtoupper(Str::random(10));
 
         User::create([
             'id'        => (string) Str::uuid(),
             'name'      => $validated['name'],
             'lastname'  => 'Admin',
-            'username'  => $adminUsername,
+            'username'  => 'admin',
             'email'     => $adminEmail,
             'phone'     => $adminPhone,
-            'password'  => Hash::make($adminPassword),
+            'password'  => Hash::make('admin@123'),
             'rol'       => User::ROLE_ADMIN,
             'status'    => User::ACTIVE,
             'tenant_id' => $tenant->id,
@@ -66,8 +70,9 @@ class TenantController extends Controller
             'message'  => 'Negocio creado correctamente',
             'tenant'   => $tenant,
             'admin'    => [
-                'username' => $adminUsername,
-                'password' => $adminPassword,
+                'username' => 'admin',
+                'password' => 'admin@123',
+                'slug'     => $slug,
             ],
         ]);
     }
@@ -86,7 +91,7 @@ class TenantController extends Controller
     }
 
     /**
-     * Actualiza un tenant existente.
+     * Actualiza un tenant existente (el slug no se puede cambiar).
      */
     public function update(Request $request, $id)
     {
@@ -94,7 +99,6 @@ class TenantController extends Controller
 
         $validated = $request->validate([
             'name'          => 'required|string|max:150',
-            'slug'          => 'required|string|max:100|unique:tenants,slug,' . $id . '|regex:/^[a-z0-9\-]+$/',
             'plan'          => 'required|integer|in:1,2,3',
             'trial_ends_at' => 'nullable|date',
         ]);

@@ -15,6 +15,7 @@ class Tenant extends Model
     protected $fillable = [
         'name',
         'slug',
+        'consecutivo',
         'plan',
         'trial_ends_at',
         'status',
@@ -24,6 +25,7 @@ class Tenant extends Model
         'trial_ends_at' => 'datetime',
         'status'        => 'boolean',
         'plan'          => 'integer',
+        'consecutivo'   => 'integer',
     ];
 
     protected static function boot(): void

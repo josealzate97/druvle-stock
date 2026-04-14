@@ -39,15 +39,14 @@
                             maxlength="150" placeholder="Ej: Mi Tienda" required>
                     </div>
 
-                    <div class="col-12">
-                        <label for="tenantSlug" class="form-label fw-bold">
-                            Slug&nbsp;<span class="text-danger">*</span>
-                        </label>
-                        <input type="text" class="form-control" id="tenantSlug" name="slug"
-                            maxlength="100" placeholder="Ej: mi-tienda" required
-                            pattern="^[a-z0-9\-]+$"
-                            title="Solo letras minúsculas, números y guiones">
-                        <div class="form-text">Solo minúsculas, números y guiones (ej: <code>mi-tienda</code>).</div>
+                    <div class="col-12" id="tenantSlugRow">
+                        <label class="form-label fw-bold">Slug</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-link"></i></span>
+                            <input type="text" class="form-control font-monospace bg-body-secondary"
+                                id="tenantSlugDisplay" readonly placeholder="Se genera automáticamente">
+                        </div>
+                        <div class="form-text">Generado automáticamente al crear el negocio.</div>
                     </div>
 
                     <div class="col-lg-6 col-12">
@@ -103,6 +102,15 @@
                 <div class="alert alert-warning d-flex gap-2 align-items-start mb-3">
                     <i class="fas fa-triangle-exclamation mt-1"></i>
                     <span>Estas credenciales <strong>no se volverán a mostrar</strong>. Cópialas ahora.</span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Slug del negocio (para el login)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control font-monospace" id="credSlug" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credSlug').value)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label fw-bold">Usuario</label>
