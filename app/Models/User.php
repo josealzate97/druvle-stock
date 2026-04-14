@@ -26,6 +26,7 @@ class User extends Authenticatable {
     const ROLE_ROOT = 1;
     const ROLE_ADMIN = 2;
     const ROLE_SALES = 3;
+    const ROLE_SUPPORT = 4;
 
     const ACTIVE = 1;
     const INACTIVE = 2;

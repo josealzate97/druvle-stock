@@ -16,63 +16,80 @@
             </a>
         </li>
 
-        <li class="sidebar-item">
-            <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-tags"></i>
-                </span>
-                <span>Categorías</span>
-            </a>
-        </li>
+        @if(Auth::user()->rol === \App\Models\User::ROLE_SUPPORT)
 
-        <li class="sidebar-item">
-            <a href="{{ route('products.index') }}" class="sidebar-link" url="products">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-box"></i>
-                </span>
-                <span>Productos</span>
-            </a>
-        </li>
-        
-        <li class="sidebar-item">
-            <a href="{{ route('sales.index') }}" class="sidebar-link" url="sales">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-shopping-cart"></i>
-                </span>
-                <span>Ventas</span>
-            </a>
-        </li>
+            <li class="sidebar-item">
+                <a href="{{ route('tenants.index') }}" class="sidebar-link" url="tenants">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-building"></i>
+                    </span>
+                    <span>Negocios</span>
+                </a>
+            </li>
 
-        <li class="sidebar-item">
-            <a href="{{ route('reports.index') }}" class="sidebar-link" url="reports">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-chart-line"></i>
-                </span>
-                <span>Reportes</span>
-            </a>
-        </li>
+        @else
 
-        <li class="sidebar-item">
-            <a href="{{ route('users.index') }}" class="sidebar-link" url="users">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-users"></i>
-                </span>
-                <span>Usuarios</span>
-            </a>
-        </li>
+            <li class="sidebar-item">
+                <a href="{{ route('categories.index') }}" class="sidebar-link" url="categories">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-tags"></i>
+                    </span>
+                    <span>Categorías</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('products.index') }}" class="sidebar-link" url="products">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-box"></i>
+                    </span>
+                    <span>Productos</span>
+                </a>
+            </li>
+            
+            <li class="sidebar-item">
+                <a href="{{ route('sales.index') }}" class="sidebar-link" url="sales">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                    </span>
+                    <span>Ventas</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('reports.index') }}" class="sidebar-link" url="reports">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </span>
+                    <span>Reportes</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('users.index') }}" class="sidebar-link" url="users">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-users"></i>
+                    </span>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+
+        @endif
 
     </ul>
 
     <ul class="sidebar-nav sidebar-bottom">
 
-        <li class="sidebar-item">
-            <a href="{{ route('settings.index') }}" class="sidebar-link" url="settings">
-                <span class="sidebar-icon">
-                    <i class="fa-solid fa-cog"></i>
-                </span>
-                <span>Configuraciones</span>
-            </a>
-        </li>
+        @if(Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT)
+            <li class="sidebar-item">
+                <a href="{{ route('settings.index') }}" class="sidebar-link" url="settings">
+                    <span class="sidebar-icon">
+                        <i class="fa-solid fa-cog"></i>
+                    </span>
+                    <span>Configuraciones</span>
+                </a>
+            </li>
+        @endif
 
         <li class="sidebar-item">
 

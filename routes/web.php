@@ -13,6 +13,7 @@ use App\Http\Controllers\Backend\SaleController;
 use App\Http\Controllers\Backend\TaxController;
 use App\Http\Controllers\Backend\ReportController;
 use App\Http\Controllers\Backend\NotificationController;
+use App\Http\Controllers\Backend\TenantController;
 
 /*
  * ✅ Rutas para landing publica
@@ -131,5 +132,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/taxes/delete/{id}', [TaxController::class, 'delete'])->name('taxes.delete');
     Route::post('/taxes/activate/{id}', [TaxController::class, 'activate'])->name('taxes.activate');
     Route::post('/taxes/create', [TaxController::class, 'create'])->name('taxes.create');
+
+    /*
+     * ✅ Rutas para negocios (tenants) — acceso soporte
+    */
+    Route::get('tenants', [TenantController::class, 'index'])->name('tenants.index');
+    Route::post('tenants/create', [TenantController::class, 'store'])->name('tenants.create');
+    Route::get('tenants/getTenant/{id}', [TenantController::class, 'getTenant'])->name('tenants.getTenant');
+    Route::post('tenants/update/{id}', [TenantController::class, 'update'])->name('tenants.update');
+    Route::post('tenants/delete/{id}', [TenantController::class, 'delete'])->name('tenants.delete');
+    Route::post('tenants/activate/{id}', [TenantController::class, 'activate'])->name('tenants.activate');
     
 });
