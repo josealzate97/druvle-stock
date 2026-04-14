@@ -88,6 +88,48 @@
 
         </form>
 
+        <!-- Bloque de credenciales generadas (sólo al crear) -->
+        <div class="modal-content form-modal d-none" id="tenantCredentialsBlock">
+            <div class="modal-header">
+                <div class="modal-title-block">
+                    <h4 class="modal-title">
+                        <span class="modal-icon"><i class="fas fa-key"></i></span>
+                        Negocio creado
+                    </h4>
+                    <span class="modal-subtitle">Guarda estas credenciales del administrador antes de cerrar.</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning d-flex gap-2 align-items-start mb-3">
+                    <i class="fas fa-triangle-exclamation mt-1"></i>
+                    <span>Estas credenciales <strong>no se volverán a mostrar</strong>. Cópialas ahora.</span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Usuario</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control font-monospace" id="credUsername" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credUsername').value)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Contraseña</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control font-monospace" id="credPassword" readonly>
+                        <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credPassword').value)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">
+                    <i class="fas fa-check me-2"></i> Listo, ya lo guardé
+                </button>
+            </div>
+        </div>
+
     </div>
 
 </div>

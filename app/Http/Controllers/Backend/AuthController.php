@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Tenant;
+use App\Models\User;
 
 /**
  * Controlador para la autenticación de usuarios.
@@ -37,22 +39,43 @@ class AuthController extends Controller {
     public function login(Request $request) {
         
         $credentials = $request->only('username', 'password');
+        $slug = trim($request->input('slug', ''));
 
         // Intentar autenticar al usuario
         if (Auth::attempt($credentials)) {
             
+            $user = Auth::user();
+
             // Verificar si el usuario está activo
-            if (Auth::user()->status == \App\Models\User::ACTIVE) {
+            if ($user->status != User::ACTIVE) {
+                Auth::logout();
+                return back()->withErrors(['username' => 'Usuario inactivo en el sistema']);
+            }
+
+            // Root y Soporte pueden ingresar sin slug
+            if ($user->rol === User::ROLE_ROOT || $user->rol === User::ROLE_SUPPORT) {
                 return redirect()->intended(route('home'));
             }
 
-            // Cerrar sesión si el usuario está inactivo
-            Auth::logout();
+            // Los demás usuarios deben indicar su negocio (slug)
+            if (empty($slug)) {
+                Auth::logout();
+                return back()->withErrors(['slug' => 'Debes indicar el negocio para iniciar sesión.']);
+            }
 
-            return back()->withErrors([
-                'username' => 'Usuario inactivo en el sistema',
-            ]);
-            
+            $tenant = Tenant::where('slug', $slug)->where('status', true)->first();
+
+            if (!$tenant) {
+                Auth::logout();
+                return back()->withErrors(['slug' => 'El negocio no existe o está inactivo.']);
+            }
+
+            if ($user->tenant_id !== $tenant->id) {
+                Auth::logout();
+                return back()->withErrors(['slug' => 'No perteneces a este negocio.']);
+            }
+
+            return redirect()->intended(route('home'));
         }
 
         return back()->withErrors([

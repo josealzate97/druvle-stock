@@ -18,6 +18,7 @@ class SwitchTenant
         $tenantId = session('active_tenant_id');
 
         if ($tenantId) {
+            // Soporte con tenant activo en sesión
             $tenant = Tenant::find($tenantId);
 
             if ($tenant) {
@@ -25,6 +26,13 @@ class SwitchTenant
                 view()->share('currentTenant', $tenant);
             } else {
                 session()->forget('active_tenant_id');
+            }
+        } elseif (auth()->check() && auth()->user()->tenant_id) {
+            // Usuario regular con tenant propio
+            $tenant = Tenant::find(auth()->user()->tenant_id);
+
+            if ($tenant) {
+                view()->share('userTenant', $tenant);
             }
         }
 

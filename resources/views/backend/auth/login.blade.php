@@ -58,6 +58,18 @@
                     @csrf
 
                     <div class="login-field">
+                        <label for="slug" class="form-label">Negocio <small class="text-muted">(no requerido para soporte)</small></label>
+                        <div class="input-icon">
+                            <i class="fas fa-building"></i>
+                            <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug"
+                                placeholder="Ej: mi-tienda" value="{{ old('slug') }}" autocomplete="off" aria-label="Slug del negocio">
+                        </div>
+                        @error('slug')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="login-field">
                         <label for="username" class="form-label">Usuario</label>
                         <div class="input-icon">
                             <i class="fas fa-user"></i>

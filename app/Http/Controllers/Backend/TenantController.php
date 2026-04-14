@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Tenant;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class TenantController extends Controller
 {
@@ -40,10 +42,30 @@ class TenantController extends Controller
             'status'        => true,
         ]);
 
+        // Crear automáticamente un usuario admin asociado al tenant
+        $adminPassword = Str::random(12);
+        $adminUsername = $validated['slug'] . '_admin';
+
+        User::create([
+            'id'        => (string) Str::uuid(),
+            'name'      => $validated['name'],
+            'lastname'  => 'Admin',
+            'username'  => $adminUsername,
+            'email'     => null,
+            'password'  => Hash::make($adminPassword),
+            'rol'       => User::ROLE_ADMIN,
+            'status'    => User::ACTIVE,
+            'tenant_id' => $tenant->id,
+        ]);
+
         return response()->json([
-            'success' => true,
-            'message' => 'Negocio creado correctamente',
-            'tenant'  => $tenant,
+            'success'  => true,
+            'message'  => 'Negocio creado correctamente',
+            'tenant'   => $tenant,
+            'admin'    => [
+                'username' => $adminUsername,
+                'password' => $adminPassword,
+            ],
         ]);
     }
 

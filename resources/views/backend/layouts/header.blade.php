@@ -20,6 +20,7 @@
         </div>
 
         @if(Auth::user()->rol === \App\Models\User::ROLE_SUPPORT)
+        {{-- Selector de negocio para soporte --}}
         <div class="nav-item dropdown tenant-switcher-dropdown">
             <button class="btn header-tenant-switch-btn dropdown-toggle" type="button"
                 id="tenantSwitcherDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside"
@@ -87,6 +88,14 @@
         </div>
         @endif
 
+        @if(Auth::user()->tenant_id && Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT)
+        {{-- Badge de negocio para usuarios regulares --}}
+        <div class="header-tenant-badge" title="{{ isset($userTenant) ? $userTenant->name : '' }}">
+            <span class="header-tenant-badge__dot"></span>
+            <span class="header-tenant-badge__name">{{ isset($userTenant) ? $userTenant->name : '—' }}</span>
+        </div>
+        @endif
+
         <div class="nav-item dropdown notification-dropdown">
             <button class="btn header-notification-btn dropdown-toggle" type="button" id="notificationDropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false" aria-label="Notificaciones">
                 <i class="fas fa-bell"></i>
@@ -130,8 +139,9 @@
                         <span class="session-name">{{ Auth::user()->username }}</span>
                         <span class="session-role">
                             {{
-                                Auth::user()->rol == 1 ? 'Soporte' :
-                                (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero')
+                                Auth::user()->rol == \App\Models\User::ROLE_ROOT ? 'Root' :
+                                (Auth::user()->rol == \App\Models\User::ROLE_ADMIN ? 'Administrador' :
+                                (Auth::user()->rol == \App\Models\User::ROLE_SALES ? 'Cajero' : 'Soporte'))
                             }}
                         </span>
                     </span>

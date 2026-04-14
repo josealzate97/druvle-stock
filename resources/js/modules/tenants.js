@@ -41,6 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    tenantModalElement.addEventListener('hidden.bs.modal', function () {
+        // Restaurar formulario si se mostraron credenciales
+        const credBlock = document.getElementById('tenantCredentialsBlock');
+        const form = document.getElementById('tenantForm');
+        if (!credBlock.classList.contains('d-none')) {
+            credBlock.classList.add('d-none');
+            form.classList.remove('d-none');
+        }
+    });
+
     // Generar slug automático a partir del nombre
     document.getElementById('tenantName').addEventListener('input', function () {
         const slugInput = document.getElementById('tenantSlug');
@@ -74,9 +84,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
 
             if (response.ok && result.success) {
-                notyf.success(data.id ? 'Negocio actualizado correctamente' : 'Negocio creado correctamente');
-                tenantModal.hide();
-                setTimeout(() => location.reload(), 800);
+                if (!data.id && result.admin) {
+                    // Mostrar credenciales del admin creado automáticamente
+                    document.getElementById('tenantForm').closest('form').classList.add('d-none');
+                    const credBlock = document.getElementById('tenantCredentialsBlock');
+                    credBlock.classList.remove('d-none');
+                    document.getElementById('credUsername').value = result.admin.username;
+                    document.getElementById('credPassword').value = result.admin.password;
+                    // Recargar al cerrar el modal
+                    document.getElementById('tenantModal').addEventListener('hidden.bs.modal', () => location.reload(), { once: true });
+                } else {
+                    notyf.success('Negocio actualizado correctamente');
+                    tenantModal.hide();
+                    setTimeout(() => location.reload(), 800);
+                }
             } else {
                 const errors = result.errors ? Object.values(result.errors).flat().join('\n') : result.message;
                 notyf.error(errors || 'Error al guardar el negocio');

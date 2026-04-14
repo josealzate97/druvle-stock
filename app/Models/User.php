@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use App\Models\Tenant;
 
 class User extends Authenticatable {
     
@@ -40,6 +41,7 @@ class User extends Authenticatable {
         'password',
         'rol',
         'status',
+        'tenant_id',
         'creation_date',
         'update_date',
         'delete_date',
@@ -84,6 +86,11 @@ class User extends Authenticatable {
     public function notificationPreferences()
     {
         return $this->hasMany(NotificationPreference::class, 'user_id', 'id');
+    }
+
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id', 'id');
     }
 
     public function getAuthIdentifierName() {
