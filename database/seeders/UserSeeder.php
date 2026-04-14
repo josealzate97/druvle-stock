@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
                 'phone' => "100-000-000",
                 'rol' => 1, // 1 = SUPER ADMIN
                 'status' => true,
+                'tenant_id' => null,
                 'creation_date' => now(),
                 'update_date' => now(),
                 'delete_date' => null,
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
                 'phone' => "200-000-000",
                 'rol' => 2, // 2 = ADMIN
                 'status' => true,
+                'tenant_id' => null,
                 'creation_date' => now(),
                 'update_date' => now(),
                 'delete_date' => null,
@@ -48,8 +50,24 @@ class UserSeeder extends Seeder
                 'username' => 'caja',
                 'password' => Hash::make('caja@123'),
                 'phone' => "300-000-000",
-                'rol' => 3, // 2 = CAJERO
+                'rol' => 3, // 3 = CAJERO
                 'status' => true,
+                'tenant_id' => null,
+                'creation_date' => now(),
+                'update_date' => now(),
+                'delete_date' => null,
+            ],
+            [
+                'id' => (string) Str::uuid(),
+                'name' => 'Soporte',
+                'lastname' => 'Druvle',
+                'email' => 'soporte@druvle.com',
+                'username' => 'soporte',
+                'password' => Hash::make('soporte@123'),
+                'phone' => "400-000-000",
+                'rol' => 4, // 4 = SOPORTE
+                'status' => true,
+                'tenant_id' => null, // soporte no pertenece a ningún tenant
                 'creation_date' => now(),
                 'update_date' => now(),
                 'delete_date' => null,

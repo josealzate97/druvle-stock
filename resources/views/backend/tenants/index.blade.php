@@ -124,6 +124,17 @@
 
                                 <td class="text-end">
 
+                                    <form action="{{ route('tenants.switch', $tenant->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit"
+                                            class="btn btn-icon text-info"
+                                            aria-label="Entrar al negocio {{ $tenant->name }}"
+                                            title="Entrar al negocio {{ $tenant->name }}"
+                                            {{ !$tenant->status ? 'disabled' : '' }}>
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </button>
+                                    </form>
+
                                     <button onclick="editTenant('{{ $tenant->id }}')"
                                         class="btn btn-icon text-primary"
                                         aria-label="Editar negocio {{ $tenant->name }}"

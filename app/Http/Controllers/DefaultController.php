@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sale;
+use App\Models\Tenant;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
 class DefaultController {
 
         public function dashboard() {
+
+            // Dashboard exclusivo para soporte
+            if (Auth::user()->rol === User::ROLE_SUPPORT) {
+                return $this->supportDashboard();
+            }
 
             // Consultar categorías activas
             $activeCategories = Category::where('status', true)->count();
@@ -119,6 +127,73 @@ class DefaultController {
                 'defaultSalesPeriod' => 'monthly',
                 'topCategories' => $topCategories,
             ]);
+        }
+
+        private function supportDashboard()
+        {
+            $totalTenants   = Tenant::count();
+            $activeTenants  = Tenant::where('status', true)->count();
+            $totalUsers     = User::where('rol', '!=', User::ROLE_SUPPORT)->count();
+            $expiringTrials = Tenant::where('status', true)
+                ->whereNotNull('trial_ends_at')
+                ->whereBetween('trial_ends_at', [now(), now()->addDays(7)])
+                ->count();
+
+            // Métricas por tenant
+            $tenantsWithMetrics = DB::table('tenants')
+                ->leftJoin('users',    'users.tenant_id',    '=', 'tenants.id')
+                ->leftJoin('products', 'products.tenant_id', '=', 'tenants.id')
+                ->leftJoin('sales',    'sales.tenant_id',    '=', 'tenants.id')
+                ->select(
+                    'tenants.id',
+                    'tenants.name',
+                    'tenants.slug',
+                    'tenants.plan',
+                    'tenants.trial_ends_at',
+                    'tenants.status',
+                    DB::raw('COUNT(DISTINCT users.id) as users_count'),
+                    DB::raw('COUNT(DISTINCT products.id) as products_count'),
+                    DB::raw('COUNT(DISTINCT sales.id) as sales_count')
+                )
+                ->groupBy('tenants.id', 'tenants.name', 'tenants.slug', 'tenants.plan', 'tenants.trial_ends_at', 'tenants.status')
+                ->orderBy('tenants.name')
+                ->get();
+
+            // Distribución por plan
+            $planCounts = Tenant::selectRaw('plan, COUNT(*) as total')
+                ->groupBy('plan')
+                ->pluck('total', 'plan');
+
+            $planLabels = [1 => 'Free', 2 => 'Basic', 3 => 'Pro'];
+            $planDistribution = [
+                'labels' => array_values($planLabels),
+                'values' => [
+                    (int)($planCounts[1] ?? 0),
+                    (int)($planCounts[2] ?? 0),
+                    (int)($planCounts[3] ?? 0),
+                ],
+            ];
+
+            // Crecimiento de tenants últimos 6 meses
+            $tenantGrowth = ['labels' => [], 'values' => []];
+            for ($i = 5; $i >= 0; $i--) {
+                $date  = Carbon::now()->subMonths($i);
+                $start = $date->copy()->startOfMonth();
+                $end   = $date->copy()->endOfMonth();
+
+                $tenantGrowth['labels'][] = $date->translatedFormat('M Y');
+                $tenantGrowth['values'][] = Tenant::whereBetween('created_at', [$start, $end])->count();
+            }
+
+            return view('backend.support-dashboard', compact(
+                'totalTenants',
+                'activeTenants',
+                'totalUsers',
+                'expiringTrials',
+                'tenantsWithMetrics',
+                'planDistribution',
+                'tenantGrowth'
+            ));
         }
 
 }

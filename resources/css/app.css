@@ -2145,3 +2145,142 @@ body.theme-dark .edit-solid-btn:hover,
 body.theme-dark .edit-solid-btn:focus {
   box-shadow: none;
 }
+
+/* ── table-chip variantes plan ── */
+.table-chip-blue {
+  background: #e8f1ff;
+  color: #155fb8;
+  border-color: #cfe0f7;
+}
+.table-chip-gold {
+  background: #fffbeb;
+  color: #b45309;
+  border-color: #fde68a;
+}
+body.theme-dark .table-chip-blue {
+  background: #1a2a42;
+  color: #60a5fa;
+  border-color: #1e3a5f;
+}
+body.theme-dark .table-chip-gold {
+  background: #2a1f0a;
+  color: #fbbf24;
+  border-color: #92400e;
+}
+
+/* ── Tenant Switcher header ── */
+.header-tenant-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  height: 38px;
+  padding: 0 0.85rem;
+  border-radius: 10px;
+  border: 1px solid #c2d9ff;
+  background: #eef5ff;
+  color: #1b77d3;
+  font-size: 0.8rem;
+  font-weight: 700;
+  max-width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+.header-tenant-switch-btn.dropdown-toggle::after { display: none; }
+.header-tenant-switch-btn:hover { background: #dceeff; border-color: #1b77d3; }
+.header-tenant-switch-btn.show { background: #d4ebff; border-color: #1b77d3; color: #0b4e91; }
+.header-tenant-switch-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 110px; }
+.header-tenant-active-dot {
+  width: 7px; height: 7px;
+  background: #22c55e;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse-dot 2s infinite;
+}
+
+body.theme-dark .header-tenant-switch-btn {
+  background: #152033; border-color: #1e3a5f; color: #60a5fa;
+}
+body.theme-dark .header-tenant-switch-btn:hover { background: #1a2a42; }
+
+.tenant-switcher-menu {
+  min-width: 260px;
+  border-radius: 14px;
+  border: 1px solid #e0eaf7;
+  padding: 0;
+  overflow: hidden;
+}
+.tenant-switcher-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem 0.5rem;
+  border-bottom: 1px solid #eef1f5;
+}
+.tenant-switcher-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #475569;
+}
+.tenant-switcher-exit {
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: #dc2626;
+  background: transparent;
+  border: 1px solid #fca5a5;
+  border-radius: 6px;
+  padding: 0.18rem 0.55rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tenant-switcher-exit:hover { background: #fee2e2; }
+.tenant-switcher-list { max-height: 260px; overflow-y: auto; padding: 0.35rem 0; }
+.tenant-switcher-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.tenant-switcher-item:hover { background: #f1f5ff; }
+.tenant-switcher-item--active { background: #e8f1ff; }
+.tenant-switcher-item__avatar {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, #1b77d3, #0b4e91);
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 0.78rem; font-weight: 800; flex-shrink: 0;
+}
+.tenant-switcher-item__info { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+.tenant-switcher-item__name {
+  font-size: 0.83rem; font-weight: 700; color: #0f172a;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.tenant-switcher-item__plan { font-size: 0.7rem; color: #64748b; font-weight: 600; }
+.tenant-switcher-item__check { color: #1b77d3; font-size: 0.75rem; margin-left: auto; }
+.tenant-switcher-empty { padding: 0.75rem 1rem; font-size: 0.8rem; color: #94a3b8; text-align: center; }
+.tenant-switcher-footer {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid #eef1f5;
+  text-align: center;
+}
+.tenant-switcher-manage {
+  font-size: 0.78rem; font-weight: 700; color: #1b77d3; text-decoration: none;
+}
+.tenant-switcher-manage:hover { color: #0b4e91; }
+
+body.theme-dark .tenant-switcher-menu { background: #131923; border-color: #2a3140; }
+body.theme-dark .tenant-switcher-header { border-color: #252d3b; }
+body.theme-dark .tenant-switcher-title { color: #94a3b8; }
+body.theme-dark .tenant-switcher-item:hover { background: #1a2230; }
+body.theme-dark .tenant-switcher-item--active { background: #1a2a42; }
+body.theme-dark .tenant-switcher-item__name { color: #e2e8f0; }
+body.theme-dark .tenant-switcher-footer { border-color: #252d3b; }

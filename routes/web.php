@@ -142,5 +142,19 @@ Route::middleware('auth')->group(function () {
     Route::post('tenants/update/{id}', [TenantController::class, 'update'])->name('tenants.update');
     Route::post('tenants/delete/{id}', [TenantController::class, 'delete'])->name('tenants.delete');
     Route::post('tenants/activate/{id}', [TenantController::class, 'activate'])->name('tenants.activate');
+
+    /*
+     * ✅ Switch de tenant para soporte
+    */
+    Route::post('tenants/switch/{id}', function ($id) {
+        $tenant = \App\Models\Tenant::findOrFail($id);
+        session(['active_tenant_id' => $tenant->id]);
+        return redirect()->route('home')->with('success', "Entrando al negocio: {$tenant->name}");
+    })->name('tenants.switch');
+
+    Route::post('tenants/exit', function () {
+        session()->forget('active_tenant_id');
+        return redirect()->route('tenants.index')->with('success', 'Saliste del negocio.');
+    })->name('tenants.exit');
     
 });

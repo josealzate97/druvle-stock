@@ -5,6 +5,26 @@
         <span class="sidebar-title">Druvle</span>
     </a>
 
+    @if(Auth::user()->rol === \App\Models\User::ROLE_SUPPORT && isset($currentTenant))
+        <div class="sidebar-tenant-context">
+            <div class="sidebar-tenant-context__badge">
+                <span class="sidebar-tenant-context__dot"></span>
+                Modo negocio
+            </div>
+            <div class="sidebar-tenant-context__name">
+                <i class="fas fa-building"></i>
+                <span>{{ $currentTenant->name }}</span>
+            </div>
+            <form action="{{ route('tenants.exit') }}" method="POST" class="mt-2">
+                @csrf
+                <button type="submit" class="sidebar-tenant-context__exit">
+                    <i class="fas fa-arrow-left"></i>
+                    Salir del negocio
+                </button>
+            </form>
+        </div>
+    @endif
+
     <ul class="sidebar-nav">
 
         <li class="sidebar-item">

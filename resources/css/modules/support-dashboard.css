@@ -1,0 +1,19 @@
+/* Support Dashboard */
+
+.support-dash-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1b77d3, #0b4e91);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+body.theme-dark .support-dash-avatar {
+  background: linear-gradient(135deg, #1e4a8a, #0b3060);
+}
