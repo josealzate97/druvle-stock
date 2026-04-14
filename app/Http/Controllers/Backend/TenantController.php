@@ -45,13 +45,16 @@ class TenantController extends Controller
         // Crear automáticamente un usuario admin asociado al tenant
         $adminPassword = Str::random(12);
         $adminUsername = $validated['slug'] . '_admin';
+        $adminEmail    = 'admin@' . $validated['slug'] . '.local';
+        $adminPhone    = 'T-' . strtoupper(Str::random(10));
 
         User::create([
             'id'        => (string) Str::uuid(),
             'name'      => $validated['name'],
             'lastname'  => 'Admin',
             'username'  => $adminUsername,
-            'email'     => null,
+            'email'     => $adminEmail,
+            'phone'     => $adminPhone,
             'password'  => Hash::make($adminPassword),
             'rol'       => User::ROLE_ADMIN,
             'status'    => User::ACTIVE,

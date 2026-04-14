@@ -37,6 +37,7 @@ class User extends Authenticatable {
         'name',
         'lastname',
         'email',
+        'phone',
         'username',
         'password',
         'rol',
