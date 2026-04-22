@@ -127,7 +127,7 @@
                                     <form action="{{ route('tenants.switch', $tenant->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         <button type="submit"
-                                            class="btn btn-icon text-info"
+                                            class="btn btn-icon btn-icon-purple"
                                             aria-label="Entrar al negocio {{ $tenant->name }}"
                                             title="Entrar al negocio {{ $tenant->name }}"
                                             {{ !$tenant->status ? 'disabled' : '' }}>

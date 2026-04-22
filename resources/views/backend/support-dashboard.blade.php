@@ -167,7 +167,7 @@
                             <td class="text-end">
                                 <form action="{{ route('tenants.switch', $row->id) }}" method="POST" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2"
+                                    <button type="submit" class="btn btn-sm btn-purple py-1 px-2"
                                         title="Entrar al negocio" {{ !$row->status ? 'disabled' : '' }}>
                                         <i class="fas fa-sign-in-alt me-1"></i> Entrar
                                     </button>

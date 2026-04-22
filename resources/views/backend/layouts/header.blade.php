@@ -109,7 +109,7 @@
                         <div class="notification-menu-title">Notificaciones</div>
                         <div class="notification-menu-subtitle" id="headerNotificationSubtitle">Sin notificaciones nuevas</div>
                     </div>
-                    <button class="btn btn-sm btn-link notification-mark-all" type="button" id="markAllNotificationsBtn">
+                    <button class="btn btn-sm notification-mark-all" type="button" id="markAllNotificationsBtn">
                         Marcar todas
                     </button>
                 </div>
@@ -155,8 +155,8 @@
                 <li class="user-menu-dropdown-header text-center">    
                     <p class="fw-bold small badge user-role-badge mb-2">
                         {{ 
-                            Auth::user()->rol == 1 ? 'Soporte' :
-                            (Auth::user()->rol == 2 ? 'Administrador' : 'Cajero') 
+                            Auth::user()->rol == \App\Models\User::ROLE_SUPPORT ? 'Soporte' :
+                            (Auth::user()->rol == \App\Models\User::ROLE_ADMIN ? 'Administrador' : 'Cajero') 
                         }}
                     </p>
                 </li>
@@ -170,6 +170,7 @@
                     </a>
                 </li>
 
+@if(Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT)
                 <li>
                     <a class="dropdown-item user-menu-item" href="{{ route('settings.index') }}">
                         <span class="user-menu-item-icon">
@@ -187,6 +188,7 @@
                         Mis Notificaciones
                     </a>
                 </li>
+                @endif
 
                 <li><hr class="dropdown-divider"></li>
 
