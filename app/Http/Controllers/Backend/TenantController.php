@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Models\Settings;
 use Illuminate\Support\Facades\Hash;
 
 class TenantController extends Controller
@@ -63,6 +64,16 @@ class TenantController extends Controller
             'rol'       => User::ROLE_ADMIN,
             'status'    => User::ACTIVE,
             'tenant_id' => $tenant->id,
+        ]);
+
+        // Crear configuración inicial para el tenant
+        Settings::withoutGlobalScopes()->create([
+            'id'           => (string) Str::uuid(),
+            'tenant_id'    => $tenant->id,
+            'company_name' => $validated['name'],
+            'nit'          => '',
+            'phone'        => '',
+            'address'      => '',
         ]);
 
         return response()->json([

@@ -16,7 +16,10 @@ class SettingController extends Controller {
     */
     public function index() {
 
-        $settings = Setting::first(); // Obtiene la configuración actual
+        $settings = Setting::firstOrCreate(
+            [],
+            ['company_name' => '', 'nit' => '', 'phone' => '', 'address' => '']
+        );
         $taxes = Tax::all();
         $notifications = Notification::orderBy('created_at', 'desc')->paginate(10, ['*'], 'notifications_page');
         $activeUsers = User::query()
@@ -47,7 +50,10 @@ class SettingController extends Controller {
             'logo' => 'nullable|string|max:150',
         ]);
 
-        $settings = Setting::first();
+        $settings = Setting::firstOrCreate(
+            [],
+            ['company_name' => '', 'nit' => '', 'phone' => '', 'address' => '']
+        );
 
         $settings->update($request->only([
             'id',
