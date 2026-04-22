@@ -5,6 +5,7 @@ use App\Models\Product;
 use App\Models\ProductSize;
 use App\Models\Sale;
 use App\Models\Tax;
+use App\Scopes\TenantScope;
 use Illuminate\Support\Facades\DB;
 
 class ReportsRepository {
@@ -85,11 +86,14 @@ class ReportsRepository {
 
     public function getTaxesReport($filters = [])
     {
+        $tenantId = TenantScope::resolveTenantId();
+
         $query = DB::table('sales')
             ->join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
             ->join('products', 'sale_details.product_id', '=', 'products.id')
             ->join('taxes', 'products.tax_id', '=', 'taxes.id')
             ->whereNotNull('products.tax_id')
+            ->when($tenantId, fn($q) => $q->where('sales.tenant_id', $tenantId))
             ->select(
                 'taxes.id',
                 'taxes.name',

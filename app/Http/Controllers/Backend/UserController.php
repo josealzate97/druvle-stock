@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Scopes\TenantScope;
 
 /**
  * Controlador para la gestión de usuarios.
@@ -24,7 +25,11 @@ class UserController extends Controller {
     */
     public function index() {
 
-        $users = User::orderBy('name', 'asc')->paginate(10);
+        $tenantId = TenantScope::resolveTenantId();
+
+        $users = User::when($tenantId, fn($q) => $q->where('tenant_id', $tenantId))
+            ->orderBy('name', 'asc')
+            ->paginate(10);
         
         return view('backend.users.index', compact('users'));
 
@@ -85,6 +90,7 @@ class UserController extends Controller {
             'status' => $validated['status'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['new_password']),
+            'tenant_id' => TenantScope::resolveTenantId(),
         ]);
 
         return response()->json([

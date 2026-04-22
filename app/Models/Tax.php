@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 
 class Tax extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     const ACTIVE = 1;
     const INACTIVE = 0;
@@ -31,6 +32,7 @@ class Tax extends Model
 
     protected $fillable = [
         'id',
+        'tenant_id',
         'name',
         'rate',
         'status',

@@ -4,10 +4,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     public $incrementing = false;
     public $timestamps = true;
@@ -28,6 +29,7 @@ class Product extends Model
     // Asegúrate de que estos campos existan en tu base de datos
     protected $fillable = [
         'id',
+        'tenant_id',
         'name',
         'code',
         'category_id',

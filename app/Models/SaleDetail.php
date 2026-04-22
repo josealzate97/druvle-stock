@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 
 class SaleDetail extends Model {
 
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     protected $primaryKey = 'id';
     public $incrementing = false;
@@ -16,6 +17,7 @@ class SaleDetail extends Model {
 
     protected $fillable = [
         'id',
+        'tenant_id',
         'sale_id',
         'product_id',
         'product_size_id',

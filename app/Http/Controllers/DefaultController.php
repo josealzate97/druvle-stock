@@ -15,6 +15,19 @@ use Illuminate\Http\Request;
 
 class DefaultController {
 
+        /**
+         * Devuelve el tenant_id activo para el contexto actual:
+         * - ROLE_SUPPORT con tenant en sesión → usa la sesión
+         * - Cualquier otro usuario → usa su propio tenant_id
+         */
+        private function currentTenantId(): ?string
+        {
+            if (Auth::user()->rol === User::ROLE_SUPPORT) {
+                return session('active_tenant_id');
+            }
+            return Auth::user()->tenant_id;
+        }
+
         public function dashboard() {
 
             // Dashboard exclusivo para soporte (solo si NO tiene un tenant activo en sesión)
@@ -22,25 +35,32 @@ class DefaultController {
                 return $this->supportDashboard();
             }
 
+            $tenantId = $this->currentTenantId();
+
             // Consultar categorías activas
-            $activeCategories = Category::where('status', true)->count();
+            $activeCategories = Category::where('status', true)
+                ->where('tenant_id', $tenantId)->count();
 
             // Consultar productos
-            $totalProducts = Product::where('status', true)->count();
+            $totalProducts = Product::where('status', true)
+                ->where('tenant_id', $tenantId)->count();
 
             // Consultar ventas del mes
-            $monthlySales = Sale::whereYear('created_at',now()->year)
-            ->whereMonth('created_at', now()->month)
-            ->sum('total');
+            $monthlySales = Sale::where('tenant_id', $tenantId)
+                ->whereYear('created_at', now()->year)
+                ->whereMonth('created_at', now()->month)
+                ->sum('total');
 
-            $totalSales = Sale::sum('total');
+            $totalSales = Sale::where('tenant_id', $tenantId)->sum('total');
 
             $lowStockThreshold = 5;
             $lowStockCount = Product::where('status', true)
+                ->where('tenant_id', $tenantId)
                 ->where('quantity', '<=', $lowStockThreshold)
                 ->count();
 
             $recentSales = Sale::with('client')
+                ->where('tenant_id', $tenantId)
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
                 ->get();
@@ -73,7 +93,7 @@ class DefaultController {
                 $weekEnd = $weekStart->copy()->endOfWeek();
 
                 $salesTrendByPeriod['weekly']['labels'][] = 'Sem ' . $weekStart->format('W');
-                $salesTrendByPeriod['weekly']['values'][] = Sale::whereBetween('created_at', [$weekStart, $weekEnd])->sum('total');
+                $salesTrendByPeriod['weekly']['values'][] = Sale::where('tenant_id', $tenantId)->whereBetween('created_at', [$weekStart, $weekEnd])->sum('total');
             }
 
             for ($i = 6; $i >= 0; $i--) {
@@ -82,7 +102,7 @@ class DefaultController {
                 $monthEnd = $date->copy()->endOfMonth();
 
                 $salesTrendByPeriod['monthly']['labels'][] = $date->translatedFormat('M');
-                $salesTrendByPeriod['monthly']['values'][] = Sale::whereBetween('created_at', [$monthStart, $monthEnd])->sum('total');
+                $salesTrendByPeriod['monthly']['values'][] = Sale::where('tenant_id', $tenantId)->whereBetween('created_at', [$monthStart, $monthEnd])->sum('total');
             }
 
             for ($i = 3; $i >= 0; $i--) {
@@ -90,7 +110,7 @@ class DefaultController {
                 $quarterEnd = $quarterStart->copy()->endOfQuarter();
 
                 $salesTrendByPeriod['quarterly']['labels'][] = 'T' . $quarterStart->quarter . ' ' . $quarterStart->year;
-                $salesTrendByPeriod['quarterly']['values'][] = Sale::whereBetween('created_at', [$quarterStart, $quarterEnd])->sum('total');
+                $salesTrendByPeriod['quarterly']['values'][] = Sale::where('tenant_id', $tenantId)->whereBetween('created_at', [$quarterStart, $quarterEnd])->sum('total');
             }
 
             for ($i = 3; $i >= 0; $i--) {
@@ -103,12 +123,13 @@ class DefaultController {
                 $semesterEnd = $semesterStart->copy()->addMonths(6)->subDay()->endOfDay();
 
                 $salesTrendByPeriod['semiannual']['labels'][] = 'S' . $semesterNumber . ' ' . $baseDate->year;
-                $salesTrendByPeriod['semiannual']['values'][] = Sale::whereBetween('created_at', [$semesterStart, $semesterEnd])->sum('total');
+                $salesTrendByPeriod['semiannual']['values'][] = Sale::where('tenant_id', $tenantId)->whereBetween('created_at', [$semesterStart, $semesterEnd])->sum('total');
             }
 
             $topCategories = DB::table('sale_details')
                 ->join('products', 'sale_details.product_id', '=', 'products.id')
                 ->join('categories', 'products.category_id', '=', 'categories.id')
+                ->where('sale_details.tenant_id', $tenantId)
                 ->select('categories.name', DB::raw('SUM(sale_details.quantity) as total_qty'))
                 ->groupBy('categories.name')
                 ->orderByDesc('total_qty')

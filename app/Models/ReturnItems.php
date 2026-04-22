@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 
 class ReturnItems extends Model {
     
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     public $incrementing = false;
     protected $keyType = 'string';
@@ -23,6 +24,7 @@ class ReturnItems extends Model {
 
     protected $fillable = [
         'id',
+        'tenant_id',
         'sale_id',
         'sale_detail_id',
         'user_id',

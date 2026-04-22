@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Tenants JS Loaded!");
 
+    const notyf = new Notyf();
+
     const searchInput = document.getElementById('tenantsSearch');
     const statusSelect = document.getElementById('tenantsStatusFilter');
     const table = document.querySelector('.section-table');
@@ -62,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     tenantForm.addEventListener('submit', async function (event) {
+        
         event.preventDefault();
 
         const formData = new FormData(this);
@@ -109,6 +112,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Carga datos del tenant en el modal para edición
 window.editTenant = async function (id) {
+
+    const notyf = new Notyf();
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const tenantModal = bootstrap.Modal.getOrCreateInstance(document.getElementById('tenantModal'));
 
@@ -141,8 +146,10 @@ window.editTenant = async function (id) {
 };
 
 window.deleteTenant = async function (id) {
+
     if (!confirm('¿Deseas desactivar este negocio?')) return;
 
+    const notyf = new Notyf();
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     try {
@@ -163,6 +170,8 @@ window.deleteTenant = async function (id) {
 };
 
 window.activateTenant = async function (id) {
+
+    const notyf = new Notyf();
     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     try {
@@ -183,6 +192,7 @@ window.activateTenant = async function (id) {
 };
 
 function clearTenantModal() {
+    
     document.getElementById('tenantId').value = '';
     document.getElementById('tenantName').value = '';
     document.getElementById('tenantSlug').value = '';

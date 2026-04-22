@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\BelongsToTenant;
 
 class Sale extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     // Nombre de la tabla (opcional si el nombre pluralizado por convención es distinto)
     protected $table = 'sales';
@@ -30,6 +31,7 @@ class Sale extends Model
     // Asegúrate de que estos campos existan en tu base de datos
     protected $fillable = [
         'id',
+        'tenant_id',
         'client_id',
         'consecutive',
         'code',

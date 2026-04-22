@@ -4,10 +4,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     public $incrementing = false;
     public $timestamps = true;
@@ -22,6 +23,7 @@ class Category extends Model
 
     protected $fillable = [
         'id',
+        'tenant_id',
         'name',
         'abbreviation',
         'icon',

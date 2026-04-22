@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Traits\BelongsToTenant;
 
 class ProductSize extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToTenant;
 
     const ACTIVE = 1;
     const INACTIVE = 2;
@@ -22,6 +23,7 @@ class ProductSize extends Model
 
     protected $fillable = [
         'id',
+        'tenant_id',
         'product_id',
         'name',
         'price',
