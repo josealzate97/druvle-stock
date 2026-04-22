@@ -36,7 +36,7 @@
             </a>
         </li>
 
-        @if(Auth::user()->rol === \App\Models\User::ROLE_SUPPORT)
+        @if(Auth::user()->rol === \App\Models\User::ROLE_SUPPORT && !isset($currentTenant))
 
             <li class="sidebar-item">
                 <a href="{{ route('tenants.index') }}" class="sidebar-link" url="tenants">
@@ -100,7 +100,7 @@
 
     <ul class="sidebar-nav sidebar-bottom">
 
-        @if(Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT)
+        @if(Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT || isset($currentTenant))
             <li class="sidebar-item">
                 <a href="{{ route('settings.index') }}" class="sidebar-link" url="settings">
                     <span class="sidebar-icon">

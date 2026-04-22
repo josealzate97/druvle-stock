@@ -17,8 +17,8 @@ class DefaultController {
 
         public function dashboard() {
 
-            // Dashboard exclusivo para soporte
-            if (Auth::user()->rol === User::ROLE_SUPPORT) {
+            // Dashboard exclusivo para soporte (solo si NO tiene un tenant activo en sesión)
+            if (Auth::user()->rol === User::ROLE_SUPPORT && !session('active_tenant_id')) {
                 return $this->supportDashboard();
             }
 
