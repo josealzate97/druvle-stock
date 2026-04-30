@@ -81,55 +81,68 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const donutCtx = document.getElementById('topCategoriesChart');
+        const donutEmpty = document.getElementById('topCategoriesEmpty');
+        const categories = data.topCategories || [];
+        const hasCategories = categories.length > 0 && categories.some(c => Number(c.total_qty || 0) > 0);
+
         if (donutCtx) {
             if (donutChart) {
                 donutChart.destroy();
             }
 
-            const categories = data.topCategories || [];
-            const labels = categories.map((c) => c.name);
-            const values = categories.map((c) => Number(c.total_qty || 0));
-            const colors = ['#1d4ed8', '#10b981', '#f59e0b', '#6366f1', '#ef4444'];
+            if (!hasCategories) {
+                donutCtx.style.display = 'none';
+                if (donutEmpty) donutEmpty.style.display = 'flex';
+                const legend = document.getElementById('topCategoriesLegend');
+                if (legend) legend.innerHTML = '';
+            } else {
+                donutCtx.style.display = '';
+                if (donutEmpty) donutEmpty.style.display = 'none';
 
-            donutChart = new Chart(donutCtx, {
-                type: 'doughnut',
-                data: {
-                    labels,
-                    datasets: [
-                        {
-                            data: values,
-                            backgroundColor: colors,
-                            borderWidth: 2,
-                            borderColor: donutBorder,
-                            hoverOffset: 6,
-                        },
-                    ],
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '72%',
-                    plugins: {
-                        legend: { display: false },
+                const labels = categories.map((c) => c.name);
+                const values = categories.map((c) => Number(c.total_qty || 0));
+                const colors = ['#1d4ed8', '#10b981', '#f59e0b', '#6366f1', '#ef4444'];
+
+                donutChart = new Chart(donutCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels,
+                        datasets: [
+                            {
+                                data: values,
+                                backgroundColor: colors,
+                                borderWidth: 2,
+                                borderColor: donutBorder,
+                                hoverOffset: 6,
+                            },
+                        ],
                     },
-                },
-            });
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '72%',
+                        plugins: {
+                            legend: { display: false },
+                        },
+                    },
+                });
 
-            const legend = document.getElementById('topCategoriesLegend');
-            if (legend) {
-                legend.innerHTML = labels
-                    .map((label, index) => {
-                        const total = values.reduce((sum, value) => sum + value, 0) || 1;
-                        const percent = Math.round((values[index] / total) * 100);
-                        return `
-                            <div class="legend-item">
-                                <span class="legend-dot" style="background:${colors[index % colors.length]}"></span>
-                                <span class="legend-label">${label}</span>
-                                <strong>${percent}%</strong>
-                            </div>
-                        `;
-                    })
-                    .join('');
+                const legend = document.getElementById('topCategoriesLegend');
+                if (legend) {
+                    legend.innerHTML = labels
+                        .map((label, index) => {
+                            const total = values.reduce((sum, value) => sum + value, 0) || 1;
+                            const percent = Math.round((values[index] / total) * 100);
+                            return `
+                                <div class="legend-item">
+                                    <span class="legend-dot" style="background:${colors[index % colors.length]}"></span>
+                                    <span class="legend-label">${label}</span>
+                                    <strong>${percent}%</strong>
+                                </div>
+                            `;
+                        })
+                        .join('');
+                }
             }
         }
     };

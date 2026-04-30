@@ -97,8 +97,15 @@
                         <p>Distribución por volumen</p>
                     </div>
                 </div>
-                <div class="chart-wrapper">
+                <div class="chart-wrapper" id="topCategoriesWrapper">
                     <canvas id="topCategoriesChart" height="220"></canvas>
+                    <div class="sd-chart-empty" id="topCategoriesEmpty" style="display:none;">
+                        <span class="sd-empty-icon sd-empty-icon--sm">
+                            <i class="fas fa-tags"></i>
+                        </span>
+                        <p class="sd-empty-title">Sin categorías vendidas</p>
+                        <p class="sd-empty-desc">Registra ventas para ver qué categorías tienen mayor volumen.</p>
+                    </div>
                 </div>
                 <div class="chart-legend" id="topCategoriesLegend"></div>
             </div>
@@ -143,7 +150,18 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted fw-bold fs-6">No hay ventas recientes.</td>
+                                <td colspan="5">
+                                    <div class="sd-empty-state">
+                                        <span class="sd-empty-icon">
+                                            <i class="fas fa-receipt"></i>
+                                        </span>
+                                        <p class="sd-empty-title">Sin ventas recientes</p>
+                                        <p class="sd-empty-desc">Aún no se han registrado transacciones. Las ventas más recientes aparecerán aquí.</p>
+                                        <a href="{{ route('sales.index') }}" class="btn btn-sm btn-success px-4">
+                                            <i class="fas fa-plus me-1"></i> Nueva Venta
+                                        </a>
+                                    </div>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>
