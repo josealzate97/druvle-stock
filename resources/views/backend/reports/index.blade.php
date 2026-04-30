@@ -84,10 +84,11 @@
                         </div>
                         
                         <div class="col-3 d-flex gap-2">
-                            <button class="btn reports-export-btn btn-sm w-100" @click="openExportModal('productos')">
+                            <button class="btn reports-export-btn btn-sm w-100" x-show="!loading && data.productos.length > 0" @click="openExportModal('productos')">
                                 <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
                         </div>
+                        <div class="col-3" x-show="loading || data.productos.length === 0"></div>
 
                         <div class="col-3">
                             <button class="btn reports-search-btn btn-sm w-100" @click="fetchProductos()">
@@ -188,10 +189,11 @@
                         </div>
                         
                         <div class="col-3 d-flex gap-2">
-                            <button class="btn reports-export-btn btn-sm w-100" @click="openExportModal('ventas')">
+                            <button class="btn reports-export-btn btn-sm w-100" x-show="!loading && data.ventas.length > 0" @click="openExportModal('ventas')">
                                 <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
                         </div>
+                        <div class="col-3" x-show="loading || data.ventas.length === 0"></div>
 
                         <div class="col-3">
                             <button class="btn reports-search-btn btn-sm w-100" @click="fetchVentas()">
@@ -295,10 +297,11 @@
                         </div>
                         
                         <div class="col-3 d-flex gap-2">
-                            <button class="btn reports-export-btn btn-sm w-100" @click="openExportModal('impuestos')">
+                            <button class="btn reports-export-btn btn-sm w-100" x-show="!loading && data.impuestos.length > 0" @click="openExportModal('impuestos')">
                                 <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
                         </div>
+                        <div class="col-3" x-show="loading || data.impuestos.length === 0"></div>
 
                         <div class="col-3">
                             <button class="btn reports-search-btn btn-sm w-100" @click="fetchImpuestos()">

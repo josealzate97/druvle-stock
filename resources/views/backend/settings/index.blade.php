@@ -44,6 +44,14 @@
             </ul>
         </div>
 
+        {{-- Loader al cambiar tab --}}
+        <div id="settingsTabLoader" class="settings-tab-loader" style="display:none;">
+            <div class="reports-loader">
+                <span class="loader-spinner"></span>
+                <span class="loader-text">Cargando...</span>
+            </div>
+        </div>
+
         <div class="tab-content settings-content module-tabs-content" id="settingsTabsContent">
 
             <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab" x-data="settingsForm({

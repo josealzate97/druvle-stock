@@ -45,7 +45,33 @@ document.addEventListener("DOMContentLoaded", () => {
             tabInstance.show();
         }
     }
-    
+
+    // Spinner al cambiar de tab
+    const salesTabLoader = document.getElementById('salesTabLoader');
+    const salesTabContent = document.getElementById('salesTabsContent');
+    const salesLoaderText = salesTabLoader?.querySelector('.loader-text');
+
+    const salesTabLabels = {
+        'nueva-venta-tab': 'Cargando nueva venta...',
+        'historial-tab':   'Cargando historial de ventas...',
+    };
+
+    document.querySelectorAll('#salesTabs .nav-link').forEach(tab => {
+        tab.addEventListener('click', () => {
+            if (salesTabLoader && salesTabContent) {
+                if (salesLoaderText) salesLoaderText.textContent = salesTabLabels[tab.id] ?? 'Cargando...';
+                salesTabContent.style.opacity = '0';
+                salesTabContent.style.pointerEvents = 'none';
+                salesTabLoader.style.display = 'flex';
+                setTimeout(() => {
+                    salesTabLoader.style.display = 'none';
+                    salesTabContent.style.opacity = '1';
+                    salesTabContent.style.pointerEvents = '';
+                }, 350);
+            }
+        });
+    });
+
 });
 
 const notyf = new Notyf(

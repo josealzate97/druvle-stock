@@ -3,6 +3,33 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Settings Js Loaded!");
 
     setupNotificationsCrud();
+
+    // Spinner al cambiar de tab
+    const tabLoader = document.getElementById('settingsTabLoader');
+    const tabContent = document.getElementById('settingsTabsContent');
+    const loaderText = tabLoader?.querySelector('.loader-text');
+
+    const tabLabels = {
+        'basic-tab':         'Cargando información general...',
+        'taxes-tab':         'Cargando impuestos...',
+        'notifications-tab': 'Cargando notificaciones...',
+    };
+
+    document.querySelectorAll('#settingsTabs .nav-link').forEach(tab => {
+        tab.addEventListener('click', () => {
+            if (tabLoader && tabContent) {
+                if (loaderText) loaderText.textContent = tabLabels[tab.id] ?? 'Cargando...';
+                tabContent.style.opacity = '0';
+                tabContent.style.pointerEvents = 'none';
+                tabLoader.style.display = 'flex';
+                setTimeout(() => {
+                    tabLoader.style.display = 'none';
+                    tabContent.style.opacity = '1';
+                    tabContent.style.pointerEvents = '';
+                }, 350);
+            }
+        });
+    });
 });
 
 const notyf = new Notyf();

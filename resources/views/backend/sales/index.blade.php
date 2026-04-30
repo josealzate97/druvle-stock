@@ -55,6 +55,14 @@
             </ul>
         </div>
 
+        {{-- Loader al cambiar tab --}}
+        <div id="salesTabLoader" class="settings-tab-loader" style="display:none;">
+            <div class="reports-loader">
+                <span class="loader-spinner"></span>
+                <span class="loader-text">Cargando...</span>
+            </div>
+        </div>
+
         <div class="tab-content mt-0 module-tabs-content sales-tabs-content" id="salesTabsContent">
 
             <div class="tab-pane fade show active" id="nueva-venta" role="tabpanel" aria-labelledby="nueva-venta-tab">

@@ -1,4 +1,16 @@
 /*** SETTINGS **/
+
+.settings-tab-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+#settingsTabsContent {
+  transition: opacity 0.2s ease;
+}
+
 .settings-tabs {
   border: 1px solid #dbe7f7;
   background: #ffffff;
