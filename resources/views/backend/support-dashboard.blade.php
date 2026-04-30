@@ -76,8 +76,15 @@
                     <p>Últimos 6 meses de incorporaciones.</p>
                 </div>
             </div>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper" id="tenantGrowthWrapper">
                 <canvas id="tenantGrowthChart" height="140"></canvas>
+                <div class="sd-chart-empty" id="tenantGrowthEmpty" style="display:none;">
+                    <span class="sd-empty-icon sd-empty-icon--sm">
+                        <i class="fas fa-chart-bar"></i>
+                    </span>
+                    <p class="sd-empty-title">Sin datos de crecimiento</p>
+                    <p class="sd-empty-desc">Aún no hay negocios registrados para mostrar el historial de incorporaciones.</p>
+                </div>
             </div>
         </div>
 
@@ -88,8 +95,15 @@
                     <p>Proporción Free / Basic / Pro</p>
                 </div>
             </div>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper" id="planDistributionWrapper">
                 <canvas id="planDistributionChart" height="220"></canvas>
+                <div class="sd-chart-empty" id="planDistributionEmpty" style="display:none;">
+                    <span class="sd-empty-icon sd-empty-icon--sm">
+                        <i class="fas fa-chart-pie"></i>
+                    </span>
+                    <p class="sd-empty-title">Sin distribución de planes</p>
+                    <p class="sd-empty-desc">No hay negocios registrados para mostrar la proporción por plan.</p>
+                </div>
             </div>
             <div class="chart-legend" id="planDistributionLegend"></div>
         </div>
@@ -127,6 +141,7 @@
                             $planLabels  = [1 => 'Free', 2 => 'Basic', 3 => 'Pro'];
                             $planClasses = [1 => 'table-chip-abbr', 2 => 'table-chip-blue', 3 => 'table-chip-gold'];
                         @endphp
+
                         <tr>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
@@ -176,7 +191,18 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center text-muted fw-bold">No hay negocios registrados.</td>
+                            <td colspan="8">
+                                <div class="sd-empty-state">
+                                    <span class="sd-empty-icon">
+                                        <i class="fas fa-store-slash"></i>
+                                    </span>
+                                    <p class="sd-empty-title">Sin negocios registrados</p>
+                                    <p class="sd-empty-desc">Cuando un negocio se registre en la plataforma aparecerá aquí con sus métricas.</p>
+                                    <a href="{{ route('tenants.index') }}" class="btn btn-sm btn-purple px-4">
+                                        <i class="fas fa-plus me-1"></i> Crear negocio
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

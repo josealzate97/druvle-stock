@@ -17,7 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── Gráfico crecimiento de tenants ──
     const growthCtx = document.getElementById('tenantGrowthChart');
-    if (growthCtx && tenantGrowth) {
+    const growthEmpty = document.getElementById('tenantGrowthEmpty');
+    const hasGrowthData = tenantGrowth && tenantGrowth.values && tenantGrowth.values.some(v => v > 0);
+
+    if (growthCtx && hasGrowthData) {
         new Chart(growthCtx, {
             type: 'bar',
             data: {
@@ -47,11 +50,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
+    } else if (growthCtx && growthEmpty) {
+        growthCtx.style.display = 'none';
+        growthEmpty.style.display = 'flex';
     }
 
     // ── Gráfico distribución de planes ──
     const planCtx = document.getElementById('planDistributionChart');
-    if (planCtx && planDistribution) {
+    const planEmpty = document.getElementById('planDistributionEmpty');
+    const hasPlanData = planDistribution && planDistribution.values && planDistribution.values.some(v => v > 0);
+
+    if (planCtx && hasPlanData) {
         const planColors = [colors.purple, colors.blue, colors.gold];
         const chart = new Chart(planCtx, {
             type: 'doughnut',
@@ -85,6 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `).join('');
         }
+    } else if (planCtx && planEmpty) {
+        planCtx.style.display = 'none';
+        planEmpty.style.display = 'flex';
     }
 
 });
