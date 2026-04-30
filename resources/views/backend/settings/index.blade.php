@@ -221,7 +221,18 @@
                             <tbody>
                                 @if ($notifications->isEmpty())
                                     <tr>
-                                        <td colspan="7" class="text-center text-muted fw-bold fs-6 my-3">No hay notificaciones registradas.</td>
+                                        <td colspan="7">
+                                            <div class="sd-empty-state">
+                                                <span class="sd-empty-icon">
+                                                    <i class="fas fa-bell-slash"></i>
+                                                </span>
+                                                <p class="sd-empty-title">Sin notificaciones configuradas</p>
+                                                <p class="sd-empty-desc">Crea una notificación para mantener informado al equipo sobre eventos del sistema.</p>
+                                                <button class="btn btn-sm btn-success px-4" data-bs-toggle="modal" data-bs-target="#notificationModal" data-bs-mode="new">
+                                                    <i class="fas fa-plus me-1"></i> Crear notificación
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endif
 

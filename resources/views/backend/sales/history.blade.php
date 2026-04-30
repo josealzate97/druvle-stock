@@ -48,7 +48,15 @@
 
                 @if ($salesHistory->isEmpty())
                     <tr class="sales-history-empty">
-                        <td colspan="8" class="text-center text-muted fw-bold fs-6 my-4">No hay ventas registradas.</td>
+                        <td colspan="8">
+                            <div class="sd-empty-state">
+                                <span class="sd-empty-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </span>
+                                <p class="sd-empty-title">Sin ventas registradas</p>
+                                <p class="sd-empty-desc">El historial de transacciones aparecerá aquí una vez que se registre la primera venta.</p>
+                            </div>
+                        </td>
                     </tr>
                 @endif
 

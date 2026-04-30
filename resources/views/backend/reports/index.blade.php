@@ -154,9 +154,14 @@
 
                             <template x-if="!loading && data.productos.length === 0">
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4 fw-bold">
-                                        <i class="fas fa-box-open fa-2x mb-2"></i><br>
-                                        No hay productos disponibles
+                                    <td colspan="5">
+                                        <div class="sd-empty-state">
+                                            <span class="sd-empty-icon sd-empty-icon--sm">
+                                                <i class="fas fa-box-open"></i>
+                                            </span>
+                                            <p class="sd-empty-title">Sin datos de productos</p>
+                                            <p class="sd-empty-desc">No se encontraron productos para el rango de fechas seleccionado.</p>
+                                        </div>
                                     </td>
                                 </tr>
                             </template>
@@ -257,9 +262,14 @@
 
                             <template x-if="!loading && data.ventas.length === 0">
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4 fw-bold">
-                                        <i class="fas fa-receipt fa-2x mb-2"></i><br>
-                                        No hay ventas registradas
+                                    <td colspan="7">
+                                        <div class="sd-empty-state">
+                                            <span class="sd-empty-icon sd-empty-icon--sm">
+                                                <i class="fas fa-file-invoice-dollar"></i>
+                                            </span>
+                                            <p class="sd-empty-title">Sin ventas en el periodo</p>
+                                            <p class="sd-empty-desc">No se encontraron ventas para el rango de fechas seleccionado.</p>
+                                        </div>
                                     </td>
                                 </tr>
                             </template>
@@ -340,9 +350,14 @@
 
                             <template x-if="!loading && data.impuestos.length === 0">
                                 <tr>
-                                    <td colspan="2" class="text-center text-muted py-4 fw-bold">
-                                        <i class="fas fa-percent fa-2x mb-2"></i><br>
-                                        No hay datos de impuestos
+                                    <td colspan="2">
+                                        <div class="sd-empty-state">
+                                            <span class="sd-empty-icon sd-empty-icon--sm">
+                                                <i class="fas fa-percent"></i>
+                                            </span>
+                                            <p class="sd-empty-title">Sin datos de impuestos</p>
+                                            <p class="sd-empty-desc">No se encontraron impuestos recaudados para el rango de fechas seleccionado.</p>
+                                        </div>
                                     </td>
                                 </tr>
                             </template>

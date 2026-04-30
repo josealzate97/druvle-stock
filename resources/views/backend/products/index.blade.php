@@ -80,11 +80,20 @@
                     <tbody>
 
                         @if ($products->isEmpty())
-
                             <tr>
-                                <td colspan="8" class="text-center text-muted fw-bold fs-6 my-3">No hay productos registrados.</td>
+                                <td colspan="8">
+                                    <div class="sd-empty-state">
+                                        <span class="sd-empty-icon">
+                                            <i class="fas fa-box-open"></i>
+                                        </span>
+                                        <p class="sd-empty-title">Sin productos registrados</p>
+                                        <p class="sd-empty-desc">Añade tu primer producto para comenzar a gestionar el inventario.</p>
+                                        <button class="btn btn-sm btn-success px-4" data-bs-toggle="modal" data-bs-target="#productModal" data-bs-mode="new">
+                                            <i class="fas fa-plus me-1"></i> Nuevo Producto
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
-
                         @endif
 
                         @foreach($products as $product)

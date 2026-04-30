@@ -38,7 +38,18 @@
 
             @if ($taxes->isEmpty())
                 <tr>
-                    <td colspan="4" class="text-center text-muted fw-bold fs-6 my-3">No hay impuestos registrados.</td>
+                    <td colspan="4">
+                        <div class="sd-empty-state">
+                            <span class="sd-empty-icon">
+                                <i class="fas fa-percent"></i>
+                            </span>
+                            <p class="sd-empty-title">Sin impuestos registrados</p>
+                            <p class="sd-empty-desc">Crea un impuesto para poder asignarlo a tus productos.</p>
+                            <button class="btn btn-sm btn-success px-4" id="btnNewTaxEmpty" type="button">
+                                <i class="fas fa-plus me-1"></i> Crear impuesto
+                            </button>
+                        </div>
+                    </td>
                 </tr>
             @endif
             

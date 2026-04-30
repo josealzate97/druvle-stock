@@ -78,11 +78,20 @@
                     <tbody>
 
                         @if ($categories->isEmpty())
-
                             <tr>
-                                <td colspan="5" class="text-center text-muted fw-bold fs-6 my-3">No hay categorías registradas.</td>
+                                <td colspan="5">
+                                    <div class="sd-empty-state">
+                                        <span class="sd-empty-icon">
+                                            <i class="fas fa-tags"></i>
+                                        </span>
+                                        <p class="sd-empty-title">Sin categorías registradas</p>
+                                        <p class="sd-empty-desc">Crea tu primera categoría para organizar los productos del negocio.</p>
+                                        <button type="button" class="btn btn-sm btn-success px-4" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                                            <i class="fas fa-plus me-1"></i> Nueva Categoría
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
-
                         @endif
 
                         @foreach($categories as $category)

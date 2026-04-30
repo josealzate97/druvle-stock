@@ -6,10 +6,6 @@
     @vite(['resources/js/modules/tenants.js'])
 @endpush
 
-@push('styles')
-    @vite(['resources/css/modules/support-dashboard.css'])
-@endpush
-
 @section('content')
 
     <div class="container-fluid p-4">

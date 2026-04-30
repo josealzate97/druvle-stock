@@ -7,6 +7,13 @@ document.addEventListener("DOMContentLoaded", () => {
         newTax();
     });
 
+    const btnNewTaxEmpty = document.getElementById('btnNewTaxEmpty');
+    if (btnNewTaxEmpty) {
+        btnNewTaxEmpty.addEventListener('click', function() {
+            newTax();
+        });
+    }
+
     const taxForm = document.getElementById('taxForm');
     const taxModal = new bootstrap.Modal(document.getElementById('taxModal'));
 
