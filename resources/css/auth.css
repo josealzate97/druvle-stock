@@ -40,7 +40,7 @@
 }
 
 .form-control::placeholder {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .form-control:focus {
@@ -92,6 +92,7 @@
 
 .login-split {
   min-height: 100vh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   background: #0f172a;
@@ -197,6 +198,8 @@
 }
 
 .login-panel--form {
+  position: relative;
+  overflow: hidden;
   background: #f8fafc;
 }
 
@@ -251,10 +254,11 @@
   left: 0.85rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .login-form .form-control {
+  min-height: 44px;
   padding-left: 2.4rem;
   border-radius: 12px;
   border: 1px solid #dbe4f3;
@@ -263,9 +267,18 @@
 }
 
 .login-form .btn-primary {
+  min-height: 44px;
   background: #1b77d3;
   border-color: #1b77d3;
   border-radius: 12px;
+}
+
+.login-field__help {
+  display: block;
+  margin-top: 0.35rem;
+  color: #64748b;
+  font-size: 0.78rem;
+  font-weight: 600;
 }
 
 .login-alert {
@@ -294,12 +307,14 @@
 }
 
 .login-alert__close {
+  min-width: 44px;
+  min-height: 44px;
   border: 0;
   background: transparent;
   color: #991b1b;
   font-size: 1rem;
   line-height: 1;
-  padding: 0.1rem;
+  padding: 0.2rem;
   cursor: pointer;
 }
 
@@ -341,13 +356,69 @@
     background: #f8fafc;
   }
 
+  .login-panel {
+    padding: 2rem;
+  }
+
   .login-panel--brand {
     display: none;
   }
 
   .login-panel--form {
-    padding: 2.5rem 1.5rem 3rem;
+    padding: 2rem 1.5rem 2.5rem;
     min-height: 100vh;
+    min-height: 100dvh;
+    background-image:
+      linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)),
+      var(--login-form-bg-mobile, url('/images/backgrounds/bg_store_2.jpg'));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
-  
+
+  .login-card {
+    width: min(540px, 100%);
+    background: rgba(248, 250, 252, 0.94);
+    backdrop-filter: blur(3px);
+  }
+}
+
+@media (max-width: 767.98px) {
+
+  .login-panel--form {
+    padding: 1.5rem 1.25rem 2rem;
+  }
+
+  .login-card {
+    border-radius: 16px;
+    padding: 1.4rem;
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.15);
+  }
+
+  .login-card__brand {
+    gap: 0.8rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .login-card__brand h2 {
+    font-size: 1.4rem;
+  }
+
+  .login-card__brand p {
+    font-size: 0.8rem;
+  }
+
+  .login-hero-icon--sm {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .login-form {
+    gap: 0.95rem;
+  }
+
+  .login-field__help {
+    font-size: 0.74rem;
+  }
 }

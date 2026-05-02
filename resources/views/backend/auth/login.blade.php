@@ -11,7 +11,7 @@
 
     <div class="login-split">
 
-        <div class="login-panel login-panel--brand" style="--login-brand-bg: url('{{ asset('images/backgrounds/bg_store_1.jpg') }}');">
+        <div class="login-panel login-panel--brand" style="--login-brand-bg: url('{{ asset('images/backgrounds/bg_store_1.jpg') }}'); --login-brand-bg-mobile: url('{{ asset('images/backgrounds/bg_store_2.jpg') }}');">
 
             <div class="brand-content">
 
@@ -39,7 +39,7 @@
 
         </div>
 
-        <div class="login-panel login-panel--form">
+        <div class="login-panel login-panel--form" style="--login-form-bg-mobile: url('{{ asset('images/backgrounds/bg_store_2.jpg') }}');">
 
             <div class="login-card">
 
@@ -58,12 +58,13 @@
                     @csrf
 
                     <div class="login-field">
-                        <label for="slug" class="form-label">Negocio <small class="text-muted">(no requerido para soporte)</small></label>
+                        <label for="slug" class="form-label">Negocio</label>
                         <div class="input-icon">
                             <i class="fas fa-building"></i>
                             <input type="text" class="form-control @error('slug') is-invalid @enderror" id="slug" name="slug"
                                 placeholder="Ej: mi-tienda" value="{{ old('slug') }}" autocomplete="off" aria-label="Slug del negocio">
                         </div>
+                        <small class="login-field__help">No requerido para soporte.</small>
                         @error('slug')
                             <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
