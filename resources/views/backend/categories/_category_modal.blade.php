@@ -51,15 +51,17 @@
             <select class="form-select" id="categoryIcon" name="icon" required>
 
               <option value="" selected disabled>Selecciona un icono</option>
-              <option value="fa-wine-bottle"><i class="fa fa-wine-bottle"></i> Bebidas</option>
-              <option value="fa-martini-glass"><i class="fa fa-martini-glass"></i> Licor</option>
-              <option value="fa-candy-cane"><i class="fa fa-candy-cane"></i> Chucherias</option>
-              <option value="fa-vector-square"><i class="fa fa-vector-square"></i> Estampados</option>
-              <option value="fa-tshirt"><i class="fa fa-tshirt"></i> Camisetas</option>
-              <option value="fa-baby"><i class="fa fa-baby"></i> Jugueteria</option>
-              <option value="fa-handshake"><i class="fa fa-handshake"></i> Servicios</option>
-              <option value="fa-globe"><i class="fa fa-globe"></i> Servicios Digitales</option>
-              <option value="fa-hand-sparkles"><i class="fa fa-hand-sparkles"></i> Limpieza</option>
+              <option value="fa-wheat-awn"><i class="fa fa-wheat-awn"></i> Abarrotes </option>
+              <option value="fa-wine-bottle"><i class="fa fa-wine-bottle"></i> Bebidas </option>
+              <option value="fa-martini-glass"><i class="fa fa-martini-glass"></i> Licor </option>
+              <option value="fa-candy-cane"><i class="fa fa-candy-cane"></i> Dulces </option>
+              <option value="fa-paw"><i class="fa fa-paw"></i> Mascotas </option>
+              <option value="fa-bread-slice"><i class="fa fa-bread-slice"></i> Panaderia </option>
+              <option value="fa-baby"><i class="fa fa-baby"></i> Miscelania </option>
+              <option value="fa-smoking"><i class="fa fa-smoking"></i> Cigarrillos </option>
+              <option value="fa-jar"><i class="fa fa-jar"></i> Lacteos & Refrigerados </option>
+              <option value="fa-globe"><i class="fa fa-globe"></i> Servicios Digitales </option>
+              <option value="fa-hand-sparkles"><i class="fa fa-hand-sparkles"></i> Limpieza & Aseo </option>
 
             </select>
 

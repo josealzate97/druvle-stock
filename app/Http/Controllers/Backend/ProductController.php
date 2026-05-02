@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Product;
 use App\Models\ProductSize;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller {
@@ -40,10 +41,11 @@ class ProductController extends Controller {
     */
     public function create(Request $request) {
 
-        $data = $request->all();
+        $data = $request->all();   
 
         $data['taxable'] = $request->has('taxable') ? Product::IS_TAXABLE : Product::IS_NOT_TAXABLE;
         $data['has_sizes'] = filter_var($data['has_sizes'] ?? false, FILTER_VALIDATE_BOOLEAN);
+
         $data['purchase_price'] = $this->parseNullableDecimal($data['purchase_price'] ?? null);
         $data['sale_price'] = $this->parseNullableDecimal($data['sale_price'] ?? null);
         $data['quantity'] = isset($data['quantity']) && $data['quantity'] !== '' ? (int) $data['quantity'] : null;
@@ -52,69 +54,105 @@ class ProductController extends Controller {
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'sale_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
-            'purchase_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
-            'quantity' => 'nullable|required_if:has_sizes,false|integer|min:1',
             'has_sizes' => 'required|boolean',
             'taxable' => 'required|boolean',
-            'sizes' => 'nullable|required_if:has_sizes,true|array|min:1',
+
+            'sale_price' => [
+                'nullable', 'numeric', 'min:0',
+                Rule::requiredIf(fn () => !$data['has_sizes']),
+            ],
+            'purchase_price' => [
+                'nullable', 'numeric', 'min:0',
+                Rule::requiredIf(fn () => !$data['has_sizes']),
+            ],
+            'quantity' => [
+                'nullable', 'integer', 'min:1',
+                Rule::requiredIf(fn () => !$data['has_sizes']),
+            ],
+
+            'sizes' => [
+                'exclude_if:has_sizes,false',
+                'array',
+                'min:1',
+            ],
             'sizes.*.name' => 'required_with:sizes|string|max:20',
             'sizes.*.price' => 'required_with:sizes|numeric|min:0',
             'sizes.*.quantity' => 'required_with:sizes|integer|min:0',
             'sizes.*.status' => 'nullable|boolean',
+
         ])->validate();
-        
 
-        $validated['status'] = true; // Asignar estado activo por defecto
-        $validated['tax_id'] = isset($data['tax_id']) ? $data['tax_id'] : null; // Asignar tax_id si existe
+        $validated['status'] = Product::ACTIVE;
+        $validated['tax_id'] = $data['tax_id'] ?? null;
+        $validated['notes'] = $data['notes'] ?? null;
 
-        $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
-        $validated['sizes'] = $validated['has_sizes'] ? ($validated['sizes'] ?? []) : [];
+        $sizes = $validated['has_sizes'] ? ($validated['sizes'] ?? []) : [];
+        unset($validated['sizes']);
 
-        if ($validated['has_sizes'] && empty($validated['sizes'])) {
+        if ($validated['has_sizes'] && empty($sizes)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Debes agregar al menos una talla.'
             ], 422);
         }
 
-        $product = DB::transaction(function () use ($validated) {
-            $product = Product::create([
-                'id' => Str::uuid()->toString(),
-                'name' => $validated['name'],
-                'code' => $validated['code'],
-                'category_id' => $validated['category_id'],
-                'sale_price' => $validated['sale_price'] ?? null,
-                'purchase_price' => $validated['purchase_price'] ?? null,
-                'quantity' => $validated['quantity'] ?? null,
-                'has_sizes' => $validated['has_sizes'],
-                'taxable' => $validated['taxable'],
-                'tax_id' => $validated['tax_id'],
-                'status' => $validated['status'],
-                'notes' => $validated['notes']
-            ]);
+        // Si tiene tallas, nullear campos base para evitar inconsistencias
+        if ($validated['has_sizes']) {
+            $validated['sale_price'] = null;
+            $validated['purchase_price'] = null;
+            $validated['quantity'] = null;
+        }
 
-            $sizeRows = collect($validated['sizes'] ?? [])->map(function ($size) {
-                return [
-                    'name' => $size['name'],
-                    'price' => floatval(str_replace(',', '.', $size['price'])),
-                    'quantity' => (int) $size['quantity'],
-                    'status' => isset($size['status']) ? (bool) $size['status'] : ProductSize::ACTIVE,
-                ];
-            })->toArray();
+        try {
 
-            if (!empty($sizeRows)) {
-                $product->sizes()->createMany($sizeRows);
-            }
+            $product = DB::transaction(function () use ($validated, $sizes) {
 
-            return $product;
-        });
+                $product = Product::create([
+                    'id' => Str::uuid()->toString(),
+                    'name' => $validated['name'],
+                    'code' => $validated['code'],
+                    'category_id' => $validated['category_id'],
+                    'sale_price' => $validated['sale_price'] ?? null,
+                    'purchase_price' => $validated['purchase_price'] ?? null,
+                    'quantity' => $validated['quantity'] ?? null,
+                    'has_sizes' => $validated['has_sizes'],
+                    'taxable' => $validated['taxable'],
+                    'tax_id' => $validated['tax_id'],
+                    'status' => $validated['status'],
+                    'notes' => $validated['notes']
+                ]);
 
-        return response()->json([
-            'success' => true, 
-            'message' => 'Producto creado correctamente', 
-            'product' => $product
-        ]);
+                if (!empty($sizes)) {
+                    $sizeRows = collect($sizes)->map(function ($size) {
+                        return [
+                            'name' => $size['name'],
+                            'price' => floatval(str_replace(',', '.', (string) $size['price'])),
+                            'quantity' => (int) $size['quantity'],
+                            'status' => isset($size['status']) ? (bool) $size['status'] : ProductSize::ACTIVE,
+                        ];
+                    })->toArray();
+
+                    $product->sizes()->createMany($sizeRows);
+                }
+
+                return $product;
+            });
+
+            return response()->json([
+                'success' => true, 
+                'message' => 'Producto creado correctamente', 
+                'product' => $product
+            ], 201);
+
+        } catch (\Throwable $e) {
+
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo guardar el producto. Verifica la conexión a base de datos e inténtalo de nuevo.'
+            ], 500);
+        }
 
     }
 
@@ -178,24 +216,36 @@ class ProductController extends Controller {
             'name' => 'required|string|max:255',
             'code' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'sale_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
-            'purchase_price' => 'nullable|required_if:has_sizes,false|numeric|min:0',
-            'quantity' => 'nullable|required_if:has_sizes,false|integer|min:1',
             'has_sizes' => 'required|boolean',
             'taxable' => 'required|boolean',
-            'sizes' => 'nullable|required_if:has_sizes,true|array|min:1',
+
+            'sale_price' => [
+                'nullable', 'numeric', 'min:0',
+                Rule::requiredIf(fn () => !$data['has_sizes']),
+            ],
+            'purchase_price' => [
+                'nullable', 'numeric', 'min:0',
+                Rule::requiredIf(fn () => !$data['has_sizes']),
+            ],
+            'quantity' => [
+                'nullable', 'integer', 'min:1',
+                Rule::requiredIf(fn () => !$data['has_sizes']),
+            ],
+
+            'sizes' => [
+                'exclude_if:has_sizes,false',
+                'array',
+                'min:1',
+            ],
             'sizes.*.name' => 'required_with:sizes|string|max:20',
             'sizes.*.price' => 'required_with:sizes|numeric|min:0',
             'sizes.*.quantity' => 'required_with:sizes|integer|min:0',
             'sizes.*.status' => 'nullable|boolean',
         ])->validate();
 
-        $validated['tax_id'] = isset($data['tax_id']) ? $data['tax_id'] : null; // Asignar tax_id si existe
+        $validated['tax_id'] = $data['tax_id'] ?? null;
         $validated['status'] = Product::ACTIVE;
-        $validated['notes'] = isset($data['notes']) ? $data['notes'] : null; // Asignar nota si existe
-        $validated['sale_price'] = $validated['sale_price'] ?? null;
-        $validated['purchase_price'] = $validated['purchase_price'] ?? null;
-        $validated['quantity'] = $validated['quantity'] ?? null;
+        $validated['notes'] = $data['notes'] ?? null;
         $sizes = $validated['has_sizes'] ? ($validated['sizes'] ?? []) : [];
         unset($validated['sizes']);
 
@@ -204,6 +254,12 @@ class ProductController extends Controller {
                 'success' => false,
                 'message' => 'Debes agregar al menos una talla.'
             ], 422);
+        }
+
+        if ($validated['has_sizes']) {
+            $validated['sale_price'] = null;
+            $validated['purchase_price'] = null;
+            $validated['quantity'] = null;
         }
 
         $product = Product::find($id);
@@ -217,29 +273,42 @@ class ProductController extends Controller {
 
         }
 
-        DB::transaction(function () use ($product, $validated, $sizes) {
-            $product->update($validated);
+        try {
 
-            $product->sizes()->delete();
+            DB::transaction(function () use ($product, $validated, $sizes) {
 
-            $sizeRows = collect($sizes)->map(function ($size) {
-                return [
-                    'name' => $size['name'],
-                    'price' => floatval(str_replace(',', '.', $size['price'])),
-                    'quantity' => (int) $size['quantity'],
-                    'status' => isset($size['status']) ? (bool) $size['status'] : ProductSize::ACTIVE,
-                ];
-            })->toArray();
+                $product->update($validated);
+                $product->sizes()->delete();
 
-            if (!empty($sizeRows)) {
-                $product->sizes()->createMany($sizeRows);
-            }
-        });
+                if (!empty($sizes)) {
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Producto actualizado correctamente'
-        ]);
+                    $sizeRows = collect($sizes)->map(function ($size) {
+                        return [
+                            'name' => $size['name'],
+                            'price' => floatval(str_replace(',', '.', (string) $size['price'])),
+                            'quantity' => (int) $size['quantity'],
+                            'status' => isset($size['status']) ? (bool) $size['status'] : ProductSize::ACTIVE,
+                        ];
+                    })->toArray();
+
+                    $product->sizes()->createMany($sizeRows);
+                }
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Producto actualizado correctamente'
+            ]);
+
+        } catch (\Throwable $e) {
+            
+            report($e);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo actualizar el producto. Verifica la conexión a base de datos e inténtalo de nuevo.'
+            ], 500);
+        }
 
     }
 

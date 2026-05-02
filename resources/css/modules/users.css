@@ -137,3 +137,10 @@ body.theme-dark .role-badge-purple {
   border-color: #5d3b8c;
   color: #dec7ff;
 }
+
+@media (max-width: 767.98px) {
+  .user-info-header .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

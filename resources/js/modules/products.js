@@ -83,7 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
         data.has_sizes = hasSizes;
 
         if (hasSizes) {
+
             const sizesPayload = collectSizesPayload();
+
             if (sizesPayload.error) {
                 notyf.error(sizesPayload.error);
                 return;
@@ -95,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             data.sizes = sizesPayload.sizes;
+
         } else {
             data.sizes = [];
         }
@@ -102,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const url = data.id ? `/products/update/${data.id}` : '/products/create';
 
         try {
+
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             const response = await fetch(url, {
@@ -113,20 +117,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data)
             });
 
-            if (response.ok) {
-                notyf.success(data.id ? 'Producto actualizado correctamente' : 'Producto creado correctamente');
+            let payload = null;
+
+            try {
+                payload = await response.json();
+            } catch (_) {}
+
+            if (response.ok && payload?.success === true) {
+
+                notyf.success(payload.message || (data.id ? 'Producto actualizado correctamente' : 'Producto creado correctamente'));
+
                 productModal.hide();
 
                 setTimeout(() => {
                     location.reload();
-                }, 3000);
+                }, 1200);
+
             } else {
-                const errorData = await response.json();
-                notyf.error(errorData.message || 'Error al guardar el producto');
+
+                let message = payload?.message || `Error ${response.status} al guardar el producto`;
+
+                if (!payload?.message) {
+                    try {
+                        const raw = await response.text();
+                        if (raw) {
+                            message = raw.substring(0, 220);
+                        }
+                    } catch (__) {}
+                }
+
+                notyf.error(message);
             }
 
         } catch (error) {
-            notyf.error('Error de red');
+            notyf.error('Error de red o servidor no disponible');
         }
     });
 
@@ -351,16 +375,19 @@ function toggleBaseStockFields(hasSizes) {
 }
 
 function collectSizesPayload() {
+
     const rows = Array.from(document.querySelectorAll('#sizeRowsContainer .size-row'));
     const sizes = [];
 
     for (const row of rows) {
+
         const name = row.querySelector('.size-name').value.trim();
         const priceRaw = row.querySelector('.size-price').value.trim();
         const quantityRaw = row.querySelector('.size-quantity').value.trim();
         const status = row.querySelector('.size-status').checked;
 
         const isEmpty = !name && !priceRaw && !quantityRaw;
+        
         if (isEmpty) {
             continue;
         }
