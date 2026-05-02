@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const { planDistribution, tenantGrowth } = window.supportDashboardData || {};
+    let ChartLib = null;
+
+    const loadChartLib = async () => {
+        if (!ChartLib) {
+            const mod = await import('chart.js/auto');
+            ChartLib = mod.default;
+        }
+        return ChartLib;
+    };
 
     // Colores base
     const colors = {
@@ -20,7 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const growthEmpty = document.getElementById('tenantGrowthEmpty');
     const hasGrowthData = tenantGrowth && tenantGrowth.values && tenantGrowth.values.some(v => v > 0);
 
-    if (growthCtx && hasGrowthData) {
+    const renderCharts = async () => {
+        const Chart = await loadChartLib();
+
+        if (growthCtx && hasGrowthData) {
         new Chart(growthCtx, {
             type: 'bar',
             data: {
@@ -50,53 +62,56 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
-    } else if (growthCtx && growthEmpty) {
-        growthCtx.style.display = 'none';
-        growthEmpty.style.display = 'flex';
-    }
+        } else if (growthCtx && growthEmpty) {
+            growthCtx.style.display = 'none';
+            growthEmpty.style.display = 'flex';
+        }
 
-    // ── Gráfico distribución de planes ──
-    const planCtx = document.getElementById('planDistributionChart');
-    const planEmpty = document.getElementById('planDistributionEmpty');
-    const hasPlanData = planDistribution && planDistribution.values && planDistribution.values.some(v => v > 0);
+        // ── Gráfico distribución de planes ──
+        const planCtx = document.getElementById('planDistributionChart');
+        const planEmpty = document.getElementById('planDistributionEmpty');
+        const hasPlanData = planDistribution && planDistribution.values && planDistribution.values.some(v => v > 0);
 
-    if (planCtx && hasPlanData) {
-        const planColors = [colors.purple, colors.blue, colors.gold];
-        const chart = new Chart(planCtx, {
-            type: 'doughnut',
-            data: {
-                labels: planDistribution.labels,
-                datasets: [{
-                    data: planDistribution.values,
-                    backgroundColor: planColors.map(c => c + '33'),
-                    borderColor: planColors,
-                    borderWidth: 2,
-                }]
-            },
-            options: {
-                responsive: true,
-                cutout: '68%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { callbacks: { label: ctx => ` ${ctx.raw} negocios` } }
+        if (planCtx && hasPlanData) {
+            const planColors = [colors.purple, colors.blue, colors.gold];
+            new Chart(planCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: planDistribution.labels,
+                    datasets: [{
+                        data: planDistribution.values,
+                        backgroundColor: planColors.map(c => c + '33'),
+                        borderColor: planColors,
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '68%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { label: ctx => ` ${ctx.raw} negocios` } }
+                    }
                 }
-            }
-        });
+            });
 
-        // Leyenda
-        const legend = document.getElementById('planDistributionLegend');
-        if (legend) {
-            legend.innerHTML = planDistribution.labels.map((label, i) => `
+            // Leyenda
+            const legend = document.getElementById('planDistributionLegend');
+            if (legend) {
+                legend.innerHTML = planDistribution.labels.map((label, i) => `
                 <div class="chart-legend-item">
                     <span class="chart-legend-dot" style="background:${planColors[i]}"></span>
                     <span>${label}</span>
                     <span class="chart-legend-val">${planDistribution.values[i]}</span>
                 </div>
             `).join('');
+            }
+        } else if (planCtx && planEmpty) {
+            planCtx.style.display = 'none';
+            planEmpty.style.display = 'flex';
         }
-    } else if (planCtx && planEmpty) {
-        planCtx.style.display = 'none';
-        planEmpty.style.display = 'flex';
-    }
+    };
+
+    renderCharts().catch(() => {});
 
 });

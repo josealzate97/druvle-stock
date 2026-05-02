@@ -46,19 +46,28 @@ document.addEventListener("DOMContentLoaded", () => {
     getActiveNav(currentPath, links);
 
     // Toggle de tema (modo noche)
-    const themeSwitch = document.getElementById('theme-switch');
+    const themeSwitches = document.querySelectorAll('[data-theme-switch]');
 
-    if (themeSwitch) {
+    if (themeSwitches.length) {
         const savedTheme = localStorage.getItem('theme-mode');
+        const isDarkTheme = savedTheme === 'dark';
 
-        if (savedTheme === 'dark') {
-            document.body.classList.add('theme-dark');
-            themeSwitch.checked = true;
-        }
+        document.body.classList.toggle('theme-dark', isDarkTheme);
+        themeSwitches.forEach((input) => {
+            input.checked = isDarkTheme;
+        });
 
-        themeSwitch.addEventListener('change', () => {
-            document.body.classList.toggle('theme-dark', themeSwitch.checked);
-            localStorage.setItem('theme-mode', themeSwitch.checked ? 'dark' : 'light');
+        themeSwitches.forEach((input) => {
+            input.addEventListener('change', () => {
+                const enabled = input.checked;
+                document.body.classList.toggle('theme-dark', enabled);
+                localStorage.setItem('theme-mode', enabled ? 'dark' : 'light');
+                themeSwitches.forEach((otherInput) => {
+                    if (otherInput !== input) {
+                        otherInput.checked = enabled;
+                    }
+                });
+            });
         });
     }
 

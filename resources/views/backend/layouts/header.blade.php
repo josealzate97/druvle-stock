@@ -11,10 +11,10 @@
     </div>
 
     <div class="header-right">
-        <div class="theme-toggle theme-toggle-lg">
+        <div class="theme-toggle theme-toggle-lg header-theme-toggle">
             <i class="fas fa-sun"></i>
             <label class="form-check form-switch mb-0">
-                <input class="form-check-input" type="checkbox" id="theme-switch" aria-label="Alternar modo">
+                <input class="form-check-input" type="checkbox" id="theme-switch" data-theme-switch aria-label="Alternar modo">
             </label>
             <i class="fas fa-moon"></i>
         </div>
@@ -170,7 +170,7 @@
                     </a>
                 </li>
 
-@if(Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT)
+                @if(Auth::user()->rol !== \App\Models\User::ROLE_SUPPORT)
                 <li>
                     <a class="dropdown-item user-menu-item" href="{{ route('settings.index') }}">
                         <span class="user-menu-item-icon">
@@ -189,6 +189,18 @@
                     </a>
                 </li>
                 @endif
+
+                <li class="mobile-theme-item">
+                    <div class="dropdown-item user-menu-item user-menu-item-theme">
+                        <span class="user-menu-item-icon">
+                            <i class="fa-solid fa-circle-half-stroke color-primary"></i>
+                        </span>
+                        <span class="user-menu-item-theme__label">Modo oscuro</span>
+                        <label class="form-check form-switch mb-0 user-menu-item-theme__switch">
+                            <input class="form-check-input" type="checkbox" data-theme-switch aria-label="Alternar modo oscuro">
+                        </label>
+                    </div>
+                </li>
 
                 <li><hr class="dropdown-divider"></li>
 

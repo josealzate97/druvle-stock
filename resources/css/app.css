@@ -136,6 +136,8 @@ html, body {
   display: flex;
   align-items: center;
   gap: 0.95rem;
+  margin-left: auto;
+  flex-wrap: nowrap;
 }
 
 .header-icon {
@@ -517,6 +519,7 @@ html, body {
 
 .header-user-menu {
   margin-left: 0.2rem;
+  flex-shrink: 0;
 }
 
 .user-menu-toggle .session-info {
@@ -637,6 +640,23 @@ html, body {
 .user-menu-item-danger:hover {
   background: #fff1f3;
   color: #be2734;
+}
+
+.mobile-theme-item {
+  display: none;
+}
+
+.user-menu-item-theme {
+  justify-content: space-between;
+  cursor: default;
+}
+
+.user-menu-item-theme__label {
+  margin-right: auto;
+}
+
+.user-menu-item-theme__switch .form-check-input {
+  cursor: pointer;
 }
 
 /*** CATEGORIES **/
@@ -1103,58 +1123,116 @@ body.theme-dark .page-loader-overlay {
 
 @media (max-width: 991.98px) {
   .app-header {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "left right"
+      "crumb crumb";
+    align-items: center;
     height: auto;
     padding: 0.6rem 1rem 0.85rem;
-    gap: 0.75rem;
+    gap: 0.6rem 0.75rem;
   }
 
   .header-left,
   .header-right {
-    width: 100%;
+    width: auto;
   }
 
   .header-left {
-    flex-wrap: wrap;
+    grid-area: left;
+    flex-wrap: nowrap;
+    min-width: 0;
   }
 
   .header-breadcrumb {
-    order: 2;
-    width: 100%;
-  }
-
-  .header-breadcrumb .breadcrumb {
-    width: 100%;
+    display: none;
   }
 
   .header-right {
+    grid-area: right;
     justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.45rem;
+    min-width: 0;
   }
 
   .theme-toggle label {
-    display: none;
+    display: inline-flex;
+  }
+
+  .header-tenant-switch-btn {
+    max-width: 170px;
+  }
+
+  .user-menu-toggle {
+    padding-right: 0.35rem;
   }
 }
 
 @media (max-width: 575.98px) {
+  .app-header {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "left right";
+    padding: 0.52rem 0.75rem 0.62rem;
+    gap: 0.4rem 0.5rem;
+  }
+
+  .header-left {
+    gap: 0.4rem;
+  }
+
+  .header-breadcrumb {
+    display: none;
+  }
+
   .header-right {
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 0.35rem;
   }
 
   .session-info {
     display: none;
   }
 
-  .theme-toggle {
-    font-size: 0.85rem;
+  .header-theme-toggle {
+    display: none;
+  }
+
+  .mobile-theme-item {
+    display: block;
+  }
+
+  .header-tenant-switch-btn {
+    max-width: 110px;
+    height: 36px;
+    padding: 0 0.65rem;
+    gap: 0.35rem;
+  }
+
+  .header-tenant-switch-label {
+    display: none;
+  }
+
+  .header-notification-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user-menu-toggle {
+    height: 36px;
+    padding: 0.18rem 0.34rem 0.18rem 0.45rem;
+    gap: 0.42rem;
+  }
+
+  .user-menu-caret {
+    font-size: 0.68rem;
   }
 
   .user-avatar {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
   }
 }
 
