@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 legend.innerHTML = planDistribution.labels.map((label, i) => `
                 <div class="chart-legend-item">
                     <span class="chart-legend-dot" style="background:${planColors[i]}"></span>
-                    <span>${label}</span>
+                    <span class="plan-badge plan-badge--${String(label).toLowerCase()}">${label}</span>
                     <span class="chart-legend-val">${planDistribution.values[i]}</span>
                 </div>
             `).join('');

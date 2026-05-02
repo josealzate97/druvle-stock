@@ -92,7 +92,12 @@
             <div class="dashboard-card-header">
                 <div>
                     <h5>Distribución por Plan</h5>
-                    <p>Proporción Free / Basic / Pro</p>
+                    <p class="plan-badges-line">
+                        Proporción
+                        <span class="plan-badge plan-badge--free">Free</span>
+                        <span class="plan-badge plan-badge--basic">Basic</span>
+                        <span class="plan-badge plan-badge--pro">Pro</span>
+                    </p>
                 </div>
             </div>
             <div class="chart-wrapper" id="planDistributionWrapper">
@@ -165,7 +170,7 @@
                             <td class="text-muted" style="font-size:.82rem;">
                                 @if($row->trial_ends_at)
                                     @php $trialDate = \Carbon\Carbon::parse($row->trial_ends_at); @endphp
-                                    <span class="{{ $trialDate->isPast() ? 'text-danger' : ($trialDate->diffInDays() <= 7 ? 'text-warning fw-bold' : '') }}">
+                                    <span class="{{ $trialDate->isPast() ? 'text-danger' : ($trialDate->diffInDays() <= 7 ? 'text-danger fw-bold' : '') }}">
                                         {{ $trialDate->format('d/m/Y') }}
                                     </span>
                                 @else
