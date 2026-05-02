@@ -2,6 +2,10 @@
 
 @section('title', 'Negocios')
 
+@push('styles')
+    @vite(['resources/css/modules/tenants.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/tenants.js'])
 @endpush
@@ -20,21 +24,21 @@
             ])
         @endpush
 
-        <div class="card p-4 section-hero">
+        <div class="card p-4 section-hero tenants-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="tenants-hero__row">
 
-                <div class="section-hero-icon">
+                <div class="section-hero-icon tenants-hero__icon">
                     <i class="fas fa-building"></i>
                 </div>
 
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Gestión de Negocios</h2>
-                    <div class="text-muted small fw-bold">Administra los negocios registrados en la plataforma.</div>
+                <div class="flex-grow-1 tenants-hero__content">
+                    <h2 class="fw-bold mb-0 tenants-hero__title">Gestión de Negocios</h2>
+                    <div class="text-muted small fw-bold tenants-hero__subtitle">Administra los negocios registrados en la plataforma.</div>
                 </div>
 
-                <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                    <button type="button" class="btn btn-success btn-sm" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#tenantModal">
+                <div class="d-flex flex-wrap gap-2 section-hero-actions tenants-hero__actions">
+                    <button type="button" class="btn btn-success btn-sm tenants-hero__add-btn" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#tenantModal">
                         <i class="fas fa-plus me-1"></i> Nuevo Negocio
                     </button>
                 </div>
@@ -45,18 +49,20 @@
 
         <div class="card p-0 mt-4 section-card">
 
-            <div class="section-toolbar">
-                <div class="section-search">
+            <div class="section-toolbar tenants-toolbar">
+                <div class="section-search tenants-toolbar__search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="tenantsSearch">Buscar negocio</label>
                     <input type="text" class="form-control form-control-sm" id="tenantsSearch" placeholder="Buscar negocio...">
                 </div>
-                <label class="visually-hidden" for="tenantsStatusFilter">Filtrar por estado</label>
-                <select class="form-select form-select-sm section-filter" id="tenantsStatusFilter">
-                    <option value="">Todos los estados</option>
-                    <option value="active">Activo</option>
-                    <option value="inactive">Inactivo</option>
-                </select>
+                <div class="tenants-toolbar__status">
+                    <label class="visually-hidden" for="tenantsStatusFilter">Filtrar por estado</label>
+                    <select class="form-select form-select-sm section-filter" id="tenantsStatusFilter">
+                        <option value="">Todos los estados</option>
+                        <option value="active">Activo</option>
+                        <option value="inactive">Inactivo</option>
+                    </select>
+                </div>
             </div>
 
             <div class="table-responsive">

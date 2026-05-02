@@ -1,0 +1,183 @@
+/* Tenants page responsive tuning */
+
+.tenants-hero {
+  border-radius: 14px;
+}
+
+.tenants-hero__row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tenants-hero__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.tenants-hero__content {
+  min-width: 0;
+}
+
+.tenants-hero__title {
+  font-size: clamp(1.75rem, 2.8vw, 2.15rem);
+  line-height: 1.1;
+}
+
+.tenants-hero__subtitle {
+  margin-top: 0.25rem;
+  font-size: 0.96rem;
+}
+
+.tenants-hero__actions {
+  justify-content: flex-end;
+}
+
+.tenants-hero__add-btn {
+  min-height: 40px;
+  padding-inline: 1rem;
+  font-weight: 700;
+}
+
+.tenants-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 1rem 1.15rem;
+}
+
+.tenants-toolbar__search,
+.tenants-toolbar__status {
+  width: 100%;
+  min-width: 0;
+  max-width: 320px;
+}
+
+.tenants-toolbar .form-control,
+.tenants-toolbar .form-select {
+  width: 100%;
+  min-height: 40px;
+  font-weight: 600;
+}
+
+@media (max-width: 991.98px) and (min-width: 768px) {
+  .tenants-toolbar {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .tenants-toolbar__search,
+  .tenants-toolbar__status {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .tenants-hero__row {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "icon content"
+      "actions actions";
+    align-items: start;
+  }
+
+  .tenants-hero__icon {
+    grid-area: icon;
+  }
+
+  .tenants-hero__content {
+    grid-area: content;
+  }
+
+  .tenants-hero__actions {
+    grid-area: actions;
+    justify-content: flex-start;
+    margin-top: 0.2rem;
+  }
+
+  .tenants-hero__title {
+    font-size: clamp(1.55rem, 5.2vw, 1.95rem);
+  }
+
+  .tenants-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    padding: 0.9rem 0.95rem;
+  }
+
+  .tenants-toolbar__search,
+  .tenants-toolbar__status {
+    max-width: none;
+    width: 100%;
+  }
+
+  .tenants-toolbar .form-control,
+  .tenants-toolbar .form-select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .tenants-hero {
+    padding: 1.1rem !important;
+  }
+
+  .tenants-hero__row {
+    gap: 0.8rem;
+  }
+
+  .tenants-hero__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .tenants-hero__title {
+    font-size: 2rem;
+  }
+
+  .tenants-hero__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .tenants-hero__add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .tenants-hero {
+    padding: 1rem !important;
+  }
+
+  .tenants-hero__title {
+    font-size: 1.85rem;
+  }
+
+  .tenants-hero__subtitle {
+    max-width: 30ch;
+  }
+
+  .tenants-toolbar {
+    padding: 0.85rem 0.8rem;
+  }
+
+  .tenants-toolbar__search,
+  .tenants-toolbar__status {
+    max-width: none;
+    width: 100%;
+  }
+}
+
+body.theme-dark .tenants-toolbar .form-control,
+body.theme-dark .tenants-toolbar .form-select {
+  background: #0f141b;
+  border-color: #2b313c;
+  color: #e5e7eb;
+}
