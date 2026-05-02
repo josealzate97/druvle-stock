@@ -1,7 +1,7 @@
 <nav class="app-header">
 
     <div class="header-left">
-        <button class="btn header-icon" id="sidebar-toggle" aria-label="Alternar sidebar">
+        <button class="btn header-icon" id="sidebar-toggle" aria-label="Alternar sidebar" aria-controls="sidebar" aria-expanded="false">
             <i class="fas fa-bars"></i>
         </button>
 
