@@ -112,6 +112,7 @@ window.salesForm = function() {
         taxAmount: 0,
         totalAmount: 0,
         paymentType: 1,
+        receivedAmount: '',
         customerName: '',
         customerEmail: '',
         showClientSection: false, // Controla la visibilidad de la sección del cliente
@@ -302,6 +303,25 @@ window.salesForm = function() {
 
         },
 
+        get receivedAmountNumber() {
+            const amount = parseFloat(this.receivedAmount || 0);
+            return Number.isNaN(amount) ? 0 : amount;
+        },
+
+        get changeAmount() {
+            if (String(this.paymentType) !== '1') {
+                return 0;
+            }
+
+            const diff = this.receivedAmountNumber - this.totalAmount;
+            return diff > 0 ? diff : 0;
+        },
+
+        formatMoney(value) {
+            const amount = Number(value || 0);
+            return '$ ' + (Number.isNaN(amount) ? '0.00' : amount.toFixed(2));
+        },
+
         // Método para registrar una nueva venta
         async registerSale() {
 
@@ -335,6 +355,20 @@ window.salesForm = function() {
 
                 // asignamos el tipo de pago
                 this.salesHeaderData.payment_type = this.paymentType;
+
+                if (String(this.paymentType) === '1') {
+                    if (this.receivedAmountNumber <= 0) {
+                        notyf.error('Ingresa el monto recibido para pagos en efectivo.');
+                        this.isProcessing = false;
+                        return;
+                    }
+
+                    if (this.receivedAmountNumber < this.totalAmount) {
+                        notyf.error('El monto recibido no puede ser menor al total a pagar.');
+                        this.isProcessing = false;
+                        return;
+                    }
+                }
 
                 // Mostrar mensaje si hay correo
                 if (this.salesHeaderData.client_email) {

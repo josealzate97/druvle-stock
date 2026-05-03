@@ -109,6 +109,7 @@
                                                 id="productSearchInput"
                                                 class="form-control"
                                                 placeholder="Buscar producto por nombre"
+                                                autocomplete="off"
                                                 x-model="productSearch"
                                                 :disabled="isProcessing"
                                                 @focus="showProductDropdown = true"
@@ -233,10 +234,10 @@
                                                         </template>
                                                     </td>
                                                     <td x-text="item.quantity"></td>
-                                                    <td x-text="Number(item.sale_price).toFixed(2) + ' €'"></td>
-                                                    <td x-text="(item.quantity * Number(item.sale_price)).toFixed(2) + ' €'"></td>
-                                                    <td x-text="(item.quantity * Number(item.tax_amount)).toFixed(2) + ' €'"></td>
-                                                    <td x-text="(item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2) + ' €'"></td>
+                                                    <td x-text="'$ ' + Number(item.sale_price).toFixed(2)"></td>
+                                                    <td x-text="'$ ' + (item.quantity * Number(item.sale_price)).toFixed(2)"></td>
+                                                    <td x-text="'$ ' + (item.quantity * Number(item.tax_amount)).toFixed(2)"></td>
+                                                    <td x-text="'$ ' + (item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2)"></td>
                                                     <td class="text-end">
                                                         <button type="button" class="btn btn-icon text-danger" @click="removeProduct(index)">
                                                             <i class="fas fa-trash"></i>
@@ -268,36 +269,49 @@
 
                                 <div class="payment-row">
                                     <span>Subtotal</span>
-                                    <strong x-text="salesHeaderData.subtotal > 0 ? salesHeaderData.subtotal + ' €' : '0.00 €'"></strong>
+                                    <strong x-text="salesHeaderData.subtotal > 0 ? '$ ' + salesHeaderData.subtotal : '$ 0.00'"></strong>
                                 </div>
 
                                 <div class="payment-row">
                                     <span>Impuestos (IVA)</span>
-                                    <strong x-text="salesHeaderData.tax > 0 ? salesHeaderData.tax + ' €' : '0.00 €'"></strong>
+                                    <strong x-text="salesHeaderData.tax > 0 ? '$ ' + salesHeaderData.tax : '$ 0.00'"></strong>
                                 </div>
 
                                 <div class="payment-total">
                                     <span>Total a Pagar</span>
-                                    <strong x-text="salesHeaderData.total > 0 ? salesHeaderData.total + ' €' : '0.00 €'"></strong>
+                                    <strong x-text="salesHeaderData.total > 0 ? '$ ' + salesHeaderData.total : '$ 0.00'"></strong>
                                 </div>
 
                                 <div class="payment-section">
                                     <label for="paymentType" class="form-label fw-bold mb-1">Método de pago</label>
                                     <select id="paymentType" class="form-select" x-model="paymentType">
                                         <option value="1">EFECTIVO</option>
-                                        <option value="2">BIZUM</option>
-                                        <option value="3">TPV</option>
+                                        <option value="2">TRANSFERENCIA</option>
+                                        <option value="3">TARJETA</option>
                                     </select>
+                                </div>
+
+                                <div class="payment-section" x-show="String(paymentType) === '1'" x-cloak>
+                                    <label for="receivedAmount" class="form-label fw-bold mb-1">Monto recibido</label>
+                                    <input
+                                        type="number"
+                                        id="receivedAmount"
+                                        class="form-control"
+                                        min="0"
+                                        step="0.01"
+                                        placeholder="0.00"
+                                        x-model="receivedAmount"
+                                    >
                                 </div>
 
                                 <div class="payment-highlight">
                                     <div>
                                         <small>Cambio sugerido</small>
-                                        <strong>€0.00</strong>
+                                        <strong x-text="formatMoney(changeAmount)"></strong>
                                     </div>
                                     <div>
                                         <small>Recibido</small>
-                                        <strong>€0.00</strong>
+                                        <strong x-text="formatMoney(receivedAmountNumber)"></strong>
                                     </div>
                                 </div>
 
