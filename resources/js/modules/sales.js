@@ -152,6 +152,11 @@ window.salesForm = function() {
 
         },
 
+        // Formatea un número al estándar colombiano: puntos para miles, coma para decimales
+        formatCOP(value) {
+            return '$ ' + Number(value).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        },
+
         // Método para obtener el nombre del producto por ID
         getProductNameBySaleDetailId(id) {
             const item = this.saleDetail.items.find(i => i.id === id);
@@ -615,7 +620,7 @@ window.salesForm = function() {
                         });
 
                         const totalRefund = document.getElementById('totalRefund');
-                        if (totalRefund) totalRefund.innerText = total.toFixed(2) + ' €';
+                        if (totalRefund) totalRefund.innerText = '$ ' + total.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         
                     }
 

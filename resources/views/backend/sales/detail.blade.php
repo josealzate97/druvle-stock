@@ -41,15 +41,15 @@
                             </div>
                             <div class="summary-card">
                                 <span>Sub total</span>
-                                <strong x-text="saleDetail.subtotal + ' €'"></strong>
+                                <strong x-text="formatCOP(saleDetail.subtotal)"></strong>
                             </div>
                             <div class="summary-card">
                                 <span>Impuestos</span>
-                                <strong x-text="saleDetail.tax + ' €'"></strong>
+                                <strong x-text="formatCOP(saleDetail.tax)"></strong>
                             </div>
                             <div class="summary-card total-card">
                                 <span>Total</span>
-                                <strong x-text="saleDetail.total + ' €'"></strong>
+                                <strong x-text="formatCOP(saleDetail.total)"></strong>
                             </div>
                         </div>
 
@@ -99,15 +99,15 @@
                                                     <span x-text="item.quantity"></span>
                                                 </td>
                                                 <td>
-                                                    <span x-text="item.sale_price + ' €'"></span>
+                                                    <span x-text="formatCOP(item.sale_price)"></span>
                                                 </td>
 
                                                 <td>
-                                                    <span x-text="item.tax + ' % -  ' + item.tax_value + ' €'"></span>
+                                                    <span x-text="Number(item.tax).toFixed(2) + ' % - ' + formatCOP(item.tax_value)"></span>
                                                 </td>
 
                                                 <td>
-                                                    <span x-text="(Number(item.total) + Number(item.tax_value)).toFixed(2) + ' €'"></span>
+                                                    <span x-text="formatCOP(Number(item.total) + Number(item.tax_value))"></span>
                                                 </td>
                                             </tr>
 
@@ -169,7 +169,7 @@
                                             <span class="fw-bold text-success" x-text="ret.reason == 1 ? 'Reposición' : (ret.reason == 2 ? 'Dañado' : ret.reason)"></span>
                                         </td>
                                         <td x-text="ret.note"></td>
-                                        <td x-text="ret.total + ' €'"></td>
+                                        <td x-text="formatCOP(ret.total)"></td>
                                         <td x-text="ret.created_at"></td>
                                     </tr>
 

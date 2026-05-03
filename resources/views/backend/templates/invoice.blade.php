@@ -279,9 +279,9 @@
                                 @endif
                             </td>
                             <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-center">{{ number_format($item->unitary_price, 2) }} €</td>
-                            <td class="text-center">{{ number_format($taxValue, 2) }} €</td>
-                            <td class="text-center">{{ number_format($itemTotal, 2) }} €</td>
+                            <td class="text-center">$ {{ number_format($item->unitary_price, 2, ',', '.') }}</td>
+                            <td class="text-center">$ {{ number_format($taxValue, 2, ',', '.') }}</td>
+                            <td class="text-center">$ {{ number_format($itemTotal, 2, ',', '.') }}</td>
                         </tr>
 
                     @endforeach
@@ -291,9 +291,9 @@
             </table>
 
             <div class="druvle-invoice-summary mt-2">
-                <div class="mt-2"><strong>Subtotal:</strong> {{ number_format($sale->subtotal, 2) }} €</div>
-                <div class="mb-3"><strong>Impuestos:</strong> {{ number_format($sale->tax, 2) }} €</div>
-                <div style="font-weight:bold; color:#1b77d3;"><span>Total:</span> {{ number_format($sale->total, 2) }} €</div>
+                <div class="mt-2"><strong>Subtotal:</strong> $ {{ number_format($sale->subtotal, 2, ',', '.') }}</div>
+                <div class="mb-3"><strong>Impuestos:</strong> $ {{ number_format($sale->tax, 2, ',', '.') }}</div>
+                <div style="font-weight:bold; color:#1b77d3;"><span>Total:</span> $ {{ number_format($sale->total, 2, ',', '.') }}</div>
             </div>
 
             <div class="druvle-invoice-footer">

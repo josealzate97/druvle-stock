@@ -95,7 +95,7 @@
         <div class="mt-3 d-flex justify-content-end">
             <div class="refund-total-badge">
                 <span>Total a Devolver:</span>
-                <strong id="totalRefund">0,00 €</strong>
+                <strong id="totalRefund">$ 0,00</strong>
             </div>
         </div>
 

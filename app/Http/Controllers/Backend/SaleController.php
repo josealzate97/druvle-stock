@@ -225,9 +225,9 @@ class SaleController extends Controller {
             'code' => $sale->code,
             'sale_date' => $saleDate ? \Carbon\Carbon::parse($saleDate)->format('Y-m-d h:i A') : null,
             'payment_type' => $sale->type_payment,
-            'total' => number_format($sale->total, 2),
-            'subtotal' => number_format($sale->subtotal, 2),
-            'tax' => number_format($sale->tax, 2),
+            'total' => (float) $sale->total,
+            'subtotal' => (float) $sale->subtotal,
+            'tax' => (float) $sale->tax,
             'client_name' => $sale->client->name ?? null,
             'client_email' => $sale->client->email ?? null,
             'items' => $sale->items->map(function($item) {
@@ -244,24 +244,23 @@ class SaleController extends Controller {
                         ? (($product?->name ?? 'Producto') . ' - ' . $item->size_name)
                         : ($product?->name ?? 'Producto'),
                     'quantity' => $item->quantity,
-                    'sale_price' => number_format($unitPrice, 2),
-                    'tax' => number_format($taxRate, 2),
-                    'tax_value' => number_format($taxValue, 2),
-                    'total' => number_format($lineSubtotal, 2)
+                    'sale_price' => $unitPrice,
+                    'tax' => $taxRate,
+                    'tax_value' => $taxValue,
+                    'total' => $lineSubtotal,
                 ];
             }),
             'returns' => $sale->returnItems->map(function($return) {
 
-                $taxRate = $taxValue = 0;
+                $taxRate = $taxValue = 0.0;
 
                 if ($return->saleDetail && $return->saleDetail->producto && $return->saleDetail->producto->tax) {
-                    $taxRate = $return->saleDetail->producto->tax->rate;
-                    $taxValue = number_format(($return->quantity * $return->saleDetail->unitary_price) * $taxRate / 100, 2);
+                    $taxRate = (float) $return->saleDetail->producto->tax->rate;
+                    $taxValue = ($return->quantity * $return->saleDetail->unitary_price) * $taxRate / 100;
                 }
 
-                $total_sale = number_format(($return->quantity * $return->saleDetail->unitary_price + $taxValue), 2);
+                $total_sale = (float) ($return->quantity * $return->saleDetail->unitary_price + $taxValue);
 
-                
                 // Retornar los detalles de la devolución
                 return [
                     'id' => $return->id,

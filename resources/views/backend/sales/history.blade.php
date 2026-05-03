@@ -71,9 +71,9 @@
                         </td>
                         <td>{{ \Carbon\Carbon::parse($history->sale_date)->format('Y-m-d h:i A') }}</td>
                         <td>{{ $history->client->name ?? 'Anonimo' }}</td>
-                        <td>{{ number_format($history->subtotal, 2) }} €</td>
-                        <td>{{ number_format($history->tax, 2) }} €</td>
-                        <td>{{ number_format($history->total, 2) }} €</td>
+                        <td>$ {{ number_format($history->subtotal, 2, ',', '.') }}</td>
+                        <td>$ {{ number_format($history->tax, 2, ',', '.') }}</td>
+                        <td>$ {{ number_format($history->total, 2, ',', '.') }}</td>
                         <td>
                             @if ($history->status == 1)
                                 <span class="status-pill status-pill-success">Completa</span>

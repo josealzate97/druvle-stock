@@ -388,17 +388,17 @@
 
                 <div class="summary-row">
                     <span>IMPORTE BRUTO:</span>
-                    <span>{{ number_format($sale->subtotal, 2) }} €</span>
+                    <span>$ {{ number_format($sale->subtotal, 2, ',', '.') }}</span>
                 </div>
 
                 <div class="summary-row">
                     <span>IMPUESTOS:</span>
-                    <span>{{ number_format($sale->tax, 2) }} €</span>
+                    <span>$ {{ number_format($sale->tax, 2, ',', '.') }}</span>
                 </div>
 
                 <div class="summary-row total">
                     <span>TOTAL FACTURA:</span>
-                    <span>{{ number_format($sale->total, 2) }} €</span>
+                    <span>$ {{ number_format($sale->total, 2, ',', '.') }}</span>
                 </div>
 
             </div>
