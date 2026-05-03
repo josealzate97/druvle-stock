@@ -28,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const productForm = document.getElementById('productForm');
     const productModalElement = document.getElementById('productModal');
     const productModal = new bootstrap.Modal(productModalElement);
+    const productDetailsModalElement = document.getElementById('productDetailsModal');
+    const productDetailsModal = productDetailsModalElement ? new bootstrap.Modal(productDetailsModalElement) : null;
 
     const taxSwitch = document.getElementById('productTaxSwitch');
     const taxDropdown = document.getElementById('productTax');
@@ -203,6 +205,63 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    window.showProductDetails = async function (productId) {
+        if (!productDetailsModal) return;
+
+        try {
+            const response = await fetch(`/products/getProductDetails/${productId}`);
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                notyf.error(data.message || 'No se pudo cargar el detalle del producto');
+                return;
+            }
+
+            const product = data.product;
+
+            document.getElementById('productDetailsName').textContent = product.name || '-';
+            document.getElementById('productDetailsCode').textContent = product.code || '-';
+            document.getElementById('productDetailsCategory').textContent = product.category?.name || '-';
+            document.getElementById('productDetailsStatus').textContent = Number(product.status) === 1 ? 'Activo' : 'Inactivo';
+            document.getElementById('productDetailsTax').textContent = product.tax?.rate ? `${product.tax.rate} %` : 'No aplica';
+            document.getElementById('productDetailsType').textContent = product.has_sizes ? 'Con tallas' : 'Sin tallas';
+
+            const notes = (product.notes || '').trim();
+            document.getElementById('productDetailsNotes').textContent = notes || 'Sin notas';
+
+            const baseStockBlock = document.getElementById('productDetailsBaseStockBlock');
+            const priceQty = document.getElementById('productDetailsPriceQty');
+            const sizesSection = document.getElementById('productDetailsSizesSection');
+            const sizesBody = document.getElementById('productDetailsSizesBody');
+
+            if (product.has_sizes) {
+                baseStockBlock.style.display = 'none';
+                sizesSection.style.display = 'block';
+
+                const sizes = Array.isArray(product.sizes) ? product.sizes : [];
+                sizesBody.innerHTML = sizes.length
+                    ? sizes.map((size) => `
+                        <tr>
+                            <td>${escapeHtml(size.name || '-')}</td>
+                            <td>$ ${formatCopMoneyInput(size.price ?? 0)}</td>
+                            <td>${Number(size.quantity || 0)}</td>
+                            <td>${Number(size.status) === 1 ? 'Activa' : 'Inactiva'}</td>
+                        </tr>
+                    `).join('')
+                    : '<tr><td colspan="4" class="text-muted">Sin tallas registradas.</td></tr>';
+            } else {
+                baseStockBlock.style.display = '';
+                sizesSection.style.display = 'none';
+                sizesBody.innerHTML = '';
+                priceQty.textContent = `$ ${formatCopMoneyInput(product.sale_price ?? 0)} / ${Number(product.quantity ?? 0)} und`;
+            }
+
+            productDetailsModal.show();
+        } catch (error) {
+            notyf.error('Error al cargar el detalle del producto');
+        }
+    };
+
     window.deleteProduct = async function (productId) {
 
         try {
@@ -316,7 +375,7 @@ function addSizeRow(size = {}) {
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">Precio</label>
-            <input type="number" step="0.01" min="0" class="form-control size-price" placeholder="0.00" value="${escapeHtml(size.price ?? '')}">
+            <input type="text" class="form-control size-price mask-money" placeholder="0,00" value="${escapeHtml(formatCopMoneyInput(size.price ?? ''))}">
         </div>
         <div class="col-lg-3 col-md-6 col-sm-12">
             <label class="form-label">Cantidad</label>
@@ -336,6 +395,9 @@ function addSizeRow(size = {}) {
     `;
 
     const removeBtn = row.querySelector('.size-remove-btn');
+    const priceInput = row.querySelector('.size-price');
+    applyMoneyMask(priceInput);
+
     removeBtn.addEventListener('click', () => {
         const rows = container.querySelectorAll('.size-row');
 
@@ -396,7 +458,7 @@ function collectSizesPayload() {
             return { error: 'Completa nombre, precio y cantidad en cada talla.' };
         }
 
-        const price = parseFloat(priceRaw.replace(',', '.'));
+        const price = parseLocaleDecimal(priceRaw);
         const quantity = parseInt(quantityRaw, 10);
 
         if (Number.isNaN(price) || price < 0) {
@@ -416,6 +478,53 @@ function collectSizesPayload() {
     }
 
     return { sizes };
+}
+
+function parseLocaleDecimal(value) {
+    const raw = String(value || '').trim().replace(/\s+/g, '').replace(/\$/g, '').replace(/COP/gi, '');
+    if (!raw) return NaN;
+
+    const commaPos = raw.lastIndexOf(',');
+    const dotPos = raw.lastIndexOf('.');
+    let normalized = raw;
+
+    if (commaPos !== -1 && dotPos !== -1) {
+        if (commaPos > dotPos) {
+            normalized = raw.replace(/\./g, '').replace(',', '.');
+        } else {
+            normalized = raw.replace(/,/g, '');
+        }
+    } else if (commaPos !== -1) {
+        normalized = raw.replace(',', '.');
+    }
+
+    return parseFloat(normalized);
+}
+
+function formatCopMoneyInput(value) {
+    const amount = parseLocaleDecimal(value);
+    if (Number.isNaN(amount)) return '';
+
+    return new Intl.NumberFormat('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+    }).format(amount);
+}
+
+function applyMoneyMask(input) {
+    if (!input || !window.IMask) return;
+
+    window.IMask(input, {
+        mask: Number,
+        scale: 2,
+        signed: false,
+        thousandsSeparator: '.',
+        radix: ',',
+        mapToRadix: ['.'],
+        padFractionalZeros: true,
+        normalizeZeros: true,
+        min: 0,
+    });
 }
 
 function escapeHtml(value) {

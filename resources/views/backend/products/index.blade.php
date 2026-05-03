@@ -146,6 +146,10 @@
                                 </td>
                                 <td class="text-end">
 
+                                    <button type="button" class="btn btn-icon text-success" onclick="showProductDetails('{{ $product->id }}')" title="Ver detalles">
+                                        <i class="fas fa-circle-info"></i>
+                                    </button>
+
                                     <button type="button" class="btn btn-icon text-primary" onclick="editProduct('{{ $product->id }}')" data-bs-mode="edit" title="Editar" 
                                     {{ $product->status == \App\Models\Product::INACTIVE ? 'disabled' : '' }}>
                                         <i class="fas fa-edit"></i>
@@ -185,6 +189,7 @@
 
         <!-- Modal Crear/Editar Producto -->
         @include('backend.products._product_modal', ['taxes' => $taxes])
+        @include('backend.products._product_details_modal')
 
     </div>  
 

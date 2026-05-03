@@ -174,6 +174,33 @@ class ProductController extends Controller {
     }
 
     /**
+     * Obtiene el detalle completo de un producto para modal informativo.
+     *
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getProductDetails($id)
+    {
+        $product = Product::with([
+            'category:id,name',
+            'tax:id,name,rate',
+            'sizes:id,product_id,name,price,quantity,status'
+        ])->find($id);
+
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Producto no encontrado'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'product' => $product
+        ]);
+    }
+
+    /**
      * Obtiene los productos activos.
      * 
      * @return \Illuminate\Http\JsonResponse
