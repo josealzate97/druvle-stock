@@ -2,18 +2,18 @@
 
 namespace App\Exports;
 
+use App\Scopes\TenantScope;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
-use Carbon\Carbon;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 
-class TaxesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithEvents
+class TaxesExport implements FromCollection, WithHeadings, WithMapping, WithEvents
 {
     protected $filters;
     protected $settings;
@@ -29,13 +29,18 @@ class TaxesExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
 
     public function collection()
     {
+        $tenantId = TenantScope::resolveTenantId();
+
         $query = DB::table('sales')
             ->join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
             ->join('products', 'sale_details.product_id', '=', 'products.id')
             ->join('taxes', 'products.tax_id', '=', 'taxes.id')
+            ->whereNotNull('products.tax_id')
+            ->when($tenantId, fn ($q) => $q->where('sales.tenant_id', $tenantId))
             ->select(
+                'taxes.id',
                 'taxes.name as tax_name',
-                DB::raw('SUM(sale_details.quantity * products.sale_price * taxes.rate / 100) as total_tax')
+                DB::raw('COALESCE(SUM((sale_details.subtotal * taxes.rate) / 100), 0) as total_tax')
             );
 
         if (!empty($this->filters['from'])) {
@@ -45,9 +50,10 @@ class TaxesExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
             $query->whereDate('sales.sale_date', '<=', $this->filters['to']);
         }
 
-        $query->groupBy('taxes.name');
-
-        return $query->get();
+        return $query
+            ->groupBy('taxes.id', 'taxes.name')
+            ->orderBy('taxes.name', 'asc')
+            ->get();
     }
 
     public function headings(): array
@@ -125,6 +131,18 @@ class TaxesExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
                 $sheet->getRowDimension(1)->setRowHeight(22);
                 $sheet->getRowDimension(2)->setRowHeight(16);
                 $sheet->getRowDimension(3)->setRowHeight(16);
+
+                // Anchos amplios para PDF A4 apaisado
+                $sheet->getColumnDimension('A')->setWidth(50);
+                $sheet->getColumnDimension('B')->setWidth(40);
+
+                // Orientación horizontal para PDF
+                $sheet->getPageSetup()
+                    ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE)
+                    ->setPaperSize(PageSetup::PAPERSIZE_A4)
+                    ->setFitToPage(true)
+                    ->setFitToWidth(1)
+                    ->setFitToHeight(0);
             },
         ];
     }

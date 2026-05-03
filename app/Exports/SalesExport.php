@@ -6,14 +6,14 @@ use App\Models\Sale;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\AfterSheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
 use Carbon\Carbon;
 
-class SalesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithEvents
+class SalesExport implements FromCollection, WithHeadings, WithMapping, WithEvents
 {
     protected $filters;
     protected $settings;
@@ -125,6 +125,23 @@ class SalesExport implements FromCollection, WithHeadings, WithMapping, ShouldAu
                 $sheet->getRowDimension(1)->setRowHeight(22);
                 $sheet->getRowDimension(2)->setRowHeight(16);
                 $sheet->getRowDimension(3)->setRowHeight(16);
+
+                // Anchos fijos para que el PDF quepa en A4 horizontal
+                $sheet->getColumnDimension('A')->setWidth(18);
+                $sheet->getColumnDimension('B')->setWidth(22);
+                $sheet->getColumnDimension('C')->setWidth(16);
+                $sheet->getColumnDimension('D')->setWidth(17);
+                $sheet->getColumnDimension('E')->setWidth(17);
+                $sheet->getColumnDimension('F')->setWidth(17);
+                $sheet->getColumnDimension('G')->setWidth(18);
+
+                // Orientación horizontal para PDF
+                $sheet->getPageSetup()
+                    ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE)
+                    ->setPaperSize(PageSetup::PAPERSIZE_A4)
+                    ->setFitToPage(true)
+                    ->setFitToWidth(1)
+                    ->setFitToHeight(0);
             },
         ];
     }

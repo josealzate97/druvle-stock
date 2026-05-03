@@ -83,13 +83,15 @@ class ReportController extends Controller
         $user     = auth()->user();
         $export   = new ProductsExport($filters, $settings, $user);
 
+        $date = now()->format('dmY');
+
         if ($format === 'excel') {
 
-            return Excel::download($export, 'reporte_productos.xlsx');
+            return Excel::download($export, "reporte_productos_{$date}.xlsx");
 
         } elseif ($format === 'pdf') {
 
-            return Excel::download($export, 'reporte_productos.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+            return Excel::download($export, "reporte_productos_{$date}.pdf", \Maatwebsite\Excel\Excel::DOMPDF);
         
         } else {
             abort(404);
@@ -112,13 +114,15 @@ class ReportController extends Controller
        $user     = auth()->user();
        $export   = new SalesExport($filters, $settings, $user);
 
+       $date = now()->format('dmY');
+
        if ($format === 'excel') {
 
-           return Excel::download($export, 'reporte_ventas.xlsx');
+           return Excel::download($export, "reporte_ventas_{$date}.xlsx");
 
        } elseif ($format === 'pdf') {
 
-           return Excel::download($export, 'reporte_ventas.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+           return Excel::download($export, "reporte_ventas_{$date}.pdf", \Maatwebsite\Excel\Excel::DOMPDF);
 
        } else {
            abort(404);
@@ -141,13 +145,15 @@ class ReportController extends Controller
        $user     = auth()->user();
        $export   = new TaxesExport($filters, $settings, $user);
 
+       $date = now()->format('dmY');
+
        if ($format === 'excel') {
 
-           return Excel::download($export, 'reporte_impuestos.xlsx');
+           return Excel::download($export, "reporte_impuestos_{$date}.xlsx");
 
        } elseif ($format === 'pdf') {
 
-           return Excel::download($export, 'reporte_impuestos.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+           return Excel::download($export, "reporte_impuestos_{$date}.pdf", \Maatwebsite\Excel\Excel::DOMPDF);
 
        } else {
            abort(404);
