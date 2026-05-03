@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function formatCurrency(value) {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(value);
+    return '$ ' + Number(value).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 document.addEventListener('alpine:init', () => {
@@ -17,7 +17,7 @@ document.addEventListener('alpine:init', () => {
             impuestos: { from: '', to: '' }
         },
         formatCurrency(value) {
-            return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 }).format(value);
+            return '$ ' + Number(value).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         },
         toNumber(value) {
             if (value === null || value === undefined || value === '') return 0;

@@ -111,7 +111,7 @@
                         <div class="stat-card reports-stat-card reports-stat-card--success">
                             <div class="stat-top">
                                 <span class="stat-label">Valor Total en Stock</span>
-                                <span class="stat-icon bg-soft-success"><i class="fas fa-euro-sign"></i></span>
+                                <span class="stat-icon bg-soft-success"><i class="fas fa-dollar-sign"></i></span>
                             </div>
                             <div class="stat-value" x-text="formatCurrency(data.productos.reduce((sum, prod) => sum + toNumber(prod.stock_value), 0))"></div>
                             <div class="stat-meta">valor de inventario</div>
@@ -134,6 +134,7 @@
                         <thead>
                             <tr>
                                 <th>Nombre</th>
+                                <th>Talla</th>
                                 <th>Fecha entrada</th>
                                 <th>Cantidad</th>
                                 <th>Precio compra</th>
@@ -146,16 +147,24 @@
                             <template x-for="prod in data.productos" :key="prod.id">
                                 <tr>
                                     <td x-text="prod.name"></td>
+                                    <td>
+                                        <template x-if="prod.size_name">
+                                            <span class="badge" style="background-color:#7c3aed; font-size:0.78em;" x-text="prod.size_name"></span>
+                                        </template>
+                                        <template x-if="!prod.size_name">
+                                            <span class="text-muted">—</span>
+                                        </template>
+                                    </td>
                                     <td x-text="formatDate(prod.creation_date)"></td>
                                     <td x-text="prod.quantity"></td>
-                                    <td x-text="prod.purchase_price !== null ? Number(prod.purchase_price).toFixed(2) + ' €' : '-'"></td>
-                                    <td x-text="prod.sale_price !== null ? Number(prod.sale_price).toFixed(2) + ' €' : '-'"></td>
+                                    <td x-text="prod.purchase_price !== null ? '$ ' + Number(prod.purchase_price).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'"></td>
+                                    <td x-text="prod.sale_price !== null ? '$ ' + Number(prod.sale_price).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'"></td>
                                 </tr>
                             </template>
 
                             <template x-if="!loading && data.productos.length === 0">
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <div class="sd-empty-state">
                                             <span class="sd-empty-icon sd-empty-icon--sm">
                                                 <i class="fas fa-box-open"></i>
@@ -216,7 +225,7 @@
                         <div class="stat-card reports-stat-card reports-stat-card--success">
                             <div class="stat-top">
                                 <span class="stat-label">Total Facturado</span>
-                                <span class="stat-icon bg-soft-success"><i class="fas fa-euro-sign"></i></span>
+                                <span class="stat-icon bg-soft-success"><i class="fas fa-dollar-sign"></i></span>
                             </div>
                             <div class="stat-value" x-text="formatCurrency(data.ventas.reduce((sum, venta) => sum + toNumber(venta.subtotal), 0))"></div>
                             <div class="stat-meta">en ventas netas</div>
@@ -253,11 +262,11 @@
                                     <td><span class="badge sale-code-badge" x-text="venta.code"></span></td>
                                     <td x-text="venta.client.name == '' ? 'Anonimo' : venta.client.name"></td>
                                     <td x-text="formatDate(venta.sale_date)"></td>
-                                    <td x-text="venta.subtotal + ' €'"></td>
-                                    <td x-text="venta.tax + ' €'"></td>
-                                    <td x-text="venta.total + ' €'"></td>
+                                    <td x-text="'$ ' + Number(venta.subtotal).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></td>
+                                    <td x-text="'$ ' + Number(venta.tax).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></td>
+                                    <td x-text="'$ ' + Number(venta.total).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></td>
                                     <td>
-                                        <span class="report-payment-badge" x-text="venta.type_payment == 1 ? 'EFECTIVO' : (venta.type_payment == 2 ? 'BIZUM' : 'TPV')"></span>
+                                        <span class="report-payment-badge" x-text="venta.type_payment == 1 ? 'EFECTIVO' : (venta.type_payment == 2 ? 'TRANSFERENCIA' : 'TPV')"></span>
                                     </td>
                                 </tr>
                             </template>

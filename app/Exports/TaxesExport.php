@@ -6,18 +6,25 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Carbon\Carbon;
 
-
-class TaxesExport implements FromCollection, WithHeadings, WithColumnWidths, ShouldAutoSize
+class TaxesExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithEvents
 {
     protected $filters;
+    protected $settings;
+    protected $user;
+    protected int $headerRows = 4;
 
-    public function __construct($filters = [])
+    public function __construct($filters = [], $settings = null, $user = null)
     {
-        $this->filters = $filters;
+        $this->filters  = $filters;
+        $this->settings = $settings;
+        $this->user     = $user;
     }
 
     public function collection()
@@ -26,7 +33,10 @@ class TaxesExport implements FromCollection, WithHeadings, WithColumnWidths, Sho
             ->join('sale_details', 'sales.id', '=', 'sale_details.sale_id')
             ->join('products', 'sale_details.product_id', '=', 'products.id')
             ->join('taxes', 'products.tax_id', '=', 'taxes.id')
-            ->select('taxes.name as Impuesto', DB::raw('SUM(sale_details.quantity * products.sale_price * taxes.rate / 100) as Total_recaudado'));
+            ->select(
+                'taxes.name as tax_name',
+                DB::raw('SUM(sale_details.quantity * products.sale_price * taxes.rate / 100) as total_tax')
+            );
 
         if (!empty($this->filters['from'])) {
             $query->whereDate('sales.sale_date', '>=', $this->filters['from']);
@@ -42,20 +52,80 @@ class TaxesExport implements FromCollection, WithHeadings, WithColumnWidths, Sho
 
     public function headings(): array
     {
+        return ['Impuesto', 'Total recaudado'];
+    }
+
+    public function map($row): array
+    {
         return [
-            'Impuesto',
-            'Total recaudado'
+            $row->tax_name,
+            '$ ' . number_format((float) $row->total_tax, 2, ',', '.'),
         ];
     }
 
-    /**
-     * Define los anchos de las columnas.
-    */
-    public function columnWidths(): array
+    public function registerEvents(): array
     {
+        $settings   = $this->settings;
+        $user       = $this->user;
+        $headerRows = $this->headerRows;
+        $lastCol    = 'B';
+
         return [
-            'A' => 25, // Impuesto
-            'B' => 25, // Total recaudado
+            AfterSheet::class => function (AfterSheet $event) use ($settings, $user, $headerRows, $lastCol) {
+                $sheet = $event->sheet->getDelegate();
+
+                $sheet->insertNewRowBefore(1, $headerRows);
+
+                $company = $settings->company_name ?? 'DRUVLE';
+                $parts   = array_filter([
+                    $settings->phone   ? 'Tel: ' . $settings->phone   : null,
+                    $settings->address ? 'Dir: ' . $settings->address : null,
+                ]);
+                $contact = implode('   |   ', $parts);
+                $genBy   = 'Generado por: ' . ($user ? $user->name : 'Sistema')
+                         . '   |   Fecha: ' . now()->format('d/m/Y H:i:s');
+
+                $sheet->setCellValue('A1', $company);
+                $sheet->setCellValue('A2', $contact);
+                $sheet->setCellValue('A3', $genBy);
+                $sheet->setCellValue('A4', '');
+
+                foreach ([1, 2, 3, 4] as $row) {
+                    $sheet->mergeCells("A{$row}:{$lastCol}{$row}");
+                }
+
+                $sheet->getStyle('A1')->applyFromArray([
+                    'font'      => ['bold' => true, 'size' => 14],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
+                    ],
+                    'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'E8F0FE']],
+                ]);
+                foreach (['A2', 'A3'] as $cell) {
+                    $sheet->getStyle($cell)->applyFromArray([
+                        'font'      => ['size' => 10],
+                        'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+                        'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F0F4FF']],
+                    ]);
+                }
+
+                $headingRow = $headerRows + 1;
+                $sheet->getStyle("A{$headingRow}:{$lastCol}{$headingRow}")->applyFromArray([
+                    'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+                    'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4472C4']],
+                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+                ]);
+
+                $totalRows = $sheet->getHighestRow();
+                $sheet->getStyle("A1:{$lastCol}{$totalRows}")
+                    ->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+                $sheet->getRowDimension(1)->setRowHeight(22);
+                $sheet->getRowDimension(2)->setRowHeight(16);
+                $sheet->getRowDimension(3)->setRowHeight(16);
+            },
         ];
     }
 }

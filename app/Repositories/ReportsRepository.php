@@ -15,7 +15,7 @@ class ReportsRepository {
         $query = Product::query()->with([
             'sizes' => function ($q) {
                 $q->where('status', ProductSize::ACTIVE)
-                    ->select('id', 'product_id', 'price', 'quantity');
+                    ->select('id', 'product_id', 'name', 'price', 'quantity', 'creation_date');
             }
         ]);
 
@@ -29,43 +29,44 @@ class ReportsRepository {
 
         $query->orderBy('creation_date', 'desc')->orderBy('name', 'asc');
 
-        return $query->get()->map(function (Product $product) {
+        return $query->get()->flatMap(function (Product $product) {
             $sizes = $product->sizes ?? collect();
 
-            $sizeQuantity = (int) $sizes->sum('quantity');
-            $sizeStockValue = (float) $sizes->sum(function ($size) {
-                return (float) $size->price * (int) $size->quantity;
-            });
-            $sizeAverageSalePrice = $sizeQuantity > 0
-                ? $sizeStockValue / $sizeQuantity
-                : (float) ($sizes->avg('price') ?? 0);
+            // Producto con tallas: una fila por cada talla activa
+            if ($product->has_sizes && $sizes->isNotEmpty()) {
+                return $sizes->map(function ($size) use ($product) {
+                    $qty   = (int) $size->quantity;
+                    $price = (float) $size->price;
+                    return [
+                        'id'             => $product->id . '-' . $size->id,
+                        'name'           => $product->name,
+                        'size_name'      => $size->name,
+                        'creation_date'  => $size->creation_date ?? $product->creation_date,
+                        'quantity'       => $qty,
+                        'purchase_price' => null,
+                        'sale_price'     => $price > 0 ? $price : null,
+                        'stock_value'    => $price * $qty,
+                        'has_sizes'      => true,
+                    ];
+                });
+            }
 
-            $quantity = $product->has_sizes
-                ? $sizeQuantity
-                : (int) ($product->quantity ?? 0);
+            // Producto sin tallas: fila única
+            $quantity   = (int) ($product->quantity ?? 0);
+            $salePrice  = $product->sale_price !== null ? (float) $product->sale_price : null;
+            $stockValue = (float) ($product->sale_price ?? 0) * $quantity;
 
-            $purchasePrice = $product->has_sizes
-                ? null
-                : ($product->purchase_price !== null ? (float) $product->purchase_price : null);
-
-            $salePrice = $product->has_sizes
-                ? ($sizeAverageSalePrice > 0 ? $sizeAverageSalePrice : null)
-                : ($product->sale_price !== null ? (float) $product->sale_price : null);
-
-            $stockValue = $product->has_sizes
-                ? $sizeStockValue
-                : ((float) ($product->sale_price ?? 0) * $quantity);
-
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'creation_date' => $product->creation_date,
-                'quantity' => $quantity,
-                'purchase_price' => $purchasePrice,
-                'sale_price' => $salePrice,
-                'stock_value' => $stockValue,
-                'has_sizes' => (bool) $product->has_sizes,
-            ];
+            return collect([[
+                'id'             => $product->id,
+                'name'           => $product->name,
+                'size_name'      => null,
+                'creation_date'  => $product->creation_date,
+                'quantity'       => $quantity,
+                'purchase_price' => $product->purchase_price !== null ? (float) $product->purchase_price : null,
+                'sale_price'     => $salePrice,
+                'stock_value'    => $stockValue,
+                'has_sizes'      => false,
+            ]]);
         })->values();
     }
 

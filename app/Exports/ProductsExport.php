@@ -7,16 +7,24 @@ use App\Models\ProductSize;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class ProductsExport implements FromCollection, WithHeadings, WithMapping, WithColumnWidths, ShouldAutoSize
+class ProductsExport implements FromCollection, WithHeadings, WithMapping, ShouldAutoSize, WithEvents
 {
     protected $filters;
+    protected $settings;
+    protected $user;
+    protected int $headerRows = 4;
 
-    public function __construct($filters = [])
+    public function __construct($filters = [], $settings = null, $user = null)
     {
-        $this->filters = $filters;
+        $this->filters  = $filters;
+        $this->settings = $settings;
+        $this->user     = $user;
     }
 
     public function collection()
@@ -24,7 +32,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, WithC
         $query = Product::query()->with([
             'sizes' => function ($q) {
                 $q->where('status', ProductSize::ACTIVE)
-                    ->select('id', 'product_id', 'price', 'quantity');
+                    ->select('id', 'product_id', 'name', 'price', 'quantity', 'creation_date');
             }
         ]);
 
@@ -37,68 +45,114 @@ class ProductsExport implements FromCollection, WithHeadings, WithMapping, WithC
 
         $query->orderBy('creation_date', 'desc')->orderBy('name', 'asc');
 
-        return $query->get([
-            'id',
-            'name',
-            'creation_date',
-            'quantity',
-            'purchase_price',
-            'sale_price',
-            'has_sizes',
-        ]);
+        return $query->get()->flatMap(function (Product $product) {
+            $sizes = $product->sizes ?? collect();
+
+            if ($product->has_sizes && $sizes->isNotEmpty()) {
+                return $sizes->map(function ($size) use ($product) {
+                    return (object) [
+                        'row_name'     => $product->name,
+                        'row_size'     => $size->name,
+                        'row_date'     => $size->creation_date ?? $product->creation_date,
+                        'row_quantity' => (int) $size->quantity,
+                        'row_purchase' => null,
+                        'row_sale'     => (float) $size->price > 0 ? (float) $size->price : null,
+                    ];
+                });
+            }
+
+            return collect([(object) [
+                'row_name'     => $product->name,
+                'row_size'     => null,
+                'row_date'     => $product->creation_date,
+                'row_quantity' => (int) ($product->quantity ?? 0),
+                'row_purchase' => $product->purchase_price !== null ? (float) $product->purchase_price : null,
+                'row_sale'     => $product->sale_price !== null ? (float) $product->sale_price : null,
+            ]]);
+        });
     }
 
     public function headings(): array
     {
+        return ['Nombre', 'Talla', 'Fecha entrada', 'Cantidad', 'Precio compra', 'Precio venta'];
+    }
+
+    public function map($row): array
+    {
         return [
-            'Nombre',
-            'Fecha de entrada',
-            'Cantidad',
-            'Precio compra (€)',
-            'Precio venta (€)'
+            $row->row_name,
+            $row->row_size ?? '—',
+            $row->row_date ? \Carbon\Carbon::parse($row->row_date)->format('d/m/Y') : '',
+            $row->row_quantity,
+            $row->row_purchase !== null ? '$ ' . number_format($row->row_purchase, 2, ',', '.') : '—',
+            $row->row_sale     !== null ? '$ ' . number_format($row->row_sale,     2, ',', '.') : '—',
         ];
     }
 
-    /**
-     * Mapea y formatea los datos para cada fila.
-    */
-    public function map($product): array
+    public function registerEvents(): array
     {
-        $sizes = $product->sizes ?? collect();
-        $sizeQuantity = (int) $sizes->sum('quantity');
-        $sizeStockValue = (float) $sizes->sum(function ($size) {
-            return (float) $size->price * (int) $size->quantity;
-        });
-        $sizeAveragePrice = $sizeQuantity > 0
-            ? $sizeStockValue / $sizeQuantity
-            : (float) ($sizes->avg('price') ?? 0);
-
-        $quantity = $product->has_sizes ? $sizeQuantity : (int) ($product->quantity ?? 0);
-        $purchasePrice = $product->has_sizes ? '-' : number_format((float) ($product->purchase_price ?? 0), 2, '.', '');
-        $salePrice = $product->has_sizes
-            ? ($sizeAveragePrice > 0 ? number_format($sizeAveragePrice, 2, '.', '') : '-')
-            : number_format((float) ($product->sale_price ?? 0), 2, '.', '');
+        $settings   = $this->settings;
+        $user       = $this->user;
+        $headerRows = $this->headerRows;
+        $lastCol    = 'F';
 
         return [
-            $product->name,
-            $product->creation_date ? \Carbon\Carbon::parse($product->creation_date)->format('d/m/Y') : '',
-            $quantity,
-            $purchasePrice,
-            $salePrice,
-        ];
-    }
+            AfterSheet::class => function (AfterSheet $event) use ($settings, $user, $headerRows, $lastCol) {
+                $sheet = $event->sheet->getDelegate();
 
-    /**
-     * Define el ancho de las columnas.
-     */
-    public function columnWidths(): array
-    {
-        return [
-            'A' => 25, // Nombre
-            'B' => 20, // Fecha de entrada
-            'C' => 15, // Cantidad
-            'D' => 20, // Precio compra
-            'E' => 20, // Precio venta
+                $sheet->insertNewRowBefore(1, $headerRows);
+
+                $company = $settings->company_name ?? 'DRUVLE';
+                $parts   = array_filter([
+                    $settings->phone   ? 'Tel: ' . $settings->phone   : null,
+                    $settings->address ? 'Dir: ' . $settings->address : null,
+                ]);
+                $contact = implode('   |   ', $parts);
+                $genBy   = 'Generado por: ' . ($user ? $user->name : 'Sistema')
+                         . '   |   Fecha: ' . now()->format('d/m/Y H:i:s');
+
+                $sheet->setCellValue('A1', $company);
+                $sheet->setCellValue('A2', $contact);
+                $sheet->setCellValue('A3', $genBy);
+                $sheet->setCellValue('A4', '');
+
+                foreach ([1, 2, 3, 4] as $row) {
+                    $sheet->mergeCells("A{$row}:{$lastCol}{$row}");
+                }
+
+                $sheet->getStyle('A1')->applyFromArray([
+                    'font'      => ['bold' => true, 'size' => 14],
+                    'alignment' => [
+                        'horizontal' => Alignment::HORIZONTAL_CENTER,
+                        'vertical'   => Alignment::VERTICAL_CENTER,
+                    ],
+                    'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'E8F0FE']],
+                ]);
+                foreach (['A2', 'A3'] as $cell) {
+                    $sheet->getStyle($cell)->applyFromArray([
+                        'font'      => ['size' => 10],
+                        'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+                        'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F0F4FF']],
+                    ]);
+                }
+
+                $headingRow = $headerRows + 1;
+                $sheet->getStyle("A{$headingRow}:{$lastCol}{$headingRow}")->applyFromArray([
+                    'font'      => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+                    'fill'      => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '4472C4']],
+                    'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
+                ]);
+
+                $totalRows = $sheet->getHighestRow();
+                $sheet->getStyle("A1:{$lastCol}{$totalRows}")
+                    ->getAlignment()
+                    ->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+                $sheet->getRowDimension(1)->setRowHeight(22);
+                $sheet->getRowDimension(2)->setRowHeight(16);
+                $sheet->getRowDimension(3)->setRowHeight(16);
+            },
         ];
     }
 }
+

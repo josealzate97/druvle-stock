@@ -13,6 +13,7 @@ use App\Exports\TaxesExport;
 
 use App\Models\Product;
 use App\Models\Tax;
+use App\Models\Settings;
 
 class ReportController extends Controller
 {
@@ -77,8 +78,10 @@ class ReportController extends Controller
     */
    public function exportProducts(Request $request, $format) {
 
-        $filters = $request->all();
-        $export = new ProductsExport($filters);
+        $filters  = $request->all();
+        $settings = Settings::first();
+        $user     = auth()->user();
+        $export   = new ProductsExport($filters, $settings, $user);
 
         if ($format === 'excel') {
 
@@ -104,8 +107,10 @@ class ReportController extends Controller
     */
    public function exportSales(Request $request, $format) {
 
-       $filters = $request->all();
-       $export = new SalesExport($filters);
+       $filters  = $request->all();
+       $settings = Settings::first();
+       $user     = auth()->user();
+       $export   = new SalesExport($filters, $settings, $user);
 
        if ($format === 'excel') {
 
@@ -131,8 +136,10 @@ class ReportController extends Controller
    */
    public function exportTaxes(Request $request, $format) {
 
-       $filters = $request->all();
-       $export = new TaxesExport($filters);
+       $filters  = $request->all();
+       $settings = Settings::first();
+       $user     = auth()->user();
+       $export   = new TaxesExport($filters, $settings, $user);
 
        if ($format === 'excel') {
 
