@@ -124,7 +124,7 @@
                                     @if ($product->has_sizes)
                                         <span class="text-muted">-</span>
                                     @else
-                                        € {{ number_format($product->sale_price, 2) }}
+                                        $ {{ number_format((float) $product->sale_price, 2, ',', '.') }}
                                     @endif
                                 </td>
                                 <td class="text-center">

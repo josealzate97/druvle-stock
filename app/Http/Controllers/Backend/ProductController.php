@@ -374,7 +374,31 @@ class ProductController extends Controller {
         if ($value === null || $value === '') {
             return null;
         }
+        
+        $raw = trim((string) $value);
+        $raw = str_replace(['COP', '$', ' '], '', strtoupper($raw));
 
-        return floatval(str_replace(',', '.', (string) $value));
+        $commaPos = strrpos($raw, ',');
+        $dotPos = strrpos($raw, '.');
+
+        // Si existen ambos separadores, el último se asume decimal
+        if ($commaPos !== false && $dotPos !== false) {
+            if ($commaPos > $dotPos) {
+                // Formato tipo 2.500,75
+                $normalized = str_replace('.', '', $raw);
+                $normalized = str_replace(',', '.', $normalized);
+            } else {
+                // Formato tipo 2,500.75
+                $normalized = str_replace(',', '', $raw);
+            }
+        } elseif ($commaPos !== false) {
+            // Solo coma: decimal tipo 2500,75
+            $normalized = str_replace(',', '.', $raw);
+        } else {
+            // Solo punto o entero
+            $normalized = $raw;
+        }
+
+        return is_numeric($normalized) ? (float) $normalized : null;
     }
 }
