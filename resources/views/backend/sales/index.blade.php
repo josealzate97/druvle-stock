@@ -108,7 +108,7 @@
                                                 type="text"
                                                 id="productSearchInput"
                                                 class="form-control"
-                                                placeholder="Buscar producto por nombre"
+                                                placeholder="Buscar producto..."
                                                 autocomplete="off"
                                                 x-model="productSearch"
                                                 :disabled="isProcessing"
@@ -161,7 +161,7 @@
 
                                     <div class="sales-action-field small-field">
                                         <label for="salePriceInput" class="form-label fw-bold">Precio de Venta</label>
-                                        <input type="number" id="salePriceInput" class="form-control" x-model="salePrice" min="0" step="0.01" placeholder="Precio de Venta" disabled>
+                                        <input type="number" id="salePriceInput" class="form-control" x-model="salePrice" min="0" step="0.01" disabled>
                                     </div>
 
                                     <div class="sales-action-field small-field">
@@ -269,17 +269,17 @@
 
                                 <div class="payment-row">
                                     <span>Subtotal</span>
-                                    <strong x-text="salesHeaderData.subtotal > 0 ? '$ ' + salesHeaderData.subtotal : '$ 0.00'"></strong>
+                                    <strong x-text="formatMoney(salesHeaderData.subtotal)"></strong>
                                 </div>
 
                                 <div class="payment-row">
                                     <span>Impuestos (IVA)</span>
-                                    <strong x-text="salesHeaderData.tax > 0 ? '$ ' + salesHeaderData.tax : '$ 0.00'"></strong>
+                                    <strong x-text="formatMoney(salesHeaderData.tax)"></strong>
                                 </div>
 
                                 <div class="payment-total">
                                     <span>Total a Pagar</span>
-                                    <strong x-text="salesHeaderData.total > 0 ? '$ ' + salesHeaderData.total : '$ 0.00'"></strong>
+                                    <strong x-text="formatMoney(salesHeaderData.total)"></strong>
                                 </div>
 
                                 <div class="payment-section">
@@ -294,11 +294,10 @@
                                 <div class="payment-section" x-show="String(paymentType) === '1'" x-cloak>
                                     <label for="receivedAmount" class="form-label fw-bold mb-1">Monto recibido</label>
                                     <input
-                                        type="number"
+                                        type="text"
                                         id="receivedAmount"
-                                        class="form-control"
-                                        min="0"
-                                        step="0.01"
+                                        class="form-control mask-money-cop"
+                                        autocomplete="off"
                                         placeholder="0.00"
                                         x-model="receivedAmount"
                                     >

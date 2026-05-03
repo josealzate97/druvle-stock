@@ -113,6 +113,7 @@ window.salesForm = function() {
         totalAmount: 0,
         paymentType: 1,
         receivedAmount: '',
+        receivedAmountValue: 0,
         customerName: '',
         customerEmail: '',
         showClientSection: false, // Controla la visibilidad de la sección del cliente
@@ -304,7 +305,7 @@ window.salesForm = function() {
         },
 
         get receivedAmountNumber() {
-            const amount = parseFloat(this.receivedAmount || 0);
+            const amount = Number(this.receivedAmountValue || 0);
             return Number.isNaN(amount) ? 0 : amount;
         },
 
@@ -319,7 +320,33 @@ window.salesForm = function() {
 
         formatMoney(value) {
             const amount = Number(value || 0);
-            return '$ ' + (Number.isNaN(amount) ? '0.00' : amount.toFixed(2));
+            const safeAmount = Number.isNaN(amount) ? 0 : amount;
+            return '$ ' + new Intl.NumberFormat('es-CO', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            }).format(safeAmount);
+        },
+
+        parseCopDecimal(value) {
+            const raw = String(value || '').trim().replace(/\s+/g, '').replace(/\$/g, '').replace(/COP/gi, '');
+            if (!raw) return 0;
+
+            const commaPos = raw.lastIndexOf(',');
+            const dotPos = raw.lastIndexOf('.');
+            let normalized = raw;
+
+            if (commaPos !== -1 && dotPos !== -1) {
+                if (commaPos > dotPos) {
+                    normalized = raw.replace(/\./g, '').replace(',', '.');
+                } else {
+                    normalized = raw.replace(/,/g, '');
+                }
+            } else if (commaPos !== -1) {
+                normalized = raw.replace(',', '.');
+            }
+
+            const parsed = parseFloat(normalized);
+            return Number.isNaN(parsed) ? 0 : parsed;
         },
 
         // Método para registrar una nueva venta
@@ -636,6 +663,33 @@ window.salesForm = function() {
                 const selectedSize = this.selectedProductSizes.find(size => size.id === value) || null;
                 this.selectedSizeObj = selectedSize;
                 this.salePrice = selectedSize ? selectedSize.price : '';
+            });
+
+            this.$nextTick(() => {
+                const receivedInput = document.getElementById('receivedAmount');
+                if (receivedInput && window.IMask) {
+                    const receivedMask = window.IMask(receivedInput, {
+                        mask: Number,
+                        scale: 2,
+                        signed: false,
+                        thousandsSeparator: '.',
+                        radix: ',',
+                        mapToRadix: ['.'],
+                        padFractionalZeros: true,
+                        normalizeZeros: true,
+                        min: 0,
+                    });
+
+                    receivedMask.on('accept', () => {
+                        this.receivedAmount = receivedMask.value;
+                        this.receivedAmountValue = Number(receivedMask.typedValue || 0);
+                    });
+                } else if (receivedInput) {
+                    receivedInput.addEventListener('input', () => {
+                        this.receivedAmount = receivedInput.value;
+                        this.receivedAmountValue = this.parseCopDecimal(receivedInput.value);
+                    });
+                }
             });
 
         },
