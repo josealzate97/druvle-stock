@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\DefaultController;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\UserController; 
@@ -150,10 +151,37 @@ Route::middleware('auth')->group(function () {
     Route::post('tenants/switch/{id}', function ($id) {
         $tenant = \App\Models\Tenant::findOrFail($id);
         session(['active_tenant_id' => $tenant->id]);
+
+        DB::table('sessions')->where('id', session()->getId())->update([
+            'tenant_id' => $tenant->id,
+            'last_activity' => time(),
+        ]);
+
+        DB::table('user_session_logs')
+            ->where('session_id', session()->getId())
+            ->whereNull('logout_at')
+            ->update([
+                'tenant_id' => $tenant->id,
+                'updated_at' => now(),
+            ]);
+
         return redirect()->route('home')->with('success', "Entrando al negocio: {$tenant->name}");
     })->name('tenants.switch');
 
     Route::post('tenants/exit', function () {
+        DB::table('sessions')->where('id', session()->getId())->update([
+            'tenant_id' => null,
+            'last_activity' => time(),
+        ]);
+
+        DB::table('user_session_logs')
+            ->where('session_id', session()->getId())
+            ->whereNull('logout_at')
+            ->update([
+                'tenant_id' => null,
+                'updated_at' => now(),
+            ]);
+
         session()->forget('active_tenant_id');
         return redirect()->route('tenants.index')->with('success', 'Saliste del negocio.');
     })->name('tenants.exit');

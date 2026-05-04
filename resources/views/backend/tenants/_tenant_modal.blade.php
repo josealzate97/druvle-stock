@@ -36,13 +36,13 @@
                             Nombre del Negocio&nbsp;<span class="text-danger">*</span>
                         </label>
                         <input type="text" class="form-control" id="tenantName" name="name"
-                            maxlength="150" placeholder="Ej: Mi Tienda" required>
+                            maxlength="150" required>
                     </div>
 
                     <div class="col-12" id="tenantSlugRow">
                         <label class="form-label fw-bold">Slug</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="fas fa-link"></i></span>
+                            <span class="input-group-text bg-success text-white"><i class="fas fa-link"></i></span>
                             <input type="text" class="form-control font-monospace bg-body-secondary"
                                 id="tenantSlugDisplay" readonly placeholder="Se genera automáticamente">
                         </div>
@@ -107,7 +107,7 @@
                     <label class="form-label fw-bold">Slug del negocio (para el login)</label>
                     <div class="input-group">
                         <input type="text" class="form-control font-monospace" id="credSlug" readonly>
-                        <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credSlug').value)">
+                        <button class="btn btn-success" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credSlug').value)">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
@@ -116,7 +116,7 @@
                     <label class="form-label fw-bold">Usuario</label>
                     <div class="input-group">
                         <input type="text" class="form-control font-monospace" id="credUsername" readonly>
-                        <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credUsername').value)">
+                        <button class="btn btn-success" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credUsername').value)">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>
@@ -125,7 +125,7 @@
                     <label class="form-label fw-bold">Contraseña</label>
                     <div class="input-group">
                         <input type="text" class="form-control font-monospace" id="credPassword" readonly>
-                        <button class="btn btn-outline-secondary" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credPassword').value)">
+                        <button class="btn btn-success" type="button" onclick="navigator.clipboard.writeText(document.getElementById('credPassword').value)">
                             <i class="fas fa-copy"></i>
                         </button>
                     </div>

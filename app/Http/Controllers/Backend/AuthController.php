@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Tenant;
 use App\Models\User;
 
@@ -15,6 +16,43 @@ use App\Models\User;
  * @date 13 de julio de 2025
 */
 class AuthController extends Controller {
+
+    private function persistSessionState(Request $request, User $user, ?string $tenantId): void
+    {
+        $loginAt = now();
+
+        $request->session()->put('auth_login_at', $loginAt->toDateTimeString());
+        $request->session()->put('auth_user_id', $user->id);
+
+        if ($tenantId) {
+            $request->session()->put('active_tenant_id', $tenantId);
+        } else {
+            $request->session()->forget('active_tenant_id');
+        }
+
+        $request->session()->save();
+
+        DB::table('sessions')->where('id', $request->session()->getId())->update([
+            'user_id' => $user->id,
+            'tenant_id' => $tenantId,
+            'login_at' => $loginAt,
+            'logout_at' => null,
+            'last_activity' => time(),
+        ]);
+
+        DB::table('user_session_logs')->insert([
+            'id' => (string) \Illuminate\Support\Str::uuid(),
+            'session_id' => $request->session()->getId(),
+            'user_id' => $user->id,
+            'tenant_id' => $tenantId,
+            'username' => $user->username,
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'login_at' => $loginAt,
+            'created_at' => $loginAt,
+            'updated_at' => $loginAt,
+        ]);
+    }
     
     /**
      * Muestra el formulario de inicio de sesión.
@@ -43,6 +81,7 @@ class AuthController extends Controller {
 
         // Intentar autenticar al usuario
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             
             $user = Auth::user();
 
@@ -54,6 +93,7 @@ class AuthController extends Controller {
 
             // Root y Soporte pueden ingresar sin slug
             if ($user->rol === User::ROLE_ROOT || $user->rol === User::ROLE_SUPPORT) {
+                $this->persistSessionState($request, $user, null);
                 return redirect()->intended(route('home'));
             }
 
@@ -75,6 +115,8 @@ class AuthController extends Controller {
                 return back()->withErrors(['slug' => 'No perteneces a este negocio.']);
             }
 
+            $this->persistSessionState($request, $user, $tenant->id);
+
             return redirect()->intended(route('home'));
         }
 
@@ -89,9 +131,32 @@ class AuthController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      * Redirige al usuario al formulario de inicio de sesión después de cerrar la sesión.
     */
-    public function logout() {
+    public function logout(Request $request) {
+
+        $user = Auth::user();
+        $sessionId = $request->session()->getId();
+        $logoutAt = now();
+
+        if ($user && $sessionId) {
+            DB::table('sessions')->where('id', $sessionId)->update([
+                'user_id' => $user->id,
+                'tenant_id' => session('active_tenant_id'),
+                'logout_at' => $logoutAt,
+                'last_activity' => time(),
+            ]);
+
+            DB::table('user_session_logs')
+                ->where('session_id', $sessionId)
+                ->whereNull('logout_at')
+                ->update([
+                    'logout_at' => $logoutAt,
+                    'updated_at' => $logoutAt,
+                ]);
+        }
 
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login');
 
     }
