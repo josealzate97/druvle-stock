@@ -28,7 +28,7 @@
             <ul class="nav nav-pills module-tabs" id="settingsTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active px-3" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
-                        <i class="fas fa-building me-1"></i> Información General
+                        <i class="fas fa-list me-1"></i> Información General
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
@@ -79,60 +79,73 @@
                 </div>
 
                 <div class="card p-4 mt-4 section-card settings-form-card shadow-sm">
+
                     <form @submit.prevent="saveSettings">
 
                         <input type="hidden" name="id" x-model="form.id">
 
-                        <div class="d-flex gap-4 settings-main-layout">
+                        <div class="d-flex gap-4 settings-main-layout mb-5">
 
                             <!-- Columna izquierda: datos de empresa + dirección -->
                             <div class="flex-grow-1">
 
-                                <div class="row g-4">
 
-                                    <div class="col-12">
-                                        <div class="settings-section-title">
-                                            <i class="fas fa-info-circle me-1"></i> Información general
-                                        </div>
+                                <!-- Sección: Información general -->
+                                <div class="col-12 my-4">
+                                    <div class="settings-section-title">
+                                        <i class="fas fa-info-circle me-1"></i> Información general
                                     </div>
+                                </div>
 
-                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                <div class="row">
+
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label for="company_name" class="form-label fw-bold">Razón social</label>
                                         <input type="text" id="company_name" name="company_name" class="form-control" x-model="form.company_name" :disabled="!editMode">
                                     </div>
 
-                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
                                         <label for="nit" class="form-label fw-bold">NIF / CIF</label>
                                         <input type="text" id="nit" name="nit" class="form-control" x-model="form.nit" :disabled="!editMode">
                                     </div>
 
-                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12 mt-4">
                                         <label for="phone" class="form-label fw-bold">Teléfono</label>
                                         <input type="text" id="phone" name="phone" class="form-control" x-model="form.phone" :disabled="!editMode">
                                     </div>
 
-                                    <div class="col-12">
-                                        <div class="settings-section-title">
-                                            <i class="fas fa-map-marker-alt me-1"></i> Dirección fiscal
-                                        </div>
-                                    </div>
+                                </div>
 
-                                    <div class="col-lg-8 col-md-12 col-sm-12">
+                                <!-- Sección: Dirección fiscal -->
+                                <div class="col-12 my-4">
+                                    <div class="settings-section-title">
+                                        <i class="fas fa-map-marker-alt me-1"></i> Dirección fiscal
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
                                         <label for="address" class="form-label fw-bold">Dirección</label>
                                         <input type="text" id="address" name="address" class="form-control" x-model="form.address" :disabled="!editMode">
                                     </div>
 
-                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <div class="col-lg-6 col-md-12 col-sm-12 mt-4">
                                         <label for="city" class="form-label fw-bold">Ciudad</label>
                                         <input type="text" id="city" name="city" class="form-control" x-model="form.city" :disabled="!editMode" placeholder="Ej. Madrid">
                                     </div>
 
+                                    <div class="col-lg-6 col-md-12 col-sm-12 mt-4">
+                                        <label for="country" class="form-label fw-bold">País</label>
+                                        <input type="text" id="country" name="country" class="form-control" x-model="form.country" :disabled="!editMode" placeholder="Ej. España">
+                                    </div>
+                                
                                 </div>
 
                             </div>
 
                             <!-- Columna derecha: logo -->
-                            <div class="settings-logo-col">
+                            <div class="flex-grow-1 settings-logo-col">
 
                                 <div class="settings-section-title mb-3">
                                     <i class="fas fa-image me-1"></i> Logo de la empresa
@@ -159,7 +172,7 @@
 
                         </div>
 
-                        <div class="mt-4 d-flex justify-content-center my-4">
+                        <div class="d-flex justify-content-center my-5">
                             <button type="submit" class="btn btn-outline-success btn-lg col-4 px-4" :disabled="!editMode">
                                 <i class="fas fa-save me-1"></i> Guardar Cambios
                             </button>

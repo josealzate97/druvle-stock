@@ -70,22 +70,22 @@
 
                     <input type="hidden" name="status" x-model="form.status">
 
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="user-info-section">
                             <div class="user-info-section-title">Datos personales</div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Nombres</label>
                                     <input type="text" class="form-control" x-model="form.name" :disabled="!editMode">
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Apellidos</label>
                                     <input type="text" class="form-control" x-model="form.lastname" :disabled="!editMode">
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario</label>
                                     <input type="text" class="form-control" x-model="form.username" :disabled="!editMode">
                                 </div>
@@ -93,22 +93,22 @@
                         </div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-6">
                         <div class="user-info-section">
                             <div class="user-info-section-title">Contacto y acceso</div>
 
                             <div class="row g-3 mt-1">
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Teléfono</label>
                                     <input type="text" class="form-control" x-model="form.phone" :disabled="!editMode">
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Correo electrónico</label>
                                     <input type="text" class="form-control" x-model="form.email" :disabled="!editMode">
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Rol</label>
                                     <select class="form-control" x-model="form.rol" :disabled="!editMode">
                                         @foreach($roles as $key => $label)
@@ -117,7 +117,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-lg-4 col-md-6 col-sm-12" x-show="editMode">
+                                <div class="col-lg-6 col-md-6 col-sm-12" x-show="editMode">
                                     <label class="form-label fw-bold" x-text="isCreateMode ? 'Contraseña' : 'Nueva Contraseña'"></label>
                                     <input type="password" class="form-control" x-model="form.new_password" @change="validatePassword" :disabled="!editMode">
                                 </div>

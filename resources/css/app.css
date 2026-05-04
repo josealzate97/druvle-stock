@@ -293,7 +293,7 @@ html, body {
   font-size: 0.72rem;
   font-weight: 700;
   text-decoration: none;
-  color: #ffffff;
+  color: #ffffff !important;
   background: linear-gradient(180deg, #8b5cf6 0%, #7c3aed 100%);
   border: 1px solid #7c3aed;
   border-radius: 999px;
@@ -365,6 +365,7 @@ html, body {
   color: #475569;
   margin-top: 0.18rem;
   display: -webkit-box;
+  line-clamp: 2;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
