@@ -112,6 +112,26 @@ class UserController extends Controller {
         ]);
     }
 
+    public function checkUsername(Request $request) {
+
+        $tenantId = TenantScope::resolveTenantId();
+        $validated = $request->validate([
+            'username' => 'required|string|max:255',
+            'id' => 'nullable|string',
+        ]);
+
+        $exists = User::query()
+            ->when($validated['id'] ?? null, fn ($query, $id) => $query->where('id', '!=', $id))
+            ->where('username', $validated['username'])
+            ->when($tenantId, fn ($query) => $query->where('tenant_id', $tenantId), fn ($query) => $query->whereNull('tenant_id'))
+            ->exists();
+
+        return response()->json([
+            'available' => !$exists,
+            'message' => $exists ? 'Este usuario ya existe para este negocio.' : 'Usuario disponible.',
+        ]);
+    }
+
     /**
      * Actualiza la información de un usuario específico.
      * 

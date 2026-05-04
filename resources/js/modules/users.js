@@ -37,12 +37,16 @@ window.activateUser = activateUser;
  * @returns {Object} - Objeto con métodos y propiedades para manejar el formulario
 */
 window.userForm = function (userData) {
-    
+    let usernameValidationTimer = null;
+
     return {
         isCreateMode: userData.mode === 'create',
         editMode: userData.mode === 'create',
         isPasswordValid: userData.mode !== 'create',
         isEmailValid: userData.email ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email) : false,
+        isUsernameValid: Boolean(String(userData.username || '').trim()),
+        isCheckingUsername: false,
+        lastValidatedUsername: String(userData.username || '').trim(),
         form: { ...userData, new_password: '' },
         init() {
             this.form.phone = this.formatColombianPhone(this.form.phone);
@@ -59,10 +63,14 @@ window.userForm = function (userData) {
                 this.form.email,
             ].every((value) => String(value || '').trim().length > 0);
 
-            return hasBaseFields && this.normalizedPhone.length === 10 && this.isEmailValid;
+            return hasBaseFields && this.normalizedPhone.length === 10 && this.isEmailValid && this.isUsernameValid;
         },
         get isSubmitDisabled() {
             if (!this.editMode) {
+                return true;
+            }
+
+             if (this.isCheckingUsername) {
                 return true;
             }
 
@@ -84,6 +92,7 @@ window.userForm = function (userData) {
             if (!this.editMode) {
                 this.form.new_password = '';
                 this.isPasswordValid = true;
+                this.isCheckingUsername = false;
             }
         },
         formatColombianPhone(value) {
@@ -106,6 +115,76 @@ window.userForm = function (userData) {
             const email = String(this.form.email || '').trim();
             this.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         },
+        async runUsernameValidation(shouldNotify = false) {
+            const username = String(this.form.username || '').trim();
+
+            if (!username.length) {
+                this.isUsernameValid = false;
+                this.isCheckingUsername = false;
+                return;
+            }
+
+            this.isCheckingUsername = true;
+
+            try {
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const response = await fetch('/users/check-username', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': token
+                    },
+                    body: JSON.stringify({
+                        username,
+                        id: this.form.id || null,
+                    })
+                });
+
+                const result = await response.json();
+                this.isUsernameValid = Boolean(result.available);
+                this.lastValidatedUsername = username;
+
+                if (shouldNotify && !this.isUsernameValid) {
+                    notyf.error(result.message || 'Este usuario ya existe para este negocio.');
+                }
+            } catch (e) {
+                this.isUsernameValid = false;
+
+                if (shouldNotify) {
+                    notyf.error('No fue posible validar el usuario.');
+                }
+            } finally {
+                this.isCheckingUsername = false;
+            }
+        },
+        validateUsername(shouldNotify = false) {
+            const username = String(this.form.username || '').trim();
+
+            if (usernameValidationTimer) {
+                clearTimeout(usernameValidationTimer);
+            }
+
+            if (!username.length) {
+                this.isUsernameValid = false;
+                this.isCheckingUsername = false;
+                return;
+            }
+
+            if (username === this.lastValidatedUsername && this.isUsernameValid) {
+                this.isCheckingUsername = false;
+                return;
+            }
+
+            if (shouldNotify) {
+                this.runUsernameValidation(true);
+                return;
+            }
+
+            this.isCheckingUsername = true;
+            usernameValidationTimer = setTimeout(() => {
+                this.runUsernameValidation(false);
+            }, 350);
+        },
         async saveUser() {
 
             // const form = document.getElementsByClassName('form')[0];
@@ -117,6 +196,16 @@ window.userForm = function (userData) {
 
             if (!this.requiredFieldsComplete) {
                 notyf.error('Completa todos los campos obligatorios.');
+                return;
+            }
+
+            if (this.isCheckingUsername) {
+                notyf.error('Espera a que termine la validación del usuario.');
+                return;
+            }
+
+            if (!this.isUsernameValid) {
+                notyf.error('El usuario no está disponible para este negocio.');
                 return;
             }
 

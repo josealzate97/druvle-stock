@@ -87,7 +87,9 @@
 
                                 <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" x-model="form.username" :disabled="!editMode" required>
+                                    <input type="text" class="form-control" x-model="form.username" @input="validateUsername(false)" @blur="validateUsername(true)" :disabled="!editMode" required>
+                                    <small class="text-muted mt-3" x-show="isCheckingUsername">Validando usuario...</small>
+                                    <small class="text-danger mt-3" x-show="form.username.trim().length > 0 && !isCheckingUsername && !isUsernameValid">Este usuario ya existe para este negocio.</small>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +108,7 @@
                                 <div class="col-lg-12 col-md-6 col-sm-12">
                                     <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" x-model="form.email" @input="validateEmail()" :disabled="!editMode" required>
-                                    <small class="text-danger" x-show="form.email.trim().length > 0 && !isEmailValid">Ingresa un correo válido.</small>
+                                    <small class="text-danger mt-3" x-show="form.email.trim().length > 0 && !isEmailValid">Ingresa un correo válido.</small>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -126,8 +128,8 @@
                                         </template>
                                     </label>
                                     <input type="password" class="form-control" x-model="form.new_password" @input="validatePassword(false)" @blur="validatePassword(true)" :disabled="!editMode" :required="isCreateMode">
-                                    <small class="text-danger" x-show="form.new_password.length > 0 && !isPasswordValid">La contraseña debe tener al menos 8 caracteres.</small>
-                                    <small class="text-muted" x-show="!isCreateMode">Opcional al editar. Solo diligéncialo si deseas cambiarla.</small>
+                                    <small class="text-danger mt-3" x-show="form.new_password.length > 0 && !isPasswordValid">La contraseña debe tener al menos 8 caracteres.</small>
+                                    <small class="text-muted mt-3" x-show="!isCreateMode">Opcional al editar. Solo diligéncialo si deseas cambiarla.</small>
                                 </div>
                             </div>
                         </div>
