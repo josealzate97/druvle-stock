@@ -76,18 +76,18 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-12 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Nombres</label>
-                                    <input type="text" class="form-control" x-model="form.name" :disabled="!editMode">
+                                    <label class="form-label fw-bold">Nombres <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" x-model="form.name" :disabled="!editMode" required>
                                 </div>
 
                                 <div class="col-lg-12 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Apellidos</label>
-                                    <input type="text" class="form-control" x-model="form.lastname" :disabled="!editMode">
+                                    <label class="form-label fw-bold">Apellidos <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" x-model="form.lastname" :disabled="!editMode" required>
                                 </div>
 
                                 <div class="col-lg-12 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Usuario</label>
-                                    <input type="text" class="form-control" x-model="form.username" :disabled="!editMode">
+                                    <label class="form-label fw-bold">Usuario <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" x-model="form.username" :disabled="!editMode" required>
                                 </div>
                             </div>
                         </div>
@@ -99,13 +99,14 @@
 
                             <div class="row g-3 mt-1">
                                 <div class="col-lg-12 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Teléfono</label>
-                                    <input type="text" class="form-control" x-model="form.phone" :disabled="!editMode">
+                                    <label class="form-label fw-bold">Teléfono <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" x-model="form.phone" @input="applyPhoneMask" :disabled="!editMode" maxlength="12" required>
                                 </div>
 
                                 <div class="col-lg-12 col-md-6 col-sm-12">
-                                    <label class="form-label fw-bold">Correo electrónico</label>
-                                    <input type="text" class="form-control" x-model="form.email" :disabled="!editMode">
+                                    <label class="form-label fw-bold">Correo electrónico <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" x-model="form.email" @input="validateEmail()" :disabled="!editMode" required>
+                                    <small class="text-danger" x-show="form.email.trim().length > 0 && !isEmailValid">Ingresa un correo válido.</small>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12">
@@ -118,8 +119,15 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6 col-sm-12" x-show="editMode">
-                                    <label class="form-label fw-bold" x-text="isCreateMode ? 'Contraseña' : 'Nueva Contraseña'"></label>
-                                    <input type="password" class="form-control" x-model="form.new_password" @change="validatePassword" :disabled="!editMode">
+                                    <label class="form-label fw-bold">
+                                        <span x-text="isCreateMode ? 'Contraseña' : 'Nueva Contraseña'"></span>
+                                        <template x-if="isCreateMode">
+                                            <span class="text-danger">*</span>
+                                        </template>
+                                    </label>
+                                    <input type="password" class="form-control" x-model="form.new_password" @input="validatePassword(false)" @blur="validatePassword(true)" :disabled="!editMode" :required="isCreateMode">
+                                    <small class="text-danger" x-show="form.new_password.length > 0 && !isPasswordValid">La contraseña debe tener al menos 8 caracteres.</small>
+                                    <small class="text-muted" x-show="!isCreateMode">Opcional al editar. Solo diligéncialo si deseas cambiarla.</small>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +136,7 @@
                 </div>
 
                 <div class="my-4 text-center" x-show="editMode">
-                    <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold">
+                    <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold" :disabled="isSubmitDisabled" :class="{'disabled': isSubmitDisabled}">
                         <i class="fa fa-save"></i>&nbsp;
                         <span x-text="isCreateMode ? 'Crear Usuario' : 'Actualizar Informacion'"></span>
                     </button>

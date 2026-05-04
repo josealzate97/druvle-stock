@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Scopes\TenantScope;
 
@@ -70,11 +71,22 @@ class UserController extends Controller {
 
     public function create(Request $request) {
 
+        $tenantId = TenantScope::resolveTenantId();
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users,username',
-            'phone' => 'nullable|string|max:255',
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users', 'username')->where(function ($query) use ($tenantId) {
+                    return $tenantId
+                        ? $query->where('tenant_id', $tenantId)
+                        : $query->whereNull('tenant_id');
+                }),
+            ],
+            'phone' => 'required|string|regex:/^3\d{9}$/|unique:users,phone',
             'rol' => 'required|integer',
             'status' => 'required|integer',
             'email' => 'required|email|max:255|unique:users,email',
@@ -90,7 +102,7 @@ class UserController extends Controller {
             'status' => $validated['status'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['new_password']),
-            'tenant_id' => TenantScope::resolveTenantId(),
+            'tenant_id' => $tenantId,
         ]);
 
         return response()->json([
@@ -115,15 +127,27 @@ class UserController extends Controller {
     public function update(Request $request, $id) {
 
         $user = User::findOrFail($id);
+        $tenantId = $user->tenant_id;
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users', 'username')
+                    ->ignore($user->id, 'id')
+                    ->where(function ($query) use ($tenantId) {
+                        return $tenantId
+                            ? $query->where('tenant_id', $tenantId)
+                            : $query->whereNull('tenant_id');
+                    }),
+            ],
+            'phone' => 'required|string|regex:/^3\d{9}$/|unique:users,phone,' . $user->id . ',id',
             'rol' => 'required|integer',
             'status' => 'required|integer',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id . ',id',
             'new_password' => 'nullable|string|min:8',
         ]);
 

@@ -41,13 +41,70 @@ window.userForm = function (userData) {
     return {
         isCreateMode: userData.mode === 'create',
         editMode: userData.mode === 'create',
-        isPasswordValid: true, // Estado inicial de la validación de la contraseña
+        isPasswordValid: userData.mode !== 'create',
+        isEmailValid: userData.email ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email) : false,
         form: { ...userData, new_password: '' },
+        init() {
+            this.form.phone = this.formatColombianPhone(this.form.phone);
+            this.validateEmail();
+        },
+        get normalizedPhone() {
+            return (this.form.phone || '').replace(/\D/g, '');
+        },
+        get requiredFieldsComplete() {
+            const hasBaseFields = [
+                this.form.name,
+                this.form.lastname,
+                this.form.username,
+                this.form.email,
+            ].every((value) => String(value || '').trim().length > 0);
+
+            return hasBaseFields && this.normalizedPhone.length === 10 && this.isEmailValid;
+        },
+        get isSubmitDisabled() {
+            if (!this.editMode) {
+                return true;
+            }
+
+            if (!this.requiredFieldsComplete) {
+                return true;
+            }
+
+            if (this.isCreateMode) {
+                return this.form.new_password.trim().length === 0 || !this.isPasswordValid;
+            }
+
+            return this.form.new_password.trim().length > 0 && !this.isPasswordValid;
+        },
         toggleEdit() {
             if (this.isCreateMode) {
                 return;
             }
             this.editMode = !this.editMode;
+            if (!this.editMode) {
+                this.form.new_password = '';
+                this.isPasswordValid = true;
+            }
+        },
+        formatColombianPhone(value) {
+            const digits = String(value || '').replace(/\D/g, '').slice(0, 10);
+
+            if (digits.length <= 3) {
+                return digits;
+            }
+
+            if (digits.length <= 6) {
+                return `${digits.slice(0, 3)} ${digits.slice(3)}`;
+            }
+
+            return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6)}`;
+        },
+        applyPhoneMask() {
+            this.form.phone = this.formatColombianPhone(this.form.phone);
+        },
+        validateEmail() {
+            const email = String(this.form.email || '').trim();
+            this.isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         },
         async saveUser() {
 
@@ -57,6 +114,11 @@ window.userForm = function (userData) {
                 alert('Por favor, completa todos los campos obligatorios.');
                 return false;
             }*/
+
+            if (!this.requiredFieldsComplete) {
+                notyf.error('Completa todos los campos obligatorios.');
+                return;
+            }
 
             if ((this.isCreateMode && this.form.new_password.length === 0) || (this.form.new_password.length > 0 && !this.isPasswordValid)) {
                 notyf.error('La contraseña no es válida.');
@@ -68,13 +130,18 @@ window.userForm = function (userData) {
                 const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
                 
                 const endpoint = this.isCreateMode ? '/users/create' : `/users/update/${this.form.id}`;
+                const payload = {
+                    ...this.form,
+                    phone: this.normalizedPhone,
+                };
+
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': token
                     },
-                    body: JSON.stringify(this.form)
+                    body: JSON.stringify(payload)
                 });
 
                 // Si la respuesta es exitosa, actualizamos el estado
@@ -93,7 +160,8 @@ window.userForm = function (userData) {
 
                 } else {
 
-                    notyf.error('Error al actualizar');
+                    const result = await response.json().catch(() => ({}));
+                    notyf.error(result.message || 'Error al actualizar');
 
                 }
                 
@@ -103,17 +171,26 @@ window.userForm = function (userData) {
                 
             }
         },
-        validatePassword() {
+        validatePassword(shouldNotify = false) {
+
+            if (!this.form.new_password.length) {
+                this.isPasswordValid = !this.isCreateMode;
+                return;
+            }
 
             if (this.form.new_password.length < 8) {
 
                 this.isPasswordValid = false;
-                notyf.error('La contraseña debe tener al menos 8 caracteres.');
+                if (shouldNotify) {
+                    notyf.error('La contraseña debe tener al menos 8 caracteres.');
+                }
 
             } else {
 
                 this.isPasswordValid = true;
-                notyf.success('La contraseña es válida.');
+                if (shouldNotify) {
+                    notyf.success('La contraseña es válida.');
+                }
 
             }
 
