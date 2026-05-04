@@ -1,4 +1,26 @@
 /*** USERS INFO **/
+.users-page .users-hero-layout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.users-page .users-toolbar {
+  display: grid;
+  grid-template-columns: minmax(320px, 33.333333%) 220px;
+  align-items: center;
+  justify-content: start;
+}
+
+.users-page .users-toolbar .section-search {
+  width: 100%;
+}
+
+.users-page .users-hero-actions {
+  justify-content: flex-end;
+}
+
 .user-info-card {
   border: 1px solid #e6ebf2;
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
@@ -142,5 +164,32 @@ body.theme-dark .role-badge-purple {
   .user-info-header .btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .users-page .users-hero-layout {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .users-page .users-hero-copy {
+    min-width: 0;
+  }
+
+  .users-page .users-hero-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .users-page .users-hero-button,
+  .users-page .users-toolbar,
+  .users-page .users-toolbar .section-search,
+  .users-page .users-toolbar .section-filter {
+    width: 100%;
+  }
+
+  .users-page .users-toolbar {
+    grid-template-columns: 1fr;
   }
 }

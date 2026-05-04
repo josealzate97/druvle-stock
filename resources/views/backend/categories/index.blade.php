@@ -4,6 +4,11 @@
 @section('title', 'Categorías')
 
 
+@push('styles')
+    @vite(['resources/css/modules/categories.css'])
+@endpush
+
+
 @push('scripts')
     @vite(['resources/js/modules/categories.js'])
 @endpush
@@ -11,7 +16,7 @@
 
 @section('content')
 
-    <div class="container-fluid p-4">
+    <div class="container-fluid p-4 categories-page">
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -25,19 +30,19 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="categories-hero-layout">
 
                 <div class="section-hero-icon">
                     <i class="fas fa-tags"></i>
                 </div>
 
-                <div class="flex-grow-1">
+                <div class="flex-grow-1 categories-hero-copy">
                     <h2 class="fw-bold mb-0">Gestión de Categorías</h2>
                     <div class="text-muted small fw-bold">Organiza y administra tus familias de productos eficientemente.</div>
                 </div>
 
-                <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                    <button type="button" class="btn btn-success btn-sm" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
+                <div class="d-flex flex-wrap gap-2 section-hero-actions categories-hero-actions">
+                    <button type="button" class="btn btn-success btn-sm categories-hero-button" data-bs-mode="new" data-bs-toggle="modal" data-bs-target="#categoryModal">
                         <i class="fas fa-plus me-1"></i> Nueva Categoría
                     </button>
                 </div>
@@ -48,7 +53,7 @@
 
         <div class="card p-0 mt-4 section-card">
 
-            <div class="section-toolbar">
+            <div class="section-toolbar categories-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="categoriesSearch">Buscar categoría</label>

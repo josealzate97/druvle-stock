@@ -12,7 +12,7 @@
 
 @section('content')
 
-    <div class="container-fluid p-4">
+    <div class="container-fluid p-4 users-page">
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -26,19 +26,19 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="users-hero-layout">
 
                 <div class="section-hero-icon">
                     <i class="fas fa-users"></i>
                 </div>
 
-                <div class="flex-grow-1">
+                <div class="flex-grow-1 users-hero-copy">
                     <h2 class="fw-bold mb-0">Gestión de Usuarios</h2>
                     <div class="text-muted small fw-bold">Administra la información y roles de tu equipo.</div>
                 </div>
 
-                <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                    <a href="{{ route('users.info') }}" class="btn btn-success btn-sm">
+                <div class="d-flex flex-wrap gap-2 section-hero-actions users-hero-actions">
+                    <a href="{{ route('users.info') }}" class="btn btn-success btn-sm users-hero-button">
                         <i class="fas fa-plus me-1"></i> Nuevo Usuario
                     </a>
                 </div>
@@ -49,7 +49,7 @@
 
         <div class="card p-0 mt-4 section-card">
 
-            <div class="section-toolbar">
+            <div class="section-toolbar users-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <label class="visually-hidden" for="usersSearch">Buscar usuario</label>

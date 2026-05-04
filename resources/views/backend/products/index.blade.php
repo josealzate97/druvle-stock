@@ -2,13 +2,17 @@
 
 @section('title', 'Productos')
 
+@push('styles')
+    @vite(['resources/css/modules/products.css'])
+@endpush
+
 @push('scripts')
     @vite(['resources/js/modules/products.js'])
 @endpush
 
 @section('content')
 
-    <div class="container-fluid p-4">
+    <div class="container-fluid p-4 products-page">
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -22,19 +26,19 @@
 
         <div class="card p-4 section-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="products-hero-layout">
 
                 <div class="section-hero-icon">
                     <i class="fas fa-box"></i>
                 </div>
 
-                <div class="flex-grow-1">
+                <div class="flex-grow-1 products-hero-copy">
                     <h2 class="fw-bold mb-0">Gestión de Productos</h2>
                     <div class="text-muted small fw-bold">Controla tu inventario y precios de venta.</div>
                 </div>
 
-                <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#productModal" data-bs-mode="new">
+                <div class="d-flex flex-wrap gap-2 section-hero-actions products-hero-actions">
+                    <button class="btn btn-success btn-sm products-hero-button" data-bs-toggle="modal" data-bs-target="#productModal" data-bs-mode="new">
                         <i class="fas fa-plus me-1"></i> Nuevo Producto
                     </button>
                 </div>
@@ -45,7 +49,7 @@
 
         <div class="card p-0 mt-4 section-card">
 
-            <div class="section-toolbar">
+            <div class="section-toolbar products-toolbar">
                 <div class="section-search">
                     <i class="fas fa-search"></i>
                     <input type="text" class="form-control form-control-sm" id="productsSearch" placeholder="Buscar producto...">
