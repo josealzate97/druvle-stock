@@ -1,12 +1,14 @@
 <!-- Contenido de Historial de Ventas -->
-<div class="card p-4 section-hero">
-    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-        <div class="section-hero-icon">
-            <i class="fas fa-list"></i>
-        </div>
-        <div class="flex-grow-1">
-            <h2 class="fw-bold mb-0">Historial de Ventas</h2>
-            <div class="text-muted small fw-bold">
+<div class="card p-4 section-hero sales-history-hero">
+    <div class="sales-history-hero-layout">
+        <div class="flex-grow-1 sales-history-copy">
+            <div class="sales-history-heading">
+                <div class="section-hero-icon sales-history-icon">
+                    <i class="fas fa-list"></i>
+                </div>
+                <h2 class="fw-bold mb-0">Historial de Ventas</h2>
+            </div>
+            <div class="text-muted small fw-bold sales-history-description">
                 Consulta, reimprime facturas o gestiona devoluciones de ventas pasadas.
             </div>
         </div>
@@ -15,7 +17,7 @@
 
 <div class="card p-0 mt-4 section-card">
 
-    <div class="section-toolbar">
+    <div class="section-toolbar sales-history-toolbar">
         <div class="section-search">
             <i class="fas fa-search"></i>
             <input type="text" class="form-control form-control-sm" id="salesHistorySearch" placeholder="Buscar venta...">

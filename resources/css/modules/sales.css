@@ -1,4 +1,61 @@
 /*** SALES **/
+.sales-page .sales-tabs-shell {
+  padding: 0.65rem;
+}
+
+.sales-page .sales-tabs {
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.sales-page .sales-tabs .nav-item {
+  min-width: 0;
+}
+
+.sales-page .sales-tabs .nav-link {
+  min-height: 52px;
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+}
+
+.sales-hero-card {
+  box-shadow: 0 8px 24px rgba(16, 24, 40, 0.06);
+}
+
+.sales-page .sales-hero-layout,
+.sales-page .sales-history-hero-layout {
+  display: block;
+}
+
+.sales-page .sales-hero-copy,
+.sales-page .sales-history-copy {
+  min-width: 0;
+}
+
+.sales-page .sales-hero-heading,
+.sales-page .sales-history-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.sales-page .sales-hero-description,
+.sales-page .sales-history-description {
+  margin-top: 0.85rem;
+  max-width: 760px;
+}
+
+.sales-page .sales-history-toolbar {
+  display: grid;
+  grid-template-columns: minmax(320px, 33.333333%) 220px;
+  align-items: center;
+  justify-content: start;
+}
+
+.sales-page .sales-history-toolbar .section-search {
+  width: 100%;
+}
+
 .sales-tabs-content {
   border: 1px solid #dbe7f7;
   border-top: 0;
@@ -17,6 +74,12 @@
 body.theme-dark .sales-tabs-content {
   border-color: #252c36;
   background: #14171d;
+}
+
+body.theme-dark .sales-hero-card,
+body.theme-dark .sales-history-hero {
+  background: #14171d !important;
+  border-color: #252c36 !important;
 }
 
 .sales-grid {
@@ -295,7 +358,100 @@ body.theme-dark .sales-view-btn:hover {
   color: #c7deff;
 }
 
+@media (max-width: 991.98px) {
+  .sales-page .sales-hero-card,
+  .sales-page .sales-history-hero {
+    padding: 1.5rem !important;
+  }
+
+  .sales-page .sales-hero-heading,
+  .sales-page .sales-history-heading {
+    gap: 0.85rem;
+  }
+
+  .sales-page .sales-tabs-shell {
+    padding: 0.55rem;
+  }
+
+  .sales-page .sales-tabs {
+    gap: 0.55rem;
+  }
+
+  .sales-page .sales-tabs .nav-item {
+    flex: 1 1 calc(50% - 0.55rem);
+  }
+
+  .sales-page .sales-tabs .nav-link {
+    min-height: 50px;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.95rem;
+  }
+
+  .sales-page .sales-history-toolbar {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .sales-page .sales-history-toolbar,
+  .sales-page .sales-history-toolbar .section-search,
+  .sales-page .sales-history-toolbar .section-filter {
+    width: 100%;
+  }
+}
+
 @media (max-width: 575.98px) {
+  .sales-page {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .sales-page .sales-hero-card,
+  .sales-page .sales-history-hero {
+    padding: 1.4rem 1.25rem !important;
+    border-radius: 16px;
+  }
+
+  .sales-page .sales-hero-icon,
+  .sales-page .sales-history-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .sales-page .sales-hero-heading,
+  .sales-page .sales-history-heading {
+    gap: 0.75rem;
+  }
+
+  .sales-page .sales-hero-heading h3,
+  .sales-page .sales-history-heading h2 {
+    font-size: 1.45rem;
+    line-height: 1.15;
+  }
+
+  .sales-page .sales-hero-description,
+  .sales-page .sales-history-description {
+    font-size: 0.98rem;
+    line-height: 1.45;
+    margin-top: 0.8rem;
+  }
+
+  .sales-page .sales-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .sales-page .sales-tabs .nav-item {
+    flex: 1 1 100%;
+  }
+
+  .sales-page .sales-tabs .nav-link {
+    justify-content: flex-start;
+    min-height: 54px;
+    padding: 0.85rem 1rem;
+  }
+
   .payment-secondary-actions {
     flex-direction: column;
   }

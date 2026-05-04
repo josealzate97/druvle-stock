@@ -12,7 +12,7 @@
 
 @section('content')
 
-    <div class="container-fluid p-4" x-data="reportsApp()" x-init="init()">
+    <div class="container-fluid p-4 reports-page" x-data="reportsApp()" x-init="init()">
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -24,17 +24,18 @@
             ])
         @endpush
 
-        <div class="card p-4 section-hero">
+        <div class="card p-4 section-hero reports-hero">
 
-            <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+            <div class="reports-hero-layout">
 
-                <div class="section-hero-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-
-                <div class="flex-grow-1">
-                    <h2 class="fw-bold mb-0">Reportes & Estadísticas</h2>
-                    <div class="text-muted small fw-bold">
+                <div class="flex-grow-1 reports-hero-copy">
+                    <div class="reports-hero-heading">
+                        <div class="section-hero-icon reports-hero-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h2 class="fw-bold mb-0">Reportes & Estadísticas</h2>
+                    </div>
+                    <div class="text-muted small fw-bold reports-hero-description">
                         Analiza el rendimiento de tu negocio en cualquier momento y toma mejores decisiones con nuestros reportes.
                     </div>
                 </div>
@@ -43,8 +44,8 @@
 
         </div>
 
-        <div class="card p-2 mt-4 module-tabs-bar module-tabs-connected">
-            <ul class="nav nav-pills module-tabs" id="reportTabs" role="tablist">
+        <div class="card p-2 mt-4 module-tabs-bar module-tabs-connected reports-tabs-shell">
+            <ul class="nav nav-pills module-tabs reports-tabs" id="reportTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" :class="{'active': activeTab === 'productos'}" @click="setTab('productos')">
                         <i class="fas fa-boxes-stacked me-1"></i>Productos
@@ -65,9 +66,9 @@
             </ul>
         </div>
 
-        <div class="card p-4 mt-0 section-card module-tabs-content">
+        <div class="card p-4 mt-0 section-card module-tabs-content reports-tabs-content-shell">
 
-            <div class="tab-content p-4" id="reportTabsContent">
+            <div class="tab-content p-4 reports-tab-content" id="reportTabsContent">
 
                 <!-- Productos -->
                 <div x-show="activeTab === 'productos'">

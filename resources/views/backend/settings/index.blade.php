@@ -12,7 +12,7 @@
 
 @section('content')
 
-    <div class="container-fluid p-4">
+    <div class="container-fluid p-4 settings-page">
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -24,8 +24,8 @@
             ])
         @endpush
 
-        <div class="card p-2 mb-0 module-tabs-bar module-tabs-connected">
-            <ul class="nav nav-pills module-tabs" id="settingsTabs" role="tablist">
+        <div class="card p-2 mb-0 module-tabs-bar module-tabs-connected settings-tabs-shell">
+            <ul class="nav nav-pills module-tabs settings-tabs-nav" id="settingsTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active px-3" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
                         <i class="fas fa-list me-1"></i> Información General
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="tab-content settings-content module-tabs-content" id="settingsTabsContent">
+        <div class="tab-content settings-content module-tabs-content settings-tabs-content-shell" id="settingsTabsContent">
 
             <div class="tab-pane fade show active" id="basic" role="tabpanel" aria-labelledby="basic-tab" x-data="settingsForm({
                 id: '{{ $settings->id }}',
@@ -64,15 +64,17 @@
                 logo: '{{ $settings->logo ?? '' }}',
             })">
                 <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
-                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                        <div class="section-hero-icon">
-                            <i class="fas fa-cogs"></i>
+                    <div class="settings-hero-layout">
+                        <div class="flex-grow-1 settings-hero-copy">
+                            <div class="settings-hero-heading">
+                                <div class="section-hero-icon settings-hero-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <h2 class="fw-bold mb-0">Configuración de la Empresa</h2>
+                            </div>
+                            <div class="text-muted small settings-hero-description">Ajustes generales y datos fiscales de tu negocio.</div>
                         </div>
-                        <div class="flex-grow-1">
-                            <h2 class="fw-bold mb-0">Configuración de la Empresa</h2>
-                            <div class="text-muted small">Ajustes generales y datos fiscales de tu negocio.</div>
-                        </div>
-                        <button class="btn settings-edit-btn edit-solid-btn" @click="toggleEdit">
+                        <button class="btn settings-edit-btn edit-solid-btn settings-hero-button" @click="toggleEdit">
                             <i class="fas fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                         </button>
                     </div>
@@ -186,15 +188,17 @@
             <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="taxes-tab">
                 
                 <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
-                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                        <div class="section-hero-icon">
-                            <i class="fas fa-percent"></i>
+                    <div class="settings-hero-layout">
+                        <div class="flex-grow-1 settings-hero-copy">
+                            <div class="settings-hero-heading">
+                                <div class="section-hero-icon settings-hero-icon">
+                                    <i class="fas fa-percent"></i>
+                                </div>
+                                <h2 class="fw-bold mb-0">Configuración de Impuestos</h2>
+                            </div>
+                            <div class="text-muted small settings-hero-description">Listado de impuestos del sistema.</div>
                         </div>
-                        <div class="flex-grow-1">
-                            <h2 class="fw-bold mb-0">Configuración de Impuestos</h2>
-                            <div class="text-muted small">Listado de impuestos del sistema.</div>
-                        </div>
-                        <button class="btn btn-success" id="btnNewTax" type="button">
+                        <button class="btn btn-success settings-hero-button" id="btnNewTax" type="button">
                             <i class="fas fa-plus me-1"></i> Crear impuesto
                         </button>
                     </div>
@@ -209,16 +213,18 @@
             <div class="tab-pane fade" id="notifications" role="tabpanel" aria-labelledby="notifications-tab">
 
                 <div class="card p-4 section-hero settings-hero border-0 shadow-sm">
-                    <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                        <div class="section-hero-icon">
-                            <i class="fas fa-bell"></i>
+                    <div class="settings-hero-layout">
+                        <div class="flex-grow-1 settings-hero-copy">
+                            <div class="settings-hero-heading">
+                                <div class="section-hero-icon settings-hero-icon">
+                                    <i class="fas fa-bell"></i>
+                                </div>
+                                <h2 class="fw-bold mb-0">Configuración de Notificaciones</h2>
+                            </div>
+                            <div class="text-muted small settings-hero-description">Administra notificaciones internas del sistema.</div>
                         </div>
-                        <div class="flex-grow-1">
-                            <h2 class="fw-bold mb-0">Configuración de Notificaciones</h2>
-                            <div class="text-muted small">Administra notificaciones internas del sistema.</div>
-                        </div>
-                        <div class="d-flex flex-wrap gap-2 section-hero-actions">
-                            <button class="btn btn-success btn-sm" id="btnNewNotification" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" data-bs-mode="new">
+                        <div class="d-flex flex-wrap gap-2 section-hero-actions settings-hero-actions">
+                            <button class="btn btn-success btn-sm settings-hero-button" id="btnNewNotification" type="button" data-bs-toggle="modal" data-bs-target="#notificationModal" data-bs-mode="new">
                                 <i class="fas fa-plus me-1"></i> Crear notificación
                             </button>
                         </div>

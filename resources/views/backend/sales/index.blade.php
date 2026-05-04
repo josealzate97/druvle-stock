@@ -13,7 +13,7 @@
 @section('content')
 
 
-    <div class="container-fluid p-4"  x-data="salesForm()" x-init="loadProducts()">
+    <div class="container-fluid p-4 sales-page"  x-data="salesForm()" x-init="loadProducts()">
 
         @push('breadcrumb')
             @include('backend.components.breadcrumb', [
@@ -26,21 +26,21 @@
         @endpush
         
         <div class="align-items-center border mb-4 bg-white rounded-3 p-4 col-12 d-flex sales-hero-card">
-            <div class="col-12">
-                <div class="d-flex align-items-center gap-3">
-                    <span class="section-hero-icon">
-                        <i class="fa fa-shopping-cart"></i>
-                    </span>
-                    <div>
+            <div class="col-12 sales-hero-layout">
+                <div class="sales-hero-copy">
+                    <div class="sales-hero-heading">
+                        <span class="section-hero-icon sales-hero-icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </span>
                         <h3 class="fw-bold mb-0">Gestion de ventas</h3>
-                        <div class="text-muted fw-bold small">Registra nuevas ventas o consulta el historial.</div>
                     </div>
+                    <div class="text-muted fw-bold small sales-hero-description">Registra nuevas ventas o consulta el historial.</div>
                 </div>
             </div>
         </div>
 
-        <div class="card p-2 mb-0 module-tabs-bar module-tabs-connected">
-            <ul class="nav nav-pills module-tabs" id="salesTabs" role="tablist">
+        <div class="card p-2 mb-0 module-tabs-bar module-tabs-connected sales-tabs-shell">
+            <ul class="nav nav-pills module-tabs sales-tabs" id="salesTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active fw-bold" id="nueva-venta-tab" data-bs-toggle="pill" data-bs-target="#nueva-venta" type="button" role="tab" aria-controls="nueva-venta" aria-selected="true">
                         <i class="fas fa-plus-circle me-1"></i>Nueva Venta
@@ -63,7 +63,7 @@
             </div>
         </div>
 
-        <div class="tab-content mt-0 module-tabs-content sales-tabs-content" id="salesTabsContent">
+        <div class="tab-content mt-0 module-tabs-content sales-tabs-content sales-tabs-content-shell" id="salesTabsContent">
 
             <div class="tab-pane fade show active" id="nueva-venta" role="tabpanel" aria-labelledby="nueva-venta-tab">
 
