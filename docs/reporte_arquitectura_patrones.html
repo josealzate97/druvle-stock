@@ -1,126 +1,292 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Reporte de Arquitectura y Patrones - Druvle Stock</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte 01 - Arquitectura y Patrones</title>
   <style>
-    body { font-family: "DejaVu Sans", Arial, sans-serif; color: #1f2937; margin: 30px; line-height: 1.45; }
-    h1, h2, h3 { color: #0f172a; margin-bottom: 8px; }
-    h1 { font-size: 26px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
-    h2 { font-size: 20px; margin-top: 22px; }
-    h3 { font-size: 16px; margin-top: 16px; }
-    p { margin: 8px 0; }
-    ul { margin: 6px 0 12px 20px; }
-    li { margin: 4px 0; }
-    .meta { color: #4b5563; font-size: 13px; }
-    .box { border: 1px solid #d1d5db; background: #f9fafb; padding: 10px; margin-top: 8px; }
-    code { background: #f3f4f6; padding: 1px 4px; border-radius: 4px; }
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1a2433;
+      --muted: #5a6b84;
+      --accent: #0f4c81;
+      --accent-soft: #e6f0fa;
+      --ok: #1d7a46;
+      --warn: #8a6400;
+      --risk: #9f2d2d;
+      --border: #d8e1ec;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: linear-gradient(140deg, #edf3fb 0%, #f7fbff 45%, #eef6f2 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 32px auto;
+      padding: 0 30px 40px;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #0f4c81 0%, #1e6ba8 55%, #2f7d73 100%);
+      color: #fff;
+      border-radius: 14px;
+      padding: 34px;
+      box-shadow: 0 12px 30px rgba(18, 52, 88, 0.2);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 40px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 6px 0;
+      opacity: 0.95;
+      font-size: 24px;
+    }
+
+    .card {
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      color: #15324e;
+    }
+
+    h3 {
+      margin: 16px 0 8px;
+      font-size: 28px;
+      color: #1f4163;
+    }
+
+    p, li, th, td {
+      font-size: 22px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 8px 0 0 20px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    th {
+      text-align: left;
+      background: var(--accent-soft);
+      color: #0d3559;
+      font-weight: 700;
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .ok { background: #e6f5eb; color: var(--ok); }
+    .warn { background: #fff4dd; color: var(--warn); }
+    .risk { background: #ffe7e7; color: var(--risk); }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 18px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 24px; }
+      .hero h1 { font-size: 28px; }
+      .hero p, p, li, th, td { font-size: 17px; }
+      h2 { font-size: 26px; }
+      h3 { font-size: 22px; }
+      .pill { font-size: 14px; }
+      .footer { font-size: 14px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0 auto; padding: 0; }
+      .hero { box-shadow: none; }
+      .card { break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
-  <h1>Reporte Técnico: Arquitectura y Patrones del Proyecto</h1>
-  <p class="meta"><strong>Proyecto:</strong> Druvle Stock | <strong>Fecha:</strong> 11 de mayo de 2026 | <strong>Tipo:</strong> Estado actual</p>
+  <main class="page">
+    <section class="hero">
+      <h1>Reporte 01: Estado de Arquitectura y Patrones de Diseno</h1>
+      <p><strong>Proyecto:</strong> druvle-stock (Laravel 12)</p>
+      <p><strong>Fecha:</strong> 11 de mayo de 2026</p>
+      <p><strong>Objetivo:</strong> identificar arquitectura actual, patrones aplicados y oportunidades de mejora.</p>
+    </section>
 
-  <h2>1. Resumen ejecutivo</h2>
-  <p>El proyecto se encuentra implementado como un <strong>monolito modular en Laravel</strong>, con base <strong>MVC</strong> y una separación adicional por capas de aplicación (servicios, repositorios, eventos/listeners y jobs). Esta estructura es adecuada para mantener evolución funcional sin necesidad de migrar a microservicios en la etapa actual.</p>
-  <div class="box">
-    <p><strong>Conclusión:</strong> Arquitectura sólida para su escala actual, con diseño extensible y desacoplado en flujos críticos (notificaciones y eventos de negocio).</p>
-  </div>
+    <section class="card">
+      <h2>1) Arquitectura actual identificada</h2>
+      <p class="muted">Conclusión: la aplicacion implementa un monolito web en Laravel con estilo MVC + capas de soporte (servicios, repositorios, eventos/listeners, jobs y middleware), con enfoque multi-tenant por contexto.</p>
 
-  <h2>2. Tipo de arquitectura</h2>
-  <h3>2.1 Monolito modular</h3>
-  <ul>
-    <li>Una sola aplicación desplegable, con módulos organizados por responsabilidad.</li>
-    <li>Módulos funcionales en controladores backend: ventas, productos, reportes, notificaciones, usuarios, tenants.</li>
-  </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Dimension</th>
+            <th>Estado actual</th>
+            <th>Nivel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Tipo de despliegue</td>
+            <td>Monolito Laravel en contenedores (PHP-FPM + Nginx + MySQL + Vite para desarrollo).</td>
+            <td><span class="pill ok">Adecuado</span></td>
+          </tr>
+          <tr>
+            <td>Arquitectura de aplicacion</td>
+            <td>MVC (Controllers, Models Eloquent, Views Blade), con middleware para autenticacion y tenant.</td>
+            <td><span class="pill ok">Adecuado</span></td>
+          </tr>
+          <tr>
+            <td>Multi-tenancy</td>
+            <td>Aislamiento logico por tenant mediante middleware SwitchTenant + TenantScope + trait BelongsToTenant.</td>
+            <td><span class="pill ok">Fuerte</span></td>
+          </tr>
+          <tr>
+            <td>Capa de dominio/servicios</td>
+            <td>Existe Service Layer (ej. NotificationService) y repositorios en modulos de reportes/ventas.</td>
+            <td><span class="pill warn">Intermedio</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <h3>2.2 Base MVC + capas</h3>
-  <ul>
-    <li><strong>Presentación:</strong> rutas + controladores + vistas Blade.</li>
-    <li><strong>Negocio:</strong> servicios y lógica coordinada por controladores.</li>
-    <li><strong>Persistencia:</strong> Eloquent y repositorios para consultas especializadas.</li>
-    <li><strong>Procesamiento reactivo:</strong> eventos, listeners y colas.</li>
-  </ul>
+    <section class="card">
+      <h2>2) Patrones de diseno detectados</h2>
 
-  <h2>3. Patrones de diseño aplicados</h2>
+      <h3>Patrones presentes</h3>
+      <ul>
+        <li><strong>MVC:</strong> rutas - controladores - modelos/vistas, base estandar en Laravel.</li>
+        <li><strong>Front Controller:</strong> enrutamiento centralizado por framework.</li>
+        <li><strong>Middleware Chain (Pipeline):</strong> autenticacion, resolucion de tenant y reglas transversales en cadena.</li>
+        <li><strong>Active Record (Eloquent):</strong> modelos con relaciones y consultas embebidas.</li>
+        <li><strong>Service Layer:</strong> encapsulacion de logica de notificaciones en NotificationService.</li>
+        <li><strong>Repository Pattern:</strong> consultas especializadas en ReportsRepository y SalesRepository.</li>
+        <li><strong>Event-Driven / Observer:</strong> eventos de negocio (SaleCompleted, RefundProcessed, LowStockDetected) y listeners desacoplados.</li>
+        <li><strong>Asynchronous Jobs:</strong> listeners y jobs con ShouldQueue para trabajo en background.</li>
+        <li><strong>Global Scope:</strong> filtrado transversal por tenant en consultas.</li>
+      </ul>
 
-  <h3>3.1 MVC</h3>
-  <ul>
-    <li>Controladores orquestan casos de uso y retornan vistas/JSON.</li>
-    <li>Modelos gestionan entidades y relaciones del dominio.</li>
-  </ul>
+      <h3>Patrones parcialmente aplicados o por expandir</h3>
+      <ul>
+        <li><strong>Use Cases/Application Services:</strong> no estandarizado para todos los modulos; aun hay logica en controladores.</li>
+        <li><strong>CQRS:</strong> no formal; hay separacion parcial via repositorios en reporteria.</li>
+        <li><strong>Hexagonal/Clean:</strong> no aplicado formalmente, y no es obligatorio para la etapa actual.</li>
+      </ul>
+    </section>
 
-  <h3>3.2 Service Layer</h3>
-  <ul>
-    <li>La lógica de notificaciones está centralizada en <code>NotificationService</code>.</li>
-    <li>Permite reutilización, menor duplicación y control consistente de reglas.</li>
-  </ul>
+    <section class="card">
+      <h2>3) Flujo arquitectonico relevante</h2>
+      <ul>
+        <li>Request entra por rutas web y middleware.</li>
+        <li>Controlador valida y orquesta el caso de uso.</li>
+        <li>Persistencia con Eloquent o repositorios especializados.</li>
+        <li>Cuando aplica, se dispara evento de dominio.</li>
+        <li>Listeners procesan tareas secundarias (algunas en cola) para no bloquear el request principal.</li>
+      </ul>
+    </section>
 
-  <h3>3.3 Repository Pattern</h3>
-  <ul>
-    <li>Consultas de reportes y ventas encapsuladas en repositorios dedicados.</li>
-    <li>Controladores no necesitan conocer detalles de consultas complejas.</li>
-  </ul>
+    <section class="card">
+      <h2>4) Diagnostico de calidad arquitectonica</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Criterio</th>
+            <th>Evaluacion</th>
+            <th>Observacion</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Separacion de responsabilidades</td>
+            <td>Media/Alta</td>
+            <td>Buena base por capas, con algunos controladores aun cargados.</td>
+          </tr>
+          <tr>
+            <td>Escalabilidad de codigo</td>
+            <td>Media</td>
+            <td>Hay piezas de servicio/repositorio, pero falta estandar para todos los modulos.</td>
+          </tr>
+          <tr>
+            <td>Consistencia multi-tenant</td>
+            <td>Alta</td>
+            <td>TenantScope + trait + middleware proveen aislamiento consistente.</td>
+          </tr>
+          <tr>
+            <td>Mantenibilidad</td>
+            <td>Media/Alta</td>
+            <td>Estructura estable para crecer, siempre que se siga extrayendo logica de controladores.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <h3>3.4 Event-Driven / Observer</h3>
-  <ul>
-    <li>Eventos de negocio disparados desde procesos clave (ventas y devoluciones).</li>
-    <li>Listeners reaccionan para tareas secundarias desacopladas (ej. notificaciones).</li>
-  </ul>
+    <section class="card">
+      <h2>5) Recomendaciones priorizadas</h2>
+      <h3>Corto plazo (2 a 4 semanas)</h3>
+      <ul>
+        <li>Definir convención de Application Services para casos de uso complejos.</li>
+        <li>Estandarizar uso de Form Requests en endpoints de escritura.</li>
+        <li>Mover consultas repetidas a repositorios/query objects por modulo.</li>
+      </ul>
 
-  <h3>3.5 Async Processing con colas</h3>
-  <ul>
-    <li>Listeners críticos implementan <code>ShouldQueue</code>.</li>
-    <li>Evita bloquear flujos principales por operaciones secundarias.</li>
-  </ul>
+      <h3>Mediano plazo (1 a 2 meses)</h3>
+      <ul>
+        <li>Expandir eventos/listeners para post-procesos secundarios y auditoria.</li>
+        <li>Reducir logica de negocio directa en controladores mas extensos.</li>
+        <li>Definir limites de modulo (ventas, inventario, reportes, notificaciones) para mejor mantenibilidad.</li>
+      </ul>
 
-  <h3>3.6 Dependency Injection (IoC)</h3>
-  <ul>
-    <li>Inyección por constructor en controladores y listeners.</li>
-    <li>Mejora testabilidad y reduce acoplamiento directo.</li>
-  </ul>
+      <h3>Largo plazo (3+ meses)</h3>
+      <ul>
+        <li>Evaluar modularizacion interna por bounded contexts sin romper monolito.</li>
+        <li>Revisar necesidad real de extraer servicios externos solo ante demanda operativa comprobada.</li>
+      </ul>
+    </section>
 
-  <h3>3.7 Active Record (Eloquent)</h3>
-  <ul>
-    <li>Modelos representan tablas, relaciones y parte de comportamiento.</li>
-    <li>Patrón natural del stack Laravel usado de forma consistente.</li>
-  </ul>
-
-  <h3>3.8 Multitenancy transversal (Scope + Trait + Middleware)</h3>
-  <ul>
-    <li>Scope global para filtrar automáticamente por tenant.</li>
-    <li>Trait reutilizable aplicado a múltiples modelos con <code>tenant_id</code>.</li>
-    <li>Middleware para resolver tenant activo y compartirlo en contexto.</li>
-  </ul>
-
-  <h2>4. Flujo funcional principal (alto nivel)</h2>
-  <ul>
-    <li>La petición entra por rutas web y middleware.</li>
-    <li>El controlador valida y coordina el caso de uso.</li>
-    <li>Se persiste/consulta mediante modelos o repositorios.</li>
-    <li>Si aplica, se dispara evento de dominio.</li>
-    <li>Listeners procesan acciones secundarias, algunos en cola.</li>
-  </ul>
-
-  <h2>5. Fortalezas actuales</h2>
-  <ul>
-    <li>Separación de responsabilidades superior al MVC básico.</li>
-    <li>Desacoplamiento por eventos en procesos relevantes.</li>
-    <li>Soporte multi-tenant integrado y reutilizable.</li>
-    <li>Estructura mantenible para crecimiento incremental.</li>
-  </ul>
-
-  <h2>6. Observaciones y oportunidades</h2>
-  <ul>
-    <li>Hay controladores con lógica extensa que podrían migrarse a servicios de dominio.</li>
-    <li>Parte de consultas se repite entre controladores y servicios.</li>
-    <li>La escalabilidad futura depende más de operación (Redis, workers, observabilidad) que de un cambio arquitectónico radical.</li>
-  </ul>
-
-  <h2>7. Conclusión final</h2>
-  <p>El proyecto está bien diseñado para su etapa: <strong>monolito modular con patrones correctos y enfoque práctico</strong>. La arquitectura permite evolucionar sin deuda crítica estructural inmediata.</p>
-
-  <p class="meta">Fin del reporte.</p>
+    <p class="footer">druvle-stock - Evaluacion arquitectonica interna</p>
+  </main>
 </body>
 </html>

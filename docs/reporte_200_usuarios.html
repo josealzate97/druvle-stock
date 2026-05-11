@@ -1,248 +1,316 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Plan de Capacidad para 200 Usuarios Concurrentes - Druvle Stock</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reporte 02 - Escalabilidad 200-500 Clientes</title>
   <style>
-    body { font-family: "DejaVu Sans", Arial, sans-serif; line-height: 1.45; color: #1f2937; margin: 28px; }
-    h1, h2, h3 { color: #0f172a; margin-bottom: 8px; }
-    h1 { font-size: 26px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
-    h2 { font-size: 20px; margin-top: 22px; }
-    h3 { font-size: 16px; margin-top: 18px; }
-    p { margin: 7px 0; }
-    ul { margin: 6px 0 10px 20px; }
-    li { margin: 4px 0; }
-    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-    th, td { border: 1px solid #d1d5db; padding: 8px; vertical-align: top; }
-    th { background: #f3f4f6; text-align: left; }
-    .meta { color: #4b5563; font-size: 13px; }
-    .ok { color: #065f46; }
-    .warn { color: #92400e; }
-    .critical { color: #991b1b; }
-    .small { font-size: 13px; color: #4b5563; }
-    .box { border: 1px solid #d1d5db; background: #f9fafb; padding: 10px; margin-top: 10px; }
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --text: #1d2638;
+      --muted: #5d6b82;
+      --accent: #0c6a61;
+      --accent-soft: #e4f4f2;
+      --ok: #1d7a46;
+      --warn: #8a6400;
+      --risk: #9f2d2d;
+      --border: #d9e3ee;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      background: linear-gradient(140deg, #eff5f8 0%, #f7fafc 42%, #eef7ef 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 32px auto;
+      padding: 0 30px 40px;
+    }
+
+    .hero {
+      background: linear-gradient(115deg, #0c6a61 0%, #1f8e83 55%, #2f6ca3 100%);
+      color: #fff;
+      border-radius: 14px;
+      padding: 34px;
+      box-shadow: 0 12px 30px rgba(15, 76, 90, 0.22);
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 40px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 6px 0;
+      opacity: 0.95;
+      font-size: 24px;
+    }
+
+    .card {
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 26px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      color: #163c53;
+    }
+
+    h3 {
+      margin: 16px 0 8px;
+      font-size: 28px;
+      color: #234d6a;
+    }
+
+    p, li, th, td {
+      font-size: 22px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 8px 0 0 20px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    th {
+      text-align: left;
+      background: var(--accent-soft);
+      color: #114558;
+      font-weight: 700;
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .ok { background: #e6f5eb; color: var(--ok); }
+    .warn { background: #fff4dd; color: var(--warn); }
+    .risk { background: #ffe7e7; color: var(--risk); }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 18px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 0 16px 24px; }
+      .hero h1 { font-size: 28px; }
+      .hero p, p, li, th, td { font-size: 17px; }
+      h2 { font-size: 26px; }
+      h3 { font-size: 22px; }
+      .pill { font-size: 14px; }
+      .footer { font-size: 14px; }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .page { margin: 0 auto; padding: 0; }
+      .hero { box-shadow: none; }
+      .card { break-inside: avoid; }
+    }
   </style>
 </head>
 <body>
-  <h1>Reporte Técnico: Plan para operar bien con 200 usuarios concurrentes</h1>
-  <p class="meta"><strong>Proyecto:</strong> Druvle Stock | <strong>Fecha:</strong> 11 de mayo de 2026 | <strong>Versión:</strong> 1.0</p>
+  <main class="page">
+    <section class="hero">
+      <h1>Reporte 02: Estado para soportar 200-500 clientes</h1>
+      <p><strong>Proyecto:</strong> druvle-stock (Laravel 12)</p>
+      <p><strong>Fecha:</strong> 11 de mayo de 2026</p>
+      <p><strong>Objetivo:</strong> evaluar capacidad operativa y definir mejoras de performance, workers, cache y operacion.</p>
+    </section>
 
-  <h2>1. Resumen ejecutivo</h2>
-  <p>La base de arquitectura actual (Laravel monolítico modular con MVC, servicios/repositorios, eventos y colas) es válida para llegar a 200 usuarios concurrentes. El principal trabajo pendiente está en la capa operativa: caché/sesión/colas, escalado horizontal, tuning de PHP-FPM y base de datos, y observabilidad.</p>
-  <div class="box">
-    <p><strong>Conclusión:</strong> Con las acciones de este plan, el sistema debería operar de forma estable con 200 usuarios concurrentes y dejar preparado el camino para escalar a 500+.</p>
-  </div>
+    <section class="card">
+      <h2>1) Diagnostico ejecutivo</h2>
+      <p class="muted">Conclusión: la app puede trabajar en ese rango con carga moderada, pero para 200-500 clientes concurrentes sostenidos necesita reforzar cache, colas, workers, observabilidad y despliegue. En el estado actual hay riesgos en picos.</p>
 
-  <h2>2. Estado actual y brechas</h2>
-  <h3>2.1 Fortalezas actuales</h3>
-  <ul>
-    <li>Separación funcional por capas (controladores, servicios, repositorios).</li>
-    <li>Eventos y listeners en cola para notificaciones.</li>
-    <li>Multi-tenant con scope global y middleware dedicado.</li>
-    <li>Docker y Nginx ya integrados.</li>
-  </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Estado actual observado</th>
+            <th>Impacto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cache</td>
+            <td>Driver por defecto en <strong>file</strong> (config/cache.php).</td>
+            <td><span class="pill warn">Medio</span></td>
+          </tr>
+          <tr>
+            <td>Colas</td>
+            <td>Default en <strong>database</strong> (config/queue.php) con un solo servicio de worker en docker-compose.</td>
+            <td><span class="pill warn">Medio/Alto</span></td>
+          </tr>
+          <tr>
+            <td>Sesiones</td>
+            <td>Driver en <strong>database</strong> (config/session.php), correcto para multi-instancia inicial.</td>
+            <td><span class="pill ok">Bueno</span></td>
+          </tr>
+          <tr>
+            <td>Base de datos</td>
+            <td>MySQL de un solo nodo; sin replica de lectura ni pool explicito.</td>
+            <td><span class="pill warn">Medio</span></td>
+          </tr>
+          <tr>
+            <td>Infraestructura</td>
+            <td>Stack docker funcional pero orientado a desarrollo (incluye vite dev). Sin Redis declarado en compose actual.</td>
+            <td><span class="pill risk">Alto</span></td>
+          </tr>
+          <tr>
+            <td>Observabilidad</td>
+            <td>No se evidencia stack formal de metricas/APM/trazas con alertas.</td>
+            <td><span class="pill risk">Alto</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <h3>2.2 Brechas para 200 concurrentes</h3>
-  <ul>
-    <li class="warn">Cola en base de datos (correcta para inicio, menos eficiente en picos).</li>
-    <li class="warn">Caché por archivos y sesiones en DB sin Redis compartido.</li>
-    <li class="warn">Solo una instancia app y un worker en docker-compose.</li>
-    <li class="warn">Sin observabilidad avanzada (APM, métricas p95, alertas operativas).</li>
-    <li class="warn">Sin política formal de pruebas de carga recurrentes.</li>
-  </ul>
+    <section class="card">
+      <h2>2) Riesgos para 200-500 clientes</h2>
+      <ul>
+        <li><strong>Cuellos en I/O por cache file:</strong> lock de disco y mayor latencia bajo concurrencia.</li>
+        <li><strong>Queue database con un worker:</strong> backlog en picos de eventos/jobs.</li>
+        <li><strong>Procesos pesados en request web:</strong> reportes PDF/Excel pueden competir con trafico interactivo.</li>
+        <li><strong>N+1 y queries costosas:</strong> riesgo en listados con filtros/relaciones si no se perfilan.</li>
+        <li><strong>DB unico nodo:</strong> sin elasticidad horizontal para lectura.</li>
+      </ul>
+    </section>
 
-  <h2>3. Objetivos operativos (SLO) para declarar éxito</h2>
-  <ul>
-    <li><strong>Latencia web p95:</strong> menor a 500 ms en endpoints críticos.</li>
-    <li><strong>Error rate:</strong> menor a 1% en 5xx durante carga.</li>
-    <li><strong>Cola:</strong> espera promedio menor a 5 s en notificaciones.</li>
-    <li><strong>Recursos:</strong> CPU media menor a 70% sostenida en app y DB.</li>
-    <li><strong>Disponibilidad:</strong> mayor o igual a 99.5% mensual.</li>
-  </ul>
+    <section class="card">
+      <h2>3) Plan de mejora recomendado</h2>
 
-  <h2>4. Plan de evolución por fases</h2>
+      <h3>Fase 1 (0-3 semanas): base minima para escalar</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Accion</th>
+            <th>Resultado esperado</th>
+            <th>Prioridad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Migrar cache a Redis (<code>CACHE_DRIVER=redis</code>) y definir TTL por modulo.</td>
+            <td>Menor latencia en lecturas repetidas y menos carga sobre MySQL.</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <td>Migrar queue a Redis (<code>QUEUE_CONNECTION=redis</code>) o tunear database queue + indices si no se migra aun.</td>
+            <td>Procesamiento asincrono mas estable para notificaciones y tareas pesadas.</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <td>Separar colas por prioridad (<code>high</code>, <code>default</code>, <code>low</code>) y asignar workers dedicados.</td>
+            <td>Menos bloqueo entre trabajos urgentes y no urgentes.</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <td>Escalar workers de 1 a 3-5 procesos segun carga y monitorear backlog.</td>
+            <td>Reduccion del tiempo de espera de jobs bajo picos.</td>
+            <td>Alta</td>
+          </tr>
+          <tr>
+            <td>Activar optimizaciones de despliegue: config/route/view cache + OPcache.</td>
+            <td>Mejor tiempo de respuesta promedio.</td>
+            <td>Alta</td>
+          </tr>
+        </tbody>
+      </table>
 
-  <h3>Fase A (Base de rendimiento, 1-2 semanas)</h3>
-  <table>
-    <thead>
-      <tr><th>Acción</th><th>Qué hacer</th><th>Resultado esperado</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Migrar a Redis</td>
-        <td>Usar Redis para <em>cache</em>, <em>session</em> y <em>queue</em>.</td>
-        <td>Menor I/O a disco/DB y mejor rendimiento concurrente.</td>
-      </tr>
-      <tr>
-        <td>Optimizar PHP-FPM</td>
-        <td>Ajustar <em>pm</em>, <em>pm.max_children</em>, <em>opcache</em>.</td>
-        <td>Mejor throughput y menor latencia en picos.</td>
-      </tr>
-      <tr>
-        <td>Optimizar workers</td>
-        <td>Levantar 2-4 workers con políticas de reintento y timeout.</td>
-        <td>Cola estable y sin acumulación prolongada.</td>
-      </tr>
-      <tr>
-        <td>Índices SQL</td>
-        <td>Indexar columnas de filtro/joins: tenant_id, fechas, estado, user_id.</td>
-        <td>Consultas de lectura más rápidas y predecibles.</td>
-      </tr>
-    </tbody>
-  </table>
+      <h3>Fase 2 (1-2 meses): robustez de datos y rendimiento</h3>
+      <ul>
+        <li>Auditoria de indices SQL para filtros mas usados (tenant_id, fechas, estado y foraneas).</li>
+        <li>Instrumentar slow query log y APM para endpoints calientes.</li>
+        <li>Paginar y limitar payload en listados con relaciones.</li>
+        <li>Cachear catalogos/configuracion de baja volatilidad.</li>
+        <li>Mover exportaciones pesadas a jobs asincronos con notificacion al finalizar.</li>
+      </ul>
 
-  <h3>Fase B (Escala horizontal, 1-2 semanas)</h3>
-  <table>
-    <thead>
-      <tr><th>Acción</th><th>Qué hacer</th><th>Resultado esperado</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Replicar app</td>
-        <td>2-3 réplicas de PHP app detrás de balanceador (Traefik/Nginx).</td>
-        <td>Mayor capacidad de concurrencia y resiliencia.</td>
-      </tr>
-      <tr>
-        <td>Estado compartido</td>
-        <td>Sesión y caché centralizadas en Redis.</td>
-        <td>Escalado sin pérdida de sesión al cambiar de nodo.</td>
-      </tr>
-      <tr>
-        <td>Separar colas</td>
-        <td>Colas por prioridad (alta/media/baja) y workers dedicados.</td>
-        <td>Menor impacto cruzado entre tareas.</td>
-      </tr>
-    </tbody>
-  </table>
+      <h3>Fase 3 (2-4 meses): preparacion enterprise</h3>
+      <ul>
+        <li>Escalado horizontal de app (multiples replicas PHP-FPM detras de balanceador).</li>
+        <li>Replica de lectura en MySQL para consultas no transaccionales.</li>
+        <li>Stack formal de observabilidad (metricas, logs centralizados, trazas y alertas).</li>
+        <li>Definir SLOs por endpoint (latencia p95, error rate, tiempo de cola).</li>
+      </ul>
+    </section>
 
-  <h3>Fase C (Observabilidad y confiabilidad, 1 semana)</h3>
-  <table>
-    <thead>
-      <tr><th>Acción</th><th>Qué hacer</th><th>Resultado esperado</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Métricas</td>
-        <td>Dashboards de latencia, throughput, cola, errores, CPU/RAM.</td>
-        <td>Detección temprana de cuellos.</td>
-      </tr>
-      <tr>
-        <td>Alertas</td>
-        <td>Alertar por p95 alto, backlog de jobs, 5xx, caídas.</td>
-        <td>Menor MTTR y menos incidentes prolongados.</td>
-      </tr>
-      <tr>
-        <td>Pruebas de carga</td>
-        <td>Escenarios semanales en entorno staging con datos reales anonimizados.</td>
-        <td>Validación continua de capacidad objetivo.</td>
-      </tr>
-    </tbody>
-  </table>
+    <section class="card">
+      <h2>4) Estimacion de capacidad (orientativa)</h2>
+      <p class="muted">Sin prueba de carga formal, la siguiente estimacion es referencial y depende de hardware, patron de uso y mezcla de endpoints.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Escenario</th>
+            <th>Estado probable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Arquitectura actual, sin tuning operativo</td>
+            <td>Apta para cargas bajas-medias, con riesgo en picos y trabajos pesados.</td>
+          </tr>
+          <tr>
+            <td>Con Fase 1 completa</td>
+            <td>Soporte mucho mas estable para 200-500 usuarios activos con concurrencia moderada.</td>
+          </tr>
+          <tr>
+            <td>Con Fase 1 + 2 + pruebas de carga recurrentes</td>
+            <td>Base adecuada para crecimiento sostenido y mayor predictibilidad operativa.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-  <h2>5. Cambios concretos recomendados</h2>
+    <section class="card">
+      <h2>5) KPI de seguimiento sugeridos</h2>
+      <ul>
+        <li>Latencia p95/p99 por endpoint critico.</li>
+        <li>Tiempo en cola y backlog por tipo de job.</li>
+        <li>Uso de CPU/RAM por servicio (php, db, queue).</li>
+        <li>Tasa de errores 5xx y timeouts por minuto.</li>
+        <li>Top consultas SQL por tiempo total.</li>
+      </ul>
+    </section>
 
-  <h3>5.1 Infraestructura (Docker Compose)</h3>
-  <ul>
-    <li>Agregar servicio Redis.</li>
-    <li>Escalar servicio app a 2+ instancias en producción.</li>
-    <li>Levantar al menos 2 workers de cola (ideal 3-4).</li>
-    <li>Eliminar procesos de desarrollo (Vite dev server) del entorno productivo.</li>
-  </ul>
-
-  <h3>5.2 Configuración Laravel (.env)</h3>
-  <ul>
-    <li><strong>APP_ENV=production</strong></li>
-    <li><strong>APP_DEBUG=false</strong></li>
-    <li><strong>CACHE_DRIVER=redis</strong></li>
-    <li><strong>SESSION_DRIVER=redis</strong></li>
-    <li><strong>QUEUE_CONNECTION=redis</strong></li>
-    <li><strong>REDIS_HOST / REDIS_PORT / REDIS_PASSWORD</strong> definidos.</li>
-  </ul>
-
-  <h3>5.3 Base de datos (índices mínimos)</h3>
-  <ul>
-    <li><strong>sales:</strong> (tenant_id, sale_date), (tenant_id, created_at)</li>
-    <li><strong>sale_details:</strong> (sale_id), (product_id)</li>
-    <li><strong>products:</strong> (tenant_id, status), (category_id)</li>
-    <li><strong>user_notifications:</strong> (user_id, read_at), (user_id, archived_at), (notification_id)</li>
-    <li><strong>notifications:</strong> (type, created_at)</li>
-    <li><strong>sessions:</strong> (user_id), (tenant_id), (last_activity)</li>
-    <li><strong>jobs:</strong> (queue, available_at), (reserved_at)</li>
-  </ul>
-
-  <h3>5.4 Aplicación (rápidas mejoras)</h3>
-  <ul>
-    <li>Paginar listados pesados y evitar consultas sin límite.</li>
-    <li>Cachear catálogos y configuraciones de baja variación.</li>
-    <li>Precalcular reportes pesados o ejecutarlos por job asíncrono.</li>
-    <li>Ajustar timeouts en notificaciones y retries para evitar duplicados.</li>
-  </ul>
-
-  <h2>6. Pruebas de carga recomendadas</h2>
-  <h3>Escenario 1: navegación + lectura (70%)</h3>
-  <ul>
-    <li>Login, dashboard, listados de productos/ventas.</li>
-    <li>Objetivo: p95 menor a 400 ms.</li>
-  </ul>
-
-  <h3>Escenario 2: operaciones de venta (20%)</h3>
-  <ul>
-    <li>Crear ventas con 2-5 items, actualizar inventario, disparar eventos.</li>
-    <li>Objetivo: p95 menor a 600 ms, 5xx menor a 1%.</li>
-  </ul>
-
-  <h3>Escenario 3: reportes y exportaciones (10%)</h3>
-  <ul>
-    <li>Consultar reportes con filtros y exportar.</li>
-    <li>Objetivo: no bloquear operaciones de venta ni colas.</li>
-  </ul>
-
-  <h2>7. Capacidad esperada tras implementación</h2>
-  <ul>
-    <li class="ok"><strong>Objetivo seguro:</strong> 200 concurrentes estables.</li>
-    <li class="ok"><strong>Margen razonable:</strong> 300-500 concurrentes según patrón de uso.</li>
-    <li class="warn"><strong>Riesgo principal:</strong> reportes pesados sin aislamiento pueden reducir capacidad efectiva.</li>
-  </ul>
-
-  <h2>8. Plan operativo de 30 días</h2>
-  <table>
-    <thead>
-      <tr><th>Semana</th><th>Entrega</th><th>Criterio de aceptación</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Semana 1</td>
-        <td>Redis + drivers Laravel + ajuste inicial de workers.</td>
-        <td>Latencia baja 20-30% en staging.</td>
-      </tr>
-      <tr>
-        <td>Semana 2</td>
-        <td>Índices DB + tuning PHP-FPM + caché de catálogos.</td>
-        <td>Consultas críticas con menor tiempo y menos variabilidad.</td>
-      </tr>
-      <tr>
-        <td>Semana 3</td>
-        <td>Escalado horizontal de app + separación de colas por prioridad.</td>
-        <td>Sin degradación en pruebas de 200 concurrentes.</td>
-      </tr>
-      <tr>
-        <td>Semana 4</td>
-        <td>Observabilidad + alertas + prueba final de carga.</td>
-        <td>SLOs cumplidos para producción.</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h2>9. Checklist final antes de producción</h2>
-  <ul>
-    <li>APP_DEBUG=false en producción.</li>
-    <li>Backups automáticos de base de datos y prueba de restauración.</li>
-    <li>Monitoreo de cola y alertas activas.</li>
-    <li>Documentación de runbook para incidentes.</li>
-    <li>Prueba de carga validada y firmada por equipo técnico.</li>
-  </ul>
-
-  <p class="small">Este documento define el mínimo recomendable para operar establemente con 200 usuarios concurrentes en Druvle Stock, manteniendo una ruta clara de escalabilidad.</p>
+    <p class="footer">druvle-stock - Evaluacion de escalabilidad y capacidad operativa</p>
+  </main>
 </body>
 </html>
