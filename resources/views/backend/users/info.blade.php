@@ -56,7 +56,7 @@
                         <i class="fas fa-arrow-left"></i> Volver al listado
                     </a>
                 @else
-                    <button class="btn edit-solid-btn" @click="toggleEdit">
+                    <button class="btn edit-outline-btn" @click="toggleEdit">
                         <i class="fa fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                     </button>
                 @endif
@@ -138,7 +138,7 @@
                 </div>
 
                 <div class="my-4 text-center" x-show="editMode">
-                    <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold" :disabled="isSubmitDisabled" :class="{'disabled': isSubmitDisabled}">
+                    <button type="submit" class="btn btn-outline-success btn-lg px-5 fw-bold user-info-save-btn" :disabled="isSubmitDisabled" :class="{'disabled': isSubmitDisabled}">
                         <i class="fa fa-save"></i>&nbsp;
                         <span x-text="isCreateMode ? 'Crear Usuario' : 'Actualizar Informacion'"></span>
                     </button>

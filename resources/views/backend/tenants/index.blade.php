@@ -112,7 +112,7 @@
 
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <div class="section-avatar section-avatar--purple">
+                                            <div class="section-avatar section-avatar--purple tenant-store-avatar">
                                                 <i class="fas fa-store tenant-store-icon"></i>
                                             </div>
                                             <div>
@@ -223,7 +223,7 @@
                             <div class="tnt-card">
 
                                 <div class="tnt-card-header">
-                                    <div class="section-avatar flex-shrink-0 section-avatar--purple">
+                                    <div class="section-avatar flex-shrink-0 section-avatar--purple tenant-store-avatar">
                                         <i class="fas fa-store tenant-store-icon"></i>
                                     </div>
                                     <div class="ms-2 overflow-hidden">

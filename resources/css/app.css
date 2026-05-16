@@ -962,6 +962,18 @@ body.theme-dark .section-hero-icon {
   color: #b42332;
 }
 
+.btn-icon-warning-outline {
+  background: transparent;
+  border-color: #f6c453;
+  color: #b45309;
+}
+
+.btn-icon-warning-outline:hover {
+  background: #fffbeb;
+  border-color: #e6b13d;
+  color: #92400e;
+}
+
 body.theme-dark .btn-icon-edit {
   background: #1a2230;
   border-color: #2b313c;
@@ -994,6 +1006,106 @@ body.theme-dark .btn-icon-danger-outline:hover {
   background: #3a1f24;
   border-color: #7a3a45;
   color: #fecdd3;
+}
+
+body.theme-dark .btn-icon-warning-outline {
+  background: transparent;
+  border-color: #5e4718;
+  color: #fbbf24;
+}
+
+body.theme-dark .btn-icon-warning-outline:hover {
+  background: #2a1f06;
+  border-color: #7a5a20;
+  color: #fcd34d;
+}
+
+.tnt-card-actions .btn-outline-danger,
+.cat-card-actions .btn-outline-danger,
+.prod-card-actions .btn-outline-danger,
+.usr-card-actions .btn-outline-danger,
+.tax-card-actions .btn-outline-danger {
+  background: transparent;
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.tnt-card-actions .btn-outline-danger:hover,
+.cat-card-actions .btn-outline-danger:hover,
+.prod-card-actions .btn-outline-danger:hover,
+.usr-card-actions .btn-outline-danger:hover,
+.tax-card-actions .btn-outline-danger:hover {
+  background: #fff1f2;
+  border-color: #bb2d3b;
+  color: #bb2d3b;
+}
+
+.prod-card-actions .btn-outline-success {
+  background: transparent;
+  border-color: #198754;
+  color: #198754;
+}
+
+.prod-card-actions .btn-outline-success:hover {
+  background: #ecfdf3;
+  border-color: #157347;
+  color: #157347;
+}
+
+.usr-card-actions .btn-outline-warning {
+  background: transparent;
+  border-color: #f59e0b;
+  color: #b45309;
+}
+
+.usr-card-actions .btn-outline-warning:hover {
+  background: #fffbeb;
+  border-color: #d97706;
+  color: #92400e;
+}
+
+body.theme-dark .tnt-card-actions .btn-outline-danger,
+body.theme-dark .cat-card-actions .btn-outline-danger,
+body.theme-dark .prod-card-actions .btn-outline-danger,
+body.theme-dark .usr-card-actions .btn-outline-danger,
+body.theme-dark .tax-card-actions .btn-outline-danger {
+  background: transparent;
+  border-color: #7a3a45;
+  color: #fda4af;
+}
+
+body.theme-dark .tnt-card-actions .btn-outline-danger:hover,
+body.theme-dark .cat-card-actions .btn-outline-danger:hover,
+body.theme-dark .prod-card-actions .btn-outline-danger:hover,
+body.theme-dark .usr-card-actions .btn-outline-danger:hover,
+body.theme-dark .tax-card-actions .btn-outline-danger:hover {
+  background: #3a1f24;
+  border-color: #964955;
+  color: #fecdd3;
+}
+
+body.theme-dark .prod-card-actions .btn-outline-success {
+  background: transparent;
+  border-color: #2d6a4f;
+  color: #86efac;
+}
+
+body.theme-dark .prod-card-actions .btn-outline-success:hover {
+  background: #10261d;
+  border-color: #3f8f6a;
+  color: #bbf7d0;
+}
+
+body.theme-dark .usr-card-actions .btn-outline-warning {
+  background: transparent;
+  border-color: #7a5a20;
+  color: #fbbf24;
+}
+
+body.theme-dark .usr-card-actions .btn-outline-warning:hover {
+  background: #2a1f06;
+  border-color: #946c26;
+  color: #fcd34d;
 }
 
 body.theme-dark .table-chip-user {
@@ -2370,6 +2482,20 @@ body.theme-dark .module-tabs-connected + .module-tabs-content {
   color: #ffffff;
 }
 
+.edit-outline-btn {
+  background: transparent;
+  border: 1px solid #f59e0b;
+  color: #b45309;
+  font-weight: 700;
+}
+
+.edit-outline-btn:hover,
+.edit-outline-btn:focus {
+  background: #fffbeb;
+  border-color: #d97706;
+  color: #92400e;
+}
+
 body.theme-dark .btn-outline-success,
 body.theme-dark .btn-outline-success:hover,
 body.theme-dark .btn-outline-success:focus,
@@ -2386,6 +2512,19 @@ body.theme-dark .edit-solid-btn,
 body.theme-dark .edit-solid-btn:hover,
 body.theme-dark .edit-solid-btn:focus {
   box-shadow: none;
+}
+
+body.theme-dark .edit-outline-btn {
+  background: transparent;
+  border-color: #7a5a20;
+  color: #fbbf24;
+}
+
+body.theme-dark .edit-outline-btn:hover,
+body.theme-dark .edit-outline-btn:focus {
+  background: #2a1f06;
+  border-color: #946c26;
+  color: #fcd34d;
 }
 
 /* ── table-chip variantes plan ── */

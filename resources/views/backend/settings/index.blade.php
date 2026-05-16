@@ -74,7 +74,7 @@
                             </div>
                             <div class="text-muted small settings-hero-description">Ajustes generales y datos fiscales de tu negocio.</div>
                         </div>
-                        <button class="btn settings-edit-btn edit-solid-btn settings-hero-button" @click="toggleEdit">
+                        <button class="btn settings-edit-btn edit-outline-btn settings-hero-button" @click="toggleEdit">
                             <i class="fas fa-edit"></i> <span x-text="editMode ? 'Cancelar' : 'Editar'"></span>
                         </button>
                     </div>

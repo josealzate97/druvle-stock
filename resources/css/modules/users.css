@@ -160,10 +160,18 @@ body.theme-dark .role-badge-purple {
   color: #dec7ff;
 }
 
+.user-info-save-btn {
+  width: auto;
+}
+
 @media (max-width: 767.98px) {
   .user-info-header .btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .user-info-save-btn {
+    width: 100%;
   }
 }
 
@@ -191,6 +199,12 @@ body.theme-dark .role-badge-purple {
 
   .users-page .users-toolbar {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .user-info-save-btn {
+    width: 70%;
   }
 }
 

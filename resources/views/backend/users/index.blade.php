@@ -108,7 +108,7 @@
                                     </td>
                                     <td class="text-end">
 
-                                        <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-warning"
+                                                                                <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-warning-outline"
                                            aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
                                              <i class="fas fa-edit mt-1"></i>
                                         </a>
