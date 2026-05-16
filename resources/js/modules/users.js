@@ -18,10 +18,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 const matchesRole = !role || row.dataset.role === role;
                 row.style.display = matchesQuery && matchesRole ? '' : 'none';
             });
+
+            // Filtrar slides en móvil/tablet
+            document.querySelectorAll('#userSlider .usr-slide').forEach(slide => {
+                const text = slide.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesRole = !role || slide.dataset.role === role;
+                slide.style.display = matchesQuery && matchesRole ? '' : 'none';
+            });
         };
 
         searchInput.addEventListener('input', filterRows);
         roleSelect.addEventListener('change', filterRows);
+    }
+
+    // ─── User Card Slider: dots con IntersectionObserver ───
+    const usrSlider = document.getElementById('userSlider');
+    const usrDotsContainer = document.getElementById('userSliderDots');
+
+    if (usrSlider && usrDotsContainer) {
+        const usrSlides = Array.from(usrSlider.querySelectorAll('.usr-slide'));
+        const usrDots   = Array.from(usrDotsContainer.querySelectorAll('.usr-dot'));
+
+        const setActiveDot = (index) => {
+            usrDots.forEach((d, i) => d.classList.toggle('usr-dot--active', i === index));
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveDot(usrSlides.indexOf(entry.target));
+                }
+            });
+        }, { root: usrSlider, threshold: 0.6 });
+
+        usrSlides.forEach(slide => observer.observe(slide));
+
+        usrDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                usrSlides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            });
+        });
+
+        setActiveDot(0);
     }
 });
 
