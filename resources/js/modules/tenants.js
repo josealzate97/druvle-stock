@@ -21,10 +21,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 const matchesStatus = !status || row.dataset.status === status;
                 row.style.display = matchesQuery && matchesStatus ? '' : 'none';
             });
+
+            // Filtrar slides en móvil/tablet
+            document.querySelectorAll('#tenantSlider .tnt-slide').forEach(slide => {
+                const text = slide.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesStatus = !status || slide.dataset.status === status;
+                slide.style.display = matchesQuery && matchesStatus ? '' : 'none';
+            });
         };
 
         searchInput.addEventListener('input', filterRows);
         statusSelect.addEventListener('change', filterRows);
+    }
+
+    // ─── Tenant Card Slider: dots con IntersectionObserver ───
+    const tntSlider = document.getElementById('tenantSlider');
+    const tntDotsContainer = document.getElementById('tenantSliderDots');
+
+    if (tntSlider && tntDotsContainer) {
+        const tntSlides = Array.from(tntSlider.querySelectorAll('.tnt-slide'));
+        const tntDots   = Array.from(tntDotsContainer.querySelectorAll('.tnt-dot'));
+
+        const setActiveDot = (index) => {
+            tntDots.forEach((d, i) => d.classList.toggle('tnt-dot--active', i === index));
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveDot(tntSlides.indexOf(entry.target));
+                }
+            });
+        }, { root: tntSlider, threshold: 0.6 });
+
+        tntSlides.forEach(slide => observer.observe(slide));
+
+        tntDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                tntSlides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            });
+        });
+
+        setActiveDot(0);
     }
 
     const tenantForm = document.getElementById('tenantForm');
