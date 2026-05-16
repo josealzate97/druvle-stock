@@ -29,15 +29,6 @@
   color: #ffffff;
 }
 
-body.theme-dark .settings-tabs {
-  background: #0f141b;
-  border-color: #2b313c;
-  box-shadow: none;
-}
-
-body.theme-dark .settings-tabs .nav-link {
-  color: #cbd5e1;
-}
 
 /* ─── Tax Card Slider (móvil / tablet < lg) ─── */
 .tax-slider-wrapper {
@@ -133,55 +124,3 @@ body.theme-dark .settings-tabs .nav-link {
   transform: scale(1.4);
 }
 
-body.theme-dark .settings-tabs .nav-link.active {
-  background: #1b77d3;
-  color: #ffffff;
-}
-
-body.theme-dark .settings-hero {
-  background: linear-gradient(135deg, #0f141b 0%, #151c26 100%);
-  border-color: #2b313c;
-}
-
-body.theme-dark .settings-hero .section-hero-icon {
-  background: linear-gradient(135deg, #1a2230 0%, #202a3a 100%);
-  color: #a5b4fc;
-  border: 1px solid #2b313c;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
-}
-
-body.theme-dark .section-hero .section-hero-icon {
-  background: linear-gradient(135deg, #1a2230 0%, #202a3a 100%);
-  color: #a78bfa;
-  border: 1px solid #2b313c;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
-}
-
-body.theme-dark .settings-section-title {
-  color: #94a3b8;
-}
-
-body.theme-dark .settings-form-card .form-control {
-  background: #0f141b;
-  border-color: #2b313c;
-  color: #e5e7eb;
-}
-
-body.theme-dark .taxes-table thead th {
-  border-color: #2b313c;
-  color: #94a3b8;
-}
-
-body.theme-dark .taxes-table tbody tr {
-  border-color: #1f2633;
-}
-
-body.theme-dark .taxes-table tbody tr:hover {
-  background: rgba(27, 119, 211, 0.12);
-}
-
-body.theme-dark .taxes-table .badge.bg-light {
-  background: #13233a !important;
-  color: #93c5fd;
-  border-color: #1f3657 !important;
-}

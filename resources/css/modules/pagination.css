@@ -137,20 +137,3 @@
   }
 }
 
-body.theme-dark {
-  --pg-bg: #151d28;
-  --pg-border: #2d3b4f;
-  --pg-text: #c1d1e7;
-  --pg-hover-bg: #1d2837;
-  --pg-hover-border: #3b4f6a;
-  --pg-hover-text: #deebff;
-  --pg-active-bg: linear-gradient(180deg, #3d79bf 0%, #2f6fb8 100%);
-  --pg-active-border: #4a85c7;
-  --pg-active-text: #f8fbff;
-  --pg-disabled-bg: #111922;
-  --pg-disabled-border: #263447;
-  --pg-disabled-text: #667b99;
-  --pg-badge-bg: #1a2635;
-  --pg-badge-border: #32465f;
-  --pg-badge-text: #ffffff;
-}

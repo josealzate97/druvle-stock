@@ -194,13 +194,6 @@
   }
 }
 
-body.theme-dark .tenants-toolbar .form-control,
-body.theme-dark .tenants-toolbar .form-select {
-  background: #0f141b;
-  border-color: #2b313c;
-  color: #e5e7eb;
-}
-
 /* ─── Tenant Card Slider (móvil / tablet < lg) ─── */
 .tnt-slider-wrapper {
   padding: 0.75rem 0 0;

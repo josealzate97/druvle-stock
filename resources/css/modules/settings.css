@@ -124,11 +124,6 @@
   box-shadow: 0 0 0 0.2rem rgba(27, 119, 211, 0.15);
 }
 
-body.theme-dark .settings-content {
-  background: #14171d;
-  border-color: #1f2329;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
-}
 
 /* Layout de dos columnas: datos + logo */
 .settings-main-layout {
@@ -168,18 +163,6 @@ body.theme-dark .settings-content {
   color: #b8d4f5;
 }
 
-body.theme-dark .settings-logo-col {
-  border-left-color: #1f2329;
-}
-
-body.theme-dark .settings-logo-preview {
-  border-color: #2a3f5e;
-  background: linear-gradient(135deg, #182233 0%, #1a2840 100%);
-}
-
-body.theme-dark .settings-logo-placeholder {
-  color: #2d4a6a;
-}
 
 @media (max-width: 991.98px) {
   .settings-page .settings-tabs-shell {
@@ -315,22 +298,3 @@ body.theme-dark .settings-logo-placeholder {
   font-weight: 800;
 }
 
-body.theme-dark .notification-table .table-chip-type {
-  background: linear-gradient(160deg, #312e81 0%, #3730a3 100%);
-  color: #e0e7ff;
-  border-color: #4f46e5;
-}
-
-body.theme-dark .notification-table .status-pill-priority {
-  background: #1e3a8a;
-  color: #bfdbfe;
-}
-
-body.theme-dark .notification-target-box {
-  background: #101722;
-  border-color: #253042;
-}
-
-body.theme-dark .notification-target-title {
-  color: #93b4df;
-}

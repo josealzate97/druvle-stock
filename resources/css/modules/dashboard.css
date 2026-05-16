@@ -130,20 +130,6 @@
   font-size: 0.85rem;
 }
 
-body.theme-dark .dashboard-card-header--accent {
-  border-bottom-color: #1f2329;
-}
-
-body.theme-dark .dashboard-pill {
-  background: #1a2230;
-  color: #9cc8ff;
-}
-
-body.theme-dark .dashboard-select {
-  background: #0f141b;
-  border-color: #2b313c;
-  color: #e5e7eb;
-}
 
 .sale-code-badge {
   background: #f3e8ff;
@@ -154,11 +140,6 @@ body.theme-dark .dashboard-select {
   border: 1px solid #e9d5ff;
 }
 
-body.theme-dark .sale-code-badge {
-  background: #2a1b47;
-  color: #d8b4fe;
-  border-color: #4c2f7d;
-}
 
 .dashboard-link {
   display: inline-flex;
@@ -181,18 +162,6 @@ body.theme-dark .sale-code-badge {
   transform: translateY(-1px);
 }
 
-body.theme-dark .dashboard-link {
-  background: linear-gradient(180deg, #3d2469 0%, #2f1b52 100%);
-  color: #e9d5ff;
-  border-color: #5b3b8c;
-  box-shadow: 0 8px 18px rgba(8, 10, 16, 0.45);
-}
-
-body.theme-dark .dashboard-link:hover {
-  background: linear-gradient(180deg, #4a2d7d 0%, #3b2365 100%);
-  color: #f3e8ff;
-  border-color: #7c59b4;
-}
 
 .dashboard-card-header h5 {
   margin: 0;

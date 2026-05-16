@@ -71,16 +71,6 @@
   padding: 0.35rem;
 }
 
-body.theme-dark .sales-tabs-content {
-  border-color: #252c36;
-  background: #14171d;
-}
-
-body.theme-dark .sales-hero-card,
-body.theme-dark .sales-history-hero {
-  background: #14171d !important;
-  border-color: #252c36 !important;
-}
 
 .sales-grid {
   align-items: flex-start;
@@ -287,45 +277,6 @@ body.theme-dark .sales-history-hero {
   min-height: 42px;
 }
 
-body.theme-dark .payment-card {
-  border-color: #2f4a3a;
-  background: linear-gradient(180deg, #14241c 0%, #172b22 100%);
-}
-
-body.theme-dark .payment-header,
-body.theme-dark .payment-total strong {
-  color: #8fe2ad;
-}
-
-body.theme-dark .payment-total {
-  border-top-color: #2f4a3a;
-  border-bottom-color: #2f4a3a;
-}
-
-body.theme-dark .payment-highlight {
-  background: #3a321a;
-  border-color: #5e4f24;
-  color: #f3d98d;
-}
-
-body.theme-dark .payment-highlight small {
-  color: #f3d98d;
-}
-
-body.theme-dark .sales-client-card {
-  border-color: #2f4159;
-  background: linear-gradient(180deg, #172434 0%, #1a2a3d 100%);
-}
-
-body.theme-dark .sales-client-card .form-label {
-  color: #a6c4ec;
-}
-
-body.theme-dark .sales-client-card .form-control {
-  background: #101a27;
-  border-color: #2f4159;
-  color: #e2ecfb;
-}
 
 .sales-view-btn {
   display: inline-flex;
@@ -347,16 +298,6 @@ body.theme-dark .sales-client-card .form-control {
   color: #0b4e91;
 }
 
-body.theme-dark .sales-view-btn {
-  background: linear-gradient(180deg, #1e3048 0%, #192840 100%);
-  border-color: #2d4a6a;
-  color: #9cc8ff;
-}
-
-body.theme-dark .sales-view-btn:hover {
-  background: linear-gradient(180deg, #24384f 0%, #1e2f42 100%);
-  color: #c7deff;
-}
 
 @media (max-width: 991.98px) {
   .sales-page .sales-hero-card,
