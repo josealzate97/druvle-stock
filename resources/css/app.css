@@ -2312,42 +2312,6 @@ body.theme-dark .module-tabs-connected + .module-tabs-content {
   border-top-color: #252c36;
 }
 
-/* Contenedor del paginador */
-.pagination {
-  justify-content: center;
-  margin-top: 20px;
-}
-
-/* Botones del paginador */
-.pagination .page-item .page-link {
-  color: #000;
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin: 0 5px;
-  transition: all 0.3s ease;
-}
-
-/* Hover en los botones */
-.pagination .page-item .page-link:hover {
-  background-color: #e9ecef;
-  color: #000;
-}
-
-/* Botón activo */
-.pagination .page-item.active .page-link {
-  background-color: var(--accent-color);
-  color: #fff;
-  border-color: var(--dark-accent-color);
-}
-
-/* Botones deshabilitados */
-.pagination .page-item.disabled .page-link {
-  color: #6c757d;
-  background-color: #f8f9fa;
-  border-color: #ddd;
-}
-
 /* Campo válido */
 .valid-input {
   border: 2px solid #1b77d3;
