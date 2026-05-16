@@ -175,7 +175,7 @@
                         </div>
 
                         <div class="d-flex justify-content-center my-5">
-                            <button type="submit" class="btn btn-outline-success btn-lg col-4 px-4" :disabled="!editMode">
+                            <button type="submit" class="btn btn-outline-success btn-lg col-12 col-md-5 col-lg-4 px-4" :disabled="!editMode">
                                 <i class="fas fa-save me-1"></i> Guardar Cambios
                             </button>
                         </div>
