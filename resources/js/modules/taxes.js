@@ -158,6 +158,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    // ─── Tax Card Slider: dots con IntersectionObserver ───
+    const taxSlider = document.getElementById('taxSlider');
+    const taxDotsContainer = document.getElementById('taxSliderDots');
+
+    if (taxSlider && taxDotsContainer) {
+        const taxSlides = Array.from(taxSlider.querySelectorAll('.tax-slide'));
+        const taxDots   = Array.from(taxDotsContainer.querySelectorAll('.tax-dot'));
+
+        const setActiveDot = (index) => {
+            taxDots.forEach((d, i) => d.classList.toggle('tax-dot--active', i === index));
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveDot(taxSlides.indexOf(entry.target));
+                }
+            });
+        }, { root: taxSlider, threshold: 0.6 });
+
+        taxSlides.forEach(slide => observer.observe(slide));
+
+        taxDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                taxSlides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            });
+        });
+
+        setActiveDot(0);
+    }
+
 });
 
 const notyf = new Notyf();
