@@ -239,7 +239,7 @@
                                                     <td x-text="'$ ' + (item.quantity * Number(item.tax_amount)).toFixed(2)"></td>
                                                     <td x-text="'$ ' + (item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2)"></td>
                                                     <td class="text-end">
-                                                        <button type="button" class="btn btn-icon text-danger" @click="removeProduct(index)">
+                                                        <button type="button" class="btn btn-icon btn-icon-danger-outline" @click="removeProduct(index)">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
                                                     </td>

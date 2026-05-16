@@ -136,7 +136,7 @@
 
                                         @if($category->status == \App\Models\Category::ACTIVE)
                                             
-                                            <button class="btn btn-icon text-danger" onclick="deleteCategory('{{ $category->id }}')"
+                                            <button class="btn btn-icon btn-icon-danger-outline" onclick="deleteCategory('{{ $category->id }}')"
                                             aria-label="Desactivar categoría {{ $category->name }}" title="Desactivar categoría {{ $category->name }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>

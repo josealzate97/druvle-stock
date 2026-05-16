@@ -113,7 +113,7 @@
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <div class="section-avatar section-avatar--purple">
-                                                <i class="fas fa-store"></i>
+                                                <i class="fas fa-store tenant-store-icon"></i>
                                             </div>
                                             <div>
                                                 <div class="fw-bold">{{ $tenant->name }}</div>
@@ -164,7 +164,7 @@
                                         </button>
 
                                         @if ($tenant->status)
-                                            <button class="btn btn-icon text-danger"
+                                            <button class="btn btn-icon btn-icon-danger-outline"
                                                 onclick="deleteTenant('{{ $tenant->id }}')"
                                                 aria-label="Desactivar negocio {{ $tenant->name }}"
                                                 title="Desactivar negocio {{ $tenant->name }}">
@@ -224,7 +224,7 @@
 
                                 <div class="tnt-card-header">
                                     <div class="section-avatar flex-shrink-0 section-avatar--purple">
-                                        <i class="fas fa-store"></i>
+                                        <i class="fas fa-store tenant-store-icon"></i>
                                     </div>
                                     <div class="ms-2 overflow-hidden">
                                         <div class="fw-bold text-truncate">{{ $tenant->name }}</div>

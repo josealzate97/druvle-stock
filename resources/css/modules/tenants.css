@@ -35,6 +35,10 @@
   justify-content: flex-end;
 }
 
+.tenant-store-icon {
+  font-size: 1.08rem;
+}
+
 .tenants-hero__add-btn {
   min-height: 40px;
   padding-inline: 1rem;
@@ -148,6 +152,10 @@
   .tenants-hero__add-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .tenant-store-icon {
+    font-size: 1.18rem;
   }
 }
 

@@ -278,7 +278,7 @@
                                             <button type="button" class="btn btn-icon text-primary" title="Editar" onclick='editNotification(@json($notification))'>
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button type="button" class="btn btn-icon text-danger" title="Eliminar" onclick="deleteNotification('{{ $notification->id }}')">
+                                            <button type="button" class="btn btn-icon btn-icon-danger-outline" title="Eliminar" onclick="deleteNotification('{{ $notification->id }}')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

@@ -163,7 +163,7 @@
 
                                         @if ($product->status == \App\Models\Product::ACTIVE)
 
-                                            <button type="button" class="btn btn-icon text-danger" title="Eliminar" onclick="deleteProduct('{{ $product->id }}')">
+                                            <button type="button" class="btn btn-icon btn-icon-danger-outline" title="Eliminar" onclick="deleteProduct('{{ $product->id }}')">
                                                 <i class="fas fa-trash"></i>
                                             </button>
 

@@ -80,7 +80,7 @@
 
                             @if($tax->status)
 
-                                <button class="btn btn-icon text-danger" onclick="deleteTax('{{ $tax->id }}')" title="Eliminar">
+                                <button class="btn btn-icon btn-icon-danger-outline" onclick="deleteTax('{{ $tax->id }}')" title="Eliminar">
                                     <i class="fas fa-trash"></i>
                                 </button>
 

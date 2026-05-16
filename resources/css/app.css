@@ -950,6 +950,18 @@ body.theme-dark .section-hero-icon {
   color: #92400e;
 }
 
+.btn-icon-danger-outline {
+  background: transparent;
+  border-color: #f3b4bb;
+  color: #dc3545;
+}
+
+.btn-icon-danger-outline:hover {
+  background: #fff1f2;
+  border-color: #ef8f99;
+  color: #b42332;
+}
+
 body.theme-dark .btn-icon-edit {
   background: #1a2230;
   border-color: #2b313c;
@@ -970,6 +982,18 @@ body.theme-dark .btn-icon-warning {
 body.theme-dark .btn-icon-warning:hover {
   background: #3a2a08;
   color: #fcd34d;
+}
+
+body.theme-dark .btn-icon-danger-outline {
+  background: transparent;
+  border-color: #5a2b32;
+  color: #fda4af;
+}
+
+body.theme-dark .btn-icon-danger-outline:hover {
+  background: #3a1f24;
+  border-color: #7a3a45;
+  color: #fecdd3;
 }
 
 body.theme-dark .table-chip-user {
@@ -1322,12 +1346,13 @@ body.theme-dark .page-loader-overlay {
   .theme-toggle-lg .form-check-input::before {
     width: 1.25rem;
     height: 1.25rem;
-    top: 0.25rem;
+    top: 50%;
     left: 0.25rem;
+    transform: translateY(-50%);
   }
 
   .theme-toggle-lg .form-check-input:checked::before {
-    transform: translateX(1.85rem);
+    transform: translate(1.85rem, -50%);
   }
 
   body.theme-dark .theme-toggle {

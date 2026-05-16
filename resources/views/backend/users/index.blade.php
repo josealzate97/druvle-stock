@@ -115,7 +115,7 @@
 
                                         @if($user->status == \App\Models\User::ACTIVE)
                                             
-                                            <button class="btn btn-icon text-danger" data-id="{{ $user->id }}"
+                                            <button class="btn btn-icon btn-icon-danger-outline" data-id="{{ $user->id }}"
                                                 aria-label="Desactivar usuario {{ $user->name }} {{ $user->lastname }}" title="Desactivar usuario {{ $user->name }} {{ $user->lastname }}"
                                                 onclick="deleteUser(this.getAttribute('data-id'))">
                                                 <i class="fas fa-trash"></i>
