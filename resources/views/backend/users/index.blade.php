@@ -108,7 +108,7 @@
                                     </td>
                                     <td class="text-end">
 
-                                        <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-edit"
+                                        <a href="{{ route('users.info', $user->id) }}" class="btn btn-icon btn-icon-warning"
                                            aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}" title="Editar usuario {{ $user->name }} {{ $user->lastname }}">
                                              <i class="fas fa-edit mt-1"></i>
                                         </a>
@@ -192,7 +192,7 @@
 
                             <div class="usr-card-actions">
                                 <a href="{{ route('users.info', $user->id) }}"
-                                   class="btn btn-outline-primary btn-sm flex-fill"
+                                   class="btn btn-outline-warning btn-sm flex-fill"
                                    aria-label="Editar usuario {{ $user->name }} {{ $user->lastname }}">
                                     <i class="fas fa-edit me-1"></i> Editar
                                 </a>

@@ -112,8 +112,8 @@
 
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
-                                            <div class="section-avatar">
-                                                <i class="fas fa-building text-white"></i>
+                                            <div class="section-avatar section-avatar--purple">
+                                                <i class="fas fa-store"></i>
                                             </div>
                                             <div>
                                                 <div class="fw-bold">{{ $tenant->name }}</div>
@@ -223,8 +223,8 @@
                             <div class="tnt-card">
 
                                 <div class="tnt-card-header">
-                                    <div class="section-avatar flex-shrink-0">
-                                        <i class="fas fa-building text-white"></i>
+                                    <div class="section-avatar flex-shrink-0 section-avatar--purple">
+                                        <i class="fas fa-store"></i>
                                     </div>
                                     <div class="ms-2 overflow-hidden">
                                         <div class="fw-bold text-truncate">{{ $tenant->name }}</div>
