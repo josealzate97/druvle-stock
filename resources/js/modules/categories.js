@@ -20,6 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 const matchesStatus = !status || row.dataset.status === status;
                 row.style.display = matchesQuery && matchesStatus ? '' : 'none';
             });
+
+            // Filtrar slides en móvil/tablet
+            document.querySelectorAll('#categorySlider .cat-slide').forEach(slide => {
+                const name = slide.dataset.name || '';
+                const matchesQuery = !query || name.includes(query);
+                const matchesStatus = !status || slide.dataset.status === status;
+                slide.style.display = matchesQuery && matchesStatus ? '' : 'none';
+            });
         };
 
         searchInput.addEventListener('input', filterRows);
@@ -144,6 +152,37 @@ document.addEventListener("DOMContentLoaded", () => {
             notyf.error('Error de red');
         }
     };
+
+    // ─── Card Slider: dots con IntersectionObserver ───
+    const catSlider = document.getElementById('categorySlider');
+    const catDotsContainer = document.getElementById('categorySliderDots');
+
+    if (catSlider && catDotsContainer) {
+        const catSlides = Array.from(catSlider.querySelectorAll('.cat-slide'));
+        const catDots   = Array.from(catDotsContainer.querySelectorAll('.cat-dot'));
+
+        const setActiveDot = (index) => {
+            catDots.forEach((d, i) => d.classList.toggle('cat-dot--active', i === index));
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveDot(catSlides.indexOf(entry.target));
+                }
+            });
+        }, { root: catSlider, threshold: 0.6 });
+
+        catSlides.forEach(slide => observer.observe(slide));
+
+        catDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                catSlides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            });
+        });
+
+        setActiveDot(0);
+    }
 
 });
 
