@@ -19,6 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const matchesCategory = !category || row.dataset.category === category;
                 row.style.display = matchesQuery && matchesCategory ? '' : 'none';
             });
+
+            // Filtrar slides en móvil/tablet
+            document.querySelectorAll('#productSlider .prod-slide').forEach(slide => {
+                const text = slide.textContent.toLowerCase();
+                const catId = slide.dataset.category;
+                const matchesQuery = !query || text.includes(query);
+                const matchesCategory = !category || catId === category;
+                slide.style.display = matchesQuery && matchesCategory ? '' : 'none';
+            });
         };
 
         searchInput.addEventListener('input', filterRows);
@@ -321,6 +330,37 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleSizesSection(false);
     toggleBaseStockFields(false);
     renderSizeRows([]);
+
+    // ─── Product Card Slider: dots con IntersectionObserver ───
+    const prodSlider = document.getElementById('productSlider');
+    const prodDotsContainer = document.getElementById('productSliderDots');
+
+    if (prodSlider && prodDotsContainer) {
+        const prodSlides = Array.from(prodSlider.querySelectorAll('.prod-slide'));
+        const prodDots   = Array.from(prodDotsContainer.querySelectorAll('.prod-dot'));
+
+        const setActiveDot = (index) => {
+            prodDots.forEach((d, i) => d.classList.toggle('prod-dot--active', i === index));
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveDot(prodSlides.indexOf(entry.target));
+                }
+            });
+        }, { root: prodSlider, threshold: 0.6 });
+
+        prodSlides.forEach(slide => observer.observe(slide));
+
+        prodDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                prodSlides[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            });
+        });
+
+        setActiveDot(0);
+    }
 });
 
 const notyf = new Notyf();
