@@ -206,8 +206,8 @@
                             <div class="card p-0 mt-4 sales-summary">
                                 <div class="sales-summary-header">Resumen de Venta</div>
 
-                                {{-- Tabla desktop (lg+) --}}
-                                <div class="d-none d-lg-block">
+                                {{-- Tabla desktop (xl+) --}}
+                                <div class="d-none d-xl-block">
                                     <div class="table-responsive">
 
                                         <table class="table table-borderless align-middle section-table mb-0 sales-summary-table">
@@ -262,8 +262,8 @@
                                     </div>
                                 </div>
 
-                                {{-- Cards móvil / tablet (< lg) --}}
-                                <div class="d-lg-none sales-summary-cards">
+                                {{-- Cards móvil / tablet / laptop pequeña (< xl) --}}
+                                <div class="d-xl-none sales-summary-cards">
                                     <template x-for="(item, index) in saleItems" :key="item.id + '-card-' + (item.product_size_id || 'base') + '-' + index">
                                         <article class="sales-summary-card">
                                             <div class="sales-summary-card__header">

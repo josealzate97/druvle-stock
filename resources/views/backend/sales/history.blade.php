@@ -29,7 +29,7 @@
         </select>
     </div>
 
-    <div class="d-none d-lg-block">
+    <div class="d-none d-xl-block">
         <div class="table-responsive">
 
             <table class="table table-borderless align-middle section-table" id="salesHistoryTable">
@@ -101,7 +101,7 @@
         </div>
     </div>
 
-    <div class="d-lg-none sales-history-cards" id="salesHistoryCards">
+    <div class="d-xl-none sales-history-cards" id="salesHistoryCards">
         @if ($salesHistory->isEmpty())
             <div class="sales-history-empty-cards">
                 <div class="sd-empty-state">
