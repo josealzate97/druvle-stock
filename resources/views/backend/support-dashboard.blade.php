@@ -126,92 +126,181 @@
             <a href="{{ route('tenants.index') }}" class="btn btn-link dashboard-link">Gestionar</a>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-borderless align-middle section-table mb-0">
-                <thead>
-                    <tr>
-                        <th>Negocio</th>
-                        <th>Plan</th>
-                        <th class="text-center">Usuarios</th>
-                        <th class="text-center">Productos</th>
-                        <th class="text-center">Ventas</th>
-                        <th>Prueba hasta</th>
-                        <th>Estado</th>
-                        <th class="text-end">Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($tenantsWithMetrics as $row)
-                        @php
-                            $planLabels  = [1 => 'Free', 2 => 'Basic', 3 => 'Pro'];
-                            $planClasses = [1 => 'table-chip-abbr', 2 => 'table-chip-blue', 3 => 'table-chip-gold'];
-                        @endphp
+        {{-- Tabla desktop (lg+) --}}
+        <div class="d-none d-lg-block">
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle section-table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Negocio</th>
+                            <th>Plan</th>
+                            <th class="text-center">Usuarios</th>
+                            <th class="text-center">Productos</th>
+                            <th class="text-center">Ventas</th>
+                            <th>Prueba hasta</th>
+                            <th>Estado</th>
+                            <th class="text-end">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($tenantsWithMetrics as $row)
+                            @php
+                                $planLabels  = [1 => 'Free', 2 => 'Basic', 3 => 'Pro'];
+                                $planClasses = [1 => 'table-chip-abbr', 2 => 'table-chip-blue', 3 => 'table-chip-gold'];
+                            @endphp
 
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center gap-2">
-                                    <div class="support-dash-avatar">
-                                        {{ strtoupper(substr($row->name, 0, 1)) }}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="support-dash-avatar">
+                                            {{ strtoupper(substr($row->name, 0, 1)) }}
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold">{{ $row->name }}</div>
+                                            <div class="text-muted" style="font-size:.75rem;">{{ $row->slug }}</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div class="fw-bold">{{ $row->name }}</div>
-                                        <div class="text-muted" style="font-size:.75rem;">{{ $row->slug }}</div>
+                                </td>
+                                <td>
+                                    <span class="table-chip {{ $planClasses[$row->plan] ?? 'table-chip-abbr' }}">
+                                        {{ $planLabels[$row->plan] ?? '-' }}
+                                    </span>
+                                </td>
+                                <td class="text-center fw-bold">{{ $row->users_count }}</td>
+                                <td class="text-center fw-bold">{{ $row->products_count }}</td>
+                                <td class="text-center fw-bold">{{ $row->sales_count }}</td>
+                                <td class="text-muted" style="font-size:.82rem;">
+                                    @if($row->trial_ends_at)
+                                        @php $trialDate = \Carbon\Carbon::parse($row->trial_ends_at); @endphp
+                                        <span class="{{ $trialDate->isPast() ? 'text-danger' : ($trialDate->diffInDays() <= 7 ? 'text-danger fw-bold' : '') }}">
+                                            {{ $trialDate->format('d/m/Y') }}
+                                        </span>
+                                    @else
+                                        —
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($row->status)
+                                        <span class="status-pill status-pill-success">Activo</span>
+                                    @else
+                                        <span class="status-pill status-pill-muted">Inactivo</span>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    <form action="{{ route('tenants.switch', $row->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-purple py-1 px-2"
+                                            title="Entrar al negocio" {{ !$row->status ? 'disabled' : '' }}>
+                                            <i class="fas fa-sign-in-alt me-1"></i> Entrar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="8">
+                                    <div class="sd-empty-state">
+                                        <span class="sd-empty-icon">
+                                            <i class="fas fa-store-slash"></i>
+                                        </span>
+                                        <p class="sd-empty-title">Sin negocios registrados</p>
+                                        <p class="sd-empty-desc">Cuando un negocio se registre en la plataforma aparecerá aquí con sus métricas.</p>
+                                        <a href="{{ route('tenants.index') }}" class="btn btn-sm btn-purple px-4">
+                                            <i class="fas fa-plus me-1"></i> Crear negocio
+                                        </a>
                                     </div>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="table-chip {{ $planClasses[$row->plan] ?? 'table-chip-abbr' }}">
-                                    {{ $planLabels[$row->plan] ?? '-' }}
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {{-- Cards móvil / tablet (< lg) --}}
+        <div class="d-lg-none support-tenant-cards">
+            @forelse($tenantsWithMetrics as $row)
+                @php
+                    $planLabels  = [1 => 'Free', 2 => 'Basic', 3 => 'Pro'];
+                    $planClasses = [1 => 'table-chip-abbr', 2 => 'table-chip-blue', 3 => 'table-chip-gold'];
+                @endphp
+
+                <article class="support-tenant-card">
+                    <div class="support-tenant-card__header">
+                        <div class="d-flex align-items-center gap-2 min-w-0">
+                            <div class="support-dash-avatar">
+                                {{ strtoupper(substr($row->name, 0, 1)) }}
+                            </div>
+                            <div class="min-w-0">
+                                <div class="fw-bold text-truncate">{{ $row->name }}</div>
+                                <div class="text-muted support-tenant-card__slug text-truncate">{{ $row->slug }}</div>
+                            </div>
+                        </div>
+                        <div class="support-tenant-card__status">
+                            @if($row->status)
+                                <span class="status-pill status-pill-success">Activo</span>
+                            @else
+                                <span class="status-pill status-pill-muted">Inactivo</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="support-tenant-card__body">
+                        <div class="support-tenant-card__item">
+                            <span class="support-tenant-card__label">Plan</span>
+                            <span class="table-chip {{ $planClasses[$row->plan] ?? 'table-chip-abbr' }}">
+                                {{ $planLabels[$row->plan] ?? '-' }}
+                            </span>
+                        </div>
+                        <div class="support-tenant-card__item">
+                            <span class="support-tenant-card__label">Usuarios</span>
+                            <span class="fw-bold">{{ $row->users_count }}</span>
+                        </div>
+                        <div class="support-tenant-card__item">
+                            <span class="support-tenant-card__label">Productos</span>
+                            <span class="fw-bold">{{ $row->products_count }}</span>
+                        </div>
+                        <div class="support-tenant-card__item">
+                            <span class="support-tenant-card__label">Ventas</span>
+                            <span class="fw-bold">{{ $row->sales_count }}</span>
+                        </div>
+                        <div class="support-tenant-card__item support-tenant-card__item--full">
+                            <span class="support-tenant-card__label">Prueba hasta</span>
+                            @if($row->trial_ends_at)
+                                @php $trialDate = \Carbon\Carbon::parse($row->trial_ends_at); @endphp
+                                <span class="fw-bold {{ $trialDate->isPast() ? 'text-danger' : ($trialDate->diffInDays() <= 7 ? 'text-danger' : '') }}">
+                                    {{ $trialDate->format('d/m/Y') }}
                                 </span>
-                            </td>
-                            <td class="text-center fw-bold">{{ $row->users_count }}</td>
-                            <td class="text-center fw-bold">{{ $row->products_count }}</td>
-                            <td class="text-center fw-bold">{{ $row->sales_count }}</td>
-                            <td class="text-muted" style="font-size:.82rem;">
-                                @if($row->trial_ends_at)
-                                    @php $trialDate = \Carbon\Carbon::parse($row->trial_ends_at); @endphp
-                                    <span class="{{ $trialDate->isPast() ? 'text-danger' : ($trialDate->diffInDays() <= 7 ? 'text-danger fw-bold' : '') }}">
-                                        {{ $trialDate->format('d/m/Y') }}
-                                    </span>
-                                @else
-                                    —
-                                @endif
-                            </td>
-                            <td>
-                                @if($row->status)
-                                    <span class="status-pill status-pill-success">Activo</span>
-                                @else
-                                    <span class="status-pill status-pill-muted">Inactivo</span>
-                                @endif
-                            </td>
-                            <td class="text-end">
-                                <form action="{{ route('tenants.switch', $row->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-purple py-1 px-2"
-                                        title="Entrar al negocio" {{ !$row->status ? 'disabled' : '' }}>
-                                        <i class="fas fa-sign-in-alt me-1"></i> Entrar
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8">
-                                <div class="sd-empty-state">
-                                    <span class="sd-empty-icon">
-                                        <i class="fas fa-store-slash"></i>
-                                    </span>
-                                    <p class="sd-empty-title">Sin negocios registrados</p>
-                                    <p class="sd-empty-desc">Cuando un negocio se registre en la plataforma aparecerá aquí con sus métricas.</p>
-                                    <a href="{{ route('tenants.index') }}" class="btn btn-sm btn-purple px-4">
-                                        <i class="fas fa-plus me-1"></i> Crear negocio
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                            @else
+                                <span class="fw-bold">—</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="support-tenant-card__actions">
+                        <form action="{{ route('tenants.switch', $row->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-purple w-100"
+                                title="Entrar al negocio" {{ !$row->status ? 'disabled' : '' }}>
+                                <i class="fas fa-sign-in-alt me-1"></i> Entrar al negocio
+                            </button>
+                        </form>
+                    </div>
+                </article>
+            @empty
+                <div class="p-3">
+                    <div class="sd-empty-state">
+                        <span class="sd-empty-icon">
+                            <i class="fas fa-store-slash"></i>
+                        </span>
+                        <p class="sd-empty-title">Sin negocios registrados</p>
+                        <p class="sd-empty-desc">Cuando un negocio se registre en la plataforma aparecerá aquí con sus métricas.</p>
+                        <a href="{{ route('tenants.index') }}" class="btn btn-sm btn-purple px-4">
+                            <i class="fas fa-plus me-1"></i> Crear negocio
+                        </a>
+                    </div>
+                </div>
+            @endforelse
         </div>
     </div>
 

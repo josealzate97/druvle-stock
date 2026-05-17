@@ -205,57 +205,106 @@
                             <div class="card p-0 mt-4 sales-summary">
                                 <div class="sales-summary-header">Resumen de Venta</div>
 
-                                <div class="table-responsive">
+                                {{-- Tabla desktop (lg+) --}}
+                                <div class="d-none d-lg-block">
+                                    <div class="table-responsive">
 
-                                    <table class="table table-borderless align-middle section-table mb-0 sales-summary-table">
+                                        <table class="table table-borderless align-middle section-table mb-0 sales-summary-table">
 
-                                        <thead>
-                                            <tr>
-                                                <th>Producto</th>
-                                                <th>Cant.</th>
-                                                <th>Unitario</th>
-                                                <th>Subtotal</th>
-                                                <th>IVA</th>
-                                                <th>Total</th>
-                                                <th class="text-end">Acciones</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-
-                                            <!-- Renderiza dinámicamente los productos en saleItems -->
-                                            <template x-for="(item, index) in saleItems" :key="item.id + '-' + (item.product_size_id || 'base') + '-' + index">
-
+                                            <thead>
                                                 <tr>
-                                                    <td>
-                                                        <span x-text="item.name"></span>
-                                                        <template x-if="item.size_name">
-                                                            <div class="small text-muted" x-text="'Talla: ' + item.size_name"></div>
-                                                        </template>
-                                                    </td>
-                                                    <td x-text="item.quantity"></td>
-                                                    <td x-text="'$ ' + Number(item.sale_price).toFixed(2)"></td>
-                                                    <td x-text="'$ ' + (item.quantity * Number(item.sale_price)).toFixed(2)"></td>
-                                                    <td x-text="'$ ' + (item.quantity * Number(item.tax_amount)).toFixed(2)"></td>
-                                                    <td x-text="'$ ' + (item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2)"></td>
-                                                    <td class="text-end">
-                                                        <button type="button" class="btn btn-icon btn-icon-danger-outline" @click="removeProduct(index)">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </td>
+                                                    <th>Producto</th>
+                                                    <th>Cant.</th>
+                                                    <th>Unitario</th>
+                                                    <th>Subtotal</th>
+                                                    <th>IVA</th>
+                                                    <th>Total</th>
+                                                    <th class="text-end">Acciones</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                                <!-- Renderiza dinámicamente los productos en saleItems -->
+                                                <template x-for="(item, index) in saleItems" :key="item.id + '-' + (item.product_size_id || 'base') + '-' + index">
+
+                                                    <tr>
+                                                        <td>
+                                                            <span x-text="item.name"></span>
+                                                            <template x-if="item.size_name">
+                                                                <div class="small text-muted" x-text="'Talla: ' + item.size_name"></div>
+                                                            </template>
+                                                        </td>
+                                                        <td x-text="item.quantity"></td>
+                                                        <td x-text="'$ ' + Number(item.sale_price).toFixed(2)"></td>
+                                                        <td x-text="'$ ' + (item.quantity * Number(item.sale_price)).toFixed(2)"></td>
+                                                        <td x-text="'$ ' + (item.quantity * Number(item.tax_amount)).toFixed(2)"></td>
+                                                        <td x-text="'$ ' + (item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2)"></td>
+                                                        <td class="text-end">
+                                                            <button type="button" class="btn btn-icon btn-icon-danger-outline" @click="removeProduct(index)">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                </template>
+
+                                                <!-- Mensaje si no hay productos -->
+                                                <tr x-show="saleItems.length === 0">
+                                                    <td colspan="7" class="text-center text-muted fw-bold fs-6">Aún no hay productos en la venta.</td>
                                                 </tr>
 
-                                            </template>
+                                            </tbody>
 
-                                            <!-- Mensaje si no hay productos -->
-                                            <tr x-show="saleItems.length === 0">
-                                                <td colspan="7" class="text-center text-muted fw-bold fs-6">Aún no hay productos en la venta.</td>
-                                            </tr>
+                                        </table>
 
-                                        </tbody>
+                                    </div>
+                                </div>
 
-                                    </table>
+                                {{-- Cards móvil / tablet (< lg) --}}
+                                <div class="d-lg-none sales-summary-cards">
+                                    <template x-for="(item, index) in saleItems" :key="item.id + '-card-' + (item.product_size_id || 'base') + '-' + index">
+                                        <article class="sales-summary-card">
+                                            <div class="sales-summary-card__header">
+                                                <div class="sales-summary-card__name">
+                                                    <span x-text="item.name"></span>
+                                                    <template x-if="item.size_name">
+                                                        <div class="small text-muted" x-text="'Talla: ' + item.size_name"></div>
+                                                    </template>
+                                                </div>
+                                                <button type="button" class="btn btn-icon btn-icon-danger-outline" @click="removeProduct(index)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
 
+                                            <div class="sales-summary-card__grid">
+                                                <div class="sales-summary-card__item">
+                                                    <span class="sales-summary-card__label">Cant.</span>
+                                                    <strong x-text="item.quantity"></strong>
+                                                </div>
+                                                <div class="sales-summary-card__item">
+                                                    <span class="sales-summary-card__label">Unitario</span>
+                                                    <strong x-text="'$ ' + Number(item.sale_price).toFixed(2)"></strong>
+                                                </div>
+                                                <div class="sales-summary-card__item">
+                                                    <span class="sales-summary-card__label">Subtotal</span>
+                                                    <strong x-text="'$ ' + (item.quantity * Number(item.sale_price)).toFixed(2)"></strong>
+                                                </div>
+                                                <div class="sales-summary-card__item">
+                                                    <span class="sales-summary-card__label">IVA</span>
+                                                    <strong x-text="'$ ' + (item.quantity * Number(item.tax_amount)).toFixed(2)"></strong>
+                                                </div>
+                                                <div class="sales-summary-card__item sales-summary-card__item--total">
+                                                    <span class="sales-summary-card__label">Total</span>
+                                                    <strong x-text="'$ ' + (item.quantity * Number(item.sale_price) + (item.quantity * Number(item.tax_amount))).toFixed(2)"></strong>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </template>
+
+                                    <div class="sales-summary-empty" x-show="saleItems.length === 0">
+                                        Aún no hay productos en la venta.
+                                    </div>
                                 </div>
                             </div>
 
