@@ -233,7 +233,9 @@
                             </div>
                             <div class="min-w-0">
                                 <div class="fw-bold text-truncate">{{ $row->name }}</div>
-                                <div class="text-muted support-tenant-card__slug text-truncate">{{ $row->slug }}</div>
+                                <div class="support-tenant-card__slug text-truncate">
+                                    <span class="table-chip table-chip-abbr support-tenant-card__slug-badge">{{ $row->slug }}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="support-tenant-card__status">

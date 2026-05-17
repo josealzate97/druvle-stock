@@ -76,22 +76,22 @@
                     <!-- Filtro de productos -->
                     <div class="row mb-3 reports-filters">
 
-                        <div class="col-3">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col">
                             <input class="form-control" type="date" x-model="filters.productos.from" placeholder="Desde">
                         </div>
                         
-                        <div class="col-3">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col">
                             <input class="form-control" type="date" x-model="filters.productos.to" placeholder="Hasta">
                         </div>
                         
-                        <div class="col-3 d-flex gap-2">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col d-flex gap-2">
                             <button class="btn reports-export-btn btn-sm w-100" x-show="!loading && data.productos.length > 0" @click="openExportModal('productos')">
                                 <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
                         </div>
-                        <div class="col-3" x-show="loading || data.productos.length === 0"></div>
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col" x-show="loading || data.productos.length === 0"></div>
 
-                        <div class="col-3">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col">
                             <button class="btn reports-search-btn btn-sm w-100" @click="fetchProductos()">
                                 <i class="fas fa-search me-1"></i>Buscar
                             </button>
@@ -128,9 +128,9 @@
                         </div>
                     </template>
 
-                    <!-- Tabla de productos -->
-                    <div class="table-responsive">
-                        <table class="table table-borderless align-middle section-table" x-show="!loading">
+                    <!-- Tabla de productos (desktop xl+) -->
+                    <div class="table-responsive d-none d-xl-block" x-show="!loading">
+                        <table class="table table-borderless align-middle section-table">
 
                         <thead>
                             <tr>
@@ -163,7 +163,7 @@
                                 </tr>
                             </template>
 
-                            <template x-if="!loading && data.productos.length === 0">
+                            <template x-if="data.productos.length === 0">
                                 <tr>
                                     <td colspan="6">
                                         <div class="sd-empty-state">
@@ -182,6 +182,49 @@
                         </table>
                     </div>
 
+                    <!-- Cards de productos (mobile/tablet < xl) -->
+                    <div class="reports-data-cards d-xl-none" x-show="!loading">
+                        <template x-for="prod in data.productos" :key="'prod-card-' + prod.id">
+                            <article class="reports-data-card">
+                                <div class="reports-data-card__top">
+                                    <h6 class="mb-0" x-text="prod.name"></h6>
+                                    <template x-if="prod.size_name">
+                                        <span class="report-size-badge" x-text="prod.size_name"></span>
+                                    </template>
+                                </div>
+
+                                <div class="reports-data-card__grid">
+                                    <div class="reports-data-card__item">
+                                        <span>Fecha entrada</span>
+                                        <strong x-text="formatDate(prod.creation_date)"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item">
+                                        <span>Cantidad</span>
+                                        <strong x-text="prod.quantity"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item">
+                                        <span>Precio compra</span>
+                                        <strong x-text="prod.purchase_price !== null ? '$ ' + Number(prod.purchase_price).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item reports-data-card__item--total">
+                                        <span>Precio venta</span>
+                                        <strong x-text="prod.sale_price !== null ? '$ ' + Number(prod.sale_price).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2}) : '—'"></strong>
+                                    </div>
+                                </div>
+                            </article>
+                        </template>
+
+                        <template x-if="data.productos.length === 0">
+                            <div class="sd-empty-state">
+                                <span class="sd-empty-icon sd-empty-icon--sm">
+                                    <i class="fas fa-box-open"></i>
+                                </span>
+                                <p class="sd-empty-title">Sin datos de productos</p>
+                                <p class="sd-empty-desc">No se encontraron productos para el rango de fechas seleccionado.</p>
+                            </div>
+                        </template>
+                    </div>
+
                 </div>
 
                 <!-- Ventas -->
@@ -190,22 +233,22 @@
                     <!-- Filtros y tabla de ventas similar -->
                     <div class="row mb-3 reports-filters">
 
-                        <div class="col-3">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col">
                             <input class="form-control" type="date" x-model="filters.ventas.from" placeholder="Desde">
                         </div>
                         
-                        <div class="col-3">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col">
                             <input class="form-control" type="date" x-model="filters.ventas.to" placeholder="Hasta">
                         </div>
                         
-                        <div class="col-3 d-flex gap-2">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col d-flex gap-2">
                             <button class="btn reports-export-btn btn-sm w-100" x-show="!loading && data.ventas.length > 0" @click="openExportModal('ventas')">
                                 <i class="fas fa-file-export me-2"></i>Exportar
                             </button>
                         </div>
-                        <div class="col-3" x-show="loading || data.ventas.length === 0"></div>
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col" x-show="loading || data.ventas.length === 0"></div>
 
-                        <div class="col-3">
+                        <div class="col-12 col-md-6 col-xl-3 reports-filter-col">
                             <button class="btn reports-search-btn btn-sm w-100" @click="fetchVentas()">
                                 <i class="fas fa-search me-1"></i>Buscar
                             </button>
@@ -242,8 +285,8 @@
                         </div>
                     </template>
 
-                    <div class="table-responsive">
-                        <table class="table table-borderless align-middle section-table" x-show="!loading">
+                    <div class="table-responsive d-none d-xl-block" x-show="!loading">
+                        <table class="table table-borderless align-middle section-table">
                         <thead>
                             <tr>
                                 <th>Código</th>
@@ -261,7 +304,7 @@
                             <template x-for="venta in data.ventas" :key="venta.id">
                                 <tr>
                                     <td><span class="badge sale-code-badge" x-text="venta.code"></span></td>
-                                    <td x-text="venta.client.name == '' ? 'Anonimo' : venta.client.name"></td>
+                                    <td x-text="(venta.client && venta.client.name) ? venta.client.name : 'Anonimo'"></td>
                                     <td x-text="formatDate(venta.sale_date)"></td>
                                     <td x-text="'$ ' + Number(venta.subtotal).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></td>
                                     <td x-text="'$ ' + Number(venta.tax).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></td>
@@ -272,7 +315,7 @@
                                 </tr>
                             </template>
 
-                            <template x-if="!loading && data.ventas.length === 0">
+                            <template x-if="data.ventas.length === 0">
                                 <tr>
                                     <td colspan="7">
                                         <div class="sd-empty-state">
@@ -288,6 +331,50 @@
 
                         </tbody>
                         </table>
+                    </div>
+
+                    <div class="reports-data-cards d-xl-none" x-show="!loading">
+                        <template x-for="venta in data.ventas" :key="'sale-card-' + venta.id">
+                            <article class="reports-data-card">
+                                <div class="reports-data-card__top">
+                                    <span class="badge sale-code-badge" x-text="venta.code"></span>
+                                    <span class="report-payment-badge" x-text="venta.type_payment == 1 ? 'EFECTIVO' : (venta.type_payment == 2 ? 'TRANSFERENCIA' : 'TPV')"></span>
+                                </div>
+
+                                <div class="reports-data-card__grid">
+                                    <div class="reports-data-card__item">
+                                        <span>Cliente</span>
+                                        <strong x-text="(venta.client && venta.client.name) ? venta.client.name : 'Anonimo'"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item">
+                                        <span>Fecha venta</span>
+                                        <strong x-text="formatDate(venta.sale_date)"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item">
+                                        <span>Subtotal</span>
+                                        <strong x-text="'$ ' + Number(venta.subtotal).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item">
+                                        <span>Tax</span>
+                                        <strong x-text="'$ ' + Number(venta.tax).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></strong>
+                                    </div>
+                                    <div class="reports-data-card__item reports-data-card__item--total">
+                                        <span>Total</span>
+                                        <strong x-text="'$ ' + Number(venta.total).toLocaleString('es-CO', {minimumFractionDigits:2, maximumFractionDigits:2})"></strong>
+                                    </div>
+                                </div>
+                            </article>
+                        </template>
+
+                        <template x-if="data.ventas.length === 0">
+                            <div class="sd-empty-state">
+                                <span class="sd-empty-icon sd-empty-icon--sm">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </span>
+                                <p class="sd-empty-title">Sin ventas en el periodo</p>
+                                <p class="sd-empty-desc">No se encontraron ventas para el rango de fechas seleccionado.</p>
+                            </div>
+                        </template>
                     </div>
 
                 </div>

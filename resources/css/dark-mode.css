@@ -1574,3 +1574,183 @@ body.theme-dark .notification-meta-item__label {
 body.theme-dark .notification-meta-item__value {
   color: #d6deea;
 }
+
+/* Dark mode fixes: mobile/tablet cards and deactivate buttons */
+body.theme-dark .btn-icon-danger-outline,
+body.theme-dark .btn-outline-danger {
+  background: transparent !important;
+  border-color: #8b303a !important;
+  color: #f87171 !important;
+}
+
+body.theme-dark .btn-icon-danger-outline:hover,
+body.theme-dark .btn-icon-danger-outline:focus,
+body.theme-dark .btn-outline-danger:hover,
+body.theme-dark .btn-outline-danger:focus {
+  background: #3a1b21 !important;
+  border-color: #b64552 !important;
+  color: #fca5a5 !important;
+}
+
+body.theme-dark .btn-icon-danger-outline i,
+body.theme-dark .btn-outline-danger i {
+  color: inherit !important;
+}
+
+body.theme-dark .tnt-card,
+body.theme-dark .cat-card,
+body.theme-dark .prod-card,
+body.theme-dark .support-tenant-card,
+body.theme-dark .sales-summary-card {
+  background: #161b22 !important;
+  border-color: #2b313c !important;
+}
+
+body.theme-dark .tnt-card-stat,
+body.theme-dark .cat-card-stat,
+body.theme-dark .prod-card-stat {
+  background: #101722;
+  border: 1px solid #253042;
+}
+
+body.theme-dark .support-tenant-card__label,
+body.theme-dark .sales-summary-card__label {
+  color: #93a4bd;
+}
+
+body.theme-dark .support-tenant-card__slug,
+body.theme-dark .sales-summary-card__name,
+body.theme-dark .sales-summary-card__item strong {
+  color: #d6deea;
+}
+
+body.theme-dark .sales-summary {
+  background: #14171d;
+  border-color: #252c36;
+}
+
+body.theme-dark .sales-summary-header {
+  color: #e2e8f0;
+  border-bottom-color: #252c36;
+}
+
+body.theme-dark .sales-summary-card__item--total {
+  border-top-color: #2a3444;
+}
+
+body.theme-dark .support-tenant-card__item .fw-bold,
+body.theme-dark .support-tenant-card__header .fw-bold {
+  color: #e2e8f0;
+}
+
+body.theme-dark .tnt-card .fw-bold,
+body.theme-dark .cat-card .fw-bold,
+body.theme-dark .products-page .prod-card .fw-bold {
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .tnt-card .text-muted,
+body.theme-dark .cat-card .text-muted,
+body.theme-dark .products-page .prod-card .text-muted,
+body.theme-dark .tnt-card-stat .text-muted,
+body.theme-dark .cat-card-stat .text-muted,
+body.theme-dark .products-page .prod-card-stat .text-muted {
+  color: #93a4bd !important;
+}
+
+body.theme-dark .sales-history-card {
+  background: #161b22 !important;
+  border-color: #2b313c !important;
+}
+
+body.theme-dark .sales-history-card__item span {
+  color: #93a4bd !important;
+}
+
+body.theme-dark .sales-history-card__item strong,
+body.theme-dark .sales-history-card__item--total strong {
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .sales-history-card__item--total {
+  border-top-color: #2a3444 !important;
+}
+
+/* Reports cards (productos/ventas) */
+body.theme-dark .reports-data-card {
+  background: #161b22 !important;
+  border-color: #2b313c !important;
+}
+
+body.theme-dark .reports-data-card__top h6,
+body.theme-dark .reports-data-card__item strong {
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark .reports-data-card__item span {
+  color: #93a4bd !important;
+}
+
+body.theme-dark .reports-data-card__item--total {
+  border-top-color: #2a3444 !important;
+}
+
+body.theme-dark .report-size-badge {
+  background: #2e1b47;
+  border-color: #5d3b8c;
+  color: #dec7ff;
+}
+
+/* Users cards */
+body.theme-dark .users-page .usr-card {
+  background: #161b22 !important;
+  border-color: #2b313c !important;
+}
+
+body.theme-dark .users-page .usr-card-stat {
+  background: #101722 !important;
+  border: 1px solid #253042;
+}
+
+body.theme-dark .users-page .usr-card .fw-bold,
+body.theme-dark .users-page .usr-card .text-muted {
+  color: #d6deea !important;
+}
+
+/* Settings > Taxes cards */
+body.theme-dark .tax-card {
+  background: #161b22 !important;
+  border-color: #2b313c !important;
+}
+
+body.theme-dark .tax-card-rate {
+  background: #101722 !important;
+  border: 1px solid #253042;
+}
+
+body.theme-dark .tax-card-rate-value,
+body.theme-dark .tax-card .fw-bold {
+  color: #e2e8f0 !important;
+}
+
+/* Settings > Notifications cards */
+body.theme-dark .notification-card {
+  background: #161b22 !important;
+  border-color: #2b313c !important;
+}
+
+body.theme-dark .notification-target-box {
+  background: #101722 !important;
+  border-color: #253042 !important;
+}
+
+body.theme-dark .notification-card__title,
+body.theme-dark .notification-card__message,
+body.theme-dark .notification-meta-item__value,
+body.theme-dark .notification-target-title {
+  color: #d6deea !important;
+}
+
+body.theme-dark .notification-meta-item__label {
+  color: #93a4bd !important;
+}
