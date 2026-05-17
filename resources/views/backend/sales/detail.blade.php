@@ -219,7 +219,7 @@
                 </button>
 
                 <button class="btn btn-outline-warning col-5" @click="returnProducts(saleId)">
-                    <i class="fas fa-undo"></i>&nbsp;Devolución de productos
+                    <i class="fas fa-undo"></i>&nbsp;Devolución
                 </button>
 
             </div>
@@ -231,7 +231,7 @@
 </div>
 
 <div class="modal fade" id="refundModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl refund-dialog">
         <div class="modal-content form-modal refund-modal-content" id="refundModalContent"></div>
     </div>
 </div>

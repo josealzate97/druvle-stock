@@ -482,10 +482,23 @@ body.theme-dark .refund-modal-header {
 body.theme-dark .refund-table th {
   color: #9aa9bf;
   border-bottom-color: #252c36;
+  background-color: #14171d;
 }
 
 body.theme-dark .refund-table td {
+  background-color: #14171d;
   border-bottom-color: #242b35;
+  color: #e2e8f0;
+}
+
+body.theme-dark .refund-table tbody tr:hover > * {
+  background-color: #1b212b;
+}
+
+body.theme-dark .refund-table .badge.bg-light {
+  background: #1a2230 !important;
+  border-color: #2b313c !important;
+  color: #d6deea !important;
 }
 
 body.theme-dark .refund-qty-input,
@@ -501,6 +514,23 @@ body.theme-dark .refund-total-badge {
   border-color: #5b3b8c;
   color: #e9d5ff;
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+}
+
+body.theme-dark .refund-helper-text {
+  color: #e2e8f0 !important;
+}
+
+body.theme-dark #refundModal .modal-footer .btn-outline-danger {
+  background: #7f1d1d !important;
+  border-color: #ef4444 !important;
+  color: #fecaca !important;
+}
+
+body.theme-dark #refundModal .modal-footer .btn-outline-danger:hover,
+body.theme-dark #refundModal .modal-footer .btn-outline-danger:focus {
+  background: #991b1b !important;
+  border-color: #f87171 !important;
+  color: #fee2e2 !important;
 }
 
 body.theme-dark .product-details-item {
@@ -1373,6 +1403,62 @@ body.theme-dark .sale-detail-item-card__meta span {
 
 body.theme-dark .sale-detail-item-card__meta--total {
   border-top-color: #2a3444;
+}
+
+body.theme-dark .summary-card {
+  background: #1a2230;
+  border-color: #2b313c;
+}
+
+body.theme-dark .summary-card span {
+  color: #93a4bd;
+}
+
+body.theme-dark .summary-card strong {
+  color: #e2e8f0;
+}
+
+body.theme-dark .summary-card.total-card {
+  background: #1d3250;
+  border-color: #355882;
+}
+
+body.theme-dark .summary-card.total-card strong {
+  color: #8cc8ff;
+}
+
+body.theme-dark .sale-detail-client {
+  background: #161b22;
+  border-color: #2b313c;
+}
+
+body.theme-dark .sale-detail-client label {
+  color: #93a4bd;
+}
+
+body.theme-dark .sale-detail-client span {
+  color: #e2e8f0;
+}
+
+body.theme-dark .refund-item-card {
+  background: #161b22;
+  border-color: #2b313c;
+}
+
+body.theme-dark .refund-item-card__title,
+body.theme-dark .refund-item-card__sold strong {
+  color: #e2e8f0;
+}
+
+body.theme-dark .refund-item-card__size,
+body.theme-dark .refund-item-card__sold span,
+body.theme-dark .refund-item-card__field .form-label {
+  color: #93a4bd;
+}
+
+body.theme-dark .refund-item-card__sold {
+  background: #101722;
+  border-color: #253042;
 }
 
 body.theme-dark .btn-link {

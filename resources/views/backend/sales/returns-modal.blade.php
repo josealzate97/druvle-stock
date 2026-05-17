@@ -9,8 +9,8 @@
             <span class="modal-icon">
                 <i class="fas fa-rotate-left"></i>
             </span>
-            Gestionar Devolución
-            <span class="color-primary fw-bold">- Factura {{ $sale->code ?? '' }}</span>
+            <span class="refund-title-main">Gestionar Devolución</span>
+            <span class="color-primary fw-bold refund-title-code">- Factura {{ $sale->code ?? '' }}</span>
         </h4>
         <div class="modal-subtitle">Registra la devolución por producto y su motivo.</div>
     </div>
@@ -20,11 +20,12 @@
 <div class="modal-body">
 
     <div class="mb-3">
-        <div class="text-muted small">Selecciona los productos y cantidades a devolver.</div>
+        <div class="text-muted small refund-helper-text">Selecciona los productos y cantidades a devolver.</div>
     </div>
 
     <form id="returnForm" class="refund-form">
 
+        <div class="d-none d-lg-block">
         <table class="table table-sm align-middle table-hover refund-table">
 
             <thead>
@@ -91,6 +92,54 @@
             </tbody>
 
         </table>
+        </div>
+
+        <div class="refund-items d-lg-none">
+            @foreach($sale->items as $item)
+                <article class="refund-item-card">
+                    <div class="refund-item-card__title">
+                        {{ $item->producto->name ?? '' }}
+                        @if(!empty($item->size_name))
+                            <span class="refund-item-card__size">- {{ $item->size_name }}</span>
+                        @endif
+                    </div>
+
+                    <div class="refund-item-card__sold">
+                        <span>Vendido</span>
+                        <strong>{{ $item->quantity }}</strong>
+                    </div>
+
+                    <input type="hidden" name="sale_id[{{ $item->id }}]" value="{{ $sale->id }}">
+
+                    <div class="refund-item-card__grid">
+                        <div class="refund-item-card__field">
+                            <label class="form-label">Devolución</label>
+                            <input type="number" name="return_quantity[{{ $item->id }}]"
+                                min="0" max="{{ $item->quantity }}"
+                                value="0" class="form-control form-control-sm text-center refund-qty-input"
+                                data-price="{{ $item->unitary_price }}"
+                                data-sale-id="{{ $sale->id }}"
+                                data-sale-detail-id="{{ $item->id }}"
+                                data-product-id="{{ $item->product_id }}" required>
+                        </div>
+
+                        <div class="refund-item-card__field">
+                            <label class="form-label">Acción</label>
+                            <select name="return_reason[{{ $item->id }}]" class="form-select form-select-sm refund-select" required>
+                                <option value="" selected disabled>Acción tomada</option>
+                                <option value="1">Reposición Producto</option>
+                                <option value="2">Producto Dañado</option>
+                            </select>
+                        </div>
+
+                        <div class="refund-item-card__field refund-item-card__field--full">
+                            <label class="form-label">Nota</label>
+                            <textarea name="return_note[{{ $item->id }}]" class="form-control form-control-sm refund-note-input" rows="2" placeholder="Opcional"></textarea>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+        </div>
 
         <div class="mt-3 d-flex justify-content-end">
             <div class="refund-total-badge">

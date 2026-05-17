@@ -166,4 +166,13 @@
   .sale-detail-item-card__meta--total {
     grid-column: auto;
   }
+
+  .sale-detail-modal .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sale-detail-modal .modal-footer .btn {
+    width: 100% !important;
+  }
 }
