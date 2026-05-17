@@ -29,9 +29,10 @@
         </select>
     </div>
 
-    <div class="table-responsive">
+    <div class="d-none d-lg-block">
+        <div class="table-responsive">
 
-        <table class="table table-borderless align-middle section-table" id="salesHistoryTable">
+            <table class="table table-borderless align-middle section-table" id="salesHistoryTable">
 
             <thead>
                 <tr>
@@ -46,57 +47,125 @@
                 </tr>
             </thead>
 
-            <tbody>
+                <tbody>
 
-                @if ($salesHistory->isEmpty())
-                    <tr class="sales-history-empty">
-                        <td colspan="8">
-                            <div class="sd-empty-state">
-                                <span class="sd-empty-icon">
-                                    <i class="fas fa-file-invoice-dollar"></i>
-                                </span>
-                                <p class="sd-empty-title">Sin ventas registradas</p>
-                                <p class="sd-empty-desc">El historial de transacciones aparecerá aquí una vez que se registre la primera venta.</p>
-                            </div>
-                        </td>
-                    </tr>
-                @endif
+                    @if ($salesHistory->isEmpty())
+                        <tr class="sales-history-empty">
+                            <td colspan="8">
+                                <div class="sd-empty-state">
+                                    <span class="sd-empty-icon">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </span>
+                                    <p class="sd-empty-title">Sin ventas registradas</p>
+                                    <p class="sd-empty-desc">El historial de transacciones aparecerá aquí una vez que se registre la primera venta.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
 
-                @foreach($salesHistory as $history)
+                    @foreach($salesHistory as $history)
 
-                    <tr data-id="{{ $history->sale->id ?? '-' }}" data-status="{{ $history->status }}">
-                        <td>
-                            <a href="#" class="text-decoration-none"
-                               @click="openSaleModal('{{ $history->id }}')">
-                                <span class="badge sale-code-badge">{{ $history->code }}</span>
-                            </a>
-                        </td>
-                        <td>{{ \Carbon\Carbon::parse($history->sale_date)->format('Y-m-d h:i A') }}</td>
-                        <td>{{ $history->client->name ?? 'Anonimo' }}</td>
-                        <td>$ {{ number_format($history->subtotal, 2, ',', '.') }}</td>
-                        <td>$ {{ number_format($history->tax, 2, ',', '.') }}</td>
-                        <td>$ {{ number_format($history->total, 2, ',', '.') }}</td>
-                        <td>
-                            @if ($history->status == 1)
-                                <span class="status-pill status-pill-success">Completa</span>
-                            @else
-                                <span class="status-pill status-pill-muted">Pendiente</span>
-                            @endif
-                        </td>
-                        <td class="text-end">
-                            <button class="btn btn-sm sales-view-btn" @click="openSaleModal('{{ $history->id }}')">
-                                <i class="fas fa-eye"></i>
-                                <span>Ver detalle</span>
-                            </button>
-                        </td>
-                    </tr>
+                        <tr data-id="{{ $history->sale->id ?? '-' }}" data-status="{{ $history->status }}">
+                            <td>
+                                <a href="#" class="text-decoration-none"
+                                   @click="openSaleModal('{{ $history->id }}')">
+                                    <span class="badge sale-code-badge">{{ $history->code }}</span>
+                                </a>
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($history->sale_date)->format('Y-m-d h:i A') }}</td>
+                            <td>{{ $history->client->name ?? 'Anonimo' }}</td>
+                            <td>$ {{ number_format($history->subtotal, 2, ',', '.') }}</td>
+                            <td>$ {{ number_format($history->tax, 2, ',', '.') }}</td>
+                            <td>$ {{ number_format($history->total, 2, ',', '.') }}</td>
+                            <td>
+                                @if ($history->status == 1)
+                                    <span class="status-pill status-pill-success">Completa</span>
+                                @else
+                                    <span class="status-pill status-pill-muted">Pendiente</span>
+                                @endif
+                            </td>
+                            <td class="text-end">
+                                <button class="btn btn-sm sales-view-btn" @click="openSaleModal('{{ $history->id }}')">
+                                    <i class="fas fa-eye"></i>
+                                    <span>Ver detalle</span>
+                                </button>
+                            </td>
+                        </tr>
 
-                @endforeach
+                    @endforeach
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
 
+        </div>
+    </div>
+
+    <div class="d-lg-none sales-history-cards" id="salesHistoryCards">
+        @if ($salesHistory->isEmpty())
+            <div class="sales-history-empty-cards">
+                <div class="sd-empty-state">
+                    <span class="sd-empty-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </span>
+                    <p class="sd-empty-title">Sin ventas registradas</p>
+                    <p class="sd-empty-desc">El historial de transacciones aparecerá aquí una vez que se registre la primera venta.</p>
+                </div>
+            </div>
+        @endif
+
+        @foreach($salesHistory as $history)
+            <article class="sales-history-card" data-status="{{ $history->status }}">
+                <div class="sales-history-card__top">
+                    <span class="badge sale-code-badge">{{ $history->code }}</span>
+                    @if ($history->status == 1)
+                        <span class="status-pill status-pill-success">Completa</span>
+                    @else
+                        <span class="status-pill status-pill-muted">Pendiente</span>
+                    @endif
+                </div>
+
+                <div class="sales-history-card__meta">
+                    <div class="sales-history-card__item">
+                        <span>Fecha</span>
+                        <strong>{{ \Carbon\Carbon::parse($history->sale_date)->format('Y-m-d h:i A') }}</strong>
+                    </div>
+                    <div class="sales-history-card__item">
+                        <span>Cliente</span>
+                        <strong>{{ $history->client->name ?? 'Anonimo' }}</strong>
+                    </div>
+                    <div class="sales-history-card__item">
+                        <span>Subtotal</span>
+                        <strong>$ {{ number_format($history->subtotal, 2, ',', '.') }}</strong>
+                    </div>
+                    <div class="sales-history-card__item">
+                        <span>Impuestos</span>
+                        <strong>$ {{ number_format($history->tax, 2, ',', '.') }}</strong>
+                    </div>
+                    <div class="sales-history-card__item sales-history-card__item--total">
+                        <span>Total</span>
+                        <strong>$ {{ number_format($history->total, 2, ',', '.') }}</strong>
+                    </div>
+                </div>
+
+                <div class="sales-history-card__actions">
+                    <button class="btn btn-sm sales-view-btn w-100" @click="openSaleModal('{{ $history->id }}')">
+                        <i class="fas fa-eye"></i>
+                        <span>Ver detalle</span>
+                    </button>
+                </div>
+            </article>
+        @endforeach
+
+        <div class="sales-history-empty sales-history-empty-cards" id="salesHistoryEmptyCards" style="display:none;">
+            <div class="sd-empty-state">
+                <span class="sd-empty-icon">
+                    <i class="fas fa-search"></i>
+                </span>
+                <p class="sd-empty-title">Sin resultados</p>
+                <p class="sd-empty-desc">No se encontraron ventas con los filtros aplicados.</p>
+            </div>
+        </div>
     </div>
 
     <div class="section-footer">

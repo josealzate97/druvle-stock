@@ -96,9 +96,10 @@
                                 <hr class="my-3">
 
                                 <!-- Panel de accion para ventas -->
-                                <div class="sales-action-card">
+                                <div class="sales-action-card"
+                                    :class="(selectedProductObj && selectedProductObj.has_sizes) ? 'sales-action-card--with-size' : 'sales-action-card--no-size'">
 
-                                    <div class="sales-action-field">
+                                    <div class="sales-action-field sales-field-product">
                                         <label for="productSelect" class="form-label fw-bold">Producto</label>
 
                                         <!-- Campo de búsqueda de producto con sugerencias -->
@@ -144,7 +145,7 @@
 
                                     </div>
 
-                                    <div class="sales-action-field small-field" x-show="selectedProductObj && selectedProductObj.has_sizes" x-cloak>
+                                    <div class="sales-action-field small-field sales-field-size" x-show="selectedProductObj && selectedProductObj.has_sizes" x-cloak>
                                         <label for="sizeSelect" class="form-label fw-bold">Talla</label>
                                         <select id="sizeSelect" class="form-select" x-model="selectedSizeId" :disabled="isProcessing || !selectedProductObj">
                                             <option value="">Selecciona talla</option>
@@ -154,17 +155,17 @@
                                         </select>
                                     </div>
 
-                                    <div class="sales-action-field small-field">
+                                    <div class="sales-action-field small-field sales-field-quantity">
                                         <label for="quantityInput" class="form-label fw-bold">Cantidad</label>
                                         <input type="number" id="quantityInput" class="form-control" x-model="quantity" min="1" placeholder="Cantidad" :disabled="isProcessing">
                                     </div>
 
-                                    <div class="sales-action-field small-field">
+                                    <div class="sales-action-field small-field sales-field-price">
                                         <label for="salePriceInput" class="form-label fw-bold">Precio de Venta</label>
                                         <input type="number" id="salePriceInput" class="form-control" x-model="salePrice" min="0" step="0.01" disabled>
                                     </div>
 
-                                    <div class="sales-action-field small-field">
+                                    <div class="sales-action-field small-field sales-field-tax">
                                         <label for="taxSelect" class="form-label fw-bold">Impuesto</label>
                                         
                                         <select id="taxSelect" class="form-select" x-model="selectedTax" disabled>
@@ -175,7 +176,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="sales-action-field action-field">
+                                    <div class="sales-action-field action-field sales-field-action">
                                         <button type="button" class="btn btn-success mt-4 fw-bold w-100" @click="addProduct">
                                             <i class="fas fa-plus-circle me-2"></i>
                                             Añadir

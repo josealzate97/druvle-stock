@@ -5,10 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById('salesHistorySearch');
     const statusSelect = document.getElementById('salesHistoryStatus');
     const table = document.getElementById('salesHistoryTable');
+    const cardsContainer = document.getElementById('salesHistoryCards');
 
-    if (searchInput && statusSelect && table) {
-        const rows = Array.from(table.querySelectorAll('tbody tr')).filter(row => !row.classList.contains('sales-history-empty'));
-        const emptyRow = table.querySelector('.sales-history-empty');
+    if (searchInput && statusSelect && (table || cardsContainer)) {
+        const rows = table
+            ? Array.from(table.querySelectorAll('tbody tr')).filter(row => !row.classList.contains('sales-history-empty'))
+            : [];
+        const cards = cardsContainer
+            ? Array.from(cardsContainer.querySelectorAll('.sales-history-card'))
+            : [];
+        const emptyRow = table ? table.querySelector('.sales-history-empty') : null;
+        const emptyCards = document.getElementById('salesHistoryEmptyCards');
 
         const filterRows = () => {
             const query = searchInput.value.trim().toLowerCase();
@@ -27,8 +34,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                const matchesQuery = !query || text.includes(query);
+                const matchesStatus = !status || card.dataset.status === status;
+
+                const show = matchesQuery && matchesStatus;
+                card.style.display = show ? '' : 'none';
+            });
+
+            if (!rows.length && cards.length) {
+                visibleCount = cards.filter(card => card.style.display !== 'none').length;
+            }
+
             if (emptyRow) {
                 emptyRow.style.display = visibleCount === 0 ? '' : 'none';
+            }
+
+            if (emptyCards) {
+                emptyCards.style.display = visibleCount === 0 ? '' : 'none';
             }
         };
 

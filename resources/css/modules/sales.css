@@ -119,7 +119,6 @@
 
 .sales-action-card {
   display: grid;
-  grid-template-columns: 2.2fr repeat(3, 1fr) 1.1fr;
   gap: 0.9rem;
   padding: 1.2rem;
   border: 1px solid #e8eef7;
@@ -128,9 +127,31 @@
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
+.sales-action-card--with-size {
+  grid-template-columns: minmax(220px, 2.2fr) minmax(120px, 1fr) minmax(95px, 0.9fr) minmax(120px, 1fr) minmax(100px, 0.9fr);
+  grid-template-areas:
+    "product size quantity price tax"
+    "action action action action action";
+}
+
+.sales-action-card--no-size {
+  grid-template-columns: minmax(240px, 3fr) minmax(95px, 0.9fr) minmax(120px, 1fr) minmax(100px, 0.9fr);
+  grid-template-areas:
+    "product quantity price tax"
+    "action action action action";
+}
+
 .sales-action-field {
   display: flex;
   flex-direction: column;
+}
+
+.sales-action-field.small-field {
+  min-width: 0;
+}
+
+.sales-action-field.action-field {
+  align-self: end;
 }
 
 .sales-action-field .form-label {
@@ -138,6 +159,32 @@
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #6b7280;
+  line-height: 1.2;
+}
+
+.sales-field-product {
+  grid-area: product;
+}
+
+.sales-field-size {
+  grid-area: size;
+}
+
+.sales-field-quantity {
+  grid-area: quantity;
+}
+
+.sales-field-price {
+  grid-area: price;
+}
+
+.sales-field-tax {
+  grid-area: tax;
+}
+
+.sales-field-action {
+  grid-area: action;
+  max-width: 260px;
 }
 
 .sales-action-card .form-control,
@@ -176,6 +223,30 @@
   background: linear-gradient(180deg, #16a34a 0%, #15803d 100%);
   border-color: #15803d;
   color: #ffffff;
+}
+
+@media (max-width: 1399.98px) {
+  .sales-action-card--with-size {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "product product size size"
+      "quantity price tax action";
+  }
+
+  .sales-action-card--no-size {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "product product product product"
+      "quantity price tax action";
+  }
+
+  .sales-field-action {
+    max-width: 100%;
+  }
+
+  .sales-action-card .btn-success {
+    margin-top: 0.15rem !important;
+  }
 }
 
 .sales-summary {
@@ -357,6 +428,68 @@
   color: #0b4e91;
 }
 
+.sales-history-cards {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.9rem;
+}
+
+.sales-history-card {
+  border: 1px solid #d9e4f3;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 0.85rem;
+}
+
+.sales-history-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-bottom: 0.7rem;
+}
+
+.sales-history-card__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem 0.75rem;
+  margin-bottom: 0.8rem;
+}
+
+.sales-history-card__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.sales-history-card__item span {
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 800;
+}
+
+.sales-history-card__item strong {
+  color: #334155;
+  font-size: 0.93rem;
+}
+
+.sales-history-card__item--total {
+  grid-column: 1 / -1;
+  padding-top: 0.45rem;
+  border-top: 1px dashed #dbe5f2;
+}
+
+.sales-history-card__item--total strong {
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.sales-history-empty-cards {
+  padding: 0.2rem;
+}
+
 
 @media (max-width: 991.98px) {
   .sales-page .sales-hero-card,
@@ -398,6 +531,33 @@
     width: 100%;
   }
 
+  .sales-action-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    padding: 1rem;
+  }
+
+  .sales-action-card--with-size,
+  .sales-action-card--no-size {
+    grid-template-areas:
+      "product product"
+      "size quantity"
+      "price tax"
+      "action action";
+  }
+
+  .sales-action-field.action-field {
+    align-self: stretch;
+  }
+
+  .sales-field-action {
+    max-width: 100%;
+  }
+
+  .sales-action-card .btn-success {
+    margin-top: 0.25rem !important;
+  }
+
   .sales-summary {
     border-radius: 14px;
   }
@@ -422,12 +582,44 @@
     border-radius: 12px;
   }
 
+  .sales-action-card {
+    grid-template-columns: 1fr;
+    padding: 0.9rem;
+  }
+
+  .sales-action-card--with-size,
+  .sales-action-card--no-size {
+    grid-template-areas:
+      "product"
+      "size"
+      "quantity"
+      "price"
+      "tax"
+      "action";
+  }
+
+  .sales-action-field .form-label {
+    letter-spacing: 0.05em;
+  }
+
   .sales-summary-cards {
     padding: 0.75rem;
   }
 
   .sales-summary-card__grid {
     grid-template-columns: 1fr;
+  }
+
+  .sales-history-cards {
+    padding: 0.75rem;
+  }
+
+  .sales-history-card__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .sales-history-card__item--total {
+    grid-column: auto;
   }
 
   .sales-page .sales-hero-heading,
