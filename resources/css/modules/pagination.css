@@ -95,6 +95,21 @@
   padding-inline: 0.9rem;
 }
 
+/* Mobile simple paginator (Previous / Next) from bootstrap-5 */
+.section-footer nav .d-sm-none {
+  justify-content: center !important;
+}
+
+.section-footer nav .d-sm-none .pagination {
+  justify-content: center;
+  width: auto;
+}
+
+.section-footer nav .d-sm-none .page-link {
+  min-width: 11.5rem;
+  padding-inline: 1.25rem;
+}
+
 @media (max-width: 991.98px) {
   .section-footer .pagination {
     gap: 0.35rem;
@@ -134,6 +149,12 @@
     max-width: 8.2rem;
     padding-inline: 0.62rem;
     white-space: nowrap;
+  }
+
+  .section-footer nav .d-sm-none .page-link {
+    min-width: 10rem;
+    max-width: none;
+    padding-inline: 1.1rem;
   }
 }
 

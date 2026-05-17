@@ -47,7 +47,7 @@
                                 </span>
                                 <p class="sd-empty-title">Sin impuestos registrados</p>
                                 <p class="sd-empty-desc">Crea un impuesto para poder asignarlo a tus productos.</p>
-                                <button class="btn btn-sm btn-success px-4" id="btnNewTaxEmpty" type="button">
+                                <button class="btn btn-sm btn-success px-4 btn-new-tax-empty" type="button">
                                     <i class="fas fa-plus me-1"></i> Crear impuesto
                                 </button>
                             </div>
@@ -113,7 +113,7 @@
                 </span>
                 <p class="sd-empty-title">Sin impuestos registrados</p>
                 <p class="sd-empty-desc">Crea un impuesto para poder asignarlo a tus productos.</p>
-                <button class="btn btn-sm btn-success px-4" id="btnNewTaxEmpty" type="button">
+                <button class="btn btn-sm btn-success px-4 btn-new-tax-empty" type="button">
                     <i class="fas fa-plus me-1"></i> Crear impuesto
                 </button>
             </div>

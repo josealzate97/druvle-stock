@@ -1536,3 +1536,41 @@ body.theme-dark .notification-target-box {
 body.theme-dark .notification-target-title {
   color: #93b4df;
 }
+
+body.theme-dark .recent-sale-card {
+  background: #161b22;
+  border-color: #2b313c;
+}
+
+body.theme-dark .recent-sale-meta__label {
+  color: #94a3b8;
+}
+
+body.theme-dark .recent-sale-meta__value {
+  color: #e2e8f0;
+}
+
+body.theme-dark .recent-sale-meta--amount .recent-sale-meta__value {
+  color: #9cc8ff;
+}
+
+body.theme-dark .notification-card {
+  background: #161b22;
+  border-color: #2b313c;
+}
+
+body.theme-dark .notification-card__title {
+  color: #e2e8f0;
+}
+
+body.theme-dark .notification-card__message {
+  color: #94a3b8;
+}
+
+body.theme-dark .notification-meta-item__label {
+  color: #93a4bd;
+}
+
+body.theme-dark .notification-meta-item__value {
+  color: #d6deea;
+}

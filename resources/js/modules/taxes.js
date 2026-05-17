@@ -7,10 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
         newTax();
     });
 
-    const btnNewTaxEmpty = document.getElementById('btnNewTaxEmpty');
-    if (btnNewTaxEmpty) {
-        btnNewTaxEmpty.addEventListener('click', function() {
-            newTax();
+    const btnNewTaxEmptyList = document.querySelectorAll('.btn-new-tax-empty');
+    if (btnNewTaxEmptyList.length) {
+        btnNewTaxEmptyList.forEach((button) => {
+            button.addEventListener('click', function() {
+                newTax();
+            });
         });
     }
 

@@ -122,7 +122,7 @@
                 <a href="{{ route('sales.index', ['tab' => 'historial']) }}" class="btn btn-link dashboard-link">Ver todo</a>
             </div>
 
-            <div class="table-responsive">
+            <div class="table-responsive recent-sales-table-wrap">
                 <table class="table table-borderless align-middle section-table mb-0">
                     <thead>
                         <tr>
@@ -166,6 +166,47 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+
+            <div class="recent-sales-cards" aria-label="Ventas recientes en tarjetas">
+                @forelse ($recentSales as $sale)
+                    <article class="recent-sale-card">
+                        <div class="recent-sale-card__top">
+                            <span class="badge sale-code-badge">{{ $sale->code }}</span>
+                            @if ($sale->status == \App\Models\Sale::ACTIVE)
+                                <span class="status-pill status-pill-success">Completado</span>
+                            @else
+                                <span class="status-pill status-pill-muted">Pendiente</span>
+                            @endif
+                        </div>
+
+                        <div class="recent-sale-card__body">
+                            <div class="recent-sale-meta">
+                                <span class="recent-sale-meta__label">Cliente</span>
+                                <span class="recent-sale-meta__value">{{ $sale->client->name ?? 'Anónimo' }}</span>
+                            </div>
+                            <div class="recent-sale-meta">
+                                <span class="recent-sale-meta__label">Fecha</span>
+                                <span class="recent-sale-meta__value">{{ $sale->created_at?->format('d M, Y') }}</span>
+                            </div>
+                            <div class="recent-sale-meta recent-sale-meta--amount">
+                                <span class="recent-sale-meta__label">Monto</span>
+                                <span class="recent-sale-meta__value">€ {{ number_format($sale->total, 2) }}</span>
+                            </div>
+                        </div>
+                    </article>
+                @empty
+                    <div class="sd-empty-state">
+                        <span class="sd-empty-icon">
+                            <i class="fas fa-receipt"></i>
+                        </span>
+                        <p class="sd-empty-title">Sin ventas recientes</p>
+                        <p class="sd-empty-desc">Aún no se han registrado transacciones. Las ventas más recientes aparecerán aquí.</p>
+                        <a href="{{ route('sales.index') }}" class="btn btn-sm btn-success px-4">
+                            <i class="fas fa-plus me-1"></i> Nueva Venta
+                        </a>
+                    </div>
+                @endforelse
             </div>
         </div>
 

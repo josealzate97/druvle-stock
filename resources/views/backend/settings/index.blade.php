@@ -232,7 +232,7 @@
                 </div>
 
                 <div class="card p-0 mt-4 section-card shadow-sm">
-                    <div class="table-responsive">
+                    <div class="table-responsive d-none d-lg-block notification-table-wrap">
                         <table class="table table-borderless align-middle section-table notification-table mb-0">
                             <thead>
                                 <tr>
@@ -286,6 +286,61 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div class="notification-cards d-lg-none">
+                        @if ($notifications->isEmpty())
+                            <div class="p-4">
+                                <div class="sd-empty-state">
+                                    <span class="sd-empty-icon">
+                                        <i class="fas fa-bell-slash"></i>
+                                    </span>
+                                    <p class="sd-empty-title">Sin notificaciones configuradas</p>
+                                    <p class="sd-empty-desc">Crea una notificación para mantener informado al equipo sobre eventos del sistema.</p>
+                                    <button class="btn btn-sm btn-success px-4" data-bs-toggle="modal" data-bs-target="#notificationModal" data-bs-mode="new">
+                                        <i class="fas fa-plus me-1"></i> Crear notificación
+                                    </button>
+                                </div>
+                            </div>
+                        @else
+                            <div class="notification-cards-list">
+                                @foreach ($notifications as $notification)
+                                    <article class="notification-card">
+                                        <div class="notification-card__head">
+                                            <span class="table-chip table-chip-type">{{ \App\Models\Notification::labelForType($notification->type) }}</span>
+                                            <span class="status-pill status-pill-priority">P{{ $notification->priority }}</span>
+                                        </div>
+
+                                        <div class="notification-card__title">{{ $notification->title }}</div>
+                                        <div class="notification-card__message">{{ $notification->message }}</div>
+
+                                        <div class="notification-card__meta">
+                                            <div class="notification-meta-item">
+                                                <span class="notification-meta-item__label">Programada</span>
+                                                <span class="notification-meta-item__value">{{ optional($notification->scheduled_at)->format('d/m/Y H:i') ?? '-' }}</span>
+                                            </div>
+                                            <div class="notification-meta-item">
+                                                <span class="notification-meta-item__label">Expira</span>
+                                                <span class="notification-meta-item__value">{{ optional($notification->expires_at)->format('d/m/Y H:i') ?? '-' }}</span>
+                                            </div>
+                                            <div class="notification-meta-item">
+                                                <span class="notification-meta-item__label">Creada</span>
+                                                <span class="notification-meta-item__value">{{ optional($notification->created_at)->format('d/m/Y H:i') ?? '-' }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="notification-card__actions">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" onclick='editNotification(@json($notification))'>
+                                                <i class="fas fa-edit me-1"></i> Editar
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="deleteNotification('{{ $notification->id }}')">
+                                                <i class="fas fa-trash me-1"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
 
                     <div class="section-footer">
