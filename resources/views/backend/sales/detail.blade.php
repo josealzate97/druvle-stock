@@ -4,7 +4,7 @@
 
 <div class="modal fade" id="saleDetailModal" tabindex="-1" aria-labelledby="saleDetailModalLabel" aria-hidden="true">
   
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl sale-detail-dialog">
 
         <div class="modal-content form-modal sale-detail-modal">
 
@@ -74,7 +74,7 @@
                                 <i class="fas fa-box me-2"></i> Productos vendidos
                             </h4>
 
-                            <div class="table-responsive">
+                            <div class="table-responsive d-none d-xl-block">
                                 <table class="table table-borderless align-middle section-table">
                                     
                                     <thead>
@@ -116,6 +116,32 @@
                                     </tbody>
 
                                 </table>
+                            </div>
+
+                            <div class="sale-detail-items d-xl-none">
+                                <template x-for="(item, index) in saleDetail.items" :key="'sale-item-card-' + index">
+                                    <article class="sale-detail-item-card">
+                                        <div class="sale-detail-item-card__title" x-text="item.name"></div>
+                                        <div class="sale-detail-item-card__grid">
+                                            <div class="sale-detail-item-card__meta">
+                                                <span>Cant.</span>
+                                                <strong x-text="item.quantity"></strong>
+                                            </div>
+                                            <div class="sale-detail-item-card__meta">
+                                                <span>Unitario</span>
+                                                <strong x-text="formatCOP(item.sale_price)"></strong>
+                                            </div>
+                                            <div class="sale-detail-item-card__meta">
+                                                <span>Impuesto</span>
+                                                <strong x-text="Number(item.tax).toFixed(2) + ' % - ' + formatCOP(item.tax_value)"></strong>
+                                            </div>
+                                            <div class="sale-detail-item-card__meta sale-detail-item-card__meta--total">
+                                                <span>Total</span>
+                                                <strong x-text="formatCOP(Number(item.total) + Number(item.tax_value))"></strong>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </template>
                             </div>
 
                         </div>

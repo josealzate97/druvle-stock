@@ -1357,6 +1357,24 @@ body.theme-dark .sale-detail-modal .section-table tbody td {
   color: #ffffff;
 }
 
+body.theme-dark .sale-detail-item-card {
+  background: #161b22;
+  border-color: #2b313c;
+}
+
+body.theme-dark .sale-detail-item-card__title,
+body.theme-dark .sale-detail-item-card__meta strong {
+  color: #e2e8f0;
+}
+
+body.theme-dark .sale-detail-item-card__meta span {
+  color: #93a4bd;
+}
+
+body.theme-dark .sale-detail-item-card__meta--total {
+  border-top-color: #2a3444;
+}
+
 body.theme-dark .btn-link {
   color: #9cc8ff;
 }
