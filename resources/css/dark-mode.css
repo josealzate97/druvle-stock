@@ -563,9 +563,61 @@ body.theme-dark .product-details-table th {
   border-bottom-color: #29513d;
 }
 
+body.theme-dark .product-details-table > :not(caption) > * > * {
+  background: #101722;
+}
+
 body.theme-dark .product-details-table td {
-  color: #d6deea;
-  border-bottom-color: #222c3a;
+  color: #e5edf9;
+  border-bottom-color: #2a3950;
+}
+
+body.theme-dark .product-details-table tbody tr:hover td {
+  background: #142033;
+}
+
+body.theme-dark .size-panel {
+  background: #121a26;
+  border-color: #2b3a4f;
+}
+
+body.theme-dark .size-panel-header {
+  border-bottom: 1px solid #253348;
+  padding-bottom: 0.6rem;
+}
+
+body.theme-dark .size-panel .text-muted {
+  color: #aebdd2 !important;
+}
+
+body.theme-dark .size-row {
+  background: #162131;
+  border-color: #32445f !important;
+}
+
+body.theme-dark .size-row .form-label {
+  color: #cad7ea;
+}
+
+body.theme-dark .size-row .form-control {
+  background: #0d1522;
+  border-color: #2e4059;
+  color: #eef4ff;
+}
+
+body.theme-dark .size-row .form-control::placeholder {
+  color: #9aa9bf;
+}
+
+body.theme-dark .size-row .size-remove-btn {
+  border-color: #8b3a45;
+  color: #fda4af;
+}
+
+body.theme-dark .size-row .size-remove-btn:hover {
+  background: #3b1c24;
+  border-color: #a84a58;
+  color: #fecdd3;
 }
 
 /* Extracted from modules/taxes.css */
@@ -899,11 +951,16 @@ body.theme-dark .notification-menu-footer {
 }
 
 body.theme-dark .notification-view-all-link {
-  color: #9cc8ff;
+  color: #eaf3ff;
+  background: linear-gradient(180deg, #305f9a 0%, #264e80 100%);
+  border-color: #4e78a9;
+  box-shadow: 0 0 0 1px rgba(10, 18, 30, 0.35) inset;
 }
 
 body.theme-dark .notification-view-all-link:hover {
-  color: #c3defe;
+  color: #ffffff;
+  background: linear-gradient(180deg, #3a6ea8 0%, #2f5f93 100%);
+  border-color: #6a95c7;
 }
 
 body.theme-dark .user-menu-toggle {
@@ -1491,6 +1548,15 @@ body.theme-dark .user-info-form .form-label,
 body.theme-dark .user-info-section-title,
 body.theme-dark .settings-section-title {
   color: #cbd5e1;
+}
+
+body.theme-dark .user-info-form .form-control:disabled,
+body.theme-dark .user-info-form select:disabled {
+  background: #192536;
+  border-color: #314761;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  opacity: 1;
 }
 
 body.theme-dark .form-modal .btn-outline-secondary {
