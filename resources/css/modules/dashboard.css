@@ -217,13 +217,13 @@
   .dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
-  .dashboard-row {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 991.98px) {
+  .dashboard-row {
+    grid-template-columns: 1fr;
+  }
+
   .recent-sales-table-wrap {
     display: none;
   }

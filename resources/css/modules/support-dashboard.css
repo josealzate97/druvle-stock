@@ -140,6 +140,28 @@
   border-radius: 10px;
 }
 
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .dashboard-row {
+    grid-template-columns: minmax(0, 1.45fr) minmax(320px, 1fr);
+    align-items: stretch;
+  }
+
+  .dashboard-row .dashboard-card {
+    min-width: 0;
+  }
+
+  #tenantGrowthWrapper,
+  #planDistributionWrapper {
+    height: 220px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  #tenantGrowthWrapper {
+    height: 260px;
+  }
+}
+
 @media (max-width: 420px) {
   .support-tenant-card__body {
     grid-template-columns: 1fr;

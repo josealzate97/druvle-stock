@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: { display: false },
                     tooltip: { callbacks: { label: ctx => ` ${ctx.raw} negocios` } }
@@ -87,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: false,
                     cutout: '68%',
                     plugins: {
                         legend: { display: false },

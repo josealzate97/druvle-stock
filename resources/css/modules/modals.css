@@ -123,6 +123,11 @@
   border-radius: 10px;
   padding: 0.65rem;
   background: #ffffff;
+  margin-bottom: 0.55rem;
+}
+
+.size-row:last-child {
+  margin-bottom: 0;
 }
 
 .product-notes-textarea {
